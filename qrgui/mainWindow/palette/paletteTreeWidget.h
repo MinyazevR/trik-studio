@@ -55,6 +55,8 @@ public:
 	static void sortByFriendlyName(IdList &ids);
 	static void sortByFriendlyName(QList<PaletteElement> &elements);
 
+    bool readyToRefresh();
+
 	void editItem(QTreeWidgetItem * const item);
 
 	void setElementVisible(const Id &metatype, bool visible);
@@ -73,6 +75,9 @@ public:
 
 	/// Returns set that may let quickly determine should we update palette or no.
 	const QSet<PaletteElement> &elementsSet() const;
+
+signals:
+    void signalRefreshReady();
 
 protected:
 	void mousePressEvent(QMouseEvent *event);
@@ -119,9 +124,10 @@ private:
 	bool mEditable;
 
 	QSet<PaletteElement> mElementsSet;
-	QHash<Id, DraggableElement *> mPaletteElements;  // Takes ownership.
+    QHash<Id, DraggableElement *> mPaletteElements;  // Takes ownership.
 	QHash<Id, QTreeWidgetItem *> mPaletteItems;  // Takes ownership.
 	QHash<QTreeWidgetItem *, bool> mItemsVisible;
+    QList<DraggableElement *> mDraggableElements;
 };
 
 }

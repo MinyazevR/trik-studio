@@ -65,6 +65,8 @@ public:
 
 	void setEnabledForAllElements(bool enabled);
 
+    void refreshUserPaletteHandler(bool force = false);
+
 	/// Rereads user blocks information.
 	void refreshUserPalette(bool force = false);
 
@@ -91,7 +93,7 @@ private:
 	Id mDiagram;
 	PaletteTreeWidget *mEditorTree; // Takes ownership
 	PaletteTreeWidget *mUserTree; // Takes ownership
-	QHash<Id, DraggableElement *> mPaletteElements; // Does not take ownership.
+    QHash<Id, DraggableElement *> mPaletteElements; // Does not take ownership.
 
 	QString mUserGroupTitle;
 	QString mUserGroupDescription;

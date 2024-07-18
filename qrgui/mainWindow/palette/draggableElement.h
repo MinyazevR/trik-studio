@@ -65,6 +65,10 @@ public:
 
 	/// Returns a mime data instance binded with object during drag-and-drop.
 	QMimeData *mimeData(const Id &elementId) const;
+public:
+    bool getReadyForDelete();
+signals:
+    void signalReadyForDelete();
 
 private slots:
 	void changePropertiesPaletteActionTriggered();
@@ -104,6 +108,7 @@ private:
 	MainWindow &mMainWindow;
 	Id mDeletedElementId;
 	bool mIsRootDiagramNode {};
+    bool readyForDelete = true;
 };
 
 }

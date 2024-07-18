@@ -35,23 +35,35 @@ PaletteTreeWidget::PaletteTreeWidget(PaletteTree &palette, MainWindow &mainWindo
 	mEditorManager = &editorManagerProxy;
 }
 
+bool PaletteTreeWidget::readyToRefresh() {
+    for (auto* dragElement : mDraggableElements) {
+        if (!dragElement->getReadyForDelete()) {
+            connect(dragElement, &DraggableElement::signalReadyForDelete, this, [this]() {
+                emit signalRefreshReady();
+            });
+            return false;
+        }
+    }
+    return true;
+}
 void PaletteTreeWidget::addGroups(QList<QPair<QString, QList<PaletteElement>>> &groups
 		, QMap<QString, QString> const &descriptions
 		, bool hideIfEmpty
 		, const QString &diagramFriendlyName
 		, bool sort)
 {
-	mPaletteItems.clear();
-	mPaletteElements.clear();
-	mElementsSet.clear();
-	mItemsVisible.clear();
+    mDraggableElements.clear();
+    mPaletteItems.clear();
+    mPaletteElements.clear();
+    mElementsSet.clear();
+    mItemsVisible.clear();
 
 	if (groups.isEmpty() && hideIfEmpty) {
 		hide();
 		return;
 	}
-
-	clear();
+    qDebug() << "lol";
+    clear();
 	show();
 
 	if (sort) {
@@ -94,8 +106,9 @@ void PaletteTreeWidget::addItemType(const PaletteElement &data, QTreeWidgetItem 
 	DraggableElement *element = new DraggableElement(mMainWindow, data, mPaletteTree.iconsView(), *mEditorManager);
 
 	mElementsSet.insert(data);
-	mPaletteElements.insert(data.id(), element);
+    mPaletteElements.insert(data.id(), element);
 	mPaletteItems.insert(data.id(), leaf);
+    mDraggableElements.append(element);
 
 	parent->addChild(leaf);
 	setItemWidget(leaf, 0, element);
@@ -116,8 +129,9 @@ void PaletteTreeWidget::addItemsRow(QList<PaletteElement> const &items, QTreeWid
 		QHBoxLayout *layout = new QHBoxLayout;
 		int count = mPaletteTree.itemsCountInARow();
 		for (; it != items.end() && --count > 0; ++it) {
-			DraggableElement *element = new DraggableElement(mMainWindow, *it, true, *mEditorManager);
-			element->setToolTip((*it).description());
+            DraggableElement *element = new DraggableElement(mMainWindow, *it, true, *mEditorManager);
+            element->setToolTip((*it).description());
+
 			layout->addWidget(element, count > 0 ? 50 : 0);
 		}
 
@@ -228,9 +242,10 @@ void PaletteTreeWidget::setElementVisible(const Id &metatype, bool visible)
 
 void PaletteTreeWidget::setVisibleForAllElements(bool visible)
 {
-	for (const Id &element : mPaletteElements.keys()) {
-		setElementVisible(element, visible);
-	}
+    // for (const Id &element : mPaletteElements.keys()) {
+    //	setElementVisible(element, visible);
+    //}
+    return;
 }
 
 void PaletteTreeWidget::setElementEnabled(const Id &metatype, bool enabled)

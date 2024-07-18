@@ -100,7 +100,9 @@ void PaletteTreeWidgets::initEditorTree()
 			descriptions[group] = mEditorManager->paletteGroupDescription(mEditor, mDiagram, group);
 		}
 
-		mEditorTree->addGroups(groups, descriptions, false, mEditorManager->friendlyName(mDiagram), sort);
+        mEditorTree->addGroups(groups, descriptions, false, mEditorManager->friendlyName(mDiagram), sort);
+
+
 	} else {
 		for (const Id &element : elements) {
 			addTopItemType(PaletteElement(*mEditorManager, element), mEditorTree);
@@ -112,7 +114,7 @@ void PaletteTreeWidgets::initUserTree()
 {
 	refreshUserPalette();
 	connect(&mMainWindow->models().exploser(), &models::Exploser::explosionsSetCouldChange
-			, this, [&](){refreshUserPalette(true);});
+            , this, [&](){refreshUserPaletteHandler(true);});
 }
 
 void PaletteTreeWidgets::addTopItemType(const PaletteElement &data, QTreeWidget *tree)
@@ -239,6 +241,15 @@ void PaletteTreeWidgets::customizeExplosionTitles(const QString &userGroupTitle,
 {
 	mUserGroupTitle = userGroupTitle;
 	mUserGroupDescription = userGroupDescription;
+}
+void PaletteTreeWidgets::refreshUserPaletteHandler(bool force) {
+    if (mUserTree->readyToRefresh()) {
+        refreshUserPalette(force);
+    } else {
+        connect(mUserTree, &PaletteTreeWidget::signalRefreshReady, this, [=]() {
+            refreshUserPalette(force);
+        });
+    }
 }
 
 void PaletteTreeWidgets::refreshUserPalette(bool force)

@@ -313,6 +313,9 @@ bool DraggableElement::event(QEvent *event)
 	return true;
 }
 
+bool DraggableElement::getReadyForDelete() {
+    return readyForDelete;
+}
 void DraggableElement::mousePressEvent(QMouseEvent *event)
 {
 	Q_ASSERT(id().idSize() == 3);  // it should be element type
@@ -375,16 +378,22 @@ void DraggableElement::mousePressEvent(QMouseEvent *event)
 			menu->exec(QCursor::pos());
 		}
 	} else {
+        this->readyForDelete = false;
+        qDebug() << "false";
 		QDrag *drag = new QDrag(this);
-		drag->setMimeData(mimeData(elementId));
+        auto mimeData_ = mimeData(elementId);
+        //drag->setMimeData(mimeData_);
+        // drag->setMimeData(new QMimeData);
+        const QPixmap pixmap = icon().pixmap(mData.preferredSize());
 
-		const QPixmap pixmap = icon().pixmap(mData.preferredSize());
+        if (!pixmap.isNull()) {
+            drag->setPixmap(pixmap);
+        }
 
-		if (!pixmap.isNull()) {
-			drag->setPixmap(pixmap);
-		}
-
+        drag->setMimeData(mimeData_);
 		drag->exec(Qt::CopyAction);
+        emit signalReadyForDelete();
+        this->readyForDelete = true;
 	}
 }
 
