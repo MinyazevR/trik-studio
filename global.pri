@@ -213,6 +213,7 @@ DEFINES *= QT_NO_ACCESSIBILITY
 !warn_off:QMAKE_CXXFLAGS +=-Werror=pedantic -Werror=delete-incomplete
 
 gcc:versionAtLeast(QT_VERSION, 5.15.0):QMAKE_CXXFLAGS *= -Wno-deprecated-declarations
+clang:versionAtLeast(QT_VERSION, 5.15.0):QMAKE_CXXFLAGS *= -Wno-deprecated-declarations
 
 clang {
 	#treat git submodules as system path
