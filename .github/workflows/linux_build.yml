@@ -81,7 +81,6 @@ jobs:
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=silent CONFIG+=small_debug_info CONFIG+=sanitizer CONFIG+=sanitize_undefined CONFIG+=sanitize_address"
       
   build-ubuntu-installer:
-    needs: [build-ubuntu-debug-tests, build-ubuntu-release-tests]
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
