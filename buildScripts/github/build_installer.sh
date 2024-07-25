@@ -20,7 +20,7 @@ df -h .
 NEED_DEPLOY=$([[ "$GITHUB_REPOSITORY" == "MinyazevR/trik-studio" && "${PULLREQUESTNUMBER:-false}" == "false" ]] && echo true || echo false )
 
 if $NEED_DEPLOY ; then
-    $EXECUTOR bash -ic "mkdir -p ~/.ssh && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && echo $ssh_key > ~/.ssh/id_rsa"
+    $EXECUTOR bash -ic "mkdir -p ~/.ssh && touch ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && echo \"$ssh_key\" > ~/.ssh/id_rsa"
 fi
           
 if [[ $RUNNER_OS == Linux ]] ; then
