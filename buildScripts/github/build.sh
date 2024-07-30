@@ -3,10 +3,8 @@ set -uxeo pipefail
 
 CODECOV=true
 
-if [ -d "$HOME/Qt/${TRIK_QT_VERSION}" ]; then
-    QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin | head -n 1)
-    [ -d "$QT_DIR" ] && export PATH="$QT_DIR:$PATH"
-fi
+QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin 2>/dev/null | head -n 1)
+[ -d "$QT_DIR" ] && export PATH="$QT_DIR:$PATH"
 
 case $RUNNER_OS in
   macOS)
