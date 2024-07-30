@@ -7,7 +7,7 @@ if [ "$ID" == "altlinux" ]; then
     # sudo bash -c 'echo "rpm [alt] http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus x86_64 classic" > /etc/apt/sources.list.d/sisyphus.list'
     apt-get update && apt-get install -y gcc-c++ curl xz p7zip-standalone rsync libusb-devel python3-dev zlib-devel make ccache python3-module-pip time
     python3 -m pip install aqtinstall
-    python3 -m aqt install-qt -O -m qtscript "$HOME/Qt" linux desktop "${TRIK_QT_VERSION}"
+    python3 -m aqt install-qt -O "$HOME/Qt" linux desktop "${TRIK_QT_VERSION}" -m qtscript
     python3 -m aqt install-tool -O "$HOME/Qt" linux desktop tools_ifw
 else
     docker pull trikset/linux-builder
