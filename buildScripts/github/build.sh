@@ -1,20 +1,19 @@
 #!/bin/bash
-set -xeo pipefail
-QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin 2>/dev/null | head -n 1)
-[ -d "$QT_DIR" ] && export PATH="$QT_DIR:$PATH"
+set -uxeo pipefail
 
+CODECOV=true
 case $RUNNER_OS in
   macOS)
+     QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin | head -n 1)
+     [ -d "$QT_DIR" ] && export PATH="$QT_DIR:$PATH"
      export PATH="/usr/local/opt/ccache/libexec:$PATH"
      export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+     echo "Now path is $PATH"
     ;;
   Linux)
    ;;
   *) exit 1 ;;
 esac
-
-echo "Now path is $PATH"
-set -u
 
 CODECOV=true
 mkdir -p $CCACHE_DIR || sudo chown -R $USER $CCACHE_DIR || :
