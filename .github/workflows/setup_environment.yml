@@ -48,6 +48,15 @@ on:
         required: false
         type: string
         default: "./run-simulator-tests.sh"
+      container_name:
+        required: false
+        type: string
+        default: ""
+      container_tag:
+        required: false
+        type: string
+        default: ""
+        
 
 jobs:
   job:
@@ -56,6 +65,7 @@ jobs:
         shell: bash
 
     runs-on: ${{ inputs.os }}
+    container: ${{ inputs.container_name }}:${{ inputs.container_tag }}
     steps:
     - name: Cancel Previous Workflow Runs
       uses: n1hility/cancel-previous-runs@v3.0
@@ -88,9 +98,10 @@ jobs:
     - name: Restore cache
       uses: actions/cache@v4
       with:
-        path: ${{ github.workspace }}/.ccache/${{ inputs.os }}-${{ inputs.config }}
-        key: ccache-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ github.sha }}
+        path: ${{ github.workspace }}/.ccache/${{ inputs.os }}-${{ inputs.config }}-${{ inputs.container_name }}
+        key: ccache-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ inputs.container_name }}-${{ github.sha }}
         restore-keys: |
+          ccache-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ inputs.container_name }}
           ccache-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-
           ccache-${{ inputs.os }}-${{ inputs.config }}-
           ccache-${{ inputs.os }}-
