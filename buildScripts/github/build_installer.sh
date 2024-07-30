@@ -9,8 +9,7 @@ case $RUNNER_OS in
 #    export TRIK_PYTHON3_VERSION_MINOR="$(python3 -V | sed 's#^Python 3\.\([0-9]+\)\.[0-9]+$#\1#g')"
     ;;
   Linux)
-    QTIFWBIN=/opt/qtifw/bin
-    #QTIFWBIN=$($EXECUTOR bash -c  'find /Qt/Tools/QtInstallerFramework/ -maxdepth 2 -name bin -type d -print0 | sort -Vrz | head -zn 1')
+    QTIFW_PATH=$($EXECUTOR bash -c 'find "$HOME/Qt/Tools/QtInstallerFramework" -type d -name "bin" | head -n 1 || echo "/opt/qtifw/bin"')
     TSNAME=trik-studio-installer-linux-$BRANCH_NAME.run
     ;;
   *) exit 1 ;;
