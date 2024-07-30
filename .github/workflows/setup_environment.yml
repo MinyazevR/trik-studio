@@ -64,7 +64,7 @@ jobs:
     
     steps:
     - name: Install dependencies
-      run: apt-get update && apt-get install -y libc6 git
+      run: apt-get update && apt-get -y dist-upgrade && apt-get install git
       if: ${{ inputs.container_name != '' }}
       
     - name: Cancel Previous Workflow Runs
