@@ -1,8 +1,5 @@
 #!/bin/bash
-set -uxeo pipefail
-
-CODECOV=true
-
+set -xeo pipefail
 QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin 2>/dev/null | head -n 1)
 [ -d "$QT_DIR" ] && export PATH="$QT_DIR:$PATH"
 
@@ -17,6 +14,9 @@ case $RUNNER_OS in
 esac
 
 echo "Now path is $PATH"
+set -u
+
+CODECOV=true
 mkdir -p $CCACHE_DIR || sudo chown -R $USER $CCACHE_DIR || :
 cat << EOF > $CCACHE_CONFIGPATH
 compiler_check=content
