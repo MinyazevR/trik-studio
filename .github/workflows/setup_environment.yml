@@ -64,7 +64,7 @@ jobs:
     
     steps:
     - name: Install dependencies
-      run: apt-get update && apt-get -y dist-upgrade
+      run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc
       if: ${{ inputs.container_name != '' }}
       
     - name: Cancel Previous Workflow Runs
