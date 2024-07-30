@@ -61,7 +61,12 @@ jobs:
 
     runs-on: ${{ inputs.os }}
     container: ${{ inputs.container_name }}
+    
     steps:
+    - name: Install dependencies
+      run: apt-get update apt-get install -y libc6 git
+      if: ${{ runner.os == 'Linux' }}
+      
     - name: Cancel Previous Workflow Runs
       uses: n1hility/cancel-previous-runs@v3.0
       with:
