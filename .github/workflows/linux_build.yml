@@ -55,7 +55,7 @@ jobs:
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
-      container_name: "alt:sisyphus"
+      container_name: "altlinux/base:latest"
       build: true
       build_installer: false
       qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
