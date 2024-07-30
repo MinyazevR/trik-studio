@@ -60,6 +60,7 @@ jobs:
       build_installer: false
       qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
       tests: true
+      executor: time
       
   build-ubuntu-debug-ccache:
     needs: lint
