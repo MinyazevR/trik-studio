@@ -52,11 +52,6 @@ on:
         required: false
         type: string
         default: ""
-      container_tag:
-        required: false
-        type: string
-        default: ""
-        
 
 jobs:
   job:
@@ -65,7 +60,7 @@ jobs:
         shell: bash
 
     runs-on: ${{ inputs.os }}
-    container: ${{ inputs.container_name }}:${{ inputs.container_tag }}
+    container: ${{ inputs.container_name }}
     steps:
     - name: Cancel Previous Workflow Runs
       uses: n1hility/cancel-previous-runs@v3.0
