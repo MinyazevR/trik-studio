@@ -98,13 +98,12 @@ jobs:
     - name: Restore cache
       uses: actions/cache@v4
       with:
-        path: ${{ github.workspace }}/.ccache/${{ inputs.os }}-${{ inputs.config }}-${{ inputs.container_name }}
-        key: ccache-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ inputs.container_name }}-${{ github.sha }}
+        path: ${{ github.workspace }}/.ccache/${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}
+        key: ccache-${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ github.sha }}
         restore-keys: |
-          ccache-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ inputs.container_name }}
-          ccache-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-
-          ccache-${{ inputs.os }}-${{ inputs.config }}-
-          ccache-${{ inputs.os }}-
+          ccache-${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}
+          ccache-${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}
+          ccache-${{ inputs.container_name }}-${{ inputs.os }}
       if: ${{ inputs.build == 'true' }}
 
     - name: Build
