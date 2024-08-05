@@ -13,7 +13,7 @@ case $RUNNER_OS in
   Linux)
     ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
     if [ "$ID" == "altlinux" ]; then
-        alias qmake=qt5-qmake
+        sudo ln -s /usr/bin/qt5-qmake /usr/local/bin/qmake
     fi
    ;;
   *) exit 1 ;;
