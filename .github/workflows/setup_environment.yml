@@ -65,7 +65,7 @@ jobs:
     steps:
     - name: Install dependencies
       run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git
-      if: startWith(inputs.container_name, 'altlinux') == true
+      if: startsWith(inputs.container_name, 'altlinux') == true
       
     - name: Cancel Previous Workflow Runs
       uses: n1hility/cancel-previous-runs@v3.0
