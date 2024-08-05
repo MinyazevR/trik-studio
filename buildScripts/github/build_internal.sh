@@ -6,7 +6,7 @@ ccache -V && ccache -p
 which g++
 g++ --version
 which qmake
-qmake-qt5 -query
+qmake -query
 ccache -sz
 { which python3 && python3 -V || true ; }
 { which python && python -V || true ; }
