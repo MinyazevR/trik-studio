@@ -87,6 +87,6 @@ jobs:
       os: ubuntu-latest
       build: true
       build_installer: true
-      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
+      qmake_extra: "CONFIG+=ccache CONFIG+=sanitizer CONFIG+=sanitize_undefined CONFIG+=sanitize_address"
       tests: true
     secrets: inherit
