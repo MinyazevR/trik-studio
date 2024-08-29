@@ -142,7 +142,7 @@ jobs:
         timeout-minutes: 1
         run: |
             cd ${{ env.BUILD_DIR }}
-            qmake $GITHUB_WORKSPACE/studio.pro -spec win32-g++ CONFIG+=release CONFIG+=sanitizer CONFIG+=sanitize_undefined CONFIG+=ccache CONFIG+=tests CONFIG+=noPch PYTHON_PATH="${pythonLocation}" # CONFIG+=silent
+            qmake $GITHUB_WORKSPACE/studio.pro -spec win32-g++ CONFIG+=release CONFIG+=ccache CONFIG+=tests CONFIG+=noPch PYTHON_PATH="${pythonLocation}" # CONFIG+=silent
 
       - name: QMake all
         timeout-minutes: 5
