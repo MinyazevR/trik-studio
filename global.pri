@@ -120,7 +120,7 @@ unix:!nosanitizers {
 	!CONFIG(sanitize_address):!CONFIG(sanitize_thread):!CONFIG(sanitize_memory):!CONFIG(sanitize_kernel_address) {
 		# Ubsan is turned on by default
 		CONFIG += sanitizer sanitize_undefined
-
+	}
 
 	#LSan can be used without performance degrade even in release build
 	#But at the moment we can not, because of Qt and MinGW problems
