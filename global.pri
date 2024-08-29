@@ -133,7 +133,7 @@ equals(TEMPLATE, lib) {
 		QMAKE_LFLAGS *= -fsanitize=leak
 	}
 
-        sanitize_undefined {
+        !win32:sanitize_undefined {
 	        #TRIK_SANITIZE_UNDEFINED_FLAGS += \
                 #-fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,local-bounds
 
