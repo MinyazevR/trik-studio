@@ -114,7 +114,7 @@ equals(TEMPLATE, lib) {
 	CONFIG += sanitizer
 }
 
-!nosanitizers {
+unix:!nosanitizers {
 
 	# seems like we want USan always, but are afraid of ....
 	!CONFIG(sanitize_address):!CONFIG(sanitize_thread):!CONFIG(sanitize_memory):!CONFIG(sanitize_kernel_address) {
