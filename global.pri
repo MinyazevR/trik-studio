@@ -114,14 +114,13 @@ equals(TEMPLATE, lib) {
 	CONFIG += sanitizer
 }
 
-!nosanitizers {
+unix:!nosanitizers {
 
 	# seems like we want USan always, but are afraid of ....
 	!CONFIG(sanitize_address):!CONFIG(sanitize_thread):!CONFIG(sanitize_memory):!CONFIG(sanitize_kernel_address) {
 		# Ubsan is turned on by default
 		CONFIG += sanitizer sanitize_undefined
 	}
-
 
 	#LSan can be used without performance degrade even in release build
 	#But at the moment we can not, because of Qt and MinGW problems
@@ -133,12 +132,12 @@ equals(TEMPLATE, lib) {
 		QMAKE_LFLAGS *= -fsanitize=leak
 	}
 
-        sanitize_undefined {
+        !win32:sanitize_undefined {
 	        #TRIK_SANITIZE_UNDEFINED_FLAGS += \
                 #-fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,local-bounds
 
 		# This hack allows to avoid runtime dependency.
-	        win32:isEmpty(TRIK_SANITIZE_UNDEFINED_FLAGS):TRIK_SANITIZE_UNDEFINED_FLAGS = -fsanitize-undefined-trap-on-error
+	        # win32:isEmpty(TRIK_SANITIZE_UNDEFINED_FLAGS):TRIK_SANITIZE_UNDEFINED_FLAGS = -fsanitize-undefined-trap-on-error
                 
                 QMAKE_SANITIZE_UNDEFINED_CFLAGS *= $$TRIK_SANITIZE_UNDEFINED_FLAGS
 		QMAKE_SANITIZE_UNDEFINED_CXXFLAGS *= $$TRIK_SANITIZE_UNDEFINED_FLAGS
