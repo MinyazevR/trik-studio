@@ -23,7 +23,6 @@ jobs:
     - name: Download All Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: installer
-        pattern:  ${{ inputs.artifact_pattern }}
+        name: ${{ runner.os }}-installer-${{ github.sha }}
         merge-multiple: true
-    - run: ls -R installer
+    - run: ls -R ${{ runner.os }}-installer-${{ github.sha }}
