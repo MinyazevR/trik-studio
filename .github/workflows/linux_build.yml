@@ -85,3 +85,9 @@ jobs:
       qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
       tests: true
     secrets: inherit
+
+  install-ubuntu-trik-studio:
+    uses: ./.github/workflows/installer.yml
+    with:
+      os: ubuntu-latest
+      artifact_pattern: "*.run"
