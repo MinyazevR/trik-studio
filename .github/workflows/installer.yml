@@ -24,6 +24,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: installer
-        pattern:  ${{ input.artifact_pattern }}
+        pattern:  ${{ inputs.artifact_pattern }}
         merge-multiple: true
     - run: ls -R installer
