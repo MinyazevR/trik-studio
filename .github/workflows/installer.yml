@@ -1,0 +1,29 @@
+name: Set up Action
+   
+on:
+  workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      artifact_pattern:
+        required: true
+        type: string
+
+jobs:
+  download:
+    runs-on: ${{ inputs.os }}
+    container:
+      image: ${{ inputs.container_name }}
+      options: >
+        -v ${{ github.workspace }}:${{ github.workspace }} 
+        -w ${{ github.workspace }}
+        
+    steps:
+    - name: Download All Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: installer
+        pattern:  ${{ input.artifact_pattern }}
+        merge-multiple: true
+    - run: ls -R installer
