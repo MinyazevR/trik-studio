@@ -88,6 +88,7 @@ jobs:
 
   install-ubuntu-trik-studio:
     uses: ./.github/workflows/installer.yml
+    needs: build-ubuntu-installer
     with:
       os: ubuntu-latest
       artifact_pattern: "*.run"
