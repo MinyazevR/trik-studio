@@ -156,7 +156,7 @@ jobs:
     - name: Upload installer artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ runner.os }}-installer
+        name: ${{ runner.os }}-installer-${{ github.sha }}
         path: |
           installer/*.exe
           installer/*.run
