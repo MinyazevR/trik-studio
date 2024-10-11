@@ -20,10 +20,38 @@ jobs:
         -w ${{ github.workspace }}
         
     steps:
+    - name: Configure git
+      run: |
+          git config --global core.symlinks true
+          git config --global core.autocrlf input
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 0
+        
     - name: Download All Artifacts
       uses: actions/download-artifact@v4
       with:
         path: ${{ github.workspace }}
         name: ${{ runner.os }}-installer-${{ github.sha }}
         merge-multiple: true
-    - run: ls ${{ github.workspace }}
+
+    # - name: Install trik-studio
+    #   run: ./auto-install-trik-studio.sh
+      
+    # - name: Checks dlls
+    #   run: ./check-dlss
+
+    # - name: Reinstall trik-studio
+    #   run: REINSTALL=1 ./auto-install-trik-studio.sh
+
+    # - name: Checks dlls
+    #   run: ./check-dlss
+
+    # - name: Run tests with checkapp
+    #   run: ./trik-checkapp --fields-dir=/ --solution-dir=/
+
+      
+    
