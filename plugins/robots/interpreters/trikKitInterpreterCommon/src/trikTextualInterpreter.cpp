@@ -36,10 +36,10 @@ const QString jsOverrides = "Date.now = script.time;";
 
 trik::TrikTextualInterpreter::TrikTextualInterpreter(
 	const QSharedPointer<trik::robotModel::twoD::TrikTwoDRobotModel> &model
+		, trikNetwork::MailboxInterface *mailbox
 		, bool enablePython)
 	: mBrick(model)
-	, mMailbox(qReal::SettingsManager::value("TRIK2DMailbox", "").toBool()
-			   ? trikNetwork::MailboxFactory::create(8889): nullptr)
+	, mMailbox(mailbox)
 	, mScriptRunner(mBrick, mMailbox, new TwoDExecutionControl(mBrick, model))
 {
 	connect(&mBrick, &TrikBrick::error, this, &TrikTextualInterpreter::reportError);
