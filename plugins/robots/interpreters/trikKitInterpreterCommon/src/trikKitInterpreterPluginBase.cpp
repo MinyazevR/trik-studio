@@ -51,12 +51,15 @@ void TrikKitInterpreterPluginBase::initKitInterpreterPluginBase
 		, const QSharedPointer<blocks::TrikBlocksFactoryBase> &blocksFactory
 		)
 {
-	if (qReal::SettingsManager::value("TRIK2DMailbox", "").toBool()) {
+	auto mailboxIsEnabled = qReal::SettingsManager::value("TRIK2DMailbox", "").toBool();
+	if (mailboxIsEnabled) {
 		mMailbox.reset(trikNetwork::MailboxFactory::create(8889));
 	}
 	mRealRobotModel.reset(realRobotModel);
 	mTwoDRobotModel.reset(twoDRobotModel);
-	mTwoDRobotModel->setMailbox(*mMailbox);
+	if (mMailbox) {
+		mTwoDRobotModel->setMailbox(*mMailbox);
+	}
 	mBlocksFactory = blocksFactory;
 
 	const auto modelEngine = new twoDModel::engine::TwoDModelEngineFacade(*mTwoDRobotModel);
