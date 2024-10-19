@@ -51,8 +51,9 @@ void TrikKitInterpreterPluginBase::initKitInterpreterPluginBase
 		, const QSharedPointer<blocks::TrikBlocksFactoryBase> &blocksFactory
 		)
 {
-	mMailbox.reset(qReal::SettingsManager::value("TRIK2DMailbox", "").toBool()
-				   ? trikNetwork::MailboxFactory::create(8889): nullptr);
+	if (qReal::SettingsManager::value("TRIK2DMailbox", "").toBool()) {
+		mMailbox.reset(trikNetwork::MailboxFactory::create(8889));
+	}
 	mRealRobotModel.reset(realRobotModel);
 	mTwoDRobotModel.reset(twoDRobotModel);
 	mTwoDRobotModel->setMailbox(*mMailbox);
