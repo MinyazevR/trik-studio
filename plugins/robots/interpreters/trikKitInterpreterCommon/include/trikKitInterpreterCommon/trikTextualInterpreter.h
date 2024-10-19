@@ -68,7 +68,7 @@ private:
 	bool mRunning { false };
 
 	TrikBrick mBrick;
-	trikNetwork::MailboxInterface *mMailbox; // ownership --- TrikKitInterpreterPluginBase
+	trikNetwork::MailboxInterface *mMailbox {}; // ownership --- TrikKitInterpreterPluginBase
 	TwoDExecutionControl *mExecutionControl {};
 	trikScriptRunner::TrikScriptRunner mScriptRunner;
 	qReal::ErrorReporterInterface *mErrorReporter {};

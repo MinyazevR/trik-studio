@@ -54,7 +54,7 @@ public:
 	/// Deinitializing a TRIK network communicator
 	void release() override;
 private:
-	trikNetwork::MailboxInterface *mMailbox; // ownership --- TrikKitInterpreterPluginBase
+	trikNetwork::MailboxInterface *mMailbox {}; // ownership --- TrikKitInterpreterPluginBase
 
 };
 

@@ -62,8 +62,6 @@ void TwoDNetworkCommunicator::clearQueue()
 
 void TwoDNetworkCommunicator::release()
 {
-	qDebug() << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL";
-	qDebug() << mMailbox;
 	if (mMailbox) {
 		mMailbox->stopWaiting();
 		mMailbox->clearQueue();
