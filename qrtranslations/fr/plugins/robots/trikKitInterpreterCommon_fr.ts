@@ -238,7 +238,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+61"/>
         <source>TRIK_PYTHONPATH must be set correctly to run Python script.</source>
         <translation type="unfinished"></translation>
     </message>
