@@ -91,7 +91,11 @@ void TrikKitInterpreterPluginBase::initKitInterpreterPluginBase
 		}
 	}
 #endif
-	mTextualInterpreter.reset(new TrikTextualInterpreter(mTwoDRobotModel, mMailbox.data(), enablePython));
+	if (mMailbox) {
+		mTextualInterpreter.reset(new TrikTextualInterpreter(mTwoDRobotModel, mMailbox.data(), enablePython));
+		return;
+	}
+	mTextualInterpreter.reset(new TrikTextualInterpreter(mTwoDRobotModel, nullptr, enablePython));
 }
 
 void TrikKitInterpreterPluginBase::startCodeInterpretation(const QString &code, const QString &extension)
