@@ -52,6 +52,7 @@ void TrikKitInterpreterPluginBase::initKitInterpreterPluginBase
 		)
 {
 	auto mailboxIsEnabled = qReal::SettingsManager::value("TRIK2DMailbox", "").toBool();
+	qDebug() << "mailboxIsEnabled " << mailboxIsEnabled;
 	if (mailboxIsEnabled) {
 		mMailbox.reset(trikNetwork::MailboxFactory::create(8889));
 	}

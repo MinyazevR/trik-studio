@@ -307,7 +307,7 @@
         <translation>Оставновить</translation>
     </message>
     <message>
-        <location line="+65"/>
+        <location line="+66"/>
         <source>TRIK_PYTHONPATH must be set correctly to run Python script.</source>
         <translation>Для запуска программы на Python доложна быть корректно выставлена переменная окружения TRIK_PYTHONPATH</translation>
     </message>
