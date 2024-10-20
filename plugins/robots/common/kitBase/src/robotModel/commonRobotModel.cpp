@@ -77,10 +77,10 @@ void CommonRobotModel::stopRobot()
 		if (motor) {
 			motor->off();
 		}
-		auto* const communicator = qobject_cast<robotParts::Communicator *>(device);
-		if (communicator) {
-			communicator->release();
-		}
+//		auto* const communicator = qobject_cast<robotParts::Communicator *>(device);
+//		if (communicator) {
+//			communicator->release();
+//		}
 	}
 	/// @todo: add known deinitialization methods here (for example sensors termination after extending their inteface)
 }
