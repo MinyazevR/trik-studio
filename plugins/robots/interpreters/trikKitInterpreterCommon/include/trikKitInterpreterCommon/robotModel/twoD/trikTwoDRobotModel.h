@@ -85,7 +85,7 @@ private:
 	twoDModel::engine::TwoDModelDisplayWidget *mDisplayWidget;
 	qReal::ErrorReporterInterface *mErrorReporter {};
 	QPolygonF mCollidingPolygon;
-	trikNetwork::MailboxInterface *mMailbox; //ownership TrikKitInterpreterPluginBase
+	trikNetwork::MailboxInterface *mMailbox {}; //ownership TrikKitInterpreterPluginBase
 };
 
 }
