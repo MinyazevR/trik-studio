@@ -10,5 +10,5 @@ if [ "$ID" = "altlinux" ]; then
 elif [ "$ID" = "ubuntu" ]; then
     sudo apt-get update && sudo apt-get install -y --no-install-recommends vera++ \
     ccache curl libusb-1.0-0-dev make qtscript5-dev qttools5-dev-tools qtmultimedia5-dev libqt5serialport5-dev libqt5svg5-dev \
-    libudev-dev
+    libudev-dev python3-dev
 fi
