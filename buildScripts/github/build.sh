@@ -20,7 +20,8 @@ case $RUNNER_OS in
 esac
 
 env 
-mkdir -p $CCACHE_DIR || sudo chown -R $USER $CCACHE_DIR || :
+mkdir -p "$CCACHE_DIR" || sudo chown -R $USER "$CCACHE_DIR" || :
+
 cat << EOF > $CCACHE_CONFIGPATH
 compiler_check=content
 run_second_cpp=true
