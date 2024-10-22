@@ -19,6 +19,7 @@ case $RUNNER_OS in
   *) exit 1 ;;
 esac
 
+env 
 mkdir -p $CCACHE_DIR || sudo chown -R $USER $CCACHE_DIR || :
 cat << EOF > $CCACHE_CONFIGPATH
 compiler_check=content
