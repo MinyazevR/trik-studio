@@ -89,6 +89,7 @@ jobs:
         TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik-python3-version-minor }}
         QTIFW_VERSION: ${{ inputs.qtifw-version }}
         XCODE_VERSION: ${{ inputs.xcode-version }}
+        BUILD_INSTALLER: ${{ inputs.build_installer }}
 
     - name: Lint
       run: ${{ inputs.executor }} buildScripts/github/vera_translation.sh
