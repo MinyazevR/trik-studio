@@ -73,11 +73,11 @@ jobs:
     steps:
     - name: Install dependencies
       run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git
-      if: startsWith(inputs.container_name, 'altlinux') == true
+      if: startsWith('altlinux', inputs.container_name) == true
 
     - name: Install dependencies
       run: yum update -y && yum install -y git-core
-      if: startsWith(inputs.container_name, 'rockylinux') == true
+      if: startsWith('rocky', inputs.container_name) == true
       
     - name: Configure git
       run: |
