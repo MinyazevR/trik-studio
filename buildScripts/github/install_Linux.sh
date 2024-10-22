@@ -15,6 +15,7 @@ elif [ "$ID" = "ubuntu" ]; then
   ccache curl libusb-1.0-0-dev make qtscript5-dev qttools5-dev-tools qtmultimedia5-dev libqt5serialport5-dev libqt5svg5-dev \
   libudev-dev python3.${TRIK_PYTHON3_VERSION_MINOR}-dev qtbase5-private-dev
 elif [ "$ID" = "rocky" ]; then
+  echo "lololololololol"
   yum update -y && yum install -y epel-release
   yum install --allowerasing -y sudo which libusbx-devel curl wget make gcc-toolset-"${GCC_VERSION}"-{gcc-c++,libasan-devel,libubsan-devel,gdb} \
   git-core ccache zlib-devel rsync python3-{devel,pip,urllib3} mesa-libGL-devel systemd-devel fontconfig p7zip time
