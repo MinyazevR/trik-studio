@@ -15,6 +15,7 @@ case $RUNNER_OS in
     if [ "$ID" = "altlinux" ]; then
         ln -s /usr/bin/qmake-qt5 /usr/bin/qmake
     fi
+    TRIK_PYTHON3_VERSION_MINOR=$(python3 -V 2>&1 | awk '{print $2}' | cut -d. -f2)
    ;;
   *) exit 1 ;;
 esac
@@ -37,6 +38,7 @@ CONFIG="$CONFIG" \
 QMAKE_EXTRA="$QMAKE_EXTRA" \
 PROJECT="$PROJECT" \
 RUNNER_OS="$RUNNER_OS" \
+TRIK_PYTHON3_VERSION_MINOR="$TRIK_PYTHON3_VERSION_MINOR" \
 buildScripts/github/build_internal.sh
 
 
