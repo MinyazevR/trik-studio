@@ -8,6 +8,6 @@ if [ "$ID" = "altlinux" ]; then
     libudev-devel libGL-devel libGLX-mesa python3-dev zlib-devel make ccache python3-module-pip time \
     qt5-multimedia-devel qt5-svg-devel qt5-script-devel qt5-tools qt5-serialport-devel
 elif [ "$ID" = "ubuntu" ]; then
-    sudo apt-get update && sudo apt-get install -y --no-install-recommends vera++ qttools5-dev-tools \
-    qtbase5-dev ccache curl libusb-dev make qtbase5-dev-tools
+    sudo apt-get update && sudo apt-get install -y --no-install-recommends vera++ \
+    qtbase5-dev ccache curl libusb-dev make qtbase5-dev-tools qtmultimedia5-dev
 fi
