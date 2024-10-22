@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
+cat /etc/os-release
 ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
 BUILD_INSTALLER=${BUILD_INSTALLER:-false}
 QTIFW_VERSION=${QTIFW_VERSION:-4.6.1}
