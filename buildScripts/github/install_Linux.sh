@@ -2,7 +2,8 @@
 set -euxo pipefail
 
 ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
-TRIK_PYTHON=python3.${TRIK_PYTHON3_VERSION_MINOR}
+BUILD_INSTALLER=${BUILD_INSTALLER:-"false"}
+QTIFW_VERSION=${QTIFW_VERSION:-4.6.1}
 
 if [ "$ID" = "altlinux" ]; then
     apt-get update && apt-get install -y gcc-c++ curl xz p7zip-standalone rsync libusb-devel \
@@ -11,6 +12,12 @@ if [ "$ID" = "altlinux" ]; then
 elif [ "$ID" = "ubuntu" ]; then
     sudo apt-get update && sudo apt-get install -y --no-install-recommends vera++ \
     ccache curl libusb-1.0-0-dev make qtscript5-dev qttools5-dev-tools qtmultimedia5-dev libqt5serialport5-dev libqt5svg5-dev \
-    libudev-dev ${TRIK_PYTHON}-dev
+    libudev-dev python3-dev python3
+    
+    if ["$BUILD_INSTALLER" == "true"]; then
+      "$TRIK_PYTHON" -m pip install -U pip
+      "$TRIK_PYTHON" -m pip install aqtinstall
+      "$TRIK_PYTHON" -m aqt install-tool -O "/opt/qtifw" linux desktop tools_ifw "${QTIFW_VERSION}"
+    fi
 fi
 
