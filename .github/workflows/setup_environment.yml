@@ -90,9 +90,12 @@ jobs:
         QTIFW_VERSION: ${{ inputs.qtifw-version }}
         XCODE_VERSION: ${{ inputs.xcode-version }}
         BUILD_INSTALLER: ${{ inputs.build_installer }}
+      if: ${{ inputs.build == 'true' }}
 
     - name: Lint
-      run: ${{ inputs.executor }} buildScripts/github/vera_translation.sh
+      run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-reccommends qttools5-dev-tools vera++ 
+          ${{ inputs.executor }} buildScripts/github/vera_translation.sh
       if: ${{ inputs.lint == 'true' }}
 
     - name: Restore cache
