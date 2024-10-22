@@ -6,12 +6,11 @@ case $RUNNER_OS in
   macOS)
     QTIFWBIN=$HOME/qtifw/bin
     TSNAME=trik-studio-installer-mac-$BRANCH_NAME.dmg
-#    export TRIK_PYTHON3_VERSION_MINOR="$(python3 -V | sed 's#^Python 3\.\([0-9]+\)\.[0-9]+$#\1#g')"
     ;;
   Linux)
     QTIFWBIN=/opt/qtifw/bin
-    #QTIFWBIN=$($EXECUTOR bash -c  'find /Qt/Tools/QtInstallerFramework/ -maxdepth 2 -name bin -type d -print0 | sort -Vrz | head -zn 1')
-    TSNAME=trik-studio-installer-linux-$BRANCH_NAME.run
+    ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
+    TSNAME=trik-studio-installer-linux-"$BRANCH_NAME"-"$ID".run
     ;;
   *) exit 1 ;;
 esac

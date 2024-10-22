@@ -64,6 +64,18 @@ jobs:
       build_installer: false
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent"
       tests: true
+      
+  build-rockylinux-release-tests:
+    needs: lint
+    uses: ./.github/workflows/setup_environment.yml
+    with:
+      os: ubuntu-latest
+      container_name: "rockylinux:9"
+      build: true
+      build_installer: false
+      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=silent CONFIG+=sanitizer CONFIG+=sanitize-undefined"
+      tests: true
+      gcc-version: "13"
 
   build-ubuntu-debug-tests:
     needs: lint

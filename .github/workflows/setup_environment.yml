@@ -52,12 +52,16 @@ on:
         required: false
         type: string
         default: ""
+      gcc-version:
+      	required: false
+        type: string
+        default: "13"
 
 jobs:
   job:
     defaults:
       run:
-        shell: bash
+        shell: bash -l {0}
 
     runs-on: ${{ inputs.os }}
     container:
@@ -75,12 +79,12 @@ jobs:
       run: |
           git config --global core.symlinks true
           git config --global core.autocrlf input
-
+        
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         submodules: recursive
-        fetch-depth: 0
+        fetch-depth: 1
 
     - name: Set up environment
       run: buildScripts/github/install_${{ runner.os }}.sh
@@ -90,6 +94,7 @@ jobs:
         QTIFW_VERSION: ${{ inputs.qtifw-version }}
         XCODE_VERSION: ${{ inputs.xcode-version }}
         BUILD_INSTALLER: ${{ inputs.build_installer }}
+        GCC_VERSION: ${{ inputs.gcc_version }}
       if: ${{ inputs.build == 'true' }}
 
     - name: Lint
