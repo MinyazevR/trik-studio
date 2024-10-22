@@ -6,6 +6,8 @@ BUILD_INSTALLER=${BUILD_INSTALLER:-false}
 QTIFW_VERSION=${QTIFW_VERSION:-4.6.1}
 GCC_VERSION=${GCC_VERSION:-13}
 
+echo "$ID"
+
 if [ "$ID" = "altlinux" ]; then
     apt-get update && apt-get install -y gcc-c++ curl xz p7zip-standalone rsync libusb-devel \
     libudev-devel libGL-devel libGLX-mesa python3-dev zlib-devel make ccache python3-module-pip time \
