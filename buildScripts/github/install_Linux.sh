@@ -16,7 +16,7 @@ elif [ "$ID" = "ubuntu" ]; then
     libudev-dev python3.${TRIK_PYTHON3_VERSION_MINOR}-dev qtbase5-private-dev
 elif [ "$ID" = "rockylinux" ]; then
     yum install -y epel-release # for ccache and p7zip
-    sudo which libusbx-devel curl wget make gcc-toolset-"${GCC_VERSION}"-{gcc-c++,libasan-devel,libubsan-devel,gdb} \
+    yum install --allowerasing -y sudo which libusbx-devel curl wget make gcc-toolset-"${GCC_VERSION}"-{gcc-c++,libasan-devel,libubsan-devel,gdb} \
     git-core ccache zlib-devel rsync python3-{devel,pip,urllib3} mesa-libGL-devel systemd-devel fontconfig p7zip
     
     yum install -y libxkbcommon-x11 qt5-qtbase-gui #no desire to enumerate all required libraries for QtIFw

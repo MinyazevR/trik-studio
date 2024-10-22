@@ -75,6 +75,10 @@ jobs:
       run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git
       if: startsWith(inputs.container_name, 'altlinux') == true
 
+    - name: Install dependencies
+      run: yum update -y && yum install -y git-core
+      if: startsWith(inputs.container_name, 'rockylinux') == true
+      
     - name: Configure git
       run: |
           git config --global core.symlinks true
