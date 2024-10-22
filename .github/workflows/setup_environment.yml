@@ -94,7 +94,7 @@ jobs:
 
     - name: Lint
       run: |
-          sudo apt-get update && sudo apt-get install -y --no-install-recommends qtchooser vera++ 
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends qttools5-dev-tools  qtbase5-dev vera++ 
           ${{ inputs.executor }} buildScripts/github/vera_translation.sh
       if: ${{ inputs.lint == 'true' }}
 
