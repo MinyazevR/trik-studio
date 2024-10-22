@@ -53,7 +53,7 @@ on:
         type: string
         default: ""
       gcc-version:
-      	required: false
+        required: false
         type: string
         default: "13"
 
