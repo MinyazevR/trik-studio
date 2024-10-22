@@ -52,7 +52,7 @@ on:
         required: false
         type: string
         default: ""
-      gcc-version:
+      gcc_version:
         required: false
         type: string
         default: "13"
