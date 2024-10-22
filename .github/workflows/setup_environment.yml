@@ -9,7 +9,7 @@ on:
       executor:
         required: false
         type: string
-        default: "time docker exec -i builder"
+        default: "time"
       lint:
         required: false
         type: string
