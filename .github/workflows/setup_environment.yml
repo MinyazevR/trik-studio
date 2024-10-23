@@ -116,7 +116,7 @@ jobs:
       if: ${{ inputs.build == 'true' }}
 
     - name: G
-      run: cat  ~/.bash_profile
+      run: cat  ~/.bash_profile && cat /proc/cpuinfo | grep sse
       
     - name: Build
       run: buildScripts/github/build.sh
