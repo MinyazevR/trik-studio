@@ -2,6 +2,8 @@
 set -uxeo pipefail
 
 CODECOV=true
+CCACHE_DIR="$CACHE_DIR"
+
 case $RUNNER_OS in
   macOS)
      QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin | head -n 1)
