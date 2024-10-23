@@ -61,7 +61,7 @@ jobs:
   job:
     defaults:
       run:
-        shell: bash
+        shell: bash -l {0}
 
     runs-on: ${{ inputs.os }}
     container:
@@ -115,12 +115,15 @@ jobs:
           ccache-c${{ inputs.container_name }}-${{ inputs.os }}
       if: ${{ inputs.build == 'true' }}
 
+    - name: G
+      run: cat  ~/.bash_profile
+      
     - name: Build
       run: buildScripts/github/build.sh
       env:
         TRIK_QT_VERSION: ${{ inputs.trik-qt-version }}
         TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik-python3-version-minor }}
-        CCACHE_DIR: 1
+        CCACHE_DIR: ${{ github.workspace }}/.ccache/${{ inputs.os }}-c${{ inputs.container_name }}-${{ inputs.config }}
         CCACHE_CONFIGPATH: ${{ github.workspace }}/ccache.conf
         PROJECT: "studio"
         CONFIG: ${{ inputs.config }}
