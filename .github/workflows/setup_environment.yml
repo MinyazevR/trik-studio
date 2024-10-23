@@ -64,8 +64,7 @@ jobs:
         shell: bash -l {0}
 
     runs-on: ${{ inputs.os }}
-    container:
-      image: ${{ inputs.container_name }}
+    container: ${{ inputs.container_name }}
       
     steps:
     - name: Install dependencies
