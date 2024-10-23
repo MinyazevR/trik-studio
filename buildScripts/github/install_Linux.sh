@@ -29,7 +29,7 @@ elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
   QT_ROOT_DIR=$(ls -1d /Qt/"$TRIK_QT_VERSION"*/gcc_64 | head -n 1)
   
   echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
-  echo "source scl_source enable gcc-toolset-"$GCC_VERSION" >> ~/.bash_profile
+  echo "source scl_source enable gcc-toolset-$GCC_VERSION" >> ~/.bash_profile
 fi
 
 if [ "$BUILD_INSTALLER" = "true" ]; then
