@@ -18,13 +18,11 @@ elif [ "$ID" = "ubuntu" ]; then
 elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
   yum update -y && yum install -y epel-release
   yum install --allowerasing -y sudo which libusbx-devel curl wget make gcc-toolset-"${GCC_VERSION}"-{gcc-c++,libasan-devel,libubsan-devel,gdb} \
-  git-core ccache zlib-devel rsync python3-{devel,pip,urllib3} mesa-libGL-devel systemd-devel fontconfig p7zip time
-    
+  git-core ccache zlib-devel rsync python3-{devel,pip,urllib3} mesa-libGL-devel systemd-devel fontconfig p7zip time   
   yum install -y libxkbcommon-x11 qt5-qtbase-gui #no desire to enumerate all required libraries for QtIFw
   yum install -y pulseaudio-libs-glib2 # to run TS and 2D-model even with `minimal` platform
-  
+ 
   # yum install -y qt5-qtscript-devel qt5-qttools-devel qt5-qtmultimedia-devel qt5-qtserialport-devel qt5-qtsvg-devel qt5-qtbase-devel
-  
   python3 -m pip install -U pip
   python3 -m pip install aqtinstall
   aqt install-qt linux desktop "$TRIK_QT_VERSION" -O /Qt -m qtscript --archives qtbase qtmultimedia qtsvg qtscript qttools qtserialport qtimageformats icu qtwayland
