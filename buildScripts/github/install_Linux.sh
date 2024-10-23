@@ -17,7 +17,7 @@ elif [ "$ID" = "ubuntu" ]; then
   libudev-dev python3.${TRIK_PYTHON3_VERSION_MINOR}-dev qtbase5-private-dev
 elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
   yum update -y && yum install -y epel-release
-  yum install --allowerasing -y sudo which libusbx-devel curl wget make gcc-toolset-"${GCC_VERSION}"-{gcc-c++,libasan-devel,libubsan-devel,gdb} \
+  yum install --allowerasing -y sudo which libusbx-devel curl wget make gcc-toolset-"$GCC_VERSION"-{gcc-c++,libasan-devel,libubsan-devel,gdb} \
   git-core ccache zlib-devel rsync python3-{devel,pip,urllib3} mesa-libGL-devel systemd-devel fontconfig p7zip time   
   yum install -y libxkbcommon-x11 qt5-qtbase-gui #no desire to enumerate all required libraries for QtIFw
   yum install -y pulseaudio-libs-glib2 # to run TS and 2D-model even with `minimal` platform
@@ -29,7 +29,7 @@ elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
   QT_ROOT_DIR=$(ls -1d /Qt/"$TRIK_QT_VERSION"*/gcc_64 | head -n 1)
   
   echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
-  echo "source scl_source enable gcc-toolset-${GCC_VERSION}" >> ~/.bash_profile
+  echo "source scl_source enable gcc-toolset-"$GCC_VERSION" >> ~/.bash_profile
 fi
 
 if [ "$BUILD_INSTALLER" = "true" ]; then

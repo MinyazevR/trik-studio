@@ -66,7 +66,7 @@ jobs:
       tests: true
       
   build-rockylinux-release-tests:
-  #  needs: lint
+  needs: lint
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
@@ -98,3 +98,15 @@ jobs:
       tests: true
       trik-python3-version-minor: 10
     secrets: inherit
+    
+  build-rockylinux-installer:
+    needs: [build-rockylinux-release-tests]
+    uses: ./.github/workflows/setup_environment.yml
+    with:
+      os: ubuntu-latest
+      container_name: "rockylinux:9"
+      build: true
+      build_installer: true
+      trik-qt-version: 5.15
+      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
+      gcc_version: "13"
