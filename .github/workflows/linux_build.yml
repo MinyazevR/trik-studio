@@ -52,7 +52,7 @@ jobs:
       build: true
       build_installer: false
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent"
-      trik-python3-version-minor: 10
+      trik_python3_version_minor: 10
   
   build-altlinux-release-tests:
     needs: lint
@@ -66,7 +66,7 @@ jobs:
       tests: true
       
   build-rockylinux-release-tests:
-    needs: lint
+  needs: lint
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
@@ -85,7 +85,7 @@ jobs:
       build_installer: false
       config: debug
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=silent CONFIG+=small_debug_info CONFIG+=sanitizer CONFIG+=sanitize_undefined CONFIG+=sanitize_address"
-      trik-python3-version-minor: 10
+      trik_python3_version_minor: 10
       
   build-ubuntu-installer:
     needs: [build-ubuntu-debug-tests, build-ubuntu-release-tests]
@@ -96,7 +96,7 @@ jobs:
       build_installer: true
       qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
       tests: true
-      trik-python3-version-minor: 10
+      trik_python3_version_minor: 10
     secrets: inherit
     
   build-rockylinux-installer:
@@ -107,6 +107,6 @@ jobs:
       container_name: "rockylinux:9"
       build: true
       build_installer: true
-      trik-qt-version: 5.15
+      trik_qt_version: 5.15
       qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
       gcc_version: "13"

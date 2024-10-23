@@ -4,7 +4,6 @@ set -euxo pipefail
 cat /etc/os-release
 ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
 BUILD_INSTALLER=${BUILD_INSTALLER:-false}
-QTIFW_VERSION=${QTIFW_VERSION:-4.6.1}
 GCC_VERSION=${GCC_VERSION:-13}
 
 if [ "$ID" = "altlinux" ]; then
@@ -36,5 +35,5 @@ if [ "$BUILD_INSTALLER" = "true" ]; then
   TRIK_PYTHON="python3.${TRIK_PYTHON3_VERSION_MINOR}"
   "$TRIK_PYTHON" -m pip install -U pip
   "$TRIK_PYTHON" -m pip install aqtinstall
-  "$TRIK_PYTHON" -m aqt install-tool -O "/opt/qtifw" linux desktop tools_ifw "${QTIFW_VERSION}"
+  "$TRIK_PYTHON" -m aqt install-tool -O "/opt/qtifw" linux desktop tools_ifw
 fi

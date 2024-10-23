@@ -20,19 +20,19 @@ on:
       build_installer:
         required: true
         type: string
-      trik-qt-version:
+      trik_qt_version:
         required: false
         type: string
         default: '5.12'
-      trik-python3-version-minor:
+      trik_python3_version_minor:
         required: false
         type: string
         default: '9'
-      qtifw-version:
+      qtifw_version:
         required: false
         type: string
         default: '4.6.1'
-      xcode-version:
+      xcode_version:
         required: false
         type: string
         default: '13.4'
@@ -89,10 +89,10 @@ jobs:
     - name: Set up environment
       run: buildScripts/github/install_${{ runner.os }}.sh
       env:
-        TRIK_QT_VERSION: ${{ inputs.trik-qt-version }}
-        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik-python3-version-minor }}
-        QTIFW_VERSION: ${{ inputs.qtifw-version }}
-        XCODE_VERSION: ${{ inputs.xcode-version }}
+        TRIK_QT_VERSION: ${{ inputs.trik_qt_version }}
+        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
+        QTIFW_VERSION: ${{ inputs.qtifw_version }}
+        XCODE_VERSION: ${{ inputs.xcode_version }}
         BUILD_INSTALLER: ${{ inputs.build_installer }}
         GCC_VERSION: ${{ inputs.gcc_version }}
       if: ${{ inputs.build == 'true' }}
@@ -117,8 +117,8 @@ jobs:
     - name: Build
       run: buildScripts/github/build.sh
       env:
-        TRIK_QT_VERSION: ${{ inputs.trik-qt-version }}
-        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik-python3-version-minor }}
+        TRIK_QT_VERSION: ${{ inputs.trik_qt_version }}
+        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
         CACHE_DIR: ${{ github.workspace }}/.ccache/${{ inputs.os }}-c${{ inputs.container_name }}-${{ inputs.config }}
         CCACHE_CONFIGPATH: ${{ github.workspace }}/ccache.conf
         PROJECT: "studio"
@@ -134,10 +134,10 @@ jobs:
         key: ccache-c${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ github.sha }}
       if: ${{ inputs.build == 'true' }}
         
-    - name: Run tests (run-simulator-tests.sh)
+    - name: Run tests (run-simulator-tests.h)
       run: ${{ inputs.executor }} buildScripts/github/run_tests.sh
       env:
-        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik-python3-version-minor }}
+        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
         TESTS: ${{ inputs.tests }}
       if: ${{ inputs.build == 'true' }}
       
@@ -146,8 +146,8 @@ jobs:
         BRANCH_NAME=${BRANCH_NAME//\//-}
         ${{ inputs.executor }} env CONFIG=${{ inputs.config }} buildScripts/github/test.sh && buildScripts/github/build_installer.sh
       env:
-        TRIK_QT_VERSION: ${{ inputs.trik-qt-version }}
-        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik-python3-version-minor }}
+        TRIK_QT_VERSION: ${{ inputs.trik_qt_version }}
+        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
         CCACHE_DIR: ${{ github.workspace }}/.ccache/${{ inputs.os }}-c${{ inputs.container_name }}-${{ inputs.config }}
         CCACHE_CONFIGPATH: ${{ github.workspace }}/ccache.conf
         PROJECT: "studio"
