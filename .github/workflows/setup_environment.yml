@@ -61,7 +61,7 @@ jobs:
   job:
     defaults:
       run:
-        shell: bash -l {0}
+        shell: bash
 
     runs-on: ${{ inputs.os }}
     container:
