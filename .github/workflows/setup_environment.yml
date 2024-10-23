@@ -113,9 +113,6 @@ jobs:
           ccache-c${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}
           ccache-c${{ inputs.container_name }}-${{ inputs.os }}
       if: ${{ inputs.build == 'true' }}
-
-    - name: G
-      run: cat  ~/.bash_profile && cat /proc/cpuinfo | grep sse
       
     - name: Build
       run: buildScripts/github/build.sh
