@@ -53,7 +53,7 @@ jobs:
       executor: "time"
       build: true
       build_installer: false
-      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
+      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=warn_off"
       trik_python3_version_minor: "11"
 
   build-macos-debug-tests:
@@ -76,7 +76,7 @@ jobs:
       executor: "time"
       build: true
       build_installer: true
-      qmake_extra: " CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
+      qmake_extra: " CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=warn_off"
       trik_python3_version_minor: "11"
       tests: true
     secrets: inherit

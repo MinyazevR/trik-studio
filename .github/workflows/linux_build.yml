@@ -51,7 +51,7 @@ jobs:
       os: ubuntu-latest
       build: true
       build_installer: false
-      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent"
+      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
       trik_python3_version_minor: 10
   
   build-altlinux-release-tests:
@@ -62,7 +62,7 @@ jobs:
       container_name: "altlinux/base:latest"
       build: true
       build_installer: false
-      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent"
+      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
       tests: true
       
   build-rockylinux-release-tests:
@@ -73,7 +73,7 @@ jobs:
       container_name: "rockylinux:9"
       build: true
       build_installer: false
-      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=silent CONFIG+=sanitizer CONFIG+=sanitize-undefined"
+      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=sanitizer CONFIG+=sanitize-undefined"
       gcc_version: "13"
 
   build-ubuntu-debug-tests:
@@ -84,7 +84,7 @@ jobs:
       build: true
       build_installer: false
       config: debug
-      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=silent CONFIG+=small_debug_info CONFIG+=sanitizer CONFIG+=sanitize_undefined CONFIG+=sanitize_address"
+      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=small_debug_info CONFIG+=sanitizer CONFIG+=sanitize_undefined CONFIG+=sanitize_address"
       trik_python3_version_minor: 10
       
   build-ubuntu-installer:
@@ -94,7 +94,7 @@ jobs:
       os: ubuntu-latest
       build: true
       build_installer: true
-      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
+      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
       tests: true
       trik_python3_version_minor: 10
     secrets: inherit
@@ -108,5 +108,7 @@ jobs:
       build: true
       build_installer: true
       trik_qt_version: 5.15
-      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
+      tests: true
+      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
       gcc_version: "13"
+    secrets: inherit

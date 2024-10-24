@@ -134,7 +134,7 @@ jobs:
         key: ccache-c${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ github.sha }}
       if: ${{ inputs.build == 'true' }}
         
-    - name: Run tests (run-simulator-tests.h)
+    - name: Run tests
       run: ${{ inputs.executor }} buildScripts/github/run_tests.sh
       env:
         TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
