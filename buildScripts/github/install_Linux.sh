@@ -5,6 +5,7 @@ cat /etc/os-release
 ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
 BUILD_INSTALLER=${BUILD_INSTALLER:-false}
 GCC_VERSION=${GCC_VERSION:-13}
+TRIK_PYTHON="python3.${TRIK_PYTHON3_VERSION_MINOR}"
 
 if [ "$ID" = "altlinux" ]; then
   apt-get update && apt-get install -y gcc-c++ curl xz p7zip-standalone rsync libusb-devel \
@@ -22,8 +23,8 @@ elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
   yum install -y pulseaudio-libs-glib2 # to run TS and 2D-model even with `minimal` platform
  
   # yum install -y qt5-qtscript-devel qt5-qttools-devel qt5-qtmultimedia-devel qt5-qtserialport-devel qt5-qtsvg-devel qt5-qtbase-devel
-  python3 -m pip install -U pip
-  python3 -m pip install aqtinstall
+  "$TRIK_PYTHON" -m pip install -U pip
+  "$TRIK_PYTHON" -m pip install aqtinstall
   aqt install-qt linux desktop "$TRIK_QT_VERSION" -O /Qt -m qtscript --archives qtbase qtmultimedia qtsvg qtscript qttools qtserialport qtimageformats icu qtwayland
   QT_ROOT_DIR=$(ls -1d /Qt/"$TRIK_QT_VERSION"*/gcc_64 | head -n 1)
   
@@ -32,8 +33,8 @@ elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
 fi
 
 if [ "$BUILD_INSTALLER" = "true" ]; then
-  TRIK_PYTHON="python3.${TRIK_PYTHON3_VERSION_MINOR}"
   "$TRIK_PYTHON" -m pip install -U pip
   "$TRIK_PYTHON" -m pip install aqtinstall
-  "$TRIK_PYTHON" -m aqt install-tool -O "/opt/qtifw" linux desktop tools_ifw
+  "$TRIK_PYTHON" -m aqt install-tool -O /opt/qtifw linux desktop tools_ifw
+  ls /opt/qtifw /opt/qtifw/bin 
 fi
