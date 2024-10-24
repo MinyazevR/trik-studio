@@ -107,7 +107,6 @@ jobs:
       container_name: "rockylinux:9"
       build: true
       build_installer: true
-      trik_qt_version: 5.15
       tests: true
       qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
       gcc_version: "13"
