@@ -94,7 +94,7 @@ jobs:
       os: ubuntu-latest
       build: true
       build_installer: true
-      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
+      qmake_extra: "CONFIG+=noPch CONFIG+=ccache"
       tests: true
       trik_python3_version_minor: 10
     secrets: inherit
@@ -108,6 +108,6 @@ jobs:
       build: true
       build_installer: true
       tests: true
-      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
+      qmake_extra: "CONFIG+=noPch CONFIG+=ccache"
       gcc_version: "13"
     secrets: inherit
