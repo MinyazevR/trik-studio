@@ -135,7 +135,7 @@ jobs:
       if: ${{ inputs.build == 'true' }}
         
     - name: Run tests
-      run: ${{ inputs.executor }} buildScripts/github/run_tests.sh
+      run: ${{ inputs.executor }} buildScripts/github/run_tests.sh && ${{ inputs.executor }} buildScripts/github/test.sh
       env:
         TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
         TESTS: ${{ inputs.tests }}
@@ -143,8 +143,7 @@ jobs:
       
     - name: Build Installer
       run: |
-        BRANCH_NAME=${BRANCH_NAME//\//-}
-        ${{ inputs.executor }} env CONFIG=${{ inputs.config }} buildScripts/github/test.sh && buildScripts/github/build_installer.sh
+        BRANCH_NAME=${BRANCH_NAME//\//-} buildScripts/github/build_installer.sh
       env:
         TRIK_QT_VERSION: ${{ inputs.trik_qt_version }}
         TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
@@ -165,7 +164,7 @@ jobs:
     - name: Upload installer artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ runner.os }}-installer
+        name: ${{ runner.os }}-${{ inputs.container_name }}-installer
         path: |
           installer/*.exe
           installer/*.run

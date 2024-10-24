@@ -8,7 +8,3 @@ export DISPLAY=:0
 export TRIK_PYTHONPATH=${TRIK_PYTHONPATH:-$(python3.${TRIK_PYTHON3_VERSION_MINOR} -c 'import sys; import os; print(os.pathsep.join(sys.path))')}
 export PYTHONMALLOC=malloc
 make check -k -s && ( set +eux ; cd "bin" && eval "$TESTS" )
-
-curl --output tests.7z "https://dl.trikset.com/edu/.solutions20200701/testing_small.7z"
-7za x tests.7z
-env QT_QPA_PLATFORM=minimal python3 ./buildScripts/tests/fieldstest.py ./bin/2D-model ./testing_small
