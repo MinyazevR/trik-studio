@@ -104,8 +104,8 @@ jobs:
       - name: Install Qt
         run: |
             set -ueo pipefail
-            python3 -m pip install -U pip
-            python3 -m pip install aqtinstall
+            python3.12 -m pip install -U pip
+            python3.12 -m pip install aqtinstall
             aqt install-qt linux desktop "${{ matrix.qt-version }}" -O /Qt -m qtscript --archives qtbase qtmultimedia qtsvg qtscript qttools qtserialport qtimageformats icu qtwayland
             aqt install-tool linux desktop tools_ifw -O /Qt
             
@@ -128,7 +128,7 @@ jobs:
              uname -a
              rsync --version
              qmake --version && qmake -query
-             python3 --version
+             python3.12 --version
              which g++
              g++ --version
              ccache --version
@@ -174,7 +174,7 @@ jobs:
             echo "$PATH"
             echo ------
             cd ${{ env.BUILD_DIR }}/bin
-            env QT_QPA_PLATFORM=minimal python3 "${GITHUB_WORKSPACE}/buildScripts/tests/fieldstest.py" ./2D-model "${GITHUB_WORKSPACE}/testing_small"
+            env QT_QPA_PLATFORM=minimal python3.12 "${GITHUB_WORKSPACE}/buildScripts/tests/fieldstest.py" ./2D-model "${GITHUB_WORKSPACE}/testing_small"
 
       - name: Build installer
         run: |
