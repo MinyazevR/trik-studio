@@ -108,6 +108,7 @@ jobs:
       build_installer: false
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=sanitizer CONFIG+=sanitize-undefined"
       gcc_version: "13"
+      trik_python3_version_minor: 12
 
   build-ubuntu-debug-tests:
     needs: lint
@@ -143,4 +144,5 @@ jobs:
       tests: true
       qmake_extra: "CONFIG+=noPch CONFIG+=ccache"
       gcc_version: "13"
+      trik_python3_version_minor: 12
     secrets: inherit
