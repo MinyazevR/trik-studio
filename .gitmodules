@@ -1,6 +1,3 @@
-[submodule "plugins/robots/thirdparty/trikRuntime"]
-	path = plugins/robots/thirdparty/trikRuntime/trikRuntime
-	url = https://github.com/trikset/trikRuntime
 [submodule "qrtest/thirdparty/googletest/googletest"]
 	path = qrtest/thirdparty/googletest/googletest
 	url = https://github.com/google/googletest
@@ -32,3 +29,6 @@
 [submodule "plugins/robots/thirdparty/qextserialport/qextserialport"]
 	path = plugins/robots/thirdparty/qextserialport/qextserialport
 	url = https://github.com/qextserialport/qextserialport
+[submodule "plugins/robots/thirdparty/trikRuntime/trikRuntime"]
+	url = https://github.com/MinyazevR/trikRuntime
+	path = plugins/robots/thirdparty/trikRuntime/trikRuntime
