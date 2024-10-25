@@ -26,7 +26,7 @@ elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
   "$TRIK_PYTHON" -m pip install -U pip
   "$TRIK_PYTHON" -m pip install aqtinstall
   aqt install-qt linux desktop 5.15.2 -O /Qt -m qtscript --archives qtbase qtmultimedia qtsvg qtscript qttools qtserialport qtimageformats icu qtwayland
-  QT_ROOT_DIR=$(ls -1d /Qt/${{ matrix.qt-version }}*/gcc_64 | head -n 1)
+  QT_ROOT_DIR=$(ls -1d /Qt/5.15*/gcc_64 | head -n 1)
   # yum install -y qt5-qtscript-devel qt5-qttools-devel qt5-qtmultimedia-devel qt5-qtserialport-devel qt5-qtsvg-devel qt5-qtbase-devel
   echo "QT_ROOT_DIR=$QT_ROOT_DIR" >> $GITHUB_ENV
   echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
