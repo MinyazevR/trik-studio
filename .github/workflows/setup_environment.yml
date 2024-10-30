@@ -60,12 +60,16 @@ on:
         required: false
         type: string
         default: 13
+      shell:
+        required: false
+        type: string
+        default: bash
 
 jobs:
-  job:
+  build:
     defaults:
       run:
-        shell: bash -l {0}
+        shell: ${{ inputs.shell }}
 
     runs-on: ${{ inputs.os }}
     container: ${{ inputs.container_name }}
@@ -177,6 +181,7 @@ jobs:
         CONTAINER_NAME=${{ inputs.container_name }}
         PATCH_CONTAINER_NAME=${CONTAINER_NAME//[^a-zA-Z0-9_-]/}
         echo "PATCH_CONTAINER_NAME=$PATCH_CONTAINER_NAME" >> $GITHUB_ENV
+      if: ${{ inputs.build_installer == true }}
 
     - name: Upload installer artifact
       uses: actions/upload-artifact@v4
@@ -189,10 +194,14 @@ jobs:
           installer/trik_studio_uninstallscript.qs
       if: ${{ inputs.build_installer == true }}
       
-    - name: Run installer
-      uses: ./.github/workflows/installer.yml
-      with:
-        os: ${{ runner.os }}
-        container_name: ${{ inputs.container_name }}
-        artifact_name: ${{ runner.os }}-${{ env.PATCH_CONTAINER_NAME }}-installer
-      if: ${{ inputs.build_installer == true }}
+    outputs: 
+      artifact_name: ${{ runner.os }}-${{ env.PATCH_CONTAINER_NAME }}-installer
+
+  installer:
+    needs: build    
+    uses: ./.github/workflows/installer.yml
+    with:
+      os: ${{ runner.os }}
+      container_name: ${{ inputs.container_name }}
+      artifact_name: ${{ needs.build.outputs.artifact_name }}
+    if: ${{ inputs.build_installer == true }}
