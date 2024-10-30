@@ -195,3 +195,4 @@ jobs:
         os: ${{ runner.os }}
         container_name: ${{ inputs.container_name }}
         artifact_name: ${{ runner.os }}-${{ env.PATCH_CONTAINER_NAME }}-installer
+      if: ${{ inputs.build_installer == true }}
