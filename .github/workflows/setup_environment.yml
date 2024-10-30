@@ -188,3 +188,10 @@ jobs:
           installer/*.dmg
           installer/trik_studio_uninstallscript.qs
       if: ${{ inputs.build_installer == true }}
+      
+    - name: Run installer
+      uses: ./.github/workflows/installer.yml
+      with:
+        os: ${{ runner.os }}
+        container_name: ${{ inputs.container_name }}
+        artifact_name: ${{ runner.os }}-${{ env.PATCH_CONTAINER_NAME }}-installer
