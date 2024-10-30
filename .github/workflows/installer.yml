@@ -23,6 +23,12 @@ jobs:
     container: ${{ inputs.container_name }}
     
     steps:
+    
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+        
     - name: Download installer artifact
       uses: actions/download-artifact@v4
       with:
