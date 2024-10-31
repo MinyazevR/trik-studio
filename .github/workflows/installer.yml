@@ -31,7 +31,7 @@ jobs:
       
     - name: Install trik-studio
       run: |
-        INSTALLER_NAME=$(ls -1d $GITHUB_WORKSPACE/*installer | head -n 1)
+        INSTALLER_NAME=$(ls -1d $GITHUB_WORKSPACE/*installer* | head -n 1)
         UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
         $INSTALLER_NAME --script trik_studio_installscript.qs
        
