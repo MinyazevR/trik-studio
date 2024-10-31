@@ -41,5 +41,6 @@ jobs:
         7za x tests.7z
 
     - name: Run minimal tests
+      run: |
         TWOD_EXEC_NAME=$(ls -1d $GITHUB_WORKSPACE/2D-model* | head -n 1)
         for i in $GITHUB_WORKSPACE/testing_small/*; do "$TWOD_EXEC_NAME" -b "$i"; done
