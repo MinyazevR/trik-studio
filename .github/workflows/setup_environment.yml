@@ -186,22 +186,22 @@ jobs:
     - name: Upload installer artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ runner.os }}-${{ env.PATCH_CONTAINER_NAME }}-installer
+        name: ${{ inputs.os }}-${{ env.PATCH_CONTAINER_NAME }}-installer
         path: |
           installer/*.exe
           installer/*.run
           installer/*.dmg
-          installer/trik_studio_uninstallscript.qs
+          installer/*.qs
       if: ${{ inputs.build_installer == true }}
       
     outputs: 
-      artifact_name: ${{ runner.os }}-${{ env.PATCH_CONTAINER_NAME }}-installer
+      artifact_name: ${{ inputs.os }}-${{ env.PATCH_CONTAINER_NAME }}-installer
 
   installer:
     needs: build    
     uses: ./.github/workflows/installer.yml
     with:
-      os: ${{ runner.os }}
+      os: ${{ inputs.os }}
       container_name: ${{ inputs.container_name }}
       artifact_name: ${{ needs.build.outputs.artifact_name }}
     if: ${{ inputs.build_installer == true }}
