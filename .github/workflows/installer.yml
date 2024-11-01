@@ -54,15 +54,15 @@ jobs:
     - name: Check Tools Available (partially dll)
       run: |
         export LD_LIBRARY_PATH="$LIB_DIR"
-      	"$BIN_DIR"/2D-model --version
-      	"$BIN_DIR"/checkapp --version
-      	"$BIN_DIR"/patcher --version
-      	"$APP_DIR"/maintenance --version
-      	"$APP_DIR"/trik-studio --version
+        "$BIN_DIR"/2D-model --version
+        "$BIN_DIR"/checkapp --version
+        "$BIN_DIR"/patcher --version
+        "$APP_DIR"/maintenance --version
+        "$APP_DIR"/trik-studio --version
       	
     - name: Minimal dll search (without check rightly place)
       run: |
-        set -xeuo pipefail
+        set -x
         cd $LIB_DIR
         if [ ${{ inputs.os }} == "macOS"]
           export DYLD_LIBRARY_PATH="$LIB_DIR"
@@ -72,7 +72,6 @@ jobs:
           ls *.so* | xargs ldd | grep "not found" || exit 0
         fi
         exit 1
-      	
       	
     - name: Downloads minimal tests
       run: |
