@@ -31,7 +31,17 @@ jobs:
       
     - name: Install trik-studio
       run: |
-        INSTALLER_NAME=$(ls -1d $GITHUB_WORKSPACE/*installer* | head -n 1)
+        INSTALLER_EXT_NAME=$(ls -1d $GITHUB_WORKSPACE/*installer* | head -n 1)
+        if [[ "$INSTALLER_EXT_NAME" == *.dmg ]]; then
+          sudo hdiutil attach "$INSTALLER_EXT_NAME"
+          INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}"       
+          sudo cp "/Volumes/$INSTALLER_NAME.app" $GITHUB_WORKSPACE
+          sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
+          INSTALLER_NAME="$INSTALLER_NAME.app"
+        fi
+        if [[ "$INSTALLER_NAME" == *.run ]]; then
+          chmod +x "$INSTALLER_NAME"
+        fi
         UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
         $INSTALLER_NAME --script trik_studio_installscript.qs
        
