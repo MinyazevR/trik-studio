@@ -31,7 +31,7 @@ jobs:
       
     - name: Install trik-studio
       run: |
-        INSTALLER_EXT_NAME=$(ls -1d $GITHUB_WORKSPACE/*installer* | head -n 1)
+        INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1)
         if [[ "$INSTALLER_EXT_NAME" == *.dmg ]]; then
           sudo hdiutil attach "$INSTALLER_EXT_NAME"
           INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}"       
@@ -42,9 +42,38 @@ jobs:
         if [[ "$INSTALLER_NAME" == *.run ]]; then
           chmod +x "$INSTALLER_NAME"
         fi
+        echo "$INSTALLER_NAME"
         UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
-        $INSTALLER_NAME --script trik_studio_installscript.qs
-       
+        $INSTALLER_NAME --verbose --script trik_studio_installscript.qs
+        
+        echo "BIN_DIR=$GITHUB_WORKSPACE/TRIKStudio/bin" >> $GUTHUB_ENV
+        echo "LIB_DIR=$GITHUB_WORKSPACE/TRIKStudio/lib" >> $GUTHUB_ENV
+        echo "APP_DIR=$GITHUB_WORKSPACE/TRIKStudio" >> $GUTHUB_ENV
+        ls && ls TRIKStudio
+        
+    - name: Check Tools Available (partially dll)
+      run: |
+        export LD_LIBRARY_PATH="$LIB_DIR"
+      	"$BIN_DIR"/2D-model --version
+      	"$BIN_DIR"/checkapp --version
+      	"$BIN_DIR"/patcher --version
+      	"$APP_DIR"/maintenance --version
+      	"$APP_DIR"/trik-studio --version
+      	
+    - name: Minimal dll search (without check rightly place)
+      run: |
+        set -xeuo pipefail
+        cd $LIB_DIR
+        if [ ${{ inputs.os }} == "macOS"]
+          export DYLD_LIBRARY_PATH="$LIB_DIR"
+          ls "*.dylib" | xargs otool -L | grep "not found" || exit 0
+        else
+          export LD_LIBRARY_PATH="$LIB_DIR"
+          ls *.so* | xargs ldd | grep "not found" || exit 0
+        fi
+        exit 1
+      	
+      	
     - name: Downloads minimal tests
       run: |
         curl --output tests.7z "https://dl.trikset.com/edu/.solutions20200701/testing_small.7z"
