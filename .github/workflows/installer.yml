@@ -46,7 +46,7 @@ jobs:
         fi
         echo "$INSTALLER_NAME"
         UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
-        ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs
+        ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
         
         echo "BIN_DIR=$GITHUB_WORKSPACE/TRIKStudio/bin" >> $GUTHUB_ENV
         echo "LIB_DIR=$GITHUB_WORKSPACE/TRIKStudio/lib" >> $GUTHUB_ENV
