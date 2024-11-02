@@ -36,12 +36,13 @@ jobs:
         INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" 
         if [[ "$INSTALLER_EXT_NAME" == *.dmg ]]; then
           sudo hdiutil attach "$INSTALLER_EXT_NAME"      
-          sudo cp -rf "/Volumes/$INSTALLER_NAME/*" $GITHUB_WORKSPACE
+          sudo cp -rf "/Volumes/$INSTALLER_NAME" $GITHUB_WORKSPACE
           sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
           INSTALLER_NAME="$INSTALLER_NAME.app"
         fi
         if [[ "$INSTALLER_NAME" == *.run ]]; then
-          chmod +x "$INSTALLER_NAME.run"
+          INSTALLER_NAME="$INSTALLER_NAME.run"
+          chmod +x "$INSTALLER_NAME"
         fi
         echo "$INSTALLER_NAME"
         UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
