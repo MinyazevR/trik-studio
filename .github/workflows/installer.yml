@@ -38,10 +38,11 @@ jobs:
         if [[ "$INSTALLER_EXT_NAME" == *.dmg ]]; then
           sudo hdiutil attach "$INSTALLER_EXT_NAME"
           sudo cp -rf "/Volumes/$INSTALLER_NAME/$INSTALLER_NAME.app" $GITHUB_WORKSPACE
+          ls $GITHUB_WORKSPACE/$INSTALLER_NAME.app
           sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
-          INSTALLER_NAME="$INSTALLER_NAME/Contents/MacOS/$INSTALLER_NAME.app"
+          INSTALLER_NAME="$INSTALLER_NAME.app"
           ls $INSTALLER_NAME
-          ls "$INSTALLER_NAME/Contents/MacOS/"
+          ls "$INSTALLER_NAME/Contents/MacOS/
           open $INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
         fi
         if [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
