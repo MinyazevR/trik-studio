@@ -42,11 +42,11 @@ jobs:
           sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
           INSTALLER_NAME="$INSTALLER_NAME.app"
           ls $INSTALLER_NAME
-          ls "$INSTALLER_NAME/Contents/MacOS/
+          ls "$INSTALLER_NAME"/Contents/MacOS/
           open $INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
         fi
         if [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
-           yum update -u && yum install -y libxkbcommon-x11
+           yum update -y && yum install -y libxkbcommon-x11
           INSTALLER_NAME="$INSTALLER_NAME.run"
           chmod +x "$INSTALLER_NAME"
           ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
