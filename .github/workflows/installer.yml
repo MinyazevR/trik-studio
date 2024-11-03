@@ -40,7 +40,7 @@ jobs:
           /Contents/MacOS 
           sudo cp -rf "/Volumes/$INSTALLER_NAME/$INSTALLER_NAME.app" $GITHUB_WORKSPACE
           sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
-          INSTALLER_NAME="$INSTALLER_NAME.app"
+          INSTALLER_NAME="$INSTALLER_NAME/Contents/MacOS/$INSTALLER_NAME.app"
           ls $INSTALLER_NAME
           ls "$INSTALLER_NAME/Contents/MacOS/"
           open $INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
