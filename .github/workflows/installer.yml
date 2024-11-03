@@ -40,10 +40,7 @@ jobs:
           sudo cp -rf "/Volumes/$INSTALLER_NAME/$INSTALLER_NAME.app" $GITHUB_WORKSPACE
           ls $GITHUB_WORKSPACE/$INSTALLER_NAME.app
           sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
-          INSTALLER_NAME="$INSTALLER_NAME.app"
-          ls $INSTALLER_NAME
-          ls "$INSTALLER_NAME"/Contents/MacOS/
-          open $INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
+          open ./$INSTALLER_NAME.app --args --verbose --script trik_studio_installscript.qs --platform minimal
         fi
         if [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
            yum update -y && yum install -y libxkbcommon-x11
