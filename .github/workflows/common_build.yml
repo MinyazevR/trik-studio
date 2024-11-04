@@ -58,7 +58,7 @@ jobs:
     needs: lint
     uses: ./.github/workflows/setup_environment.yml
     with:
-      os: macos-12
+      os: macos-13
       build: true
       build_installer: false
       config: debug
@@ -69,7 +69,7 @@ jobs:
     needs: [build-macos-debug-tests, build-macos-release-tests]
     uses: ./.github/workflows/setup_environment.yml
     with:
-      os: macos-12
+      os: macos-13
       build: true
       build_installer: true
       qmake_extra: " CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=silent CONFIG+=warn_off"
