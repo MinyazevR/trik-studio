@@ -39,7 +39,7 @@ on:
       xcode_version:
         required: false
         type: string
-        default: 13.4
+        default: 14.3
       config:
         required: false
         type: string
