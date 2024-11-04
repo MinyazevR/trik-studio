@@ -13,11 +13,8 @@ TRIK_PYTHON=python3.${TRIK_PYTHON3_VERSION_MINOR}
 "$TRIK_PYTHON" -m pip install -U pip
 "$TRIK_PYTHON" -m pip install aqtinstall
 "$TRIK_PYTHON" -m aqt install-qt -m qtscript -O "$HOME/Qt" mac desktop "${TRIK_QT_VERSION}"
-[ -d $HOME/qtifw ] || env TRIK_QT_INSTALL_DIR="$HOME/qtifw" "$(dirname $(realpath ${BASH_SOURCE[0]}))"/install_qtifw_mac.sh
+[ -d $HOME/qtifw ] || env TRIK_QT_INSTALL_DIR="$HOME/qtifw" "$(dirname $(grealpath ${BASH_SOURCE[0]}))"/install_qtifw_mac.sh
 
-which realpath
-sudo ls /usr/local/bin
-sudo ls /usr/bin
 sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
 xcodebuild -showsdks
 xcrun -sdk macosx --show-sdk-path
