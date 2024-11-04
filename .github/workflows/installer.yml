@@ -42,7 +42,7 @@ jobs:
           sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
           ls $INSTALLER_NAME.app/Contents/MacOS/
           ./$INSTALLER_NAME.app/Contents/MacOS/$INSTALLER_NAME --help
-          ./$INSTALLER_NAME.app/Contents/MacOS/$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
+          ./$INSTALLER_NAME.app/Contents/MacOS/$INSTALLER_NAME --verbose --script trik_studio_installscript.qs
         fi
         if [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
            yum update -y && yum install -y libxkbcommon-x11 xcb-util-wm
