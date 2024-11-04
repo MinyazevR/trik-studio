@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -xeuo pipefail
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 brew tap "hudochenkov/sshpass"
@@ -15,6 +15,9 @@ TRIK_PYTHON=python3.${TRIK_PYTHON3_VERSION_MINOR}
 "$TRIK_PYTHON" -m aqt install-qt -m qtscript -O "$HOME/Qt" mac desktop "${TRIK_QT_VERSION}"
 [ -d $HOME/qtifw ] || env TRIK_QT_INSTALL_DIR="$HOME/qtifw" "$(dirname $(realpath ${BASH_SOURCE[0]}))"/install_qtifw_mac.sh
 
+which realpath
+sudo ls /usr/local/bin
+sudo ls /usr/bin
 sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
 xcodebuild -showsdks
 xcrun -sdk macosx --show-sdk-path
