@@ -4,7 +4,7 @@ set -o errexit
 
 export BUNDLE_CONTENTS=$PWD/../data/$PRODUCT_DISPLAYED_NAME.app/Contents/
 export LIB_PATH=@executable_path/../Lib
-REALPATH="$(brew --prefix)/bin/realpath" || REALPATH="realpath"
+REALPATH="/usr/bin/realpath" || REALPATH="realpath"
 
 function fix_dependencies {
 	set -ueo pipefail
