@@ -44,7 +44,7 @@ jobs:
           open ./$INSTALLER_NAME.app --args --verbose --script trik_studio_installscript.qs --platform minimal
         fi
         if [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
-           yum update -y && yum install -y libxkbcommon-x11 libxcb-icccm.so.4
+           yum update -y && yum install -y libxkbcommon-x11 libxcb-icccm
           INSTALLER_NAME="$INSTALLER_NAME.run"
           chmod +x "$INSTALLER_NAME"
           ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal

@@ -4,12 +4,13 @@ set -o errexit
 
 export BUNDLE_CONTENTS=$PWD/../data/$PRODUCT_DISPLAYED_NAME.app/Contents/
 export LIB_PATH=@executable_path/../Lib
+REALPATH="$(brew --prefix)/bin/realpath" || REALPATH="realpath"
 
 function fix_dependencies {
 	set -ueo pipefail
 	local target="$1"
 	pushd "$(dirname "$target")"
-	local prefix=$(realpath -e "$2")
+	local prefix=$("$REALPATH_CMD" -e "$2")
 	local subst="$LIB_PATH"
 	local relative
 	local change
@@ -17,16 +18,16 @@ function fix_dependencies {
 	local install_name
 	install_name=$(otool -D "$target" | tail -n +2 | grep -v '^@' || : )
 	if [[ -n "$install_name" ]] ; then
-		short_id=$(realpath -e --relative-to "$prefix" "$install_name" || echo "@rpath/"$(basename "$install_name"))
+		short_id=$("$REALPATH_CMD" -e --relative-to "$prefix" "$install_name" || echo "@rpath/"$(basename "$install_name"))
 		change="-id \"$short_id\""
 	fi
 	for dep in $(otool -L "$target" | grep "^\t[^@]" | cut -f 1 -d \( || : ) ; do
 		if [[ "$dep" == /System/Library/Frameworks/* || "$dep" == /usr/lib/*  || "$dep" == "$install_name" ]] ; then
 			continue;
 		fi
-		normalized=$(realpath -e "$dep")
+		normalized=$("$REALPATH_CMD" -e "$dep")
 		if [[ "$normalized" == "$prefix"/* ]] ; then
-			relative=$(realpath -e --relative-to "$prefix" "$normalized")
+			relative=$("$REALPATH_CMD" -e --relative-to "$prefix" "$normalized")
 			change="$change -change \"$dep\" \"$subst/$relative\""
 		fi
 	done
