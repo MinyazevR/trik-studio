@@ -44,16 +44,16 @@ jobs:
           open ./$INSTALLER_NAME.app --args --verbose --script trik_studio_installscript.qs --platform minimal
         fi
         if [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
-           yum update -y && yum install -y libxkbcommon-x11 libxcb-icccm.so.4:
+           yum update -y && yum install -y libxkbcommon-x11 libxcb-icccm.so.4
           INSTALLER_NAME="$INSTALLER_NAME.run"
           chmod +x "$INSTALLER_NAME"
           ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
         fi
         echo "$INSTALLER_NAME"
         
-        echo "BIN_DIR=$GITHUB_WORKSPACE/TRIKStudio/bin" >> $GUTHUB_ENV
-        echo "LIB_DIR=$GITHUB_WORKSPACE/TRIKStudio/lib" >> $GUTHUB_ENV
-        echo "APP_DIR=$GITHUB_WORKSPACE/TRIKStudio" >> $GUTHUB_ENV
+        echo "BIN_DIR=$GITHUB_WORKSPACE/TRIKStudio/bin" >> $GITHUB_ENV
+        echo "LIB_DIR=$GITHUB_WORKSPACE/TRIKStudio/lib" >> $GITHUB_ENV
+        echo "APP_DIR=$GITHUB_WORKSPACE/TRIKStudio" >> $GITHUB_ENV
         ls && ls TRIKStudio
         
     - name: Check Tools Available (partially dll)
