@@ -25,16 +25,22 @@ if [[ -z "$CONCURRENCY" ]]; then
 else
   ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
 fi
-BIN_DIR=/opt/TRIKStudio/bin && echo "BIN_DIR=$BIN_DIR" >> $GITHUB_ENV
-LIB_DIR=/opt/TRIKStudio/lib && echo "LIB_DIR=$LIB_DIR" >> $GITHUB_ENV
-APP_DIR=/opt/TRIKStudio && echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+
+if [ "$ID" = "ubuntu" ]; then
+  BIN_DIR=$HOME/TRIKStudio/bin && echo "BIN_DIR=$BIN_DIR" >> $GITHUB_ENV
+  LIB_DIR=$HOME/TRIKStudio/lib && echo "LIB_DIR=$LIB_DIR" >> $GITHUB_ENV
+  APP_DIR=$HOME/TRIKStudio && echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+else
+  BIN_DIR=/opt/TRIKStudio/bin && echo "BIN_DIR=$BIN_DIR" >> $GITHUB_ENV
+  LIB_DIR=/opt/TRIKStudio/lib && echo "LIB_DIR=$LIB_DIR" >> $GITHUB_ENV
+  APP_DIR=/opt/TRIKStudio && echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+fi
 
 export LD_LIBRARY_PATH="$LIB_DIR"
 "$BIN_DIR"/2D-model --version --platform minimal
-"$BIN_DIR"/checkapp --version --platform minimal
-"$BIN_DIR"/patcher --version --platform minimal
 "$APP_DIR"/maintenance --version --platform minimal
 "$APP_DIR"/trik-studio --version --platform minimal
+"$BIN_DIR"/patcher --version
 
 cd "$LIB_DIR"
 ls *.so* | xargs ldd | grep "not found" || exit 0
