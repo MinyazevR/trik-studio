@@ -39,7 +39,7 @@ jobs:
         INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1) \
         INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" \
         buildScripts/github/install_installer_${{ runner.os }}.sh
-      with:
+      env:
         CONCURRENCY: ${{ inputs.concurrency }}
         
     - name: Reinstall trik-studio and dll search
@@ -48,7 +48,7 @@ jobs:
         INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1) \
         INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" \
         buildScripts/github/install_installer_${{ runner.os }}.sh
-      with:
+      env:
         CONCURRENCY: ${{ inputs.concurrency }}
  
     - name: Downloads minimal tests
