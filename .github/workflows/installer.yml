@@ -44,7 +44,7 @@ jobs:
           echo "BIN_DIR=/Applications/TRIKStudio/bin" >> $GITHUB_ENV
           echo "LIB_DIR=/Applications/TRIKStudio/lib" >> $GITHUB_ENV
           echo "APP_DIR=/Applications/TRIKStudio" >> $GITHUB_ENV
-        else if [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
+        elif [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
           yum update -y && yum install -y libxkbcommon-x11 xcb-util-wm libX11 xcb-util-image dbus-libs xcb-util-keysyms xcb-util-renderutil fontconfig libX11-xcb
           INSTALLER_NAME="$INSTALLER_NAME.run"
           chmod +x "$INSTALLER_NAME"
