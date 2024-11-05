@@ -32,10 +32,13 @@ jobs:
       run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git
       if: startsWith(inputs.container_name, 'altlinux') == true
 
-
     - name: Install dependencies
       run: yum update -y && yum install -y git-core
       if: startsWith(inputs.container_name, 'rocky') == true
+      
+    - name: Install dependencies
+      run: pacman -Sy && pacman -S git --noconfirm
+      if: startsWith(inputs.container_name, 'arch') == true
       
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -52,7 +55,7 @@ jobs:
       run: |
         ls
         export UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs
-        export INSTALLER_EXT_NAME=$(ls -1d *-installer | head -n 1)
+        export INSTALLER_EXT_NAME=$(ls -1d *-installer-* | head -n 1)
         export INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}"
         buildScripts/github/install_installer_${{ runner.os }}.sh
       env:
