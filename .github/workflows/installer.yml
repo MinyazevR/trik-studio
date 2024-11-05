@@ -33,6 +33,15 @@ jobs:
       with:
         name: ${{ inputs.artifact_name }}
       
+    - name: Install dependencies
+      run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git
+      if: startsWith(inputs.container_name, 'altlinux') == true
+
+
+    - name: Install dependencies
+      run: yum update -y && yum install -y git-core
+      if: startsWith(inputs.container_name, 'rocky') == true
+      
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
