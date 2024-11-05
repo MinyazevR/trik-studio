@@ -121,7 +121,7 @@ jobs:
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
-      container_name: rockylinux:9
+      container_name: rockylinux:8
       build: true
       build_installer: false
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=sanitizer CONFIG+=sanitize-undefined"
@@ -136,7 +136,7 @@ jobs:
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
-      container_name: rockylinux:9
+      container_name: rockylinux:8
       build: true
       build_installer: false
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=sanitizer CONFIG+=sanitize-undefined CONFIG+=sanitize_address"
@@ -151,7 +151,7 @@ jobs:
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
-      container_name: "rockylinux:9"
+      container_name: rockylinux:8
       build: true
       build_installer: true
       tests: true
@@ -183,7 +183,7 @@ jobs:
     uses: ./.github/workflows/installer.yml
     with:
       os: ubuntu-latest
-      container_name: rockylinux:9
+      container_name: rockylinux:8
       artifact_name: ubuntu-latest-installer
       
   install-altlinux-installer:
