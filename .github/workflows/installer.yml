@@ -31,28 +31,10 @@ jobs:
       
     - name: Install trik-studio
       run: |
-        set -xeu
-        UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs
-        INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1)
-        INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" 
-        if [[ "$INSTALLER_EXT_NAME" == *.dmg ]]; then
-          sudo hdiutil attach "$INSTALLER_EXT_NAME"
-          sudo cp -rf "/Volumes/$INSTALLER_NAME/$INSTALLER_NAME.app" $GITHUB_WORKSPACE
-          sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
-          ./$INSTALLER_NAME.app/Contents/MacOS/$INSTALLER_NAME --verbose --script trik_studio_installscript.qs
-          
-          echo "BIN_DIR=/Applications/TRIKStudio/bin" >> $GITHUB_ENV
-          echo "LIB_DIR=/Applications/TRIKStudio/lib" >> $GITHUB_ENV
-          echo "APP_DIR=/Applications/TRIKStudio" >> $GITHUB_ENV
-        elif [[ "$INSTALLER_EXT_NAME" == *.run ]]; then
-          yum update -y && yum install -y libxkbcommon-x11 xcb-util-wm libX11 xcb-util-image dbus-libs xcb-util-keysyms xcb-util-renderutil fontconfig libX11-xcb
-          INSTALLER_NAME="$INSTALLER_NAME.run"
-          chmod +x "$INSTALLER_NAME"
-          ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
-          echo "BIN_DIR=/opt/TRIKStudio/bin" >> $GITHUB_ENV
-          echo "LIB_DIR=/opt/TRIKStudio/lib" >> $GITHUB_ENV
-          echo "APP_DIR=/opt/TRIKStudio" >> $GITHUB_ENV
-        fi
+        UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
+        INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1) \
+        INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" \
+        buildScripts/github/install_installer_${{ runner.os }}.sh
         
     - name: Check Tools Available (partially dll)
       run: |
