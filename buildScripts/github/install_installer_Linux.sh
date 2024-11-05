@@ -7,8 +7,7 @@ if [ "$ID" = "altlinux" ]; then
   apt-get update && apt-get install -y libxkbcommon-x11 libX11 fontconfig libxcbutil-icccm \
   libxcbutil-image libdbus libxcbutil-keysyms libxcb-render-util
 elif [ "$ID" = "arch" ]; then
-  pacman -Sy && pacman -S libxkbcommon-x11 xcb-util-wm xcb-util-image xcb-util-keysyms \ 
-  xcb-util-renderutil fontconfig libx11 --noconfirm
+  pacman -Sy && pacman -S libxkbcommon-x11 xcb-util-wm xcb-util-image xcb-util-keysyms xcb-util-renderutil fontconfig libx11 --noconfirm
 elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
   yum update -y && yum install -y libxkbcommon-x11 xcb-util-wm libX11 xcb-util-image \
   dbus-libs xcb-util-keysyms xcb-util-renderutil fontconfig libX11-xcb
