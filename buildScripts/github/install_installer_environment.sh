@@ -16,8 +16,7 @@ echo "source scl_source enable gcc-toolset-$GCC_VERSION" >> ~/.bash_profile
 "$TRIK_PYTHON" -m pip install -U pip
 "$TRIK_PYTHON" -m pip install aqtinstall
 "$TRIK_PYTHON" -m aqt install-qt linux desktop "$TRIK_QT_VERSION" -O /Qt -m qtscript qtwaylandcompositor --archives qtbase qtmultimedia qtsvg qtscript \
-qttools qtserialport qtimageformats icu qtwayland \ 
-qtqmlmodels qtqml qtquick #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
+qttools qtserialport qtimageformats icu qtwayland qtqmlmodels qtqml qtquick #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
                      
 QT_ROOT_DIR=$(ls -1d /Qt/$TRIK_QT_VERSION*/gcc_64 | head -n 1)
 echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
