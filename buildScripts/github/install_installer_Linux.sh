@@ -6,7 +6,7 @@ ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
 if [ "$ID" = "altlinux" ]; then
   apt-get update && apt-get install -y libxkbcommon-x11 libX11 fontconfig libxcbutil-icccm \
   libxcbutil-image libdbus libxcbutil-keysyms libxcb-render-util
-if [ "$ID" = "arch" ]; then
+elif [ "$ID" = "arch" ]; then
   pacman -Sy && pacman -S libxkbcommon-x11 xcb-util-wm xcb-util-image xcb-util-keysyms \ 
   xcb-util-renderutil fontconfig libx11 --noconfirm
 elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then

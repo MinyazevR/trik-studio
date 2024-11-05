@@ -199,5 +199,5 @@ jobs:
     uses: ./.github/workflows/installer.yml
     with:
       os: ubuntu-latest
-      container_name: altlinux/archlinux:latest
+      container_name: archlinux:latest
       artifact_name: ubuntu-latest-installer
