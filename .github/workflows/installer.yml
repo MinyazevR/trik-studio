@@ -28,11 +28,6 @@ jobs:
 
     steps:
     
-    - name: Download installer artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ inputs.artifact_name }}
-      
     - name: Install dependencies
       run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git
       if: startsWith(inputs.container_name, 'altlinux') == true
@@ -48,6 +43,11 @@ jobs:
         submodules: recursive
         fetch-depth: 1
 
+    - name: Download installer artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact_name }}
+      
     - name: Install trik-studio and dll search
       run: |
         export UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs
