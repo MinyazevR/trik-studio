@@ -33,6 +33,12 @@ jobs:
       with:
         name: ${{ inputs.artifact_name }}
       
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 1
+
     - name: Install trik-studio and dll search
       run: |
         UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
