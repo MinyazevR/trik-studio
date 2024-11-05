@@ -33,7 +33,7 @@ jobs:
       if: startsWith(inputs.container_name, 'altlinux') == true
 
     - name: Install dependencies
-      run: yum update -y && yum install -y git-core
+      run: yum update -y && yum install -y git-core findutils
       if: startsWith(inputs.container_name, 'rocky') == true
       
     - name: Install dependencies
