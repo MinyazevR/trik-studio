@@ -178,7 +178,7 @@ Component.prototype.createOperations = function()
 		component.addOperation("Execute"
 				, "bash"
 				, "-c"
-				, "LD_LIBRARY_PATH=@TargetDir@ @TargetDir@/" + installer.executableName + installer.execExtension + " --platform minimal --clear-conf");
+				, "LD_LIBRARY_PATH=@TargetDir@/lib" + installer.executableName + installer.execExtension + " --platform minimal --clear-conf");
 	}
 }
 
