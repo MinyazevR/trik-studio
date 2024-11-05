@@ -18,3 +18,4 @@ export DYLD_LIBRARY_PATH="$LIB_DIR"
 "$APP_DIR"/trik-studio --version
 
 ls "*.dylib" | xargs otool -L | grep "not found" || exit 0
+exit 1

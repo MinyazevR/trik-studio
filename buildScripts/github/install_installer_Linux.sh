@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+set -eux
 
 ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
 
@@ -44,3 +44,4 @@ export LD_LIBRARY_PATH="$LIB_DIR"
 
 cd "$LIB_DIR"
 ls *.so* | xargs ldd | grep "not found" || exit 0
+exit 1
