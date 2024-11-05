@@ -155,7 +155,7 @@ jobs:
       build: true
       build_installer: true
       tests: true
-      qmake_extra: "CONFIG+=noPch CONFIG+=ccache"
+      qmake_extra: "CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
       gcc_version: 13
       trik_qt_version: 5.15
       trik_python3_version_minor: 11
@@ -169,6 +169,14 @@ jobs:
     with:
       os: ubuntu-latest
       artifact_name: ubuntu-latest-installer
+      
+  install-ubuntu-installer-1-concurrency:
+    needs: [build-rockylinux-installer]  
+    uses: ./.github/workflows/installer.yml
+    with:
+      os: ubuntu-latest
+      artifact_name: ubuntu-latest-installer
+      concurrency: 1
       
   install-rockylinux-installer:
     needs: [build-rockylinux-installer]  

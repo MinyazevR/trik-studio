@@ -13,6 +13,10 @@ on:
       artifact_name:
         required: true
         type: string
+      concurrency:
+        required: false
+        type: number
+        default: 0
 jobs:
   job:
     defaults:
@@ -29,34 +33,23 @@ jobs:
       with:
         name: ${{ inputs.artifact_name }}
       
-    - name: Install trik-studio
+    - name: Install trik-studio and dll search
       run: |
         UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
         INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1) \
         INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" \
         buildScripts/github/install_installer_${{ runner.os }}.sh
+      with:
+        CONCURRENCY: ${{ inputs.concurrency }}
         
-    - name: Check Tools Available (partially dll)
+    - name: Reinstall trik-studio and dll search
       run: |
-        export LD_LIBRARY_PATH="$LIB_DIR"
-        "$BIN_DIR"/2D-model --version
-        "$BIN_DIR"/checkapp --version
-        "$BIN_DIR"/patcher --version
-        "$APP_DIR"/maintenance --version
-        "$APP_DIR"/trik-studio --version
-
-    - name: Minimal dll search (without check rightly place)
-      run: |
-        set -x
-        cd $LIB_DIR
-        if [ ${{ inputs.os }} == "macOS"]
-          export DYLD_LIBRARY_PATH="$LIB_DIR"
-          ls "*.dylib" | xargs otool -L | grep "not found" || exit 0
-        else
-          export LD_LIBRARY_PATH="$LIB_DIR"
-          ls *.so* | xargs ldd | grep "not found" || exit 0
-        fi
-        exit 1
+        UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
+        INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1) \
+        INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" \
+        buildScripts/github/install_installer_${{ runner.os }}.sh
+      with:
+        CONCURRENCY: ${{ inputs.concurrency }}
  
     - name: Downloads minimal tests
       run: |

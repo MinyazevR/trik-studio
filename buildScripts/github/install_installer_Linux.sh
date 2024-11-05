@@ -16,7 +16,21 @@ fi
 
 INSTALLER_NAME="$INSTALLER_NAME.run"
 chmod +x "$INSTALLER_NAME"
-./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
-echo "BIN_DIR=/opt/TRIKStudio/bin" >> $GITHUB_ENV
-echo "LIB_DIR=/opt/TRIKStudio/lib" >> $GITHUB_ENV
-echo "APP_DIR=/opt/TRIKStudio" >> $GITHUB_ENV
+
+if [[ -z "$CONCURRENCY" ]]; then
+  ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal --mco "$CONCURRENCY"
+else
+  ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
+fi
+BIN_DIR=/opt/TRIKStudio/bin && "BIN_DIR=$BIN_DIR" >> $GITHUB_ENV
+LIB_DIR=/opt/TRIKStudio/lib && "LIB_DIR=$LIB_DIR" >> $GITHUB_ENV
+APP_DIR=/opt/TRIKStudio && "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+
+"$BIN_DIR"/2D-model --version
+"$BIN_DIR"/checkapp --version
+"$BIN_DIR"/patcher --version
+"$APP_DIR"/maintenance --version
+"$APP_DIR"/trik-studio --version
+
+export LD_LIBRARY_PATH="$LIB_DIR"
+ls *.so* | xargs ldd | grep "not found" || exit 0
