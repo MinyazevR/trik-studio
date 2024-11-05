@@ -150,7 +150,7 @@ jobs:
       with:
         path: ${{ github.workspace }}/.ccache/${{ inputs.os }}-c${{ inputs.container_name }}-${{ inputs.config }}
         key: ccache-c${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ github.sha }}
-      if: ${{ inputs.build == 'true' }}
+      if: ${{ inputs.build == true }}
         
     - name: Run tests
       run: ${{ inputs.executor }} buildScripts/github/run_tests.sh && ${{ inputs.executor }} buildScripts/github/test.sh

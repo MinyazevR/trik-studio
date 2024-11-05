@@ -21,9 +21,9 @@ if [[ -z "$CONCURRENCY" ]]; then
 else
   ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
 fi
-BIN_DIR=/opt/TRIKStudio/bin && "BIN_DIR=$BIN_DIR" >> $GITHUB_ENV
-LIB_DIR=/opt/TRIKStudio/lib && "LIB_DIR=$LIB_DIR" >> $GITHUB_ENV
-APP_DIR=/opt/TRIKStudio && "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+BIN_DIR=/opt/TRIKStudio/bin && echo "BIN_DIR=$BIN_DIR" >> $GITHUB_ENV
+LIB_DIR=/opt/TRIKStudio/lib && echo "LIB_DIR=$LIB_DIR" >> $GITHUB_ENV
+APP_DIR=/opt/TRIKStudio && echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
 
 "$BIN_DIR"/2D-model --version
 "$BIN_DIR"/checkapp --version
