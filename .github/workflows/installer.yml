@@ -50,18 +50,18 @@ jobs:
 
     - name: Install trik-studio and dll search
       run: |
-        UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
-        INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1) \
-        INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" \
+        export UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs
+        export INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1)
+        export INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}"
         buildScripts/github/install_installer_${{ runner.os }}.sh
       env:
         CONCURRENCY: ${{ inputs.concurrency }}
         
     - name: Reinstall trik-studio and dll search
       run: |
-        UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs \
-        INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1) \
-        INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}" \
+        export UNINSTALL_SCRIPT_PATH=$GITHUB_WORKSPACE/trik_studio_uninstallscript.qs
+        export INSTALLER_EXT_NAME=$(ls -1d *installer* | head -n 1)
+        export INSTALLER_NAME="${INSTALLER_EXT_NAME%.*}"
         buildScripts/github/install_installer_${{ runner.os }}.sh
       env:
         CONCURRENCY: ${{ inputs.concurrency }}
