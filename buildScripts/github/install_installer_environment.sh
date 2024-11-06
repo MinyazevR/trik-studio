@@ -9,7 +9,7 @@ TRIK_QT_VERSION=${TRIK_QT_VERSION:-5.15}
 yum update -y && yum install -y epel-release
 yum install --allowerasing -y sudo which libusbx-devel curl wget make gcc-toolset-"$GCC_VERSION"-{gcc-c++,libasan-devel,libubsan-devel,gdb} \
 git-core ccache zlib-devel rsync "$TRIK_PYTHON"-{devel,pip,urllib3} mesa-libGL-devel systemd-devel fontconfig p7zip xz time findutils
-yum install -y pulseaudio-libs-glib2 libwayland-{server,client,cursor} libxkbcommon-x11
+yum install -y pulseaudio-libs-glib2 qt5-qtbase-gui libwayland-{server,client,cursor} libxkbcommon-x11
 echo "source scl_source enable gcc-toolset-$GCC_VERSION" >> ~/.bash_profile
 
 "$TRIK_PYTHON" -m pip install -U pip
