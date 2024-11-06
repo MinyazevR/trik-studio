@@ -78,4 +78,6 @@ jobs:
     - name: Run minimal tests
       run: |
         TWOD_EXEC_NAME=$(ls -1d $BIN_DIR/2D-model* | head -n 1)
-        for i in $GITHUB_WORKSPACE/testing_small/*; do "$TWOD_EXEC_NAME" -b "$i" --platform minimal; done
+        #TRIK_PYTHONPATH_BUNDLE_DIR="$LIB_DIR"/python-runtime
+        #export TRIK_PYTHONPATH=.:"${TRIK_PYTHONPATH_BUNDLE_DIR}/base_library.zip:${TRIK_PYTHONPATH_BUNDLE_DIR}/lib-dynload:${TRIK_PYTHONPATH_BUNDLE_DIR}"
+        for i in $GITHUB_WORKSPACE/testing_small/*; do "$TWOD_EXEC_NAME" -b -s 5 "$i" --platform minimal; done
