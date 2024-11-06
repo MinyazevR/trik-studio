@@ -29,7 +29,7 @@ jobs:
     steps:
     
     - name: Install dependencies
-      run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git
+      run: apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git p7zip curl
       if: startsWith(inputs.container_name, 'altlinux') == true
 
     - name: Install dependencies
@@ -37,7 +37,7 @@ jobs:
       if: startsWith(inputs.container_name, 'rocky') == true
       
     - name: Install dependencies
-      run: pacman -Sy && pacman -S git --noconfirm
+      run: pacman -Sy && pacman -S git p7zip --noconfirm
       if: startsWith(inputs.container_name, 'arch') == true
       
     - name: Checkout repository
@@ -73,9 +73,9 @@ jobs:
     - name: Downloads minimal tests
       run: |
         curl --output tests.7z "https://dl.trikset.com/edu/.solutions20200701/testing_small.7z"
-        7za x tests.7z
+        7z x tests.7z
 
     - name: Run minimal tests
       run: |
-        TWOD_EXEC_NAME=$(ls -1d $GITHUB_WORKSPACE/2D-model* | head -n 1)
+        TWOD_EXEC_NAME=$(ls -1d $BIN_DIR/2D-model* | head -n 1)
         for i in $GITHUB_WORKSPACE/testing_small/*; do "$TWOD_EXEC_NAME" -b "$i"; done
