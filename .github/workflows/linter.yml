@@ -48,7 +48,7 @@ jobs:
       with:
         checks: 'level0,level1,no-connect-by-name'
         install-stable: true
-        database: '.'
+        database: $GITHUB_WORKSPACE
         ignore-dirs: '.*thirdparty.*'
       if: ${{ inputs.mode == 'run' }}
      
