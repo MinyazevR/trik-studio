@@ -44,7 +44,7 @@ jobs:
       if: ${{ inputs.mode == 'diff' }}
       
     - name: Run clazy
-      uses: MinyazevR/clazy-standalone-action@v0.2.1
+      uses: MinyazevR/clazy-standalone-action@824886079d103739cf8f972e3e75a9af8e45cd70
       with:
         checks: 'level0,level1,no-connect-by-name'
         install-stable: true
