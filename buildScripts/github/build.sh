@@ -39,6 +39,7 @@ CONFIG="$CONFIG" \
 QMAKE_EXTRA="$QMAKE_EXTRA" \
 PROJECT="$PROJECT" \
 RUNNER_OS="$RUNNER_OS" \
+BEAR_MODE="$BEAR_MODE" \
 buildScripts/github/build_internal.sh
 
 

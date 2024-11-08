@@ -64,7 +64,11 @@ on:
         required: false
         type: string
         default: bash
-
+      bear_mode:
+        required: false
+        type: string
+        default: "false"
+        
 jobs:
   build:
     defaults:
@@ -143,6 +147,7 @@ jobs:
         CONFIG: ${{ inputs.config }}
         EXECUTOR: ${{ inputs.executor }}
         QMAKE_EXTRA: ${{ inputs.qmake_extra }}
+        BEAR_MODE: ${{ inputs.bear_mode }}
       if: ${{ inputs.build == true }}
 
     - name: Save build cache
@@ -152,6 +157,13 @@ jobs:
         key: ccache-c${{ inputs.container_name }}-${{ inputs.os }}-${{ inputs.config }}-${{ inputs.qmake_extra }}-${{ github.sha }}
       if: ${{ inputs.build == true }}
         
+    - name: Upload compile artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: compile-commands
+        path: *compile_commands*
+      if: ${{ inputs.bear_mode == 'true' }}
+      
     - name: Run tests
       run: ${{ inputs.executor }} buildScripts/github/run_tests.sh && ${{ inputs.executor }} buildScripts/github/test.sh
       env:

@@ -20,11 +20,7 @@ fi
 INSTALLER_NAME="$INSTALLER_NAME.run"
 chmod +x "$INSTALLER_NAME"
 
-if [[ -z "$CONCURRENCY" ]]; then
-  ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal --mco "$CONCURRENCY"
-else
-  ./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal
-fi
+./$INSTALLER_NAME --verbose --script trik_studio_installscript.qs --platform minimal --mco "$CONCURRENCY"
 
 if [ "$ID" = "ubuntu" ]; then
   BIN_DIR=$HOME/TRIKStudio/bin && echo "BIN_DIR=$BIN_DIR" >> $GITHUB_ENV
