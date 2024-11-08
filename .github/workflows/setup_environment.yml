@@ -161,7 +161,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: compile-commands
-        path: *compile_commands*
+        path: '*compile_commands*'
       if: ${{ inputs.bear_mode == 'true' }}
       
     - name: Run tests

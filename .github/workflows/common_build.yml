@@ -100,7 +100,7 @@ jobs:
     if: ${{ always() }}
     uses: ./.github/workflows/linter.yml
     with:
-      mode: ${{ github.event_name == 'pull_request' && "diff" || "run" }}
+      mode: ${{ github.event_name == 'pull_request' && 'diff' || 'run' }}
       fetch_depth: ${{ github.event_name == 'pull_request' && 2 || 1 }}
 
   build-ubuntu-debug-tests:

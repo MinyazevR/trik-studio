@@ -10,14 +10,14 @@ on:
       mode:
         required: false
         type: string
-        default: "diff"
+        default: 'diff'
 jobs:
   job:
     defaults:
       run:
         shell: bash
 
-    runs-on: ${{ inputs.os }}
+    runs-on: ubuntu-latest
 
     steps:
 
@@ -39,9 +39,9 @@ jobs:
         install-stable: true
         only-diff: true
         database: '.'
-        warning_as_errors: "level0,level1"
-        ignore-dirs: "^(plugins\/robots\/thirdparty\/(Box2D|hidapi|qextserialport|trikRuntime)|qrgui\/thirdparty\/qt-solutions|qrtest\/thirdparty\/googletest|thirdparty\/(checkapp|gamepad|qslog|quazip))\/?.*$"
-      if: ${{ inputs.mode == "diff" }}
+        warning_as_errors: 'level0,level1'
+        ignore-dirs: '^(plugins/robots/thirdparty/(Box2D|hidapi|qextserialport|trikRuntime)|qrgui/thirdparty/qt-solutions|qrtest/thirdparty/googletest|thirdparty/(checkapp|gamepad|qslog|quazip))/.*$'
+      if: ${{ inputs.mode == 'diff' }}
       
     - name: Run clazy
       uses: MinyazevR/clazy-standalone-action@v0.2.1
@@ -49,8 +49,8 @@ jobs:
         checks: 'level0,level1,no-connect-by-name'
         install-stable: true
         database: '.'
-        ignore-dirs: "^(plugins\/robots\/thirdparty\/(Box2D|hidapi|qextserialport|trikRuntime)|qrgui\/thirdparty\/qt-solutions|qrtest\/thirdparty\/googletest|thirdparty\/(checkapp|gamepad|qslog|quazip))\/?.*$"
-      if: ${{ inputs.mode == "run" }}
+        ignore-dirs: '^(plugins/robots/thirdparty/(Box2D|hidapi|qextserialport|trikRuntime)|qrgui/thirdparty/qt-solutions|qrtest/thirdparty/googletest|thirdparty/(checkapp|gamepad|qslog|quazip))/.*$'
+      if: ${{ inputs.mode == 'run' }}
           
         
      
