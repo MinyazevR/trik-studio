@@ -68,6 +68,10 @@ on:
         required: false
         type: string
         default: "false"
+      clazy_mode:
+        required: false
+        type: string
+        default: "diff"
         
 jobs:
   build:
