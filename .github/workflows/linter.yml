@@ -40,7 +40,7 @@ jobs:
         only-diff: true
         database: '.'
         warning_as_errors: 'level0,level1'
-        ignore-dirs: '*(plugins/robots/thirdparty|qrgui/thirdparty|qrtest/thirdparty|thirdparty)/.*$'
+        ignore-dirs: '.*thirdparty.*$'
       if: ${{ inputs.mode == 'diff' }}
       
     - name: Run clazy
@@ -49,6 +49,6 @@ jobs:
         checks: 'level0,level1,no-connect-by-name'
         install-stable: true
         database: '.'
-        ignore-dirs: '*(plugins/robots/thirdparty|qrgui/thirdparty|qrtest/thirdparty|thirdparty)/.*$'
+        ignore-dirs: '.*thirdparty.*$'
       if: ${{ inputs.mode == 'run' }}
      
