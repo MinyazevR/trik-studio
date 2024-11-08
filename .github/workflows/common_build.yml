@@ -94,14 +94,7 @@ jobs:
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers"
       trik_python3_version_minor: 10
       bear_mode: "true"
-      
-  run-clazy-linter:
-    needs: build-ubuntu-release-tests
-    if: ${{ always() }}
-    uses: ./.github/workflows/linter.yml
-    with:
-      mode: ${{ github.event_name == 'pull_request' && 'diff' || 'run' }}
-      fetch_depth: ${{ github.event_name == 'pull_request' && 2 || 1 }}
+      clazy_mode: ${{ github.event_name == 'pull_request' && 'diff' || 'run' }}
 
   build-ubuntu-debug-tests:
     needs: lint
