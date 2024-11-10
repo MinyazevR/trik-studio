@@ -202,6 +202,7 @@ jobs:
         checks: 'level0,level1,no-connect-by-name'
         extensions: "cpp"
         install-stable: true
+        ignore-headers: false
         only-diff: true
         database: '.'
         warning_as_errors: 'level0,level1'
@@ -214,6 +215,7 @@ jobs:
         checks: 'level0,level1,no-connect-by-name'
         extensions: "cpp"
         install-stable: true
+        ignore-headers: false
         database: "$GITHUB_WORKSPACE"
         ignore-dirs: '.*(thirdparty|installer|moc_|trikSharpBinaries|nxtRussianCGenerator|trikFSharpGeneratorLibrary|trikV6FSharpGenerator|trikV62FSharpGenerator|trikPascalABCGeneratorLibrary|trikV6PascalABCGenerator|trikV62PascalABCGenerator|trikV6QtsGenerator|trikV6KitInterpreter).*'
       if: ${{ inputs.clazy_mode == 'run' && inputs.bear_mode == 'true' }}
