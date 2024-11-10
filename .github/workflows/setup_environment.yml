@@ -209,7 +209,7 @@ jobs:
       if: ${{ inputs.clazy_mode == 'diff' && inputs.bear_mode == 'true' }}
       
     - name: Run clazy
-      uses: MinyazevR/clazy-standalone-action@7a9f245242e559494bb3e6d3d02cdf074e3757c9
+      uses: MinyazevR/clazy-standalone-action@d8c6bc77afd11cce88ca6fe56694ac6087adc1e5
       with:
         checks: 'level0,level1,no-connect-by-name'
         extensions: "cpp"
