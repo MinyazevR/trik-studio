@@ -200,18 +200,20 @@ jobs:
       uses: MinyazevR/clazy-standalone-action@v0.2.1
       with:
         checks: 'level0,level1,no-connect-by-name'
+        extensions: "cpp"
         install-stable: true
         only-diff: true
         database: '.'
         warning_as_errors: 'level0,level1'
-        ignore-dirs: '.*(thirdparty|installer|moc).*'
+        ignore-dirs: '.*(thirdparty|installer|moc_|trikSharpBinaries|nxtRussianCGenerator|trikFSharpGeneratorLibrary|trikV6FSharpGenerator|trikV62FSharpGenerator|trikPascalABCGeneratorLibrary|trikV6PascalABCGenerator|trikV62PascalABCGenerator|trikV6QtsGenerator|trikV6KitInterpreter).*'
       if: ${{ inputs.clazy_mode == 'diff' && inputs.bear_mode == 'true' }}
       
     - name: Run clazy
       uses: MinyazevR/clazy-standalone-action@7a9f245242e559494bb3e6d3d02cdf074e3757c9
       with:
         checks: 'level0,level1,no-connect-by-name'
+        extensions: "cpp"
         install-stable: true
-        database: $GITHUB_WORKSPACE
-        ignore-dirs: '.*(thirdparty|installer|moc).*'
+        database: "$GITHUB_WORKSPACE"
+        ignore-dirs: '.*(thirdparty|installer|moc_|trikSharpBinaries|nxtRussianCGenerator|trikFSharpGeneratorLibrary|trikV6FSharpGenerator|trikV62FSharpGenerator|trikPascalABCGeneratorLibrary|trikV6PascalABCGenerator|trikV62PascalABCGenerator|trikV6QtsGenerator|trikV6KitInterpreter).*'
       if: ${{ inputs.clazy_mode == 'run' && inputs.bear_mode == 'true' }}
