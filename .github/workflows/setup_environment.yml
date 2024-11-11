@@ -204,7 +204,7 @@ jobs:
         install-stable: true
         ignore-headers: false
         only-diff: true
-        database: '.'
+        database: '../build'
         warning_as_errors: 'level0,level1'
         ignore-dirs: '.*(thirdparty|installer|moc_|trikSharpBinaries|nxtRussianCGenerator|trikFSharpGeneratorLibrary|trikV6FSharpGenerator|trikV62FSharpGenerator|trikPascalABCGeneratorLibrary|trikV6PascalABCGenerator|trikV62PascalABCGenerator|trikV6QtsGenerator|trikV6KitInterpreter).*'
       if: ${{ inputs.clazy_mode == 'diff' && inputs.bear_mode == 'true' }}
@@ -216,6 +216,6 @@ jobs:
         extensions: "cpp"
         install-stable: true
         ignore-headers: false
-        database: "$GITHUB_WORKSPACE"
+        database: "../build"
         ignore-dirs: '.*(thirdparty|installer|moc_|trikSharpBinaries|nxtRussianCGenerator|trikFSharpGeneratorLibrary|trikV6FSharpGenerator|trikV62FSharpGenerator|trikPascalABCGeneratorLibrary|trikV6PascalABCGenerator|trikV62PascalABCGenerator|trikV6QtsGenerator|trikV6KitInterpreter).*'
       if: ${{ inputs.clazy_mode == 'run' && inputs.bear_mode == 'true' }}

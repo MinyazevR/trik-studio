@@ -33,7 +33,7 @@ max_size=1200M
 EOF
 
 mkdir -p ../build
-cd build
+cd ..build
  
 $EXECUTOR env \
 CCACHE_CONFIGPATH="$CCACHE_CONFIGPATH" \
