@@ -1,0 +1,54 @@
+name: Installer action
+
+on:
+  workflow_call:
+    inputs:
+      fetch_depth:
+        required: false
+        type: number
+        default: 2
+      mode:
+        required: false
+        type: string
+        default: 'diff'
+jobs:
+  job:
+    defaults:
+      run:
+        shell: bash
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: ${{ inputs.fetch_depth }}
+        
+    - name: Download installer artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: compile-commands
+
+    - name: Run clazy
+      uses: MinyazevR/clazy-standalone-action@v0.2.1
+      with:
+        checks: 'level0,level1,no-connect-by-name'
+        install-stable: true
+        only-diff: true
+        database: '.'
+        warning_as_errors: 'level0,level1'
+        ignore-dirs: '.*thirdparty.*'
+      if: ${{ inputs.mode == 'diff' }}
+      
+    - name: Run clazy
+      uses: MinyazevR/clazy-standalone-action@7a9f245242e559494bb3e6d3d02cdf074e3757c9
+      with:
+        checks: 'level0,level1,no-connect-by-name'
+        install-stable: true
+        database: $GITHUB_WORKSPACE
+        ignore-dirs: '.*thirdparty.*'
+      if: ${{ inputs.mode == 'run' }}
+     

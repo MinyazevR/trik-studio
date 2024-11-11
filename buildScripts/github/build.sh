@@ -2,6 +2,8 @@
 set -uxeo pipefail
 
 CODECOV=true
+CCACHE_DIR="$CACHE_DIR"
+
 case $RUNNER_OS in
   macOS)
      QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin | head -n 1)
@@ -11,8 +13,8 @@ case $RUNNER_OS in
      echo "Now path is $PATH"
     ;;
   Linux)
-    ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
-    if [ "$ID" = "altlinux" ]; then
+    ID=$(grep '^ID=' /etc/*release | cut -d'=' -f2)
+    if [[ "$ID" = "altlinux" || "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
         ln -s /usr/bin/qmake-qt5 /usr/bin/qmake
     fi
    ;;
@@ -30,6 +32,9 @@ sloppiness=time_macros,pch_defines,include_file_ctime,include_file_mtime,file_st
 max_size=1200M
 EOF
 
+mkdir -p ../build
+cd ..build
+ 
 $EXECUTOR env \
 CCACHE_CONFIGPATH="$CCACHE_CONFIGPATH" \
 CCACHE_DIR="$CCACHE_DIR" \
@@ -37,6 +42,7 @@ CONFIG="$CONFIG" \
 QMAKE_EXTRA="$QMAKE_EXTRA" \
 PROJECT="$PROJECT" \
 RUNNER_OS="$RUNNER_OS" \
+BEAR_MODE="$BEAR_MODE" \
 buildScripts/github/build_internal.sh
 
 
