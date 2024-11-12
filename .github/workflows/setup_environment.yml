@@ -97,6 +97,12 @@ jobs:
         submodules: recursive
         fetch-depth: 1
 
+    - name: Silly test
+      run: |
+        set -xeu
+        LOL=$(find . -name "pch.h" -print -quit)
+        echo $LOL
+      
     - name: Set up environment
       run: buildScripts/github/install_${{ runner.os }}.sh
       env:
