@@ -36,5 +36,6 @@ ls installer
 if $NEED_DEPLOY ; then
     $EXECUTOR bash -c "\
           export INSTALLER_NAME=$(find installer -name "trik-studio*installer*" -print -quit) \
+          && echo $INSTALLER_NAME \
           && rsync -v --rsh='ssh -o StrictHostKeyChecking=no' $INSTALLER_NAME $username@$host:~/dl/ts/fresh/installer/$TSNAME"
 fi
