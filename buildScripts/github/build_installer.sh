@@ -34,6 +34,6 @@ $EXECUTOR bash -c "installer/build-trik-studio.sh $QTBIN $QTIFWBIN ."
 
 if $NEED_DEPLOY ; then
     $EXECUTOR bash -c "\
-          INSTALLER_NAME=$(find installer -name "trik-studio*installer*" | head -n 1) \
+          INSTALLER_NAME=$(find installer -name "trik-studio*installer*" -quit) \
           && rsync -v --rsh='ssh -o StrictHostKeyChecking=no' $INSTALLER_NAME $username@$host:~/dl/ts/fresh/installer/$TSNAME"
 fi
