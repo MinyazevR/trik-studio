@@ -25,7 +25,7 @@ if [[ $RUNNER_OS == Linux ]] ; then
       echo Start build checker archive
       $EXECUTOR bash -c "bin/build-checker-installer.sh"
       if $NEED_DEPLOY ; then
-          $EXECUTOR bash -c "rsync -v --rsh='ssh -o StrictHostKeyChecking=no -vvv' bin/trik_checker.tar.xz $username@$host:~/checker-linux-$CONFIG-$BRANCH_NAME.tar.xz"
+          $EXECUTOR bash -c "rsync -v --rsh='ssh -o StrictHostKeyChecking=no -vvv -i ~/.ssh/id_rsa' bin/trik_checker.tar.xz $username@$host:~/checker-linux-$CONFIG-$BRANCH_NAME.tar.xz"
       fi
 fi
 
@@ -38,5 +38,5 @@ export INSTALLERNAME=$(find installer -name "trik-studio*installer*" -print -qui
 if $NEED_DEPLOY ; then
     $EXECUTOR bash -c "\
           echo $INSTALLERNAME \
-          && rsync -v --rsh='ssh -o StrictHostKeyChecking=no' $INSTALLERNAME $username@$host:~/dl/ts/fresh/installer/$TSNAME"
+          && rsync -v --rsh='ssh -o StrictHostKeyChecking=no' $INSTALLERNAME $username@$host:~/$TSNAME"
 fi
