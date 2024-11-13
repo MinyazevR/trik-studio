@@ -31,9 +31,6 @@ compression_level=1
 sloppiness=time_macros,pch_defines,include_file_ctime,include_file_mtime,file_stat_matches
 max_size=1200M
 EOF
-
-mkdir -p ../build
-cd ..build
  
 $EXECUTOR env \
 CCACHE_CONFIGPATH="$CCACHE_CONFIGPATH" \
