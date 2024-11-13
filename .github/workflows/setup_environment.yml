@@ -100,7 +100,7 @@ jobs:
     - name: Silly test
       run: |
         set -xeu
-        LOL=$(find . -name "pch.h" -print -quit)
+        LOL=$(find . -name "*ch.h" -print -quit)
         echo $LOL
       
     - name: Set up environment
