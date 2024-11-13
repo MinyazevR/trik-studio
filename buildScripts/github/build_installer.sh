@@ -18,14 +18,14 @@ df -h .
 NEED_DEPLOY=$([[ "$GITHUB_REPOSITORY" == "MinyazevR/trik-studio" && "${PULLREQUESTNUMBER:-false}" == "false" ]] && echo true || echo false )
 
 if $NEED_DEPLOY ; then
-    $EXECUTOR bash -c "mkdir -p ~/.ssh && install -m 600 /dev/null ~/.ssh/id_rsa && echo \"$ssh_key\" > ~/.ssh/id_rsa"
+    $EXECUTOR bash -c "mkdir -p $HOME/.ssh && install -m 600 /dev/null $HOME/.ssh/id_rsa && echo \"$ssh_key\" > $HOME/.ssh/id_rsa"
 fi
           
 if [[ $RUNNER_OS == Linux ]] ; then
       echo Start build checker archive
       $EXECUTOR bash -c "bin/build-checker-installer.sh"
       if $NEED_DEPLOY ; then
-          $EXECUTOR bash -c "rsync -v --rsh='ssh -o StrictHostKeyChecking=no -vvv -i ~/.ssh/id_rsa' bin/trik_checker.tar.xz $username@$host:~/checker-linux-$CONFIG-$BRANCH_NAME.tar.xz"
+          $EXECUTOR bash -c "rsync -v --rsh='ssh -o StrictHostKeyChecking=no -vvv -i $HOME/.ssh/id_rsa' bin/trik_checker.tar.xz $username@$host:~/checker-linux-$CONFIG-$BRANCH_NAME.tar.xz"
       fi
 fi
 
