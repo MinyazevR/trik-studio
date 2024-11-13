@@ -15,7 +15,7 @@ export PYTHON_DIR=$(python3.${TRIK_PYTHON3_VERSION_MINOR}-config --prefix)
 mkdir -p ../build && cd ../build
 
 rm -f .qmake.cache
-qmake -Wall PYTHON_VERSION=3.$TRIK_PYTHON3_VERSION_MINOR PYTHON_PATH=/usr CONFIG+=$CONFIG $QMAKE_EXTRA $PROJECT.pro
+qmake -Wall PYTHON_VERSION=3.$TRIK_PYTHON3_VERSION_MINOR PYTHON_PATH=/usr CONFIG+=$CONFIG $QMAKE_EXTRA ../trik-studio/$PROJECT.pro
 make -j $(nproc) qmake_all 2>&1 | tee -a build.log
 ccache -s
 if [ "$BEAR_MODE" == "true" ]; then
