@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 BRANCH_NAME="${BRANCH_NAME:-${GITHUB_REF#refs/heads/}}"
 QTBIN=${QTBIN:-$($EXECUTOR  bash -c 'eval $(make qmake -n | cut -f 1 -d " ") -query QT_INSTALL_BINS')}
 case $RUNNER_OS in
@@ -34,7 +35,7 @@ $EXECUTOR bash -c "installer/build-trik-studio.sh $QTBIN $QTIFWBIN ."
 ls installer
 if $NEED_DEPLOY ; then
     $EXECUTOR bash -c "\
-          export INSTALLER_NAME=$(find installer -name "trik-studio*installer*" -print -quit) \
-          && echo $INSTALLER_NAME \
-          && rsync -v --rsh='ssh -o StrictHostKeyChecking=no' $INSTALLER_NAME $username@$host:~/dl/ts/fresh/installer/$TSNAME"
+          export INSTALLERNAME=$(find installer -name "trik-studio*installer*" -print -quit) \
+          && echo $INSTALLERNAME \
+          && rsync -v --rsh='ssh -o StrictHostKeyChecking=no' $INSTALLERNAME $username@$host:~/dl/ts/fresh/installer/$TSNAME"
 fi
