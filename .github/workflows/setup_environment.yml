@@ -201,7 +201,7 @@ jobs:
       with:
         checks: 'level0,level1,no-connect-by-name'
         extensions: "cpp"
-        install-stable: true
+        version: '1.12'
         ignore-headers: false
         only-diff: true
         database: '.'
@@ -214,7 +214,7 @@ jobs:
       with:
         checks: 'level0,level1,no-connect-by-name'
         extensions: "cpp"
-        install-stable: true
+        version: '1.12'
         ignore-headers: false
         database: "."
         ignore-dirs: '.*(thirdparty|installer|moc_|trikSharpBinaries|nxtRussianCGenerator|trikFSharpGeneratorLibrary|trikV6FSharpGenerator|trikV62FSharpGenerator|trikPascalABCGeneratorLibrary|trikV6PascalABCGenerator|trikV62PascalABCGenerator|trikV6QtsGenerator|trikV6KitInterpreter).*'
