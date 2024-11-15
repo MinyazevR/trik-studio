@@ -165,8 +165,10 @@ bool Runner::interpret(const bool background, const int customSpeedFactor, bool 
 
 	mReporter->onInterpretationStart();
 	if (mMode == "script") {
+		qDebug() << "INS SCRIPT MODE" << filePath;
 		return mPluginFacade->interpretCode(mInputsFile, filePath);
 	} else if (mMode == "diagram") {
+		qDebug() << "INS DIAGRAM MODE";
 		mPluginFacade->actionsManager().runAction().trigger();
 	}
 
