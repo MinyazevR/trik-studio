@@ -86,7 +86,15 @@ jobs:
         export QT_QPA_PLATFORM=minimal
         TWOD_EXEC_NAME=$(ls -1d "$BIN_DIR"/2D-model* | head -n 1)
         for i in "$GITHUB_WORKSPACE"/testing_small/*; do "$TWOD_EXEC_NAME" -b -s 5 "$i"; done
-
+        
+    - name: Run minimal JavaScript interpeter tests in direct script mode
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        TWOD_EXEC_NAME=$(ls -1d "$BIN_DIR"/2D-model* | head -n 1)
+        for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs; do "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript \
+         -b -s 5 --script-path "$i".js -m script "$i"; done
+      if: startsWith(inputs.os, 'ubuntu')
+      
     - name: Run minimal Python interpeter tests in direct script mode
       run: |
         export QT_QPA_PLATFORM=offscreen
@@ -95,14 +103,6 @@ jobs:
         TWOD_EXEC_NAME=$(ls -1d $BIN_DIR/2D-model* | head -n 1)
         for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs; do "$TWOD_EXEC_NAME" --generate-path "$i".py \
          -b -s 5 --script-path "$i".py -m script "$i"; done
-      if: startsWith(inputs.os, 'ubuntu')
-      
-    - name: Run minimal JavaScript interpeter tests in direct script mode
-      run: |
-        export QT_QPA_PLATFORM=offscreen
-        TWOD_EXEC_NAME=$(ls -1d "$BIN_DIR"/2D-model* | head -n 1)
-        for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs; do "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript \
-         -b -s 5 --script-path "$i".js -m script "$i"; done
       if: startsWith(inputs.os, 'ubuntu')
       
     - name: Run minimal Python interpeter tests as fields in .qrs (For backward compatibility)
