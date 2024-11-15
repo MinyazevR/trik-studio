@@ -96,7 +96,7 @@ jobs:
       with:
         submodules: recursive
         fetch-depth: 1
-
+      
     - name: Set up environment
       run: buildScripts/github/install_${{ runner.os }}.sh
       env:
