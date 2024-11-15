@@ -91,8 +91,12 @@ jobs:
       run: |
         export QT_QPA_PLATFORM=offscreen
         TWOD_EXEC_NAME=$(ls -1d "$BIN_DIR"/2D-model* | head -n 1)
-        for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs; do "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript \
-         -b -s 5 --script-path "$i".js -m script "$i"; done
+        for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs; 
+        do
+          "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript -b -s 5 "$i"
+          "$TWOD_EXEC_NAME" --script-path "$i".js -m script --report lol.json -b -s 5 "$i"
+          cat lol.json
+        done
       if: startsWith(inputs.os, 'ubuntu')
       
     - name: Run minimal Python interpeter tests in direct script mode
@@ -102,7 +106,8 @@ jobs:
         export TRIK_PYTHONPATH=.:"${TRIK_PYTHONPATH_BUNDLE_DIR}/base_library.zip:${TRIK_PYTHONPATH_BUNDLE_DIR}/lib-dynload:${TRIK_PYTHONPATH_BUNDLE_DIR}"
         TWOD_EXEC_NAME=$(ls -1d $BIN_DIR/2D-model* | head -n 1)
         for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs; do "$TWOD_EXEC_NAME" --generate-path "$i".py \
-         -b -s 5 --script-path "$i".py -m script "$i"; done
+         -b -s 5 --script-path "$i".py -m script --report lol.json "$i"; done
+        cat lol.json
       if: startsWith(inputs.os, 'ubuntu')
       
     - name: Run minimal Python interpeter tests as fields in .qrs (For backward compatibility)
