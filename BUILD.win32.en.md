@@ -32,6 +32,7 @@ Open Command Prompt, go to folder, where you want to locate TRIK Studio. Clone T
    git submodule update --init --recursive
    ```
 
+
 3. **Prepare folder**.
 Create and go to the folder where you want to build the project:
    ```
