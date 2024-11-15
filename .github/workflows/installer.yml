@@ -89,11 +89,13 @@ jobs:
         
     - name: Run minimal JavaScript interpeter tests in direct script mode
       run: |
+        set -x
         export QT_QPA_PLATFORM=offscreen
         TWOD_EXEC_NAME=$(ls -1d "$BIN_DIR"/2D-model* | head -n 1)
         for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs; 
         do
           "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript -b -s 5 "$i"
+          echo aaaaaaa
           "$TWOD_EXEC_NAME" --script-path "$i".js -m script --report lol.json -b -s 5 "$i" 2>/dev/null
           cat lol.json
         done
