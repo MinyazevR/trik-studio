@@ -94,8 +94,7 @@ jobs:
         TWOD_EXEC_NAME=$(ls -1d "$BIN_DIR"/2D-model* | head -n 1)
         for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs
         do
-          "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript -b -s 5 "$i" \ 
-          --script-path "$i".js -m script -s 5 --close "$i"
+          "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript -b -s 5 "$i" --script-path "$i".js -m script -s 5 --close "$i"
         done
       if: startsWith(inputs.os, 'ubuntu')
       
