@@ -91,7 +91,6 @@ jobs:
       run: |
         set -x
         export QT_QPA_PLATFORM=offscreen
-        export QT_DEBUG_PLUGINS=1
         TWOD_EXEC_NAME=$(ls -1d "$BIN_DIR"/2D-model* | head -n 1)
         for i in "$GITHUB_WORKSPACE"/testing_small/*.qrs
         do
