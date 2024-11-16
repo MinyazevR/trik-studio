@@ -98,7 +98,7 @@ jobs:
           echo $?
           echo aaaaaa
           sleep 5
-          "$TWOD_EXEC_NAME" --script-path "$i".js -m script --report lol.json -b -s 10 "$i" || cat lol.json
+          "$TWOD_EXEC_NAME"  --script-path "$i".js -m script --report lol.json -s 10 --close "$i" || cat lol.json
         done
       if: startsWith(inputs.os, 'ubuntu')
       
