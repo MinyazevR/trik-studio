@@ -292,6 +292,9 @@ void ConstraintsChecker::programStarted()
 
 void ConstraintsChecker::programFinished(qReal::interpretation::StopReason reason)
 {
+	qDebug() << mSuccessTriggered;
+	qDebug() << mFailTriggered;
+	qDebug() << mEnabled;
 	if (!mSuccessTriggered && !mFailTriggered && mEnabled) {
 		if (mDefferedSuccessTriggered && reason == qReal::interpretation::StopReason::finished) {
 			onSuccess();
