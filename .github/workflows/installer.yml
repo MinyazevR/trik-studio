@@ -98,8 +98,8 @@ jobs:
           "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript -b -s 5 "$i"
           echo $?
           echo aaaaaa
-          "$TWOD_EXEC_NAME" --script-path "$i".js -m script --report lol.json -b -s 5 "$i" 2>/dev/null
-          cat lol.json
+          # "$TWOD_EXEC_NAME" --script-path "$i".js -m script --report lol.json -b -s 5 "$i" 2>/dev/null
+          # cat lol.json
         done
       if: startsWith(inputs.os, 'ubuntu')
       
