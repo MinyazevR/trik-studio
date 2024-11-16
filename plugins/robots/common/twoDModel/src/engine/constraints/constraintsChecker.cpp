@@ -37,9 +37,12 @@ ConstraintsChecker::ConstraintsChecker(qReal::ErrorReporterInterface &errorRepor
 	, mParser(new details::ConstraintsParser(mEvents, mVariables, mObjects, mModel.timeline(), mStatus))
 {
 	connect(&mStatus, &details::StatusReporter::success, this, [this](bool deferred) {
+		qDebug() << "deffered" << deferred;
 		if (deferred) {
+			qDebug() << __PRETTY_FUNCTION__ << __LINE__;
 			mDefferedSuccessTriggered = true;
 		} else {
+			qDebug() << __PRETTY_FUNCTION__ << __LINE__;
 			mSuccessTriggered = true;
 			onSuccess();
 		}
@@ -281,6 +284,7 @@ void ConstraintsChecker::programStarted()
 	}
 
 	// In case of null checker we consider that all is ok.
+	qDebug() << __PRETTY_FUNCTION__ << __LINE__;
 	mSuccessTriggered = mCurrentXml.isNull();
 	mDefferedSuccessTriggered = false;
 	mFailTriggered = false;
@@ -295,6 +299,7 @@ void ConstraintsChecker::programFinished(qReal::interpretation::StopReason reaso
 	qDebug() << mSuccessTriggered;
 	qDebug() << mFailTriggered;
 	qDebug() << mEnabled;
+	qDebug() << mDefferedSuccessTriggered;
 	if (!mSuccessTriggered && !mFailTriggered && mEnabled) {
 		if (mDefferedSuccessTriggered && reason == qReal::interpretation::StopReason::finished) {
 			onSuccess();
