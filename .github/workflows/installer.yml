@@ -89,7 +89,7 @@ jobs:
     - name: Run minimal JavaScript interpeter tests
       run: |
         TWOD_EXEC_NAME=$(ls -1d "$BIN_DIR"/2D-model* | head -n 1)
-        for i in "$GITHUB_WORKSPACE"/buildScripts/github/tests/*.qrs; do "$TWOD_EXEC_NAME" --generate-path "$i".js --generate-mode javascript \
+        for i in "$GITHUB_WORKSPACE"/buildScripts/github/tests/*.qrs; do "$TWOD_EXEC_NAME"  --close --generate-path "$i".js --generate-mode javascript \
          --close -s 5 --script-path "$i".js "$i"; done
        
     - name: Run minimal Python interpeter tests
