@@ -42,11 +42,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - qt-version: '5.12'
-            mingw-version: '7.3'
-            mingw-short-version: '73'
+          - qt-version: '5.15'
+            mingw-version: '8.1'
+            mingw-bitness: '32'
+            mingw-short-version: '81'
             python-version: '3.11'
-            mingw-bitness: '64'
             deploy-installer: true
 
           - qt-version: '5.15'
