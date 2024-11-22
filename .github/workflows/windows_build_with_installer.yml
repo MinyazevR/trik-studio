@@ -73,7 +73,14 @@ jobs:
         run: |
             ARCH=${{ matrix.mingw-bitness }}
             PLATFORM=${{ matrix.mingw-bitness == '32' && 'i686' || 'x86_64' }}
-            pacman --verbose --noconfirm -S msys/zlib-devel dos2unix ccache rsync unzip openssh mingw$ARCH/mingw-w64-$PLATFORM-libzip mingw$ARCH/mingw-w64-$PLATFORM-libusb mingw$ARCH/mingw-w64-$PLATFORM-zlib mingw$ARCH/mingw-w64-$PLATFORM-pkg-config
+            pacman --verbose --noconfirm -S msys/zlib-devel dos2unix ccache rsync unzip openssh mingw$ARCH/mingw-w64-$PLATFORM-libzip
+            if [ "$PLATFORM" == 'i686' ]; then
+              curl --output mingw-w64-i686-libusb-1.0.26-1-any.pkg.tar.zst https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-libusb-1.0.26-1-any.pkg.tar.zst
+              pacman  --verbos -U -S --noconfirm mingw-w64-i686-libusb-1.0.26-1-any.pkg.tar.zst
+            else
+              pacman --verbose --noconfirm -S mingw$ARCH/mingw-w64-$PLATFORM-libusb
+            fi
+            pacman --verbose --noconfirm -S  mingw$ARCH/mingw-w64-$PLATFORM-zlib mingw$ARCH/mingw-w64-$PLATFORM-pkg-config
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
