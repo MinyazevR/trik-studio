@@ -76,7 +76,7 @@ jobs:
             pacman --verbose --noconfirm -S msys/zlib-devel dos2unix ccache rsync unzip openssh mingw$ARCH/mingw-w64-$PLATFORM-libzip
             if [ "$PLATFORM" == 'i686' ]; then
               curl --output mingw-w64-i686-libusb-1.0.26-1-any.pkg.tar.zst https://repo.msys2.org/mingw/mingw32/mingw-w64-i686-libusb-1.0.26-1-any.pkg.tar.zst
-              pacman  --verbos -U -S --noconfirm mingw-w64-i686-libusb-1.0.26-1-any.pkg.tar.zst
+              pacman --verbose -U -S --noconfirm mingw-w64-i686-libusb-1.0.26-1-any.pkg.tar.zst
             else
               pacman --verbose --noconfirm -S mingw$ARCH/mingw-w64-$PLATFORM-libusb
             fi
