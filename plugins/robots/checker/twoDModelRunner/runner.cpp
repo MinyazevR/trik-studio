@@ -117,6 +117,7 @@ bool Runner::generate(const QString &generatePath, const QString &generateMode)
 bool Runner::interpret(const bool background, const int customSpeedFactor, bool closeOnFinish
 			, const bool closeOnSuccess, const bool showConsole, const QString &filePath)
 {
+	qDebug() << __PRETTY_FUNCTION__;
 	/// @todo: A bit hacky way to get 2D model window. Actually we must not have need in this.
 	/// GUI must be separated from logic and not appear here at all.
 	QList<view::TwoDModelWidget *> twoDModelWindows;
@@ -130,6 +131,7 @@ bool Runner::interpret(const bool background, const int customSpeedFactor, bool 
 		}
 	}
 
+	qDebug() << __PRETTY_FUNCTION__;
 	connect(&mPluginFacade->eventsForKitPlugins(), &kitBase::EventsForKitPluginInterface::interpretationStopped
 			, this, [this, closeOnFinish, closeOnSuccess](qReal::interpretation::StopReason reason) {
 		if (closeOnFinish || (closeOnSuccess && reason == qReal::interpretation::StopReason::finished))
@@ -141,6 +143,7 @@ bool Runner::interpret(const bool background, const int customSpeedFactor, bool 
 				, this, [this]() { QTimer::singleShot(0, this, &Runner::close); });
 	}
 
+	qDebug() << __PRETTY_FUNCTION__;
 	const auto robotName = mPluginFacade->robotModelManager().model().name();
 
 	for (auto &&twoDModelWindow : twoDModelWindows) {
@@ -163,10 +166,15 @@ bool Runner::interpret(const bool background, const int customSpeedFactor, bool 
 		}
 	}
 
+	qDebug() << __PRETTY_FUNCTION__;
 	mReporter->onInterpretationStart();
 	if (mMode == "script") {
+		qDebug() << __PRETTY_FUNCTION__;
+		qDebug() << "INS SCRIPT MODE" << filePath;
 		return mPluginFacade->interpretCode(mInputsFile, filePath);
 	} else if (mMode == "diagram") {
+		qDebug() << __PRETTY_FUNCTION__;
+		qDebug() << "INS DIAGRAM MODE";
 		mPluginFacade->actionsManager().runAction().trigger();
 	}
 

@@ -306,9 +306,12 @@ const kitBase::EventsForKitPluginInterface &RobotsPluginFacade::eventsForKitPlug
 
 bool RobotsPluginFacade::interpretCode(const QString &inputs, const QString &filepath)
 {
+	qDebug() << __PRETTY_FUNCTION__;
 	QString code;
 	QString extension;
 	if (!filepath.isEmpty()) {
+		qDebug() << __PRETTY_FUNCTION__;
+		qDebug() << "IN DIRECT SCRIPT MODE";
 		QFile file(filepath);
 		QFileInfo fileInfo(file);
 
@@ -319,11 +322,17 @@ bool RobotsPluginFacade::interpretCode(const QString &inputs, const QString &fil
 		}
 		code = file.readAll();
 		extension = fileInfo.suffix().toLower();
+		qDebug() << code;
+		qDebug() << extension;
+		qDebug() << __PRETTY_FUNCTION__;
 	}
 	else {
+		qDebug() << "IN DIRECT DIAGRAM MODE";
 		auto logicalRepo = &mLogicalModelApi->logicalRepoApi();
 		code = logicalRepo->metaInformation("activeCode").toString();
 		extension = logicalRepo->metaInformation("activeCodeLanguageExtension").toString();
+		qDebug() << code;
+		qDebug() << extension;
 	}
 	if (code.isEmpty()) {
 		mMainWindow->errorReporter()->addError(tr("No saved code found in the qrs file"));

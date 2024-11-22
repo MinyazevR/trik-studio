@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
 	QLOG_INFO() << "Setting default locale to" << QLocale().name();
 	setDefaultLocale();
 
+	qDebug() << "START APPLICATION";
 	// Hack to switch on default robot model
 	for (auto &&kit : {"trikV62", "trikV6", "ev3", "nxt"}) {
 		qReal::SettingsManager::setValue(QString("SelectedModelFor%1Kit").arg(kit), QVariant());
