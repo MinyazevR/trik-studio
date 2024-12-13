@@ -64,6 +64,7 @@ jobs:
 
       - name: Download packages to msys2
         run: |
+            echo ${{ runner.os }}
             ARCH=${{ matrix.mingw-bitness }}
             PLATFORM=${{ matrix.mingw-bitness == '32' && 'i686' || 'x86_64' }}
             pacman --verbose --noconfirm -S msys/zlib-devel dos2unix ccache rsync unzip openssh mingw$ARCH/mingw-w64-$PLATFORM-libzip mingw$ARCH/mingw-w64-$PLATFORM-libusb mingw$ARCH/mingw-w64-$PLATFORM-zlib mingw$ARCH/mingw-w64-$PLATFORM-pkg-config
