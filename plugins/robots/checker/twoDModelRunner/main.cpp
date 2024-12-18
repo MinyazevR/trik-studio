@@ -13,11 +13,14 @@
  * limitations under the License. */
 
 #include <ctime>
+#include <iostream>
 #include <QtCore/QDir>
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QTranslator>
 #include <QtCore/QDirIterator>
 #include <QtWidgets/QApplication>
+#include <QsLog.h>
+#include <QsLogDestConsole.h>
 #include <qrkernel/logging.h>
 #include <qrkernel/platformInfo.h>
 #include "runner.h"
@@ -78,6 +81,15 @@ int main(int argc, char *argv[])
 		// Loading default settings for concrete platform if such exist.
 		qReal::SettingsManager::instance()->loadSettings(defaultPlatformConfigPath);
 	}
+
+	qReal::Logger logger;
+    	QsLogging::Logger::instance().addDestination(QsLogging::DestinationFactory::MakeFunctorDestination(
+            [](const QsLogging::LogMessage &message) {
+                if (message.level >= QsLogging::Level::DebugLevel) {
+                    std::cerr << qPrintable(message.formatted) << std::endl << std::flush;
+                }
+            }
+            ));
 
 	qReal::Logger logger;
 	const QDir logsDir(qReal::PlatformInfo::invariantSettingsPath("pathToLogs"));
