@@ -90,8 +90,7 @@ int main(int argc, char *argv[])
                 }
             }
             ));
-
-	qReal::Logger logger;
+	
 	const QDir logsDir(qReal::PlatformInfo::invariantSettingsPath("pathToLogs"));
 	if (logsDir.mkpath(logsDir.absolutePath())) {
 		logger.addLogTarget(logsDir.filePath("2d-model.log"), maxLogSize, 2);
