@@ -235,6 +235,7 @@ void Runner::attachNewConsoleTo(view::TwoDModelWidget *twoDModelWindow)
 
 void Runner::close()
 {
+    QLOG_INFO() << "I WANT CLOSE RUNNER";
 	mMainWindow->emulateClose(mReporter->lastMessageIsError() ? 1 : 0);
 	while (!mRobotConsoles.empty()) {
 		mRobotConsoles.first()->deleteLater();

@@ -113,6 +113,7 @@ bool VersionsConverterManager::convertProject(const Version &enviromentVersion
 		mConverted = true;
 		mErrorMessage = QObject::tr("Project was automaticly converted from version %1 to version %2."\
 				" Please check its contents.").arg(saveVersion.toString(), enviromentVersion.toString());
+        mErrorMessage += "\n";
 		mModels.mutableLogicalRepoApi().setMetaInformation(
 				converters.first().editor() + "Version", enviromentVersion.toString());
 	}
