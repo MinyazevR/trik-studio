@@ -70,6 +70,11 @@ void setDefaultLocale()
 
 int main(int argc, char *argv[])
 {
+    if (setvbuf(stdin, nullptr, _IOLBF, 10000) != 0) {
+        qDebug() << "Failed to setvbuf";
+
+    }
+
 	qReal::PlatformInfo::enableHiDPISupport();
 	qsrand(time(0));
 	QScopedPointer<QApplication> app(new QApplication(argc, argv));
@@ -83,14 +88,22 @@ int main(int argc, char *argv[])
 	}
 
 	qReal::Logger logger;
+<<<<<<< Updated upstream
     	QsLogging::Logger::instance().addDestination(QsLogging::DestinationFactory::MakeFunctorDestination(
+=======
+    QsLogging::Logger::instance().addDestination(QsLogging::DestinationFactory::MakeFunctorDestination(
+>>>>>>> Stashed changes
             [](const QsLogging::LogMessage &message) {
                 if (message.level >= QsLogging::Level::DebugLevel) {
                     std::cerr << qPrintable(message.formatted) << std::endl << std::flush;
                 }
             }
             ));
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 	const QDir logsDir(qReal::PlatformInfo::invariantSettingsPath("pathToLogs"));
 	if (logsDir.mkpath(logsDir.absolutePath())) {
 		logger.addLogTarget(logsDir.filePath("2d-model.log"), maxLogSize, 2);
