@@ -88,22 +88,13 @@ int main(int argc, char *argv[])
 	}
 
 	qReal::Logger logger;
-<<<<<<< Updated upstream
-    	QsLogging::Logger::instance().addDestination(QsLogging::DestinationFactory::MakeFunctorDestination(
-=======
     QsLogging::Logger::instance().addDestination(QsLogging::DestinationFactory::MakeFunctorDestination(
->>>>>>> Stashed changes
             [](const QsLogging::LogMessage &message) {
                 if (message.level >= QsLogging::Level::DebugLevel) {
                     std::cerr << qPrintable(message.formatted) << std::endl << std::flush;
                 }
             }
             ));
-<<<<<<< Updated upstream
-	
-=======
-
->>>>>>> Stashed changes
 	const QDir logsDir(qReal::PlatformInfo::invariantSettingsPath("pathToLogs"));
 	if (logsDir.mkpath(logsDir.absolutePath())) {
 		logger.addLogTarget(logsDir.filePath("2d-model.log"), maxLogSize, 2);
