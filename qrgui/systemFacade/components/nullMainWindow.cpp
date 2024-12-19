@@ -342,6 +342,7 @@ void NullMainWindow::registerEditor(EditorInterface &editor)
 void NullMainWindow::emulateClose(int returnCode)
 {
 	if (mClosed) {
+        qDebug() << "already closed";
 		return;
 	}
 

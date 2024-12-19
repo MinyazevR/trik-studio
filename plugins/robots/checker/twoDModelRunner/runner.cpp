@@ -133,19 +133,24 @@ bool Runner::interpret(const bool background, const int customSpeedFactor, bool 
 	connect(&mPluginFacade->eventsForKitPlugins(), &kitBase::EventsForKitPluginInterface::interpretationStopped
 			, this, [this, closeOnFinish, closeOnSuccess](qReal::interpretation::StopReason reason) {
 		if (closeOnFinish || (closeOnSuccess && reason == qReal::interpretation::StopReason::finished))
+            qDebug() << "Stoped";
 			QTimer::singleShot(0, this, &Runner::close);
 	});
 
 	if (closeOnFinish) {
 		connect(&mPluginFacade->eventsForKitPlugins(), &kitBase::EventsForKitPluginInterface::interpretationErrored
-				, this, [this]() { QTimer::singleShot(0, this, &Runner::close); });
+                , this, [this]() {
+            qDebug() << "Error";
+            QTimer::singleShot(0, this, &Runner::close); });
 	}
 
 	const auto robotName = mPluginFacade->robotModelManager().model().name();
 
 	for (auto &&twoDModelWindow : twoDModelWindows) {
 		connect(twoDModelWindow, &view::TwoDModelWidget::widgetClosed, &*mMainWindow
-				, [this]() { this->mMainWindow->emulateClose(); });
+                , [this]() {
+            qDebug() << __PRETTY_FUNCTION__ << __LINE__;
+            this->mMainWindow->emulateClose(); });
 
 		if (showConsole) {
 			attachNewConsoleTo(twoDModelWindow);
