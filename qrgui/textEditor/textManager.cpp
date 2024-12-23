@@ -144,6 +144,17 @@ void TextManager::changeFilePath(const QString &from, const QString &to)
 	}
 }
 
+void TextManager::hide(const QFileInfo &fileInfo) {
+    const QString filePath = fileInfo.absoluteFilePath();
+    QScintillaTextEdit *area = code(filePath);
+    if (!area) {
+	return;
+    }
+
+    area->close();
+    delete area;
+}
+
 QScintillaTextEdit *TextManager::code(const QString &filePath) const
 {
 	return mText.value(filePath);

@@ -74,6 +74,9 @@ public:
 	/// @param saveAs Defines what to do: save to the same file or in another
 	bool saveText(bool saveAs) override;
 
+	/// Tests
+	void hide(const QFileInfo &fileInfo);
+
 	QString generatorName(const QString &filepath) const override;
 	CodeBlockManager &codeBlockManager();
 

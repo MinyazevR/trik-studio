@@ -109,8 +109,13 @@ bool Runner::generate(const QString &generatePath, const QString &generateMode)
 	auto path = mTextManager->path(codes.first());
 	if (!QFile::copy(path, generatePath)) {
 		QLOG_ERROR() << "File with name " << generatePath << " already exist";
+		mTextManager->hide(path);
+		emit mQRealFacade->events().codeTabClosed(path);
 		return false;
 	}
+
+	mTextManager->hide(path);
+	emit mQRealFacade->events().codeTabClosed(path);
 	return true;
 }
 
