@@ -80,6 +80,7 @@ jobs:
       - name: Create build directory
         run: |
           set -x
+          echo "`uname`"
           echo "$OSTYPE"
           mkdir -vp ${{ env.BUILD_DIR }}
 
