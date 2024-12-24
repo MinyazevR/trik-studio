@@ -98,7 +98,7 @@ jobs:
         fetch-depth: 0
 
     - name: Set up environment
-      run: buildScripts/github/install_${{ runner.os }}.sh
+      run: buildScripts/github/install.sh
       env:
         TRIK_QT_VERSION: ${{ inputs.trik_qt_version }}
         TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
@@ -106,16 +106,9 @@ jobs:
         XCODE_VERSION: ${{ inputs.xcode_version }}
         BUILD_INSTALLER: ${{ inputs.build_installer }}
         GCC_VERSION: ${{ inputs.gcc_version }}
-      if: ${{ inputs.build && !inputs.linux_installer_environment }}
-
-    - name: Set up installer environment
-      run: buildScripts/github/install_installer_environment.sh
-      env:
-        TRIK_QT_VERSION: ${{ inputs.trik_qt_version }}
-        TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
-        GCC_VERSION: ${{ inputs.gcc_version }}
         BUILD_INSTALLER: ${{ inputs.build_installer }}
-      if: ${{ inputs.linux_installer_environment }}
+        INSTALL_INSTALLER_ENVIRONMENT: ${{ inputs.linux_installer_environment }}
+      if: ${{ inputs.build }}
       
     - name: Lint
       run: |
