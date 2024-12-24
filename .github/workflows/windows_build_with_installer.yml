@@ -78,7 +78,10 @@ jobs:
             echo "BUILD_DIR=$DIR" >> $GITHUB_ENV
 
       - name: Create build directory
-        run: mkdir -vp ${{ env.BUILD_DIR }}
+        run: |
+          set -x
+          echo "$OSTYPE"
+          mkdir -vp ${{ env.BUILD_DIR }}
 
       - name: Configure git
         shell: bash
