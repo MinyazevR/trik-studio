@@ -106,7 +106,6 @@ jobs:
         XCODE_VERSION: ${{ inputs.xcode_version }}
         BUILD_INSTALLER: ${{ inputs.build_installer }}
         GCC_VERSION: ${{ inputs.gcc_version }}
-        BUILD_INSTALLER: ${{ inputs.build_installer }}
         INSTALL_INSTALLER_ENVIRONMENT: ${{ inputs.linux_installer_environment }}
       if: ${{ inputs.build }}
       
