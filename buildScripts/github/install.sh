@@ -9,9 +9,7 @@ install_qt(){
   . ./venv/bin/activate
   "$TRIK_PYTHON" -m pip install -U pip
   "$TRIK_PYTHON" -m pip install aqtinstall
-  if [ -z "${6+x}" ]; then
   "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" "$5"
-  fi
   if [ "$BUILD_INSTALLER" = "true" ]; then
     [ -d $HOME/qtifw ] || env TRIK_QTIFW_INSTALL_DIR="$HOME/qtifw" "$(dirname $(grealpath ${BASH_SOURCE[0]}))"/install_qtifw.sh
   fi
@@ -56,7 +54,7 @@ case "`uname`" in
       # pulseaudio-libs-glib2 to run TS and 2D-model even with `minimal` platform
       sudo yum install -y --setopt=install_weak_deps=False pulseaudio-libs-glib2 libxkbcommon-x11 qt5-qtbase-gui  libwayland-{server,client,cursor}
 
-      if [ -z "${INSTALL_INSTALLER_ENVIRONMENT+x}" ]; then
+      if [ -z "${INSTALL_INSTALLER_ENVIRONMENT}" ]; then
         sudo yum install -y --setopt=install_weak_deps=False qt5-qtscript-devel qt5-qttools-devel qt5-qtmultimedia-devel qt5-qtserialport-devel \
         qt5-qtsvg-devel qt5-qtbase-devel qt5-qtbase-private-devel qt5-qtwayland
       else
