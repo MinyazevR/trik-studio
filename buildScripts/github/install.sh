@@ -3,14 +3,15 @@ set -euxo pipefail
 TRIK_PYTHON=python3.${TRIK_PYTHON3_VERSION_MINOR}
 
 install_qt(){
-  # Usage: install_qt <os> <platform-type> <qt-version> <path-to-install-qt> <modules-for-install> <archives-for-install>
+  # Usage: install_qt <os> <platform-type> <qt-version> <path-to-install-qt> <adittional-params>
   
   "$TRIK_PYTHON" -m venv venv
   . ./venv/bin/activate
   "$TRIK_PYTHON" -m pip install -U pip
   "$TRIK_PYTHON" -m pip install aqtinstall
-  "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" -m "$5" --archives "$6"
-  
+  if [ -z "${6+x}" ]; then
+  "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" "$5"
+  fi
   if [ "$BUILD_INSTALLER" = "true" ]; then
     [ -d $HOME/qtifw ] || env TRIK_QTIFW_INSTALL_DIR="$HOME/qtifw" "$(dirname $(grealpath ${BASH_SOURCE[0]}))"/install_qtifw.sh
   fi
@@ -28,7 +29,7 @@ case "`uname`" in
       p="${p%.*}"
       brew install --quiet "$pkg" || brew upgrade "$pkg" || brew link --force "$pkg" || echo "Failed to install/upgrade $pkg"
     done
-    install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" qtscript
+    install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" qtscript "-m qtscript"
     sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
     xcodebuild -showsdks
     xcrun -sdk macosx --show-sdk-path
@@ -60,7 +61,7 @@ case "`uname`" in
         qt5-qtsvg-devel qt5-qtbase-devel qt5-qtbase-private-devel qt5-qtwayland
       else
         #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
-        install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" "qtscript qtwaylandcompositor" "qtbase qtmultimedia qtsvg qtscript qttools qtserialport qtimageformats icu qtwayland qtdeclarative"
+        install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" "-m qtscript qtwaylandcompositor" "--archives qtbase qtmultimedia qtsvg qtscript qttools qtserialport qtimageformats icu qtwayland qtdeclarative"
         QT_ROOT_DIR=$(ls -1d "$HOME"/Qt/$TRIK_QT_VERSION*/gcc_64 | head -n 1)
         echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
       fi

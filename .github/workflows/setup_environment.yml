@@ -27,7 +27,7 @@ on:
       trik_qt_version:
         required: false
         type: string
-        default: '5.12'
+        default: '5.15'
       trik_python3_version_minor:
         required: false
         type: string
