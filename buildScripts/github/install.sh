@@ -15,7 +15,7 @@ install_qt(){
     "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" -m "${modules[@]}" --archives "${archives[@]}"
   fi
   if [ "$BUILD_INSTALLER" = "true" ]; then
-    [ -d $HOME/qtifw ] || env TRIK_QTIFW_INSTALL_DIR="$HOME/qtifw" "$(dirname $(grealpath ${BASH_SOURCE[0]}))"/install_qtifw.sh
+    [ -d $HOME/qtifw ] || env TRIK_QTIFW_INSTALL_DIR="$HOME/qtifw" "$(dirname $(realpath ${BASH_SOURCE[0]}))"/install_qtifw.sh
   fi
   deactivate
 }

@@ -11,7 +11,7 @@ case "`uname`" in
     test -r "$D" || curl -L -o "$D" "http://download.qt-project.org/official_releases/qt-installer-framework/$QTIFW_VERSION/QtInstallerFramework-macOS-x64-${QTIFW_VERSION}.dmg"
     P=$(hdiutil attach "$D" -noverify -noautofsck | grep -o '/Volumes/.*$')
     I=$(find "$P" -type f -perm +1 -path '*Contents/MacOS/*' -print | head -n 1 )
-    env TRIK_QT_INSTALL_DIR="$TRIK_QT_INSTALL_DIR" "$I" --verbose --no-force-installations --show-virtual-components --script "$SCRIPT_DIR/../../plugins/robots/thirdparty/trikRuntime/trikRuntime/docker/qt_scriptinstall.qs"
+    env TRIK_QT_INSTALL_DIR="$TRIK_QTIFW_INSTALL_DIR" "$I" --verbose --no-force-installations --show-virtual-components --script "$SCRIPT_DIR/../../plugins/robots/thirdparty/trikRuntime/trikRuntime/docker/qt_scriptinstall.qs"
    du -csh "$TRIK_QTIFW_INSTALL_DIR"/* | sort -h
     ;;
   Linux)
