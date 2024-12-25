@@ -9,7 +9,7 @@ install_qt(){
   . ./venv/bin/activate
   "$TRIK_PYTHON" -m pip install -U pip
   "$TRIK_PYTHON" -m pip install aqtinstall
-  if [ -z "${6}" ]; then
+  if [ -z "${6+x}" ]; then
     "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" -m "$5"
   else
     "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" -m "$5" --archives "$6"
