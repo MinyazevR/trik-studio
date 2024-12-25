@@ -27,7 +27,7 @@ case "`uname`" in
       p="${p%.*}"
       brew install --quiet "$pkg" || brew upgrade "$pkg" || brew link --force "$pkg" || echo "Failed to install/upgrade $pkg"
     done
-    install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" qtscript "-m qtscript"
+    install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" "-m qtscript"
     sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
     xcodebuild -showsdks
     xcrun -sdk macosx --show-sdk-path
@@ -59,7 +59,7 @@ case "`uname`" in
         qt5-qtsvg-devel qt5-qtbase-devel qt5-qtbase-private-devel qt5-qtwayland
       else
         #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
-        install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" "-m qtscript qtwaylandcompositor" "--archives qtbase qtmultimedia qtsvg qtscript qttools qtserialport qtimageformats icu qtwayland qtdeclarative"
+        install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" "-m qtscript qtwaylandcompositor --archives qtbase qtmultimedia qtsvg qtscript qttools qtserialport qtimageformats icu qtwayland qtdeclarative"
         QT_ROOT_DIR=$(ls -1d "$HOME"/Qt/$TRIK_QT_VERSION*/gcc_64 | head -n 1)
         echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
       fi
