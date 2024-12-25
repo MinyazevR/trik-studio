@@ -51,16 +51,19 @@ prepare_environment_variable_and_check_tools(){
   case "`uname`" in
     Darwin)
       PREFIX="/Applications"
-      export DYLD_LIBRARY_PATH="$PREFIX/TRIKStudio/TRIK Studio.app/Contents/Lib"  
+      export DYLD_LIBRARY_PATH="$PREFIX/TRIKStudio/TRIK Studio.app/Contents/Lib" 
+      ;; 
     Linux)
       ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
       if [[ $ID = ubuntu ]]; then PREFIX="$HOME"; else PREFIX="/opt"; fi
       export LD_LIBRARY_PATH="$PREFIX/TRIKStudio/lib"
       export QT_QPA_PLATFORM=minimal
+      ;;
     Windows)
       export LD_LIBRARY_PATH="/C/TRIKStudio/lib"
       LIB_DIR="/C/$APP_DIR"
       EXT=".exe"
+      ;;
     *) exit 1 ;; 
   esac
   
