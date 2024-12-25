@@ -64,7 +64,7 @@ jobs:
       config: debug
       qmake_extra: "CONFIG+=warn_off CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=small_debug_info CONFIG+=sanitizer CONFIG+=sanitize_undefined CONFIG+=sanitize_address"
       trik_python3_version_minor: 11
-
+  build-macos-installer:
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: macos-13
