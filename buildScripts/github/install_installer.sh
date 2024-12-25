@@ -21,7 +21,7 @@ prepare_environment(){
       fi 
       return 0 ;;
     Darwin) return 0 ;; 
-    Windows) return 0 ;;
+    msys) return 0 ;;
     *) exit 1 ;;
   esac
 }
@@ -39,7 +39,7 @@ install_installer(){
       chmod +x "$INSTALLER_NAME"
       ./"$INSTALLER_NAME" --verbose --script trik_studio_installscript.qs --platform minimal 
       return 0 ;;  
-    Windows)
+    msys)
       ./"$INSTALLER_NAME" --verbose --script trik_studio_installscript.qs
       return 0 ;;  
     *) exit 1 ;;
@@ -90,7 +90,7 @@ dll_search(){
          | grep -Ev "$LD_LIBRARY_PATH" | grep -Ev "ld|linux-vdso"
 
       ls -- *.so* | xargs ldd | grep "not found" || exit 0
-    Windows)
+    msys)
       # Find dependencies that have not been packaged, but are still in the system
       ls -- *.dll* | xargs ldd | grep -Ev "not found$" | grep dll | sed -e '/^[^\t]/ d' | sed -e 's/\t//' \
 	| sed -e 's/.*=..//' | sed -e 's/ (0.*)//' | grep -Ev "lib(System|SYSTEM)32.*dll" \
