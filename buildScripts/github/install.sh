@@ -60,14 +60,16 @@ case "`uname`" in
       sudo yum install -y --setopt=install_weak_deps=False pulseaudio-libs-glib2 libxkbcommon-x11 qt5-qtbase-gui  libwayland-{server,client,cursor}
 
       echo $INSTALL_INSTALLER_ENVIRONMENT
-      if [ "$INSTALL_INSTALLER_ENVIRONMENT" = "true" ]; then
+      if [ "$INSTALL_INSTALLER_ENVIRONMENT" != "true" ]; then
         sudo yum install -y --setopt=install_weak_deps=False qt5-qtscript-devel qt5-qttools-devel qt5-qtmultimedia-devel qt5-qtserialport-devel \
         qt5-qtsvg-devel qt5-qtbase-devel qt5-qtbase-private-devel qt5-qtwayland
       else
         #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
         modules=("qtscript" "qtwaylandcompositor")
         archives=("qtbase" "qtmultimedia" "qtsvg" "qtscript" "qttools" "qtserialport" "qtimageformats" "icu" "qtwayland" "qtdeclarative")
-        install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" "${modules[@]}" "${archives[@]}"
+        IFS=" " s_modules="${modules[*]}"
+        IFS=" " s_archives="${archives[*]}"
+        install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" "$s_modules" "$s_archives"
         QT_ROOT_DIR=$(ls -1d "$HOME"/Qt/$TRIK_QT_VERSION*/gcc_64 | head -n 1)
         echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
       fi
