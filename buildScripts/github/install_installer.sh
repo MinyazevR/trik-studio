@@ -65,11 +65,17 @@ prepare_environment_variable_and_check_tools(){
   esac
   
   APP_DIR="$PREFIX/TRIKStudio"
-  $(find "$APP_DIR" -name "2D-model$EXT" -print -quit) --version
-  $(find "$APP_DIR" -name "patcher$EXT" -print -quit) --version
+  
+  TWOD_EXEC_NAME=$(find "$APP_DIR" -name "2D-model$EXT" -print -quit)
+  PATCHER_NAME=$(find "$APP_DIR" -name "patcher$EXT" -print -quit)
   $(find "$APP_DIR" -name "trik-studio$EXT" -print -quit) --version
   $(find "$APP_DIR" -name "$MAINTENANCE$EXT" -print -quit) --version
-  echo "APP_DIR=$APP_DIR" >> $GITHUB_ENV
+  
+  "$TWOD_EXEC_NAME" --version
+  "$PATCHER_NAME" --version
+  
+  echo "TWOD_EXEC_NAME=$TWOD_EXEC_NAME" >> $GITHUB_ENV
+  echo "PATCHER_NAME=$PATCHER_NAME" >> $GITHUB_ENV
 }
 
 dll_search(){

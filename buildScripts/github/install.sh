@@ -67,7 +67,6 @@ case "`uname`" in
         #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
         modules=("qtscript" "qtwaylandcompositor")
         archives=("qtbase" "qtmultimedia" "qtsvg" "qtscript" "qttools" "qtserialport" "qtimageformats" "icu" "qtwayland" "qtdeclarative")
-        IFS=" " my_string="${modules[*]}"
         install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" $modules $archives
         QT_ROOT_DIR=$(ls -1d "$HOME"/Qt/$TRIK_QT_VERSION*/gcc_64 | head -n 1)
         echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
