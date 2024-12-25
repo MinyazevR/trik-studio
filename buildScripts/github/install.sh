@@ -5,15 +5,14 @@ TRIK_PYTHON=python3.${TRIK_PYTHON3_VERSION_MINOR}
 install_qt(){
   # Usage: install_qt <os> <platform-type> <qt-version> <path-to-install-qt> <modules> <archives>
   # TODO: add <addittional-options>
-  
   "$TRIK_PYTHON" -m venv venv
   . ./venv/bin/activate
   "$TRIK_PYTHON" -m pip install -U pip
   "$TRIK_PYTHON" -m pip install aqtinstall
   if [ -z "${6+x}" ]; then
-    "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" -m "$5"
+    "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" -m "${modules[@]}"
   else
-    "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" -m "$5" --archives "$6"
+    "$TRIK_PYTHON" -m aqt install-qt "$1" "$2" "$3" -O "$4" -m "${modules[@]}" --archives "${archives[@]}"
   fi
   if [ "$BUILD_INSTALLER" = "true" ]; then
     [ -d $HOME/qtifw ] || env TRIK_QTIFW_INSTALL_DIR="$HOME/qtifw" "$(dirname $(grealpath ${BASH_SOURCE[0]}))"/install_qtifw.sh
@@ -32,7 +31,8 @@ case "`uname`" in
       p="${p%.*}"
       brew install --quiet "$pkg" || brew upgrade "$pkg" || brew link --force "$pkg" || echo "Failed to install/upgrade $pkg"
     done
-    install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" "qtscript"
+    modules=("qtscript")
+    install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" $modules
     sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
     xcodebuild -showsdks
     xcrun -sdk macosx --show-sdk-path
@@ -67,9 +67,8 @@ case "`uname`" in
         #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
         modules=("qtscript" "qtwaylandcompositor")
         archives=("qtbase" "qtmultimedia" "qtsvg" "qtscript" "qttools" "qtserialport" "qtimageformats" "icu" "qtwayland" "qtdeclarative")
-        IFS=" " s_modules="${modules[*]}"
-        IFS=" " s_archives="${archives[*]}"
-        install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" "$s_modules" "$s_archives"
+        IFS=" " my_string="${modules[*]}"
+        install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" $modules $archives
         QT_ROOT_DIR=$(ls -1d "$HOME"/Qt/$TRIK_QT_VERSION*/gcc_64 | head -n 1)
         echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
       fi
