@@ -17,7 +17,7 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QAction>
 #include <QtSvg/QSvgRenderer>
-
+#include <QDebug>
 #include <twoDModel/engine/model/constants.h>
 
 using namespace twoDModel::items;
@@ -128,6 +128,7 @@ void SkittleItem::returnToStartPosition()
 
 QPolygonF SkittleItem::collidingPolygon() const
 {
+	qDebug() << __PRETTY_FUNCTION__ << __LINE__ << scenePos();
 	return QPolygonF(boundingRect().adjusted(1, 1, -1, -1).translated(scenePos()));
 }
 
@@ -146,6 +147,7 @@ QPainterPath SkittleItem::path() const
 	QPainterPath path;
 	QPolygonF collidingPlgn = collidingPolygon();
 	QMatrix m;
+	qDebug() << __PRETTY_FUNCTION__ << __LINE__ << rotation();
 	m.rotate(rotation());
 
 	const QPointF firstP = collidingPlgn.at(0);
@@ -153,6 +155,7 @@ QPainterPath SkittleItem::path() const
 
 	path.addEllipse(collidingPlgn.boundingRect());
 	path = m.map(path);
+	qDebug() << __PRETTY_FUNCTION__ << __LINE__ << firstP.x() << firstP.y();
 	path.translate(firstP.x(), firstP.y());
 
 	return path;
