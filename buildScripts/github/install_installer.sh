@@ -84,12 +84,13 @@ prepare_environment_variable_and_check_tools(){
 }
 
 dll_search(){
-  cd "$LIB_DIR"
   case "`uname`" in
     Darwin)
+      cd "$DYLD_LIBRARY_PATH"
       ls -- *.dylib | xargs otool -L | grep "not found" || exit 0
       exit 1 ;;
     Linux)
+      cd "$LD_LIBRARY_PATH"
       # Find dependencies that have not been packaged, but are still in the system
       ls -- *.so* | xargs ldd | grep -Ev "not found$" | grep so | sed -e '/^[^\t]/ d' | sed -e 's/\t//' \
          | sed -e 's/.*=..//' | sed -e 's/ (0.*)//' | grep -Ev "lib(c|dl|m|pthread|rt)\.so.*" \
@@ -97,6 +98,7 @@ dll_search(){
       ls -- *.so* | xargs ldd | grep "not found" || exit 0
       exit 1 ;;
     msys)
+      cd "$LD_LIBRARY_PATH"
       # Find dependencies that have not been packaged, but are still in the system
       ls -- *.dll* | xargs ldd | grep -Ev "not found$" | grep dll | sed -e '/^[^\t]/ d' | sed -e 's/\t//' \
 	| sed -e 's/.*=..//' | sed -e 's/ (0.*)//' | grep -Ev "lib(System|SYSTEM)32.*dll" \
