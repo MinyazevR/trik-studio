@@ -21,7 +21,7 @@ prepare_environment(){
       fi 
       return 0 ;;
     Darwin) return 0 ;; 
-    msys) return 0 ;;
+    MINGW64*) return 0 ;;
     *) exit 1 ;;
   esac
 }
@@ -41,7 +41,7 @@ install_installer(){
       ./"$INSTALLER_NAME" --verbose --script trik_studio_installscript.qs --platform minimal 
       sudo rm -rf "$INSTALLER_NAME"
       return 0 ;;  
-    msys)
+    MINGW64*)
       ./"$INSTALLER_NAME" --verbose --script trik_studio_installscript.qs
       return 0 ;;  
     *) exit 1 ;;
@@ -53,17 +53,19 @@ prepare_environment_variable_and_check_tools(){
   case "`uname`" in
     Darwin)
       PREFIX="/Applications"
-      export DYLD_LIBRARY_PATH="$PREFIX/TRIKStudio/TRIK Studio.app/Contents/Lib" 
+      LIB_DIR="$PREFIX/TRIKStudio/TRIK Studio.app/Contents/Lib"
+      DYLD_LIBRARY_PATH="$LIB_DIR" 
       ;; 
     Linux)
       ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
       if [[ $ID = ubuntu ]]; then PREFIX="$HOME"; else PREFIX="/opt"; fi
-      export LD_LIBRARY_PATH="$PREFIX/TRIKStudio/lib"
-      export QT_QPA_PLATFORM=minimal
+      LIB_DIR="$PREFIX/TRIKStudio/TRIK Studio.app/Contents/Lib"
+      LD_LIBRARY_PATH="$LIB_DIR"
+      QT_QPA_PLATFORM=minimal
       ;;
-    Windows)
-      export LD_LIBRARY_PATH="/C/TRIKStudio/lib"
+    MINGW64*)
       LIB_DIR="/C/$APP_DIR"
+      LD_LIBRARY_PATH="LIB_DIR"
       EXT=".exe"
       ;;
     *) exit 1 ;; 
@@ -83,6 +85,7 @@ prepare_environment_variable_and_check_tools(){
   
   echo "TWOD_EXEC_NAME=$TWOD_EXEC_NAME" >> $GITHUB_ENV
   echo "PATCHER_NAME=$PATCHER_NAME" >> $GITHUB_ENV
+  echo "LIB_DIR=$LIB_DIR" >> $GITHUB_ENV
 }
 
 dll_search(){
@@ -99,7 +102,7 @@ dll_search(){
          | grep -Ev "$LD_LIBRARY_PATH" | grep -Ev "ld|linux-vdso"
       ls -- *.so* | xargs ldd | grep "not found" || exit 0
       exit 1 ;;
-    msys)
+    MINGW64*)
       cd "$LD_LIBRARY_PATH"
       # Find dependencies that have not been packaged, but are still in the system
       ls -- *.dll* | xargs ldd | grep -Ev "not found$" | grep dll | sed -e '/^[^\t]/ d' | sed -e 's/\t//' \
