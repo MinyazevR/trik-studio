@@ -16,7 +16,7 @@ case "`uname`" in
     ;;
   Linux)
     curl --output qtifw.zip "https://dl.trikset.com/.qtifw/qtifw-4.0.zip"
-    7za x -o"/opt/" qtifw.zip
+    7za x -o"$HOME" qtifw.zip
     echo "QTIFWBIN=$TRIK_QTIFW_INSTALL_DIR/bin"  >> $GITHUB_ENV
     ;;
   *) exit 1 ;;
