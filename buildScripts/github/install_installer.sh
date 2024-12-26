@@ -33,11 +33,13 @@ install_installer(){
       sudo cp -rf "/Volumes/$INSTALLER_NAME/$INSTALLER_NAME.app" $GITHUB_WORKSPACE
       sudo hdiutil detach /Volumes/"$INSTALLER_NAME"
       ./"$INSTALLER_NAME".app/Contents/MacOS/$INSTALLER_NAME --verbose --script trik_studio_installscript.qs
+      sudo rm -rf "$INSTALLER_NAME".app
       return 0 ;;
     Linux)
       INSTALLER_NAME="$INSTALLER_NAME.run"
       chmod +x "$INSTALLER_NAME"
       ./"$INSTALLER_NAME" --verbose --script trik_studio_installscript.qs --platform minimal 
+      sudo rm -rf "$INSTALLER_NAME"
       return 0 ;;  
     msys)
       ./"$INSTALLER_NAME" --verbose --script trik_studio_installscript.qs
