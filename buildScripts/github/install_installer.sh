@@ -108,5 +108,5 @@ dll_search(){
 
 prepare_environment
 install_installer
-prepare_environment_variable
+prepare_environment_variable_and_check_tools
 dll_search
