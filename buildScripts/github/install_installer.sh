@@ -71,11 +71,13 @@ prepare_environment_variable_and_check_tools(){
   
   TWOD_EXEC_NAME=$(find "$APP_DIR" -name "2D-model$EXT" -print -quit)
   PATCHER_NAME=$(find "$APP_DIR" -name "patcher$EXT" -print -quit)
-  $(find "$APP_DIR" -name "trik-studio$EXT" -print -quit) --version
-  $(find "$APP_DIR" -name "$MAINTENANCE$EXT" -print -quit) --version
+  TRIK_STUDIO_NAME=$(find "$APP_DIR" -name "trik-studio$EXT" -print -quit)
+  MAINTENANCE=$(find "$APP_DIR" -name "maintenance$EXT" -print -quit)
   
   "$TWOD_EXEC_NAME" --version
   "$PATCHER_NAME" --version
+  "$TRIK_STUDIO_NAME" --version
+  "$MAINTENANCE" --version
   
   echo "TWOD_EXEC_NAME=$TWOD_EXEC_NAME" >> $GITHUB_ENV
   echo "PATCHER_NAME=$PATCHER_NAME" >> $GITHUB_ENV
