@@ -86,13 +86,14 @@ dll_search(){
   case "`uname`" in
     Darwin)
       ls -- *.dylib | xargs otool -L | grep "not found" || exit 0
+      exit 1 ;;
     Linux)
       # Find dependencies that have not been packaged, but are still in the system
       ls -- *.so* | xargs ldd | grep -Ev "not found$" | grep so | sed -e '/^[^\t]/ d' | sed -e 's/\t//' \
          | sed -e 's/.*=..//' | sed -e 's/ (0.*)//' | grep -Ev "lib(c|dl|m|pthread|rt)\.so.*" \
          | grep -Ev "$LD_LIBRARY_PATH" | grep -Ev "ld|linux-vdso"
-
       ls -- *.so* | xargs ldd | grep "not found" || exit 0
+      exit 1 ;;
     msys)
       # Find dependencies that have not been packaged, but are still in the system
       ls -- *.dll* | xargs ldd | grep -Ev "not found$" | grep dll | sed -e '/^[^\t]/ d' | sed -e 's/\t//' \
@@ -100,6 +101,7 @@ dll_search(){
 	| grep -Ev "$LD_LIBRARY_PATH"
 
       ls -- *.dll* | xargs ldd | grep "not found" || exit 0
+      exit 1 ;;
     *) exit 1 ;;
   esac
 }
