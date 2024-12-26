@@ -15,8 +15,8 @@ case "`uname`" in
    du -csh "$TRIK_QTIFW_INSTALL_DIR"/* | sort -h
     ;;
   Linux)
-    curl --output qtifw.zip "https://dl.trikset.com/.qtifw/qtifw-4.0.zip"
-    sudo 7za x qtifw.zip "$TRIK_QTIFW_INSTALL_DIR"
+    curl --output qtifw.zip "https://dl.trikset.com/.qtifw/qtifw-4.0.zip
+    7za x -o"/opt/" qtifw.zip
     echo "QTIFWBIN=$TRIK_QTIFW_INSTALL_DIR/bin"  >> $GITHUB_ENV
     ;;
   *) exit 1 ;;
