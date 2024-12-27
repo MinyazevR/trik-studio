@@ -6,18 +6,13 @@ prepare_environment(){
     Linux)
       ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
       if [ "$ID" = "altlinux" ]; then
-        sudo apt-get update && sudo apt-get install -y libxkbcommon-x11 libX11 fontconfig \
-        libxcbutil-icccm libxcbutil-image libdbus libxcbutil-keysyms libxcb-render-util
+        sudo apt-get update && sudo apt-get install -y fontconfig libdbus libX11 libXrender libXext libxkbcommon-x11
       elif [ "$ID" = "ubuntu" ]; then
-        sudo apt-get update && sudo apt-get install -y --no-install-recommends libxkbcommon-x11-0 \
-        libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-sync1 \
-        libxcb-xfixes0 libxcb-shape0 libx11-xcb1 libfreetype6 libfontconfig1 libdbus-1-3
+        sudo apt-get update && sudo apt-get install -y --no-install-recommends fontconfig libdbus-1-3 libx11-xcb1 libxkbcommon-x11-0
       elif [ "$ID" = "arch" ]; then
-        sudo pacman -Sy && sudo pacman -S libxkbcommon-x11 xcb-util-wm xcb-util-image xcb-util-keysyms \
-        xcb-util-renderutil fontconfig libx11 --noconfirm
+        sudo pacman -Sy && sudo pacman -S fontconfig libx11 libxrender libxext libxkbcommon-x11 --noconfirm
       elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
-        sudo yum update -y && sudo yum install -y --setopt=install_weak_deps=False libxkbcommon-x11 xcb-util-wm\
-        libX11 xcb-util-image dbus-libs xcb-util-keysyms xcb-util-renderutil fontconfig libX11-xcb
+        sudo yum install -y --setopt=install_weak_deps=False libX11-xcb libXext libxkbcommon-x11 fontconfig freetype libXrender
       fi 
       return 0 ;;
     Darwin) return 0 ;; 
@@ -59,7 +54,7 @@ prepare_environment_variable_and_check_tools(){
     Linux)
       ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
       if [[ $ID = ubuntu ]]; then PREFIX="$HOME"; else PREFIX="/opt"; fi
-      LIB_DIR="$PREFIX/TRIKStudio"
+      LIB_DIR="$PREFIX/TRIKStudio/lib"
       LD_LIBRARY_PATH="$LIB_DIR"
       export QT_QPA_PLATFORM=minimal
       ;;
