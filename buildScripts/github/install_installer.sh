@@ -61,7 +61,7 @@ prepare_environment_variable_and_check_tools(){
       if [[ $ID = ubuntu ]]; then PREFIX="$HOME"; else PREFIX="/opt"; fi
       LIB_DIR="$PREFIX/TRIKStudio"
       LD_LIBRARY_PATH="$LIB_DIR"
-      QT_QPA_PLATFORM=minimal
+      export QT_QPA_PLATFORM=minimal
       ;;
     MINGW64*)
       LIB_DIR="/C/TRIKStudio"
