@@ -49,18 +49,18 @@ prepare_environment_variable_and_check_tools(){
     Darwin)
       PREFIX="/Applications"
       LIB_DIR="$PREFIX/TRIKStudio/TRIK Studio.app/Contents/Lib"
-      DYLD_LIBRARY_PATH="$LIB_DIR" 
+      export DYLD_LIBRARY_PATH="$LIB_DIR" 
       ;; 
     Linux)
       ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
       if [[ $ID = ubuntu ]]; then PREFIX="$HOME"; else PREFIX="/opt"; fi
       LIB_DIR="$PREFIX/TRIKStudio/lib"
-      LD_LIBRARY_PATH="$LIB_DIR"
+      export LD_LIBRARY_PATH="$LIB_DIR"
       export QT_QPA_PLATFORM=minimal
       ;;
     MINGW64*)
       LIB_DIR="/C/TRIKStudio"
-      LD_LIBRARY_PATH="LIB_DIR"
+      export LD_LIBRARY_PATH="LIB_DIR"
       EXT=".exe"
       ;;
     *) exit 1 ;; 
