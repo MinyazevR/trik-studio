@@ -34,7 +34,6 @@ install_installer(){
       INSTALLER_NAME="$INSTALLER_NAME.run"
       chmod +x "$INSTALLER_NAME"
       ./"$INSTALLER_NAME" --verbose --script trik_studio_installscript.qs --platform minimal 
-      sudo rm -rf "$INSTALLER_NAME"
       return 0 ;;  
     MINGW64*)
       ./"$INSTALLER_NAME" --verbose --script trik_studio_installscript.qs
