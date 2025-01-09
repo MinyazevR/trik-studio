@@ -80,7 +80,7 @@ jobs:
     steps:
     - name: Set up internal builder
       run: |
-        if [ -n ${{ inputs.container_name }} ]; then
+        if [ -n "${{ inputs.container_name }}" ]; then
           docker pull ${{ inputs.container_name }}
           docker run --cap-add SYS_PTRACE -d -v $HOME:$HOME:rw -w `pwd` --name builder ${{ inputs.container_name }}
           docker exec builder git config --global --add safe.directory '*'
