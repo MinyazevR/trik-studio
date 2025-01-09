@@ -39,6 +39,7 @@ CONFIG="$CONFIG" \
 QMAKE_EXTRA="$QMAKE_EXTRA" \
 PROJECT="$PROJECT" \
 RUNNER_OS="$RUNNER_OS" \
+PYTHON_PATH="$PYTHON_PATH" \
 buildScripts/github/build_internal.sh
 
 

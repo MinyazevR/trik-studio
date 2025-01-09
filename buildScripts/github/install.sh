@@ -41,6 +41,9 @@ case "$(uname)" in
     ID=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
     
     if [ "$ID" = "altlinux" ]; then
+      apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git sudo
+      sed -i 's/^# \(WHEEL_USERS.*\)/\1/' /etc/sudoers
+        
       sudo apt-get update && sudo apt-get install -y gcc-c++ curl xz p7zip-standalone rsync libusb-devel \
       libudev-devel libGL-devel libGLX-mesa python3-dev zlib-devel make ccache python3-module-pip time \
       qt5-multimedia-devel qt5-svg-devel qt5-script-devel qt5-tools qt5-serialport-devel
@@ -49,11 +52,13 @@ case "$(uname)" in
       make qtscript5-dev qttools5-dev-tools qtmultimedia5-dev libqt5serialport5-dev libqt5svg5-dev \
       libudev-dev "$TRIK_PYTHON"-dev qtbase5-private-dev qtwayland5
     elif [ "$ID" = "astra" ]; then
+      apt-get update && apt-get install -y --no-install-recommends git sudo
       apt-get install -y --no-install-recommends ccache curl libusb-1.0-0-dev \
       make qtscript5-dev qttools5-dev-tools qtmultimedia5-dev libqt5serialport5-dev libqt5svg5-dev \
       libudev-dev qtbase5-private-dev qtwayland5 rsync zlib-dev fontconfig time 
     elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
       GCC_VERSION=${GCC_VERSION:-13}
+      yum update -y && yum install -y --setopt=install_weak_deps=False git-core sudo
       sudo yum update -y &&  sudo yum install -y --setopt=install_weak_deps=False epel-release
       sudo yum install --allowerasing -y --setopt=install_weak_deps=False sudo which libusbx-devel curl \
       wget make gcc-toolset-"$GCC_VERSION"-{gcc-c++,libasan-devel,libubsan-devel,gdb} git-core ccache \

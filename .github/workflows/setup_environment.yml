@@ -55,7 +55,7 @@ on:
       container_name:
         required: false
         type: string
-        default: ""
+        default:
       gcc_version:
         required: false
         type: string
@@ -76,24 +76,16 @@ jobs:
         shell: ${{ inputs.shell }}
 
     runs-on: ${{ inputs.os }}
-    container: ${{ inputs.container_name }}
     
     steps:
-    - name: Install dependencies
+    - name: Set up internal builder
       run: |
-        apt-get update && apt-get -y dist-upgrade && apt-get install -y glibc git sudo
-        sed -i 's/^# \(WHEEL_USERS.*\)/\1/' /etc/sudoers
-      if: startsWith(inputs.container_name, 'alt')
+        if [ -n ${{ inputs.container_name }} ]; then
+          docker pull ${{ inputs.container_name }}
+          docker run --cap-add SYS_PTRACE -d -v $HOME:$HOME:rw -w `pwd` --name builder ${{ inputs.container_name }}
+          docker exec builder git config --global --add safe.directory '*'
+        fi
 
-    - name: Install dependencies
-      run: |
-        apt-get update && apt-get install -y --no-install-recommends git sudo
-      if: contains(inputs.container_name, 'astra')
-
-    - name: Install dependencies
-      run: yum update -y && yum install -y --setopt=install_weak_deps=False git-core sudo
-      if: startsWith(inputs.container_name, 'rocky')
-      
     - name: Configure git
       run: |
           git config --global core.symlinks true
@@ -113,7 +105,7 @@ jobs:
       if: ${{ inputs.setup_new_python }}
 
     - name: Set up environment
-      run: buildScripts/github/install.sh
+      run: ${{ inputs.executor }} buildScripts/github/install.sh
       env:
         TRIK_QT_VERSION: ${{ inputs.trik_qt_version }}
         TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
@@ -141,8 +133,15 @@ jobs:
           ccache-c${{ inputs.container_name }}-${{ inputs.os }}
       if: ${{ inputs.build }}
 
+    - name: Prepare Python path
+      run: |
     - name: Build
-      run: buildScripts/github/build.sh
+      run: | 
+        if [-n "${pythonLocation}" ];
+          PYTHON_PATH="${pythonLocation}"
+          QMAKE_EXTRA="${{ inputs.qmake_extra }} PYTHON_PATH="$PYTHON_PATH"
+        fi
+        PYTHON_PATH="$PYTHON_PATH" QMAKE_EXTRA="$QMAKE_EXTRA" buildScripts/github/build.sh
       env:
         TRIK_QT_VERSION: ${{ inputs.trik_qt_version }}
         TRIK_PYTHON3_VERSION_MINOR: ${{ inputs.trik_python3_version_minor }}
@@ -151,7 +150,7 @@ jobs:
         PROJECT: "studio"
         CONFIG: ${{ inputs.config }}
         EXECUTOR: ${{ inputs.executor }}
-        QMAKE_EXTRA: "${{ inputs.qmake_extra }} PYTHON_PATH=${{ env.pythonLocation }}"
+        QMAKE_EXTRA: "${{ inputs.qmake_extra }}"
       if: ${{ inputs.build }}
 
     - name: Save build cache

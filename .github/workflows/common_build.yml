@@ -152,7 +152,7 @@ jobs:
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
-      container_name: registry.astralinux.ru/library/orel:2.12
+      executor: "time docker exec -i builder"
       build: true
       build_installer: true
       qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=sanitizer CONFIG+=sanitize-undefined CONFIG+=sanitize_address"
