@@ -48,6 +48,10 @@ case "$(uname)" in
       sudo apt-get update && sudo apt-get install -y --no-install-recommends ccache curl libusb-1.0-0-dev \
       make qtscript5-dev qttools5-dev-tools qtmultimedia5-dev libqt5serialport5-dev libqt5svg5-dev \
       libudev-dev "$TRIK_PYTHON"-dev qtbase5-private-dev qtwayland5
+    elif [ "$ID" = "astra" ]; then
+      apt-get install -y --no-install-recommends ccache curl libusb-1.0-0-dev \
+      make qtscript5-dev qttools5-dev-tools qtmultimedia5-dev libqt5serialport5-dev libqt5svg5-dev \
+      libudev-dev qtbase5-private-dev qtwayland5 rsync zlib-dev fontconfig time 
     elif [[ "$ID" = "rocky" || "$ID" = '"rocky"' ]]; then
       GCC_VERSION=${GCC_VERSION:-13}
       sudo yum update -y &&  sudo yum install -y --setopt=install_weak_deps=False epel-release
@@ -58,21 +62,22 @@ case "$(uname)" in
       #no desire to enumerate all required libraries for QtIFw
       # pulseaudio-libs-glib2 to run TS and 2D-model even with `minimal` platform
       sudo yum install -y --setopt=install_weak_deps=False pulseaudio-libs-glib2 libxkbcommon-x11 qt5-qtbase-gui  libwayland-{server,client,cursor}
-
-      echo $INSTALL_INSTALLER_ENVIRONMENT
+      
       if [ "$INSTALL_INSTALLER_ENVIRONMENT" != "true" ]; then
         sudo yum install -y --setopt=install_weak_deps=False qt5-qtscript-devel qt5-qttools-devel qt5-qtmultimedia-devel qt5-qtserialport-devel \
         qt5-qtsvg-devel qt5-qtbase-devel qt5-qtbase-private-devel qt5-qtwayland
       else
         sudo yum install -y --setopt=install_weak_deps=False libX11-xcb libXext libxkbcommon-x11 fontconfig freetype libXrender
-        #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
+      fi
+      echo "source scl_source enable gcc-toolset-$GCC_VERSION" >> ~/.bash_profile
+    fi
+    if [ "$INSTALL_INSTALLER_ENVIRONMENT" == "true" ]; then
+       #libQt5WaylandCompositor.so.5.15: libQt5Quick.so.5 libQt5Qml.so.5 libQt5QmlModels.so.5 
         modules=("qtscript" "qtwaylandcompositor")
         archives=("qtbase" "qtmultimedia" "qtsvg" "qtscript" "qttools" "qtserialport" "qtimageformats" "icu" "qtwayland" "qtdeclarative")
         install_qt linux desktop "$TRIK_QT_VERSION" "$HOME/Qt" $modules $archives
         QT_ROOT_DIR=$(ls -1d "$HOME"/Qt/$TRIK_QT_VERSION*/gcc_64 | head -n 1)
         echo "$QT_ROOT_DIR/bin" >> $GITHUB_PATH
-      fi
-      echo "source scl_source enable gcc-toolset-$GCC_VERSION" >> ~/.bash_profile
     fi
     ;;
   *) exit 1 ;;

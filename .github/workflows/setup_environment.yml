@@ -64,6 +64,10 @@ on:
         required: false
         type: string
         default: bash
+      setup_new_python:
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build:
@@ -81,6 +85,10 @@ jobs:
         sed -i 's/^# \(WHEEL_USERS.*\)/\1/' /etc/sudoers
       if: startsWith(inputs.container_name, 'alt')
 
+    - name: Install dependencies
+      run: |
+        apt-get update && apt-get install -y --no-install-recommends git sudo
+      if: contains(inputs.container_name, 'astra')
 
     - name: Install dependencies
       run: yum update -y && yum install -y --setopt=install_weak_deps=False git-core sudo
@@ -96,6 +104,13 @@ jobs:
       with:
         submodules: recursive
         fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.${{ inputs.trik_python3_version_minor }}
+        architecture: x64
+      if: ${{ inputs.setup_new_python }}
 
     - name: Set up environment
       run: buildScripts/github/install.sh
@@ -136,7 +151,7 @@ jobs:
         PROJECT: "studio"
         CONFIG: ${{ inputs.config }}
         EXECUTOR: ${{ inputs.executor }}
-        QMAKE_EXTRA: ${{ inputs.qmake_extra }}
+        QMAKE_EXTRA: "${{ inputs.qmake_extra }} PYTHON_PATH=${{ env.pythonLocation }}"
       if: ${{ inputs.build }}
 
     - name: Save build cache
