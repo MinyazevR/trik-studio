@@ -34,6 +34,7 @@ fi
 echo Start build installer
 $EXECUTOR bash -c "installer/build-trik-studio.sh $QTBIN $QTIFWBIN ."
 
+ls
 INSTALLER_NAME=$(find installer -name "trik-studio*installer*" -print -quit)
 
 if $NEED_DEPLOY ; then
