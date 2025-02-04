@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 
+#include <QHash>
 #include <QMutex>
 #include <QSharedPointer>
 
@@ -19,25 +20,36 @@
 
 namespace utils {
 
+class SingletonImpl
+{
+    static QHash<void *, QWeakPointer<QObject>> s;
+    static QMutex m;
+public:
+    template <typename T>
+    static QSharedPointer<T> instance()
+    {
+        QMutexLocker lock(&m);
+        auto &instance = s[&T::staticMetaObject];
+        if (auto result = instance.lock()) {
+            return result;
+        } else {
+            result = QSharedPointer<T>(new T());
+            instance = result;
+            return result;
+        }
+    }
+};
+
 /// Instantiates and provides to all callers single instance of the some type.
 template<typename T>
 class Singleton
 {
 public:
 	/// Creates single instance of some type (given in class template) if it does not exist and returns it.
-	static QSharedPointer<T> instance()
+    static QSharedPointer<T> instance()
 	{
-		static QMutex m;
-		QMutexLocker lock(&m);
-		static QWeakPointer<T> instance;
-		if (auto result = instance.lock()) {
-			return result;
-		} else {
-			result = QSharedPointer<T>(new T());
-			instance = result;
-			return result;
-		}
-	}
+        return SingletonImpl::instance<T>();
+    }
 };
 
 }
