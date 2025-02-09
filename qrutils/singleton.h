@@ -14,30 +14,27 @@
 
 #include <QMutex>
 #include <QSharedPointer>
-
 #pragma once
 
 namespace utils {
 
 /// Instantiates and provides to all callers single instance of the some type.
-template<typename T>
 class Singleton
 {
+    static QHash<const void *, QWeakPointer<QObject>> _typeToObject;
+    static QMutex _m;
 public:
-	/// Creates single instance of some type (given in class template) if it does not exist and returns it.
-	static QSharedPointer<T> instance()
-	{
-		static QMutex m;
-		QMutexLocker lock(&m);
-		static QWeakPointer<T> instance;
-		if (auto result = instance.lock()) {
-			return result;
-		} else {
-			result = QSharedPointer<T>(new T());
-			instance = result;
-			return result;
-		}
-	}
+    template <typename T> static QSharedPointer<T> instance() {
+	    QMutexLocker lock(&_m);
+	    auto &instance = _typeToObject[&T::staticMetaObject];
+	    if (auto result = instance.lock()) {
+		    return qWeakPointerCast<T, QObject>(result);
+	    } else {
+		    auto qSharedPointerResult = QSharedPointer<T>(new T());
+		    _typeToObject[&T::staticMetaObject] = qSharedPointerCast<QObject, T>(qSharedPointerResult);
+		    return qSharedPointerResult;
+	    }
+    }
 };
 
 }
