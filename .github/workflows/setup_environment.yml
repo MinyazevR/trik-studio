@@ -183,6 +183,9 @@ jobs:
     - name: Evaluate artifact name
       run: |
         set -x
+        ls
+        ls **
+        ls **/**/
         ldd ./bin/trik-studio.bin | grep -q libasan && SUFFIX="-asan" || SUFFIX=
         echo "ARTIFACT_INSTALLER_NAME=$(echo "$RUNNER_OS" | awk '{print tolower($0)}')-installer${SUFFIX}" >> $GITHUB_ENV
 
