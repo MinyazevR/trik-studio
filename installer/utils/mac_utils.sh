@@ -15,6 +15,8 @@ function fix_dependencies {
 	local change
 	local short_id
 	local install_name
+        echo "target: $target"
+        otool -D "$target"
 	install_name=$(otool -D "$target" | tail -n +2 | grep -v '^@' || : )
  	echo "install_name: $install_name"
 	if [[ -n "$install_name" ]] ; then
