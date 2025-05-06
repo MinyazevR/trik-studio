@@ -15,6 +15,7 @@ function fix_dependencies {
 	local change
 	local short_id
 	local install_name
+ 	otool -D "$target" 
 	install_name=$(otool -D "$target" | tail -n +2 | grep -v '^@' || : )
 	if [[ -n "$install_name" ]] ; then
 		short_id=$(grealpath -e --relative-to "$prefix" "$install_name" || echo "@rpath/"$(basename "$install_name"))
