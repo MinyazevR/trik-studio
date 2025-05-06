@@ -16,6 +16,7 @@ rsync -a "$BIN_DIR"/librobots-ev3-generator-base*.dylib                        "
 rsync -a "$BIN_DIR"/libusb-1.*.dylib                                           "$BUNDLE_CONTENTS/Lib/"
 
 
+echo "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
 ls "$BUNDLE_CONTENTS/Lib/"
 ls -l "$BUNDLE_CONTENTS/Lib/libusb-1.*.dylib"
 
