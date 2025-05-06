@@ -32,6 +32,7 @@ function fix_dependencies {
 		fi
 		normalized=$(grealpath -e "$dep")
   		echo "normalized: $normalized"
+    		echo "prefix: $prefix"
 		if [[ "$normalized" == "$prefix"/* ]] ; then
 			relative=$(grealpath -e --relative-to "$prefix" "$normalized")
 			change="$change -change \"$dep\" \"$subst/$relative\""
