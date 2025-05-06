@@ -16,15 +16,18 @@ function fix_dependencies {
 	local short_id
 	local install_name
 	install_name=$(otool -D "$target" | tail -n +2 | grep -v '^@' || : )
+ 	echo $install_name
 	if [[ -n "$install_name" ]] ; then
 		short_id=$(grealpath -e --relative-to "$prefix" "$install_name" || echo "@rpath/"$(basename "$install_name"))
 		change="-id \"$short_id\""
 	fi
 	for dep in $(otool -L "$target" | grep "^\t[^@]" | cut -f 1 -d \( || : ) ; do
+ 		echo $dep
 		if [[ "$dep" == /System/Library/Frameworks/* || "$dep" == /usr/lib/*  || "$dep" == "$install_name" ]] ; then
 			continue;
 		fi
 		normalized=$(grealpath -e "$dep")
+  		echo $normalized
 		if [[ "$normalized" == "$prefix"/* ]] ; then
 			relative=$(grealpath -e --relative-to "$prefix" "$normalized")
 			change="$change -change \"$dep\" \"$subst/$relative\""
