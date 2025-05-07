@@ -15,6 +15,7 @@ rsync -a "$BIN_DIR"/librobots-ev3-kit*.dylib                                   "
 rsync -a "$BIN_DIR"/librobots-ev3-generator-base*.dylib                        "$BUNDLE_CONTENTS/Lib/"
 rsync -a "$BIN_DIR"/libusb-1.*.dylib                                           "$BUNDLE_CONTENTS/Lib/"
 
+
 fix_qreal_dependencies "$BUNDLE_CONTENTS/Lib/plugins/editors/libev3Metamodel.dylib"
 fix_qreal_dependencies "$BUNDLE_CONTENTS/Lib/plugins/tools/kitPlugins/librobots-ev3-interpreter.dylib"
 fix_qreal_dependencies "$BUNDLE_CONTENTS/Lib/plugins/tools/kitplugins/librobots-ev3-rbf-generator.dylib"
