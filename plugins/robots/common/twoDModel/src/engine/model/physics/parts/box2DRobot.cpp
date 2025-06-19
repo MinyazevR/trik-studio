@@ -133,8 +133,8 @@ void Box2DRobot::moveToPoint(const b2Vec2 &destination)
 	for (auto wheel : mWheels) {
 		b2BodyId wheelBodyID = wheel->getBodyId();
 		auto position = b2Body_GetPosition(wheelBodyID);
-		auto wheelRotation = b2Body_GetRotation(wheelBodyID);
-		b2Body_SetTransform(wheelBodyID, position + shift, wheelRotation);
+		rotation = b2Body_GetRotation(mBodyId);
+		b2Body_SetTransform(wheelBodyID, position + shift, rotation);
 	}
 
 	for (auto sensor: mSensors) {
