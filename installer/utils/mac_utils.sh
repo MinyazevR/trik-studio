@@ -19,7 +19,6 @@ function fix_dependencies {
 	if [[ "$install_name" == "/usr/local"/* ]] ; then
 		short_id=$(echo "@rpath/"$(basename "$install_name"))
 		change="-id \"$short_id\""
-	fi
 	elif [[ -n "$install_name" ]] ; then
 		short_id=$(grealpath -e --relative-to "$prefix" "$install_name" || echo "@rpath/"$(basename "$install_name"))
 		change="-id \"$short_id\""
