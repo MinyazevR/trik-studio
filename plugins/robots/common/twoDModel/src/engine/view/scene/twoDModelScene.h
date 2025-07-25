@@ -86,6 +86,15 @@ public:
 	/// Categories of items include world model (walls, lines, etc.), sensors, robot position.
 	void setInteractivityFlags(kitBase::ReadOnlyFlags flags);
 
+	QSharedPointer<RobotItem> &getRobotItem(RobotItem *item) {
+		for (auto &&value: mRobots.values()) {
+			if (value.data() == item) {
+				return value;
+			}
+		}
+//		return {};
+	};
+
 public slots:
 	/// Sets a flag that next user mouse actions should draw a wall on the scene.
 	void addWall();
@@ -131,7 +140,7 @@ public slots:
 	void alignWalls();
 
 	/// Returns a pointer to a robot graphics item.
-	RobotItem *robot(model::RobotModel &robotModel);
+	QSharedPointer<RobotItem> robot(model::RobotModel &robotModel);
 
 	/// Focuses all graphics views on the robot if it is not visible.
 	void centerOnRobot(RobotItem *selectedItem = nullptr);

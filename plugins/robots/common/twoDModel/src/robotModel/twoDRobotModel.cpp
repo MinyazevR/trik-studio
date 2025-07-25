@@ -119,6 +119,8 @@ void TwoDRobotModel::setEngine(engine::TwoDModelEngineInterface &engine)
 
 QPolygonF TwoDRobotModel::collidingPolygon() const
 {
+	qDebug() << __LINE__ << __FILE__;
+	qDebug() << size().width();
 	return QPolygonF(QRectF({0, 0}, size()));
 }
 

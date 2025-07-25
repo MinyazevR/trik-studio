@@ -50,19 +50,32 @@ using namespace trik::robotModel;
 using namespace trik::robotModel::twoD;
 using namespace kitBase::robotModel;
 
+static constexpr int robotWidth = 50;
+static constexpr int robotHeight = 50;
+static constexpr qreal robotMass = 1.05f;
+static constexpr qreal robotFriction = 0.3f;
+static constexpr qreal robotRestitution = 0.6f;
+static constexpr qreal robotOnePercentAngularVelocity = 0.0055f;
+
 TrikTwoDRobotModel::TrikTwoDRobotModel(RobotModelInterface &realModel)
 	: twoDModel::robotModel::TwoDRobotModel(realModel)
-	, mLeftWheelPort("M3")
-	, mRightWheelPort("M4")
+        , mLeftWheelPort(QStringLiteral("M3"))
+        , mRightWheelPort(QStringLiteral("M4"))
 	, mDisplayWidget(new TrikDisplayWidget())
 	, mCollidingPolygon({QPointF(1, 10), QPointF(47, 10), QPointF(49, 20)
 			, QPointF(49, 30), QPointF(47, 40), QPointF(1, 40)})
+        , mWidth(robotWidth)
+        , mHeight(robotHeight)
+        , mMass(robotMass)
+        , mFriction(robotFriction)
+        , mRestitution(robotRestitution)
+        , mOnePercentAngularVelocity(robotOnePercentAngularVelocity)
 {
 	/// @todo: One day we will support gamepad in 2D model and there will be piece.
 	/// But till that day gamepad ports must be killed cause they spam logs.
 	const QList<PortInfo> realRobotPorts = CommonRobotModel::availablePorts();
 	for (const PortInfo &port : realRobotPorts) {
-		if (port.name().contains("Gamepad", Qt::CaseInsensitive)) {
+		if (port.name().contains(QStringLiteral("Gamepad"), Qt::CaseInsensitive)) {
 			removeAllowedConnections(port);
 		}
 	}
@@ -130,7 +143,8 @@ robotParts::Device *TrikTwoDRobotModel::createDevice(const PortInfo &port, const
 void TrikTwoDRobotModel::onInterpretationStarted()
 {
 	robotModel::parts::TrikDisplay * const display =
-			RobotModelUtils::findDevice<robotModel::parts::TrikDisplay>(*this, "DisplayPort");
+	                RobotModelUtils::findDevice<robotModel::parts::TrikDisplay>(
+	                        *this, QStringLiteral("DisplayPort"));
 	if (display) {
 		display->clearScreen();
 		display->setBackground(QColor(Qt::gray));
@@ -139,14 +153,15 @@ void TrikTwoDRobotModel::onInterpretationStarted()
 		QLOG_WARN() << "TRIK display is not configured before intepretation start!";
 	}
 
-	parts::Shell * const shell = RobotModelUtils::findDevice<parts::Shell>(*this, "ShellPort");
+	parts::Shell * const shell = RobotModelUtils::findDevice<parts::Shell>(*this, QStringLiteral("ShellPort"));
 	if (shell) {
 		shell->reset();
 	} else {
 		QLOG_WARN() << "TRIK shell is not configured before intepretation start!";
 	}
 
-	auto * const mailbox = RobotModelUtils::findDevice<parts::TwoDNetworkCommunicator>(*this, "CommunicatorPort");
+	auto * const mailbox = RobotModelUtils::findDevice<parts::TwoDNetworkCommunicator>(
+	                        *this, QStringLiteral("CommunicatorPort"));
 	if (mailbox) {
 		mailbox->release();
 	} else {
@@ -156,14 +171,14 @@ void TrikTwoDRobotModel::onInterpretationStarted()
 
 QString TrikTwoDRobotModel::robotImage() const
 {
-	const QString key = "trikRobot2DImage";
-	const QString hackDefaultPath = "./images/trik-robot.svg";
+	const QString key = QStringLiteral("trikRobot2DImage");
+	const QString hackDefaultPath = QStringLiteral("./images/trik-robot.svg");
 	if (qReal::SettingsManager::value(key).isNull()) {
 		qReal::SettingsManager::setValue(key, hackDefaultPath);
 	}
 
 	const QString settingsPath = qReal::PlatformInfo::invariantSettingsPath(key);
-	return QFile::exists(settingsPath) ? settingsPath : ":icons/trik-robot.svg";
+	return QFile::exists(settingsPath) ? settingsPath : QStringLiteral(":icons/trik-robot.svg");
 }
 
 PortInfo TrikTwoDRobotModel::defaultLeftWheelPort() const
@@ -184,15 +199,15 @@ twoDModel::engine::TwoDModelDisplayWidget *TrikTwoDRobotModel::displayWidget() c
 QString TrikTwoDRobotModel::sensorImagePath(const DeviceInfo &deviceType) const
 {
 	if (deviceType.isA<kitBase::robotModel::robotParts::LightSensor>()) {
-		return ":icons/twoDColorEmpty.svg";
+		return QStringLiteral(":icons/twoDColorEmpty.svg");
 	} else if (deviceType.isA<robotModel::parts::TrikInfraredSensor>()) {
-		return ":icons/twoDIrRangeSensor.svg";
+		return QStringLiteral(":icons/twoDIrRangeSensor.svg");
 	} else if (deviceType.isA<robotModel::parts::TrikSonarSensor>()) {
-		return ":icons/twoDUsRangeSensor.svg";
+		return QStringLiteral(":icons/twoDUsRangeSensor.svg");
 	} else if (deviceType.isA<robotModel::parts::TrikVideoCamera>()) {
-		return ":icons/twoDVideoModule.svg";
+		return QStringLiteral(":icons/twoDVideoModule.svg");
 	} else if (deviceType.isA<robotParts::LidarSensor>()) {
-		return ":icons/twoDIrRangeSensor.svg";
+		return QStringLiteral(":icons/twoDIrRangeSensor.svg");
 	}
 
 	return QString();
@@ -236,22 +251,35 @@ QPair<QPoint, qreal> TrikTwoDRobotModel::specialDeviceConfiguration(const PortIn
 
 QPolygonF TrikTwoDRobotModel::collidingPolygon() const
 {
+	qDebug() << __LINE__ << __FILE__;
+	qDebug() << size().width();
 	return mCollidingPolygon;
 }
 
 qreal TrikTwoDRobotModel::mass() const
 {
-	return 1.05;
+	return mMass;
 }
 
 qreal TrikTwoDRobotModel::friction() const
 {
-	return 0.3;  /// @todo measure it
+	return mFriction;  /// @todo measure it
+}
+
+qreal TrikTwoDRobotModel::restitution() const
+{
+	return mRestitution;
+}
+
+QSizeF TrikTwoDRobotModel::size() const
+{
+	qDebug() << __LINE__ << __FILE__ << mWidth << mHeight;
+	return QSizeF{mWidth, mHeight};
 }
 
 qreal TrikTwoDRobotModel::onePercentAngularVelocity() const
 {
-	return 0.0055;
+	return mOnePercentAngularVelocity;
 }
 
 QList<QPointF> TrikTwoDRobotModel::wheelsPosition() const
@@ -262,13 +290,13 @@ QList<QPointF> TrikTwoDRobotModel::wheelsPosition() const
 QHash<QString, int> TrikTwoDRobotModel::buttonCodes() const
 {
 	QHash<QString, int> result;
-	result["LeftButton"] = 105;
-	result["RightButton"] = 106;
-	result["UpButton"] = 103;
-	result["DownButton"] = 108;
-	result["EnterButton"] = 28;
-	result["PowerButton"] = 116;
-	result["EscButton"] = 1;
+	result[QStringLiteral("LeftButton")] = 105;
+	result[QStringLiteral("RightButton")] = 106;
+	result[QStringLiteral("UpButton")] = 103;
+	result[QStringLiteral("DownButton")] = 108;
+	result[QStringLiteral("EnterButton")] = 28;
+	result[QStringLiteral("PowerButton")] = 116;
+	result[QStringLiteral("EscButton")] = 1;
 	return result;
 }
 

@@ -19,13 +19,30 @@
 
 namespace twoDModel {
 
+// move to ballItem?
+static constexpr int ballRadius = 30;
+static constexpr qreal ballMass = 0.015f;
+static constexpr qreal ballFriction = 1.0f;
+static constexpr qreal ballRestituion = 0.8f;
+static constexpr qreal ballAngularDamping = 0.09f;
+static constexpr qreal ballLinearDamping = 0.09f;
+
+// move to skittleItem?
+const QSize skittleSize(20, 20);
+static constexpr qreal skittleMass = 0.05f;
+static constexpr qreal skittleFriction = 0.2f;
+static constexpr qreal skittleRestituion = 0.8f;
+static constexpr qreal skittleAngularDamping = 6.0f;
+static constexpr qreal skittleLinearDamping = 6.0f;
+
+// move to wallItem?
+static constexpr qreal wallFriction = 1.0f;
+static constexpr qreal wallRestituion = 0.8f;
+static constexpr int wallWidth = 10;
+
+// need to put this in the settings?
 const qreal lowPrecision = 0.00001;
 
-const qreal robotMass = 800;
-const QSize skittleSize(20, 20);
-const QSize ballSize(30, 30);
-const qreal robotWidth = 50;
-const qreal robotHeight = 50;
 const QSize displaySize(200, 300);
 const qreal beepWavesSize = 120;
 const int timeQuant = 10;

@@ -40,7 +40,7 @@ public:
 	/// Transform item to a new position, IMPORTANT: \a pos is a center point of box2d object.
 	void moveToPosition(const b2Vec2 &pos);
 	void setRotation(float angle);
-
+	void setRestitution(float restitution);
 	const b2Vec2 &getPosition();
 	float getRotation();
 	b2BodyId getBodyId() const;
@@ -50,6 +50,7 @@ public:
 
 private:
 	b2BodyId mBodyId; // Takes ownership
+	b2ShapeId mShapeId;
 	b2Vec2 *mPolygon; // Takes ownership
 
 	bool mIsCircle;

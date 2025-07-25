@@ -77,10 +77,10 @@ public:
 	void addRobotModel(robotModel::TwoDRobotModel &robotModel, const QPointF &pos = QPointF());
 
 	/// Remove robot model
-	void removeRobotModel();
+	void removeRobotModel(bool needDelete = true);
 
 	/// Delete old model and add new model with the same coordinates that old model
-	void replaceRobotModel(robotModel::TwoDRobotModel &newModel);
+	void replaceRobotModel(robotModel::TwoDRobotModel &newModel, bool needDelete = true);
 
 	/// Returns true if constraints checker is active (constraints list in the model is non-empty).
 	bool hasConstraints() const;
@@ -101,9 +101,13 @@ signals:
 	/// @param robotModel Pointer to robot model which was removed
 	void robotAdded(RobotModel *robotModel);
 
+	void robotItemAdded(RobotModel *robotModel);
+
 	/// Emitted after robot model removed
 	/// @param robotModel Pointer to robot model which was added
 	void robotRemoved(RobotModel *robotModel);
+
+	void robotItemRemoved(RobotModel *robotModel);
 
 private slots:
 	void resetPhysics();

@@ -57,7 +57,9 @@ public:
 
 	QPolygonF collidingPolygon() const override;
 	qreal mass() const override;
+	qreal restitution() const override;
 	qreal friction() const override;
+	QSizeF size() const override;
 	qreal onePercentAngularVelocity() const override;
 	QList<QPointF> wheelsPosition() const override;
 	QPair<qreal, int> rangeSensorAngleAndDistance (const kitBase::robotModel::DeviceInfo &deviceType) const override;
@@ -71,6 +73,31 @@ public:
 
 	/// Sets the trik mailbox for twoDNetworkCommunicator execution.
 	void setMailbox(trikNetwork::MailboxInterface &mailbox);
+
+	void setMass(const qreal mass) override {
+		mMass = mass;
+	}
+
+	void setWidth(const qreal width) override {
+		qDebug() << __LINE__ << __FILE__;
+		mWidth = width;
+	};
+
+	void setHeight(const qreal height) override {
+		mHeight = height;
+	};
+
+	void setFriction(const qreal friction) override {
+		mFriction = friction;
+	};
+
+	void setRestitution(const qreal restitution) override {
+		mRestitution = restitution;
+	};
+
+	void setOnePercentAngularVelocity(const qreal onePercentAngularVelocity) override {
+		mOnePercentAngularVelocity = onePercentAngularVelocity;
+	};
 
 private:
 	kitBase::robotModel::robotParts::Device *createDevice(
@@ -86,6 +113,13 @@ private:
 	qReal::ErrorReporterInterface *mErrorReporter {};
 	QPolygonF mCollidingPolygon;
 	trikNetwork::MailboxInterface *mMailbox {}; //ownership TrikKitInterpreterPluginBase
+	qreal mWidth;
+	qreal mHeight;
+	qreal mMass;
+	qreal mFriction;
+	qreal mRestitution;
+	qreal mOnePercentAngularVelocity;
+
 };
 
 }

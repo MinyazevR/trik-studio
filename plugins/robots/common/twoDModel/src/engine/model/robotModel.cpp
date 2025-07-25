@@ -29,7 +29,7 @@
 #include "twoDModel/engine/model/timeline.h"
 
 #include "physics/physicsEngineBase.h"
-
+#include <QDebug>
 #include "src/engine/items/startPosition.h"
 
 using namespace twoDModel::model;
@@ -391,6 +391,42 @@ void RobotModel::setPosition(const QPointF &newPos)
 	}
 }
 
+void RobotModel::setMass(const qreal mass)
+{
+	info().setMass(mass);
+	Q_EMIT massChanged(mass);
+}
+
+
+void RobotModel::setWidth(const qreal width)
+{
+	info().setWidth(width);
+	Q_EMIT widthChanged(width);
+}
+
+void RobotModel::setHeight(const qreal height)
+{
+	info().setHeight(height);
+	Q_EMIT heightChanged(height);
+}
+
+void RobotModel::setFriction(const qreal friction)
+{
+	info().setFriction(friction);
+	Q_EMIT frictionChanged(friction);
+}
+
+void RobotModel::setRestitution(const qreal restitution)
+{
+	info().setRestitution(restitution);
+	Q_EMIT restitutionChanged(restitution);
+}
+
+void RobotModel::setOnePercentAngularVelocity(const qreal onePercentAngularVelocity)
+{
+	info().setOnePercentAngularVelocity(onePercentAngularVelocity);
+}
+
 qreal RobotModel::rotation() const
 {
 	return mAngle;
@@ -440,26 +476,39 @@ void RobotModel::serialize(QDomElement &parent) const
 
 void RobotModel::serializeWorldModel(QDomElement &parent) const
 {
-	QDomElement world = parent.firstChildElement("world");
+	QDomElement world = parent.firstChildElement(QStringLiteral("world"));
 	if (world.isNull()) {
-		world = parent.ownerDocument().createElement("world");
+		world = parent.ownerDocument().createElement(QStringLiteral("world"));
 		parent.appendChild(world);
 	}
 
-	QDomElement robot = world.ownerDocument().createElement("robot");
-	robot.setAttribute("position", QString::number(mPos.x()) + ":" + QString::number(mPos.y()));
-	robot.setAttribute("direction", QString::number(mAngle));
+	QDomElement robot = world.ownerDocument().createElement(QStringLiteral("robot"));
+	robot.setAttribute(QStringLiteral("position"), QString::number(mPos.x()) + ":" + QString::number(mPos.y()));
+	robot.setAttribute(QStringLiteral("direction"), QString::number(mAngle));
+	auto mass = info().mass();
+	robot.setAttribute(QStringLiteral("mass"), QString::number(mass));
+	auto size = info().size();
+	robot.setAttribute(QStringLiteral("width"), QString::number(size.width()));
+	robot.setAttribute(QStringLiteral("height"), QString::number(size.height()));
+	auto friction = info().friction();
+	robot.setAttribute(QStringLiteral("friction"), QString::number(friction));
+	auto restitution = info().restitution();
+	robot.setAttribute(QStringLiteral("restitution"), QString::number(restitution));
+	auto onePercentAngularVelocity = info().onePercentAngularVelocity();
+	robot.setAttribute(QStringLiteral("onePercentAngularVelocity"), QString::number(onePercentAngularVelocity));
+
 	mStartPositionMarker->serialize(robot);
 	world.appendChild(robot);
 }
 
 void RobotModel::deserializeWorldModel(const QDomElement &world)
 {
-	QDomElement robotElement = world.firstChildElement("robot");
+	qDebug() << __LINE__ << __FILE__;
+	QDomElement robotElement = world.firstChildElement(QStringLiteral("robot"));
 	if (robotElement.isNull()) {
-		robotElement.setTagName("robot");
-		robotElement.setAttribute("position", "0:0");
-		robotElement.setAttribute("direction", "0");
+		robotElement.setTagName(QStringLiteral("robot"));
+		robotElement.setAttribute(QStringLiteral("position"), QStringLiteral("0:0"));
+		robotElement.setAttribute(QStringLiteral("direction"), QStringLiteral("0"));
 	}
 
 	const QString positionStr = robotElement.attribute("position", "0:0");
@@ -470,7 +519,31 @@ void RobotModel::deserializeWorldModel(const QDomElement &world)
 	setPosition(QPointF(x, y));
 	setRotation(robotElement.attribute("direction", "0").toDouble());
 	mStartPositionMarker->deserializeCompatibly(robotElement);
-	emit deserialized(QPointF(mPos.x(), mPos.y()), mAngle);
+
+	if (robotElement.hasAttribute(QStringLiteral("width"))) {
+		qDebug() << __LINE__ << __FILE__;
+		setWidth(robotElement.attribute(QStringLiteral("width"), QStringLiteral("0")).toDouble());
+	}
+
+//	if (robotElement.hasAttribute(QStringLiteral("height"))) {
+//		qDebug() << __LINE__ << __FILE__;
+//		setHeight(robotElement.attribute(QStringLiteral("height"), QStringLiteral("0")).toDouble());
+//	}
+
+//	if (robotElement.hasAttribute(QStringLiteral("friction"))) {
+//		setFriction(robotElement.attribute(QStringLiteral("friction"), QStringLiteral("0")).toDouble());
+//	}
+
+//	if (robotElement.hasAttribute(QStringLiteral("restitution"))) {
+//		setRestitution(robotElement.attribute(QStringLiteral("restitution"), QStringLiteral("0")).toDouble());
+//	}
+
+//	if (robotElement.hasAttribute(QStringLiteral("onePercentAngularVelocity"))) {
+//		setOnePercentAngularVelocity(
+//		                        robotElement.attribute(QStringLiteral("onePercentAngularVelocity"), QStringLiteral("0")).toDouble());
+//	}
+
+	Q_EMIT deserialized(QPointF(mPos.x(), mPos.y()), mAngle);
 }
 
 void RobotModel::deserialize(const QDomElement &robotElement)

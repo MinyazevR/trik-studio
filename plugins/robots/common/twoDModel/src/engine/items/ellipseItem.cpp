@@ -14,7 +14,11 @@
 
 #include "ellipseItem.h"
 
-#include <QtWidgets/QAction>
+#if (QT_VERSION <= QT_VERSION_CHECK(6, 0, 0))
+        #include <QtWidgets/QAction>
+#else
+        #include <QtGui/QAction>
+#endif
 
 using namespace twoDModel::items;
 using namespace graphicsUtils;
@@ -37,7 +41,7 @@ AbstractItem *EllipseItem::clone() const
 
 QAction *EllipseItem::ellipseTool()
 {
-	QAction * const result = new QAction(QIcon(":/icons/2d_ellipse.png"), tr("Ellipse (E)"), nullptr);
+	QAction * const result = new QAction(QIcon(QStringLiteral(":/icons/2d_ellipse.png")), tr("Ellipse (E)"), nullptr);
 	result->setShortcuts({QKeySequence(Qt::Key_E), QKeySequence(Qt::Key_8)});
 	result->setCheckable(true);
 	return result;
@@ -84,10 +88,10 @@ void EllipseItem::drawExtractionForItem(QPainter *painter)
 QDomElement EllipseItem::serialize(QDomElement &parent) const
 {
 	QDomElement ellipseNode = ColorFieldItem::serialize(parent);
-	setPenBrushToElement(ellipseNode, "ellipse");
-	ellipseNode.setAttribute("begin", QString::number(x1() + scenePos().x())
+	setPenBrushToElement(ellipseNode, QStringLiteral("ellipse"));
+	ellipseNode.setAttribute(QStringLiteral("begin"), QString::number(x1() + scenePos().x())
 			 + ":" + QString::number(y1() + scenePos().y()));
-	ellipseNode.setAttribute("end", QString::number(x2() + scenePos().x())
+	ellipseNode.setAttribute(QStringLiteral("end"), QString::number(x2() + scenePos().x())
 			 + ":" + QString::number(y2() + scenePos().y()));
 	return ellipseNode;
 }
@@ -95,14 +99,14 @@ QDomElement EllipseItem::serialize(QDomElement &parent) const
 void EllipseItem::deserialize(const QDomElement &element)
 {
 	AbstractItem::deserialize(element);
-	const QString beginStr = element.attribute("begin", "0:0");
-	QStringList splittedStr = beginStr.split(":");
+	const QString beginStr = element.attribute(QStringLiteral("begin"), QStringLiteral("0:0"));
+	QStringList splittedStr = beginStr.split(QStringLiteral(":"));
 	auto x = splittedStr[0].toFloat();
 	auto y = splittedStr[1].toFloat();
 	const QPointF begin = QPointF(x, y);
 
-	const QString endStr = element.attribute("end", "0:0");
-	splittedStr = endStr.split(":");
+	const QString endStr = element.attribute(QStringLiteral("end"), QStringLiteral("0:0"));
+	splittedStr = endStr.split(QStringLiteral(":"));
 	x = splittedStr[0].toFloat();
 	y = splittedStr[1].toFloat();
 	const QPointF end = QPointF(x, y);
@@ -153,6 +157,6 @@ bool EllipseItem::filled() const
 
 void EllipseItem::setFilled(bool filled)
 {
-	setBrushStyle(filled ? "Solid" : "None");
+	setBrushStyle(filled ? QStringLiteral("Solid") : QStringLiteral("None"));
 	update();
 }

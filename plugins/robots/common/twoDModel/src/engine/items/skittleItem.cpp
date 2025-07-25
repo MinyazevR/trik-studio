@@ -15,17 +15,28 @@
 #include "skittleItem.h"
 
 #include <QtGui/QIcon>
-#include <QtWidgets/QAction>
-#include <QtSvg/QSvgRenderer>
+#if (QT_VERSION <= QT_VERSION_CHECK(6, 0, 0))
+        #include <QtWidgets/QAction>
+#else
+        #include <QtGui/QAction>
+#endif
 
+#include <QtSvg/QSvgRenderer>
 #include <twoDModel/engine/model/constants.h>
 
 using namespace twoDModel::items;
 
 SkittleItem::SkittleItem(const QPointF &position)
-	: mSvgRenderer(new QSvgRenderer)
+        : mWidth(skittleSize.width()),
+          mHeight(skittleSize.height()),
+          mMass(skittleMass),
+          mFriction(skittleFriction),
+          mRestitution(skittleRestituion),
+          mAngularDumping(skittleAngularDamping),
+          mLinearDumping(skittleLinearDamping),
+          mSvgRenderer(new QSvgRenderer)
 {
-	mSvgRenderer->load(QString(":/icons/2d_can.svg"));
+	mSvgRenderer->load(QStringLiteral(":/icons/2d_can.svg"));
 	setPos(position);
 	setZValue(ZValue::Moveable);
 	setTransformOriginPoint(boundingRect().center());
@@ -38,7 +49,7 @@ SkittleItem::~SkittleItem()
 
 QAction *SkittleItem::skittleTool()
 {
-	QAction * const result = new QAction(QIcon(":/icons/2d_can.svg"), tr("Can (C)"), nullptr);
+	QAction * const result = new QAction(QIcon(QStringLiteral(":/icons/2d_can.svg")), tr("Can (C)"), nullptr);
 	result->setShortcuts({QKeySequence(Qt::Key_C), QKeySequence(Qt::Key_3)});
 	result->setCheckable(true);
 	return result;
@@ -46,8 +57,8 @@ QAction *SkittleItem::skittleTool()
 
 QRectF SkittleItem::boundingRect() const
 {
-	return QRectF({-static_cast<qreal>(skittleSize.width()) / 2, -static_cast<qreal>(skittleSize.height()) / 2}
-				  , skittleSize);
+	return QRectF({-static_cast<qreal>(mWidth) / 2, -static_cast<qreal>(mHeight) / 2}
+	              , QSize{mWidth, mHeight});
 }
 
 void SkittleItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -82,13 +93,20 @@ void SkittleItem::savePos()
 QDomElement SkittleItem::serialize(QDomElement &element) const
 {
 	QDomElement skittleNode = AbstractItem::serialize(element);
-	skittleNode.setTagName("skittle");
-	skittleNode.setAttribute("x", QString::number(x1() + scenePos().x()));
-	skittleNode.setAttribute("y", QString::number(y1() + scenePos().y()));
-	skittleNode.setAttribute("markerX", QString::number(x1() + mStartPosition.x()));
-	skittleNode.setAttribute("markerY", QString::number(y1() + mStartPosition.y()));
-	skittleNode.setAttribute("rotation", QString::number(rotation()));
-	skittleNode.setAttribute("startRotation", QString::number(mStartRotation));
+	skittleNode.setTagName(QStringLiteral("skittle"));
+	skittleNode.setAttribute(QStringLiteral("x"), QString::number(x1() + scenePos().x()));
+	skittleNode.setAttribute(QStringLiteral("y"), QString::number(y1() + scenePos().y()));
+	skittleNode.setAttribute(QStringLiteral("markerX"), QString::number(x1() + mStartPosition.x()));
+	skittleNode.setAttribute(QStringLiteral("markerY"), QString::number(y1() + mStartPosition.y()));
+	skittleNode.setAttribute(QStringLiteral("rotation"), QString::number(rotation()));
+	skittleNode.setAttribute(QStringLiteral("startRotation"), QString::number(mStartRotation));
+	skittleNode.setAttribute(QStringLiteral("mass"), QString::number(mMass));
+	skittleNode.setAttribute(QStringLiteral("width"), QString::number(mWidth));
+	skittleNode.setAttribute(QStringLiteral("height"), QString::number(mHeight));
+	skittleNode.setAttribute(QStringLiteral("friction"), QString::number(mFriction));
+	skittleNode.setAttribute(QStringLiteral("restitution"), QString::number(mRestitution));
+	skittleNode.setAttribute(QStringLiteral("angularDumping"), QString::number(mAngularDumping));
+	skittleNode.setAttribute(QStringLiteral("linearDumping"), QString::number(mLinearDumping));
 	return skittleNode;
 }
 
@@ -96,18 +114,42 @@ void SkittleItem::deserialize(const QDomElement &element)
 {
 	AbstractItem::deserialize(element);
 
-	qreal x = element.attribute("x", "0").toDouble();
-	qreal y = element.attribute("y", "0").toDouble();
-	qreal markerX = element.attribute("markerX", "0").toDouble();
-	qreal markerY = element.attribute("markerY", "0").toDouble();
-	qreal rotation = element.attribute("rotation", "0").toDouble();
-	mStartRotation = element.attribute("startRotation", "0").toDouble();
+	qreal x = element.attribute(QStringLiteral("x"), QStringLiteral("0")).toDouble();
+	qreal y = element.attribute(QStringLiteral("y"), QStringLiteral("0")).toDouble();
+	qreal markerX = element.attribute(QStringLiteral("markerX"), QStringLiteral("0")).toDouble();
+	qreal markerY = element.attribute(QStringLiteral("markerY"), QStringLiteral("0")).toDouble();
+	qreal rotation = element.attribute(QStringLiteral("rotation"), QStringLiteral("0")).toDouble();
+	mStartRotation = element.attribute(QStringLiteral("startRotation"), QStringLiteral("0")).toDouble();
+
+	if (element.hasAttribute(QStringLiteral("width"))) {
+		mWidth = element.attribute(QStringLiteral("width"), QStringLiteral("0")).toDouble();
+	}
+
+	if (element.hasAttribute(QStringLiteral("height"))) {
+		mHeight = element.attribute(QStringLiteral("height"), QStringLiteral("0")).toDouble();
+	}
+
+	if (element.hasAttribute(QStringLiteral("friction"))) {
+		mFriction = element.attribute(QStringLiteral("friction"), QStringLiteral("0")).toDouble();
+	}
+
+	if (element.hasAttribute(QStringLiteral("restitution"))) {
+		mRestitution = element.attribute(QStringLiteral("restitution"), QStringLiteral("0")).toDouble();
+	}
+
+	if (element.hasAttribute(QStringLiteral("angularDumping"))) {
+		mAngularDumping = element.attribute(QStringLiteral("angularDumping"), QStringLiteral("0")).toDouble();
+	}
+
+	if (element.hasAttribute(QStringLiteral("linearDumping"))) {
+		mLinearDumping = element.attribute(QStringLiteral("linearDumping"), QStringLiteral("0")).toDouble();
+	}
 
 	setPos(QPointF(x, y));
 	setTransformOriginPoint(boundingRect().center());
 	mStartPosition = {markerX, markerY};
 	setRotation(rotation);
-	emit x1Changed(x1());
+	Q_EMIT x1Changed(x1());
 }
 
 void SkittleItem::saveStartPosition()
@@ -115,7 +157,7 @@ void SkittleItem::saveStartPosition()
 	if (this->editable()) {
 		mStartPosition = pos();
 		mStartRotation = rotation();
-		emit x1Changed(x1());
+		Q_EMIT x1Changed(x1());
 	}
 }
 
@@ -123,7 +165,7 @@ void SkittleItem::returnToStartPosition()
 {
 	setPos(mStartPosition);
 	setRotation(mStartRotation);
-	emit x1Changed(x1());
+	Q_EMIT x1Changed(x1());
 }
 
 QPolygonF SkittleItem::collidingPolygon() const
@@ -133,12 +175,12 @@ QPolygonF SkittleItem::collidingPolygon() const
 
 qreal SkittleItem::angularDamping() const
 {
-	return 6.0f;
+	return mAngularDumping;
 }
 
 qreal SkittleItem::linearDamping() const
 {
-	return 6.0f;
+	return mLinearDumping;
 }
 
 QPainterPath SkittleItem::path() const
@@ -165,12 +207,17 @@ bool SkittleItem::isCircle() const
 
 qreal SkittleItem::mass() const
 {
-	return 0.05;
+	return mMass;
 }
 
 qreal SkittleItem::friction() const
 {
-	return 0.2;
+	return mFriction;
+}
+
+qreal SkittleItem::restitution() const
+{
+	return mRestitution;
 }
 
 SolidItem::BodyType SkittleItem::bodyType() const

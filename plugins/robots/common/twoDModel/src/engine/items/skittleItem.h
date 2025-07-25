@@ -22,7 +22,7 @@ class QSvgRenderer;
 namespace twoDModel {
 namespace items {
 
-class SkittleItem : public graphicsUtils::AbstractItem, public SolidItem
+class SkittleItem final: public graphicsUtils::AbstractItem, public SolidItem
 {
 	Q_OBJECT
 	Q_DISABLE_COPY(SkittleItem)
@@ -54,6 +54,7 @@ public:
 	qreal mass() const override;
 	BodyType bodyType() const override;
 	qreal friction() const override;
+	qreal restitution() const override;
 	QPolygonF collidingPolygon() const override;
 	qreal angularDamping() const override;
 	qreal linearDamping() const override;
@@ -63,7 +64,13 @@ public:
 private:
 	QPointF mStartPosition;
 	qreal mStartRotation {0.0};
-
+	int mWidth;
+	int mHeight;
+	qreal mMass;
+	qreal mFriction;
+	qreal mRestitution;
+	qreal mAngularDumping;
+	qreal mLinearDumping;
 	QSvgRenderer *mSvgRenderer;
 };
 

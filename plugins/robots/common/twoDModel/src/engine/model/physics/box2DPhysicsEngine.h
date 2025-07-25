@@ -84,6 +84,10 @@ public slots:
 	void onMouseReleased(const QPointF &newPos, qreal newAngle);
 	void onMousePressed();
 	void onRecoverRobotPosition(const QPointF &pos);
+	void onRobotRestitutionChanged(const qreal restitution, model::RobotModel *robot);
+	void onRobotFrictionChanged(const qreal restitution, model::RobotModel *robot);
+	void onRobotMassChanged(const qreal mass, model::RobotModel *robot);
+	void onRobotWidthOrHeightChanged(const qreal widthOrHeight, model::RobotModel *robot);
 
 protected:
 	void onPixelsInCmChanged(qreal value) override;

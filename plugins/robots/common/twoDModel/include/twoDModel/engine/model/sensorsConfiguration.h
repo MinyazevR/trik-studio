@@ -33,8 +33,6 @@ class TWO_D_MODEL_EXPORT SensorsConfiguration : public QObject, public kitBase::
 
 public:
 	SensorsConfiguration(const QString &robotModelName, const QSizeF &robotSize);
-
-
 	void setPosition(const kitBase::robotModel::PortInfo &port, const QPointF &position);
 	QPointF position(const kitBase::robotModel::PortInfo &port) const;
 
@@ -80,7 +78,7 @@ private:
 
 	QPointF defaultPosition(const kitBase::robotModel::DeviceInfo &device) const;
 
-	const QSizeF mRobotSize;
+	QSizeF mRobotSize;
 	QString mRobotId;
 	QHash<kitBase::robotModel::PortInfo, SensorInfo> mSensorsInfo;
 };

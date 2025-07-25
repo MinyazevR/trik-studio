@@ -41,7 +41,7 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 	b2Body_SetAngularDamping(mBodyId, item->angularDamping());
 	b2Body_SetLinearDamping(mBodyId, item->linearDamping());
 	b2ShapeDef fixtureDef = b2DefaultShapeDef();
-	fixtureDef.material.restitution = 0.8f;
+	fixtureDef.material.restitution = item->restitution();
 	QPolygonF collidingPolygon = item->collidingPolygon();
 	QPointF localCenter = collidingPolygon.boundingRect().center();
 	b2Circle circleShape = {};
@@ -68,9 +68,9 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 
 	fixtureDef.material.friction = item->friction();
 	if (item->isCircle()) {
-		b2CreateCircleShape(mBodyId, &fixtureDef, &circleShape);
+		mShapeId = b2CreateCircleShape(mBodyId, &fixtureDef, &circleShape);
 	} else {
-		b2CreatePolygonShape(mBodyId, &fixtureDef, &polygonShape);
+		mShapeId = b2CreatePolygonShape(mBodyId, &fixtureDef, &polygonShape);
 	}
 	b2Body_SetUserData(mBodyId, this);
 }
@@ -93,6 +93,13 @@ void Box2DItem::setRotation(float angle)
 {
 	b2Body_SetTransform(mBodyId, b2Body_GetPosition(mBodyId), b2MakeRot(angle));
 	mPreviousRotation = b2Rot_GetAngle(b2Body_GetRotation(mBodyId));
+}
+
+void Box2DItem::setRestitution(float restitution)
+{
+	auto material = b2Shape_GetSurfaceMaterial(mShapeId);
+	material.restitution = restitution;
+	b2Shape_SetSurfaceMaterial(mShapeId, material);
 }
 
 const b2Vec2 &Box2DItem::getPosition()

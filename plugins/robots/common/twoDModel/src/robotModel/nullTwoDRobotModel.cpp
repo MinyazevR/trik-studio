@@ -70,6 +70,11 @@ qreal NullTwoDRobotModel::friction() const
 	return 0.3;
 }
 
+qreal NullTwoDRobotModel::restitution() const
+{
+	return 0.6f;
+}
+
 qreal NullTwoDRobotModel::onePercentAngularVelocity() const
 {
 	return 0.005;

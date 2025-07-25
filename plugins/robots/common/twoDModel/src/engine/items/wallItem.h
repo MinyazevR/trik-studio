@@ -68,6 +68,7 @@ public:
 	QPolygonF collidingPolygon() const override;
 	qreal mass() const override;
 	qreal friction() const override;
+	qreal restitution() const override;
 	BodyType bodyType() const override;
 
 protected:
@@ -81,7 +82,9 @@ private:
 	const QImage mImage;
 
 	QPainterPath mPath;
-	int mWallWidth {10};
+	int mWidth;
+	qreal mFriction;
+	qreal mRestitution;
 	QPointF mEstimatedPos;
 };
 

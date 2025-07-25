@@ -148,6 +148,11 @@ qreal TwoDRobotModel::friction() const
 	return 0.3;  /// @todo measure it
 }
 
+qreal TwoDRobotModel::restitution() const
+{
+	return 0.6f;
+}
+
 qreal TwoDRobotModel::onePercentAngularVelocity() const
 {
 	return 0.0055;

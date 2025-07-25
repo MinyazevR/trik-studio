@@ -109,6 +109,13 @@ public:
 	qreal rotation() const;
 	void setRotation(qreal angle);
 
+	void setWidth(const qreal width);
+	void setMass(const qreal mass);
+	void setHeight(const qreal height);
+	void setFriction(const qreal friction);
+	void setRestitution(const qreal restitution);
+	void setOnePercentAngularVelocity(const qreal onePercentAngularVelocity);
+
 	qreal x() const;
 	qreal y() const;
 
@@ -166,14 +173,18 @@ public:
 	/// Sets a physical engine. Robot recalculates its position using this engine.
 	void setPhysicalEngine(physics::PhysicsEngineBase &engine);
 
-public slots:
+public Q_SLOTS:
 	void recalculateParams();
 	void nextFragment();
 
-signals:
+Q_SIGNALS:
 	void positionChanged(const QPointF &newPosition);
 	void rotationChanged(qreal newRotation);
-
+	void widthChanged(const qreal width);
+	void heightChanged(const qreal height);
+	void frictionChanged(const qreal friction);
+	void restitutionChanged(const qreal restitution);
+	void massChanged(const qreal mass);
 	void deserialized(QPointF newPosition, qreal newRotation);
 
 	/// Emitted when robot rided himself (moved on motors force, not dragged by user or smth) from one point to other.

@@ -43,7 +43,7 @@ AbstractItem *LineItem::clone() const
 
 QAction *LineItem::lineTool()
 {
-	QAction * const result = new QAction(QIcon(":/icons/2d_ruler.png"), tr("Line (L)"), nullptr);
+	QAction * const result = new QAction(QIcon(QStringLiteral(":/icons/2d_ruler.png")), tr("Line (L)"), nullptr);
 	result->setShortcuts({QKeySequence(Qt::Key_L), QKeySequence(Qt::Key_5)});
 	result->setCheckable(true);
 	return result;
@@ -55,7 +55,7 @@ void LineItem::setPrivateData()
 	pen.setColor(Qt::green);
 	pen.setStyle(Qt::SolidLine);
 	setPen(pen);
-	mSerializeName = "line";
+	mSerializeName = QStringLiteral("line");
 }
 
 QRectF LineItem::boundingRect() const

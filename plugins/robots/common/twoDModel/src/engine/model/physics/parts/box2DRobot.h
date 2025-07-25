@@ -53,7 +53,10 @@ public:
 
 	void moveToPoint(const b2Vec2 &destination);
 	void setRotation(float angle);
-
+	void setRestitution(float restitution);
+	void setFriction(float friction);
+	void setMass(float mass);
+	void setWidthOrHeight(float widthOrHeight);
 	void reinitSensor(const view::SensorItem *sensor);
 	void reinitSensors();
 
@@ -79,6 +82,7 @@ private:
 	twoDModel::model::RobotModel * const mModel; // Doesn't take ownership
 	twoDModel::model::physics::Box2DPhysicsEngine *mEngine; // Doesn't take ownership
 	b2WorldId mWorldId; // Doesn't take ownership
+	b2ShapeId mRobotShapeId;
 
 	QScopedArrayPointer<b2Vec2> mPolygon; // Takes ownership
 

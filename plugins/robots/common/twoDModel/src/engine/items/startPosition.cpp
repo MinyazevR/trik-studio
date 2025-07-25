@@ -51,30 +51,31 @@ void StartPosition::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *
 QDomElement StartPosition::serialize(QDomElement &parent) const
 {
 	QDomElement startPositionElement = RotateItem::serialize(parent);
-	startPositionElement.setTagName("startPosition");
-	startPositionElement.setAttribute("x", QString::number(scenePos().x()));
-	startPositionElement.setAttribute("y", QString::number(scenePos().y()));
-	startPositionElement.setAttribute("direction", QString::number(rotation()));
+	startPositionElement.setTagName(QStringLiteral("startPosition"));
+	startPositionElement.setAttribute(QStringLiteral("x"), QString::number(scenePos().x()));
+	startPositionElement.setAttribute(QStringLiteral("y"), QString::number(scenePos().y()));
+	startPositionElement.setAttribute(QStringLiteral("direction"), QString::number(rotation()));
 	return startPositionElement;
 }
 
 void StartPosition::deserialize(const QDomElement &startPositionElement)
 {
-	setX(startPositionElement.attribute("x").toDouble());
-	setY(startPositionElement.attribute("y").toDouble());
-	setRotation(startPositionElement.attribute("direction").toDouble());
+	setX(startPositionElement.attribute(QStringLiteral("x")).toDouble());
+	setY(startPositionElement.attribute(QStringLiteral("y")).toDouble());
+	setRotation(startPositionElement.attribute(QStringLiteral("direction")).toDouble());
 }
 
 void StartPosition::deserializeCompatibly(const QDomElement &robotElement)
 {
-	const QDomElement startPositionElement = robotElement.firstChildElement("startPosition");
+	const QDomElement startPositionElement = robotElement.firstChildElement(QStringLiteral("startPosition"));
 	if (startPositionElement.isNull()) {
-		const QStringList robotPositionParts = robotElement.attribute("position", "0:0").split(":");
-		const QString robotX = robotPositionParts.count() != 2 ? "0" : robotPositionParts[0];
-		const QString robotY = robotPositionParts.count() != 2 ? "0" : robotPositionParts[1];
+		const QStringList robotPositionParts = robotElement.attribute(
+		                        QStringLiteral("position"), QStringLiteral("0:0")).split(QStringLiteral(":"));
+		const QString robotX = robotPositionParts.count() != 2 ? QStringLiteral("0") : robotPositionParts[0];
+		const QString robotY = robotPositionParts.count() != 2 ? QStringLiteral("0") : robotPositionParts[1];
 		setX(robotX.toDouble() + mRobotSize.width() / 2);
 		setY(robotY.toDouble() + mRobotSize.height() / 2);
-		setRotation(robotElement.attribute("direction", "0").toDouble());
+		setRotation(robotElement.attribute(QStringLiteral("direction"), QStringLiteral("0")).toDouble());
 	} else {
 		deserialize(startPositionElement);
 	}
