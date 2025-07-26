@@ -19,6 +19,7 @@ class QPolygonF;
 
 namespace twoDModel{
 namespace items {
+        class SolidGraphicItem;
 	class SolidItem;
 }
 
@@ -33,14 +34,18 @@ class Box2DItem
 {
 public:
 	Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *mEngine
-			, const items::SolidItem *mItem, const b2Vec2 &pos, float angle);
+	                , const items::SolidItem *mItem, const b2Vec2 &pos, float angle);
 
 	~Box2DItem();
 
 	/// Transform item to a new position, IMPORTANT: \a pos is a center point of box2d object.
 	void moveToPosition(const b2Vec2 &pos);
 	void setRotation(float angle);
-
+	void setRestitution(float restitution);
+	void setFriction(float friction);
+	void setAngularDamping(float angularDamping);
+	void setLinearDamping(float linearDamping);
+	void setMass(const twoDModel::items::SolidGraphicItem *item, float mass);
 	const b2Vec2 &getPosition();
 	float getRotation();
 	b2BodyId getBodyId() const;
@@ -50,6 +55,7 @@ public:
 
 private:
 	b2BodyId mBodyId; // Takes ownership
+	b2ShapeId mShapeId;
 	b2Vec2 *mPolygon; // Takes ownership
 
 	bool mIsCircle;

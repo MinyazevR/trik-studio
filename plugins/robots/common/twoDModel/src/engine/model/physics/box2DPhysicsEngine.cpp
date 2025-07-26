@@ -30,6 +30,12 @@
 #include "parts/box2DWheel.h"
 #include "parts/box2DRobot.h"
 #include "parts/box2DItem.h"
+#include "src/engine/items/solidGraphicItem.h"
+#include <QDebug>
+#include <QEventLoop>
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 using namespace twoDModel::model::physics;
 using namespace parts;
@@ -54,7 +60,7 @@ Box2DPhysicsEngine::Box2DPhysicsEngine (const WorldModel &worldModel
 	connect(&worldModel, &model::WorldModel::ballAdded,
 			this, [this](const QSharedPointer<QGraphicsItem> &i) {itemAdded(i.data());});
 	connect(&worldModel, &model::WorldModel::itemRemoved,
-			this, [this](const QSharedPointer<QGraphicsItem> &i) {itemRemoved(i.data());});
+	                this, [this](const QSharedPointer<QGraphicsItem> &i) {itemRemoved(i.data());});
 }
 
 Box2DPhysicsEngine::~Box2DPhysicsEngine(){
@@ -118,35 +124,73 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
 		onRobotStartAngleChanged(newAngle, dynamic_cast<model::RobotModel *>(sender()));
 	});
 
-	QTimer::singleShot(10, this, [this, robot]() {
-		mScene = dynamic_cast<view::TwoDModelScene *>(robot->startPositionMarker()->scene());
+//	connect(robot, &model::RobotModel::massChanged, this, [&] (const qreal mass){
+//		 onRobotMassChanged(mass, dynamic_cast<model::RobotModel *>(sender()));
+//	});
 
-		connect(mScene->robot(*robot), &view::RobotItem::mouseInteractionStopped, this, [=]() {
-			view::RobotItem *rItem = mScene->robot(*robot);
+//	connect(robot, &model::RobotModel::frictionChanged, this, [&] (const qreal friction){
+//		onRobotFrictionChanged(friction, dynamic_cast<model::RobotModel *>(sender()));
+//	});
+
+//	connect(robot, &model::RobotModel::restitutionChanged, this, [&] (const qreal restitution){
+//		onRobotRestitutionChanged(restitution, dynamic_cast<model::RobotModel *>(sender()));
+//	});
+
+//	connect(robot, &model::RobotModel::widthChanged, this, [&] (const qreal widthOrHeight){
+//		qDebug() << __LINE__ << __FILE__;
+//		QEventLoop loop;
+//		QTimer::singleShot(10s, &loop, &QEventLoop::quit);
+//		loop.exec();
+//		onRobotWidthOrHeightChanged(widthOrHeight, dynamic_cast<model::RobotModel *>(sender()));
+//	});
+
+//	connect(robot, &model::RobotModel::heightChanged, this, [&] (const qreal widthOrHeight){
+//		qDebug() << __LINE__ << __FILE__;
+//		onRobotWidthOrHeightChanged(widthOrHeight, dynamic_cast<model::RobotModel *>(sender()));
+//	});
+
+	connect(robot, &model::RobotModel::rotationChanged, this, [&] (const qreal newAngle){
+		onRobotStartAngleChanged(newAngle, dynamic_cast<model::RobotModel *>(sender()));
+	});
+
+	qDebug() << __LINE__ << __FILE__;
+
+	QTimer::singleShot(10, this, [this, robot]() {
+		qDebug() << __LINE__ << __FILE__;
+		mScene = dynamic_cast<view::TwoDModelScene *>(robot->startPositionMarker()->scene());
+		auto shrRobot = mScene->robot(*robot);
+		if (!shrRobot) {
+			return;
+		}
+		qDebug() << __LINE__ << __FILE__;
+		connect(shrRobot.data(), &view::RobotItem::mouseInteractionStopped, this, [=]() {
+			view::RobotItem *rItem = shrRobot.data();
 			if (rItem != nullptr) {
 				onMouseReleased(rItem->pos(), rItem->rotation());
 			}
 		});
 
-		connect(mScene->robot(*robot), &view::RobotItem::mouseInteractionStarted
+		qDebug() << __LINE__ << __FILE__;
+		connect(shrRobot.data(), &view::RobotItem::mouseInteractionStarted
 				, this, &Box2DPhysicsEngine::onMousePressed);
 
-		connect(mScene->robot(*robot), &view::RobotItem::recoverRobotPosition
+		connect(shrRobot.data(), &view::RobotItem::recoverRobotPosition
 				, this, &Box2DPhysicsEngine::onRecoverRobotPosition);
 
-		connect(mScene->robot(*robot), &view::RobotItem::sensorAdded, this, [&](twoDModel::view::SensorItem *sensor) {
+		connect(shrRobot.data(), &view::RobotItem::sensorAdded, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
 			mRobotSensors[model].insert(sensor);
 			mBox2DRobots[model]->addSensor(sensor);
 		});
-		connect(mScene->robot(*robot), &view::RobotItem::sensorRemoved, this, [&](twoDModel::view::SensorItem *sensor) {
+		qDebug() << __LINE__ << __FILE__;
+		connect(shrRobot.data(), &view::RobotItem::sensorRemoved, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
 			mRobotSensors[model].remove(sensor);
 			mBox2DRobots[model]->removeSensor(sensor);
 		});
-		connect(mScene->robot(*robot), &view::RobotItem::sensorUpdated
+		connect(shrRobot.data(), &view::RobotItem::sensorUpdated
 				, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
@@ -155,6 +199,7 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
 
 		connect(robot, &model::RobotModel::deserialized, this, &Box2DPhysicsEngine::onMouseReleased);
 	});
+	qDebug() << __LINE__ << __FILE__;
 }
 
 void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot, const QPointF &pos, qreal angle)
@@ -186,6 +231,44 @@ void Box2DPhysicsEngine::onRobotStartAngleChanged(const qreal newAngle, model::R
 
 	mBox2DRobots[robot]->setRotation(angleToBox2D(newAngle));
 }
+
+void Box2DPhysicsEngine::onRobotRestitutionChanged(const qreal resitution, model::RobotModel *robot)
+{
+	if (!mBox2DRobots.contains(robot)) {
+		return;
+	}
+
+	mBox2DRobots[robot]->setRestitution(resitution);
+}
+
+void Box2DPhysicsEngine::onRobotFrictionChanged(const qreal friction, model::RobotModel *robot)
+{
+	if (!mBox2DRobots.contains(robot)) {
+		return;
+	}
+
+	mBox2DRobots[robot]->setFriction(friction);
+}
+
+void Box2DPhysicsEngine::onRobotMassChanged(const qreal mass, model::RobotModel *robot)
+{
+	if (!mBox2DRobots.contains(robot)) {
+		return;
+	}
+
+	mBox2DRobots[robot]->setMass(mass);
+}
+
+//void Box2DPhysicsEngine::onRobotWidthOrHeightChanged(const qreal widthOrHeight, model::RobotModel *robot)
+//{
+//	qDebug() << __LINE__ << __FILE__ << mBox2DRobots.size();
+//	if (!mBox2DRobots.contains(robot)) {
+//		return;
+//	}
+
+//	qDebug() << __LINE__ << __FILE__;
+//	mBox2DRobots[robot]->setWidthOrHeight(widthOrHeight);
+//}
 
 void Box2DPhysicsEngine::onMouseReleased(const QPointF &newPos, qreal newAngle)
 {
@@ -418,6 +501,9 @@ void Box2DPhysicsEngine::itemAdded(QGraphicsItem *item)
 
 		onItemDragged(abstractItem);
 	}
+	if (auto abstractItem = dynamic_cast<twoDModel::items::SolidGraphicItem *>(item)) {
+		connect(abstractItem, &twoDModel::items::SolidGraphicItem::itemParamsChanged, this, &Box2DPhysicsEngine::onItemParamsChanged);
+	}
 }
 
 void Box2DPhysicsEngine::onItemDragged(graphicsUtils::AbstractItem *item)
@@ -460,6 +546,32 @@ void Box2DPhysicsEngine::onItemDragged(graphicsUtils::AbstractItem *item)
 		}
 	} else {
 		/* Nothing */
+	}
+}
+
+void Box2DPhysicsEngine::onItemParamsChanged(twoDModel::items::SolidGraphicItem * item)
+{
+	auto friction = item->friction();
+	auto restitution = item->restitution();
+	auto mass = item->mass();
+	auto angularDamping = item->angularDamping();
+	auto linerarDamping = item->linearDamping();
+
+	// for items, that allows resizing/growing/reshaping, we should recreate box2d object
+	if (mBox2DResizableItems.contains(item)) {
+		mBox2DResizableItems[item]->setRestitution(restitution);
+		mBox2DResizableItems[item]->setFriction(friction);
+		mBox2DResizableItems[item]->setMass(item, mass);
+		mBox2DResizableItems[item]->setAngularDamping(angularDamping);
+		mBox2DResizableItems[item]->setLinearDamping(linerarDamping);
+
+
+	} else {
+		mBox2DDynamicItems[item]->setRestitution(restitution);
+		mBox2DDynamicItems[item]->setFriction(friction);
+		mBox2DDynamicItems[item]->setMass(item, mass);
+		mBox2DDynamicItems[item]->setAngularDamping(angularDamping);
+		mBox2DDynamicItems[item]->setLinearDamping(linerarDamping);
 	}
 }
 

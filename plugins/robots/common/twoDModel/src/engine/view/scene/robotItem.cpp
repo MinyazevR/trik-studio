@@ -16,6 +16,7 @@
 
 #include "twoDModel/engine/model/constants.h"
 #include "src/engine/items/startPosition.h"
+#include <QDebug>
 
 using namespace twoDModel::view;
 using namespace graphicsUtils;
@@ -25,6 +26,9 @@ using namespace kitBase::robotModel::robotParts;
 const int border = 0;
 const int defaultTraceWidth = 6;
 
+RobotItem::~RobotItem(){
+	qDebug() << "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+}
 RobotItem::RobotItem(const QString &robotImageFileName, model::RobotModel &robotModel)
 	: mImage(robotImageFileName, true)
 	, mRobotModel(robotModel)
@@ -46,6 +50,14 @@ RobotItem::RobotItem(const QString &robotImageFileName, model::RobotModel &robot
 	setAcceptHoverEvents(true);
 	setAcceptDrops(true);
 	setZValue(ZValue::Robot);
+
+//	connect(&mRobotModel, &model::RobotModel::widthChanged, this, [this]() {
+//		const QSizeF robotSize = mRobotModel.info().size();
+//		setX2(x1() + robotSize.width());
+//		setY2(y1() + robotSize.height());
+//		mMarkerPoint = mRobotModel.info().rotationCenter();
+//	});
+
 	const QSizeF robotSize = mRobotModel.info().size();
 	setX2(x1() + robotSize.width());
 	setY2(y1() + robotSize.height());
@@ -267,6 +279,7 @@ void RobotItem::returnToStartPosition()
 
 QPolygonF RobotItem::collidingPolygon() const
 {
+	qDebug() << __LINE__ << __FILE__;
 	return mRobotModel.info().collidingPolygon();
 }
 
@@ -278,6 +291,11 @@ qreal RobotItem::mass() const
 qreal RobotItem::friction() const
 {
 	return mRobotModel.info().friction();
+}
+
+qreal RobotItem::restitution() const
+{
+	return mRobotModel.info().restitution();
 }
 
 twoDModel::items::SolidItem::BodyType RobotItem::bodyType() const

@@ -14,6 +14,7 @@
 #include "box2DItem.h"
 
 #include "src/engine/model/physics/box2DPhysicsEngine.h"
+#include "src/engine/items/solidGraphicItem.h"
 #include "src/engine/items/solidItem.h"
 
 using namespace twoDModel::model::physics;
@@ -21,7 +22,7 @@ using namespace twoDModel::items;
 using namespace parts;
 
 Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
-		, const SolidItem *item, const b2Vec2 &pos, float angle)
+                , const SolidItem *item, const b2Vec2 &pos, float angle)
 	: mIsCircle(false)
 	, mEngine(*engine)
 {
@@ -41,7 +42,7 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 	b2Body_SetAngularDamping(mBodyId, item->angularDamping());
 	b2Body_SetLinearDamping(mBodyId, item->linearDamping());
 	b2ShapeDef fixtureDef = b2DefaultShapeDef();
-	fixtureDef.material.restitution = 0.8f;
+	fixtureDef.material.restitution = item->restitution();
 	QPolygonF collidingPolygon = item->collidingPolygon();
 	QPointF localCenter = collidingPolygon.boundingRect().center();
 	b2Circle circleShape = {};
@@ -68,9 +69,9 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 
 	fixtureDef.material.friction = item->friction();
 	if (item->isCircle()) {
-		b2CreateCircleShape(mBodyId, &fixtureDef, &circleShape);
+		mShapeId = b2CreateCircleShape(mBodyId, &fixtureDef, &circleShape);
 	} else {
-		b2CreatePolygonShape(mBodyId, &fixtureDef, &polygonShape);
+		mShapeId = b2CreatePolygonShape(mBodyId, &fixtureDef, &polygonShape);
 	}
 	b2Body_SetUserData(mBodyId, this);
 }
@@ -94,6 +95,44 @@ void Box2DItem::setRotation(float angle)
 	b2Body_SetTransform(mBodyId, b2Body_GetPosition(mBodyId), b2MakeRot(angle));
 	mPreviousRotation = b2Rot_GetAngle(b2Body_GetRotation(mBodyId));
 }
+
+void Box2DItem::setRestitution(float restitution)
+{
+	b2Shape_SetRestitution(mShapeId, restitution);
+}
+
+void Box2DItem::setFriction(float friction)
+{
+	b2Shape_SetFriction(mShapeId, friction);
+}
+
+void Box2DItem::setAngularDamping(float angularDamping)
+{
+	b2Body_SetAngularDamping(mBodyId, angularDamping);
+}
+
+void Box2DItem::setLinearDamping(float linearDamping)
+{
+	b2Body_SetLinearDamping(mBodyId, linearDamping);
+}
+
+void Box2DItem::setMass(const SolidGraphicItem *item, float mass)
+{
+	QPolygonF collidingPolygon = item->collidingPolygon();
+	if (item->isCircle()) {
+		qreal radius = collidingPolygon.boundingRect().height() / 2;
+		auto density = mEngine.computeDensity(radius, mass);
+		b2Shape_SetDensity(mShapeId, density, true);
+	} else {
+		if (collidingPolygon.isClosed()) {
+			collidingPolygon.removeLast();
+		}
+
+		auto density = mEngine.computeDensity(collidingPolygon, mass);
+		b2Shape_SetDensity(mShapeId, density, true);
+	}
+}
+
 
 const b2Vec2 &Box2DItem::getPosition()
 {

@@ -24,7 +24,7 @@
 #include "src/engine/items/startPosition.h"
 #include "physics/simplePhysicsEngine.h"
 #include "physics/box2DPhysicsEngine.h"
-
+#include <QDebug>
 using namespace twoDModel::model;
 
 static auto XML_VERSION = "20190819";
@@ -173,28 +173,46 @@ void Model::deserialize(const QDomDocument &model)
 
 void Model::addRobotModel(robotModel::TwoDRobotModel &robotModel, const QPointF &pos)
 {
+	qDebug() << __LINE__ << __FILE__;
 	if (mRobotModel) {
 		mErrorReporter->addCritical(tr("This robot model already exists"));
 		return;
 	}
 
+	qDebug() << __LINE__ << __FILE__;
 	mRobotModel = new RobotModel(robotModel, mSettings, this);
 	mRobotModel->setPosition(pos);
 
+	qDebug() << __LINE__ << __FILE__;
 	connect(&mTimeline, &Timeline::started, mRobotModel, &RobotModel::reinit);
 	connect(&mTimeline, &Timeline::stopped, mRobotModel, &RobotModel::stopRobot);
 
 	connect(&mTimeline, &Timeline::tick, mRobotModel, &RobotModel::recalculateParams);
 	connect(&mTimeline, &Timeline::nextFrame, mRobotModel, &RobotModel::nextFragment);
 
+	connect(mRobotModel, &model::RobotModel::widthChanged, this, [this]() {
+		qDebug() << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n";
+//		replaceRobotModel(mRobotModel->info(), false);
+		qDebug() << __LINE__ << __FILE__;
+		Q_EMIT robotItemRemoved(mRobotModel);
+//		qDebug() << __LINE__ << __FILE__;
+		Q_EMIT robotItemAdded(mRobotModel);
+	});
+
+//	connect(mRobotModel, &model::RobotModel::heightChanged, this, [this]() {
+//		replaceRobotModel(mRobotModel->info(), false);
+//	});
+
 	mRobotModel->setPhysicalEngine(mSettings.realisticPhysics() ? *mRealisticPhysicsEngine : *mSimplePhysicsEngine);
 
 	mWorldModel.setRobotModel(mRobotModel);
 
+	qDebug() << __LINE__ << __FILE__;
 	emit robotAdded(mRobotModel);
+	qDebug() << __LINE__ << __FILE__;
 }
 
-void Model::removeRobotModel()
+void Model::removeRobotModel(bool needDelete)
 {
 	if (!mRobotModel) {
 		return;
@@ -202,13 +220,15 @@ void Model::removeRobotModel()
 
 	mWorldModel.setRobotModel(nullptr);
 	emit robotRemoved(mRobotModel);
-	delete mRobotModel;
+	if (needDelete) {
+		delete mRobotModel;
+	}
 }
 
-void Model::replaceRobotModel(twoDModel::robotModel::TwoDRobotModel &newModel)
+void Model::replaceRobotModel(twoDModel::robotModel::TwoDRobotModel &newModel, bool needDelete)
 {
 	const QPointF pos = mRobotModel ? mRobotModel->position() : QPointF();
-	removeRobotModel();
+	removeRobotModel(needDelete);
 	addRobotModel(newModel, pos);
 }
 

@@ -44,6 +44,7 @@ public:
 	engine::TwoDModelDisplayWidget *displayWidget() const override;
 
 	qreal mass() const override;
+	qreal restitution() const override;
 	qreal friction() const override;
 	qreal onePercentAngularVelocity() const override;
 	QList<QPointF> wheelsPosition() const override;

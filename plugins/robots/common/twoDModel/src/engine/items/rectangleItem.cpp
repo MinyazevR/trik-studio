@@ -84,10 +84,10 @@ void RectangleItem::drawExtractionForItem(QPainter *painter)
 QDomElement RectangleItem::serialize(QDomElement &parent) const
 {
 	QDomElement rectangleNode = ColorFieldItem::serialize(parent);
-	setPenBrushToElement(rectangleNode, "rectangle");
-	rectangleNode.setAttribute("begin", QString::number(x1() + scenePos().x())
+	setPenBrushToElement(rectangleNode, QStringLiteral("rectangle"));
+	rectangleNode.setAttribute(QStringLiteral("begin"), QString::number(x1() + scenePos().x())
 			 + ":" + QString::number(y1() + scenePos().y()));
-	rectangleNode.setAttribute("end", QString::number(x2() + scenePos().x())
+	rectangleNode.setAttribute(QStringLiteral("end"), QString::number(x2() + scenePos().x())
 			 + ":" + QString::number(y2() + scenePos().y()));
 	return rectangleNode;
 }
@@ -95,14 +95,14 @@ QDomElement RectangleItem::serialize(QDomElement &parent) const
 void RectangleItem::deserialize(const QDomElement &element)
 {
 	AbstractItem::deserialize(element);
-	const QString beginStr = element.attribute("begin", "0:0");
-	QStringList splittedStr = beginStr.split(":");
+	const QString beginStr = element.attribute(QStringLiteral("begin"), QStringLiteral("0:0"));
+	QStringList splittedStr = beginStr.split(QStringLiteral(":"));
 	auto x = splittedStr[0].toFloat();
 	auto y = splittedStr[1].toFloat();
 	const QPointF begin = QPointF(x, y);
 
-	const QString endStr = element.attribute("end", "0:0");
-	splittedStr = endStr.split(":");
+	const QString endStr = element.attribute(QStringLiteral("end"), QStringLiteral("0:0"));
+	splittedStr = endStr.split(QStringLiteral(":"));
 	x = splittedStr[0].toFloat();
 	y = splittedStr[1].toFloat();
 	const QPointF end = QPointF(x, y);
@@ -153,6 +153,6 @@ bool RectangleItem::filled() const
 
 void RectangleItem::setFilled(bool filled)
 {
-	setBrushStyle(filled ? "Solid" : "None");
+	setBrushStyle(filled ? QStringLiteral("Solid") : QStringLiteral("None"));
 	update();
 }

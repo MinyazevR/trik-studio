@@ -15,7 +15,11 @@
 #include "curveItem.h"
 
 #include <QtGui/QPainter>
-#include <QtWidgets/QAction>
+#if (QT_VERSION <= QT_VERSION_CHECK(6, 0, 0))
+        #include <QtWidgets/QAction>
+#else
+        #include <QtGui/QAction>
+#endif
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
 #include <qrkernel/settingsManager.h>
@@ -26,8 +30,8 @@ using namespace qReal;
 using namespace graphicsUtils;
 
 const QSizeF markerSize(12, 12);
-const QColor markerColor1 = "#ffcc66";
-const QColor markerColor2 = "#ff6666";
+const QColor markerColor1(0xff, 0xcc, 0x66);
+const QColor markerColor2(0xff, 0x66, 0x66);
 
 CurveItem::CurveItem(const QPointF &begin, const QPointF &end)
 	: mMarker1(this)
@@ -59,7 +63,7 @@ AbstractItem *CurveItem::clone() const
 
 QAction *CurveItem::curveTool()
 {
-	QAction * const result = new QAction(loadTextColorIcon(":/icons/2d_bezier.svg"), tr("Bezier Curve (Z)"), nullptr);
+	QAction * const result = new QAction(loadTextColorIcon(QStringLiteral(":/icons/2d_bezier.svg")), tr("Bezier Curve (Z)"), nullptr);
 	result->setShortcuts({QKeySequence(Qt::Key_Z), QKeySequence(Qt::Key_6)});
 	result->setCheckable(true);
 	return result;
@@ -141,27 +145,27 @@ void CurveItem::resizeItem(QGraphicsSceneMouseEvent *event)
 QDomElement CurveItem::serialize(QDomElement &parent) const
 {
 	QDomElement curveNode = ColorFieldItem::serialize(parent);
-	setPenBrushToElement(curveNode, "cubicBezier");
+	setPenBrushToElement(curveNode, QStringLiteral("cubicBezier"));
 	const qreal x1 = this->x1() + scenePos().x();
 	const qreal y1 = this->y1() + scenePos().y();
 	const qreal x2 = this->x2() + scenePos().x();
 	const qreal y2 = this->y2() + scenePos().y();
 	const QPointF cp1 = mMarker1.pos() + scenePos();
 	const QPointF cp2 = mMarker2.pos() + scenePos();
-	curveNode.setAttribute("begin", QString::number(x1) + ":" + QString::number(y1));
-	curveNode.setAttribute("end", QString::number(x2) + ":" + QString::number(y2));
-	curveNode.setAttribute("cp1", QString::number(cp1.x()) + ":" + QString::number(cp1.y()));
-	curveNode.setAttribute("cp2", QString::number(cp2.x()) + ":" + QString::number(cp2.y()));
+	curveNode.setAttribute(QStringLiteral("begin"), QString::number(x1) + ":" + QString::number(y1));
+	curveNode.setAttribute(QStringLiteral("end"), QString::number(x2) + ":" + QString::number(y2));
+	curveNode.setAttribute(QStringLiteral("cp1"), QString::number(cp1.x()) + ":" + QString::number(cp1.y()));
+	curveNode.setAttribute(QStringLiteral("cp2"), QString::number(cp2.x()) + ":" + QString::number(cp2.y()));
 	return curveNode;
 }
 
 void CurveItem::deserialize(const QDomElement &element)
 {
 	AbstractItem::deserialize(element);
-	const QPointF begin = deserializePoint(element.attribute("begin"));
-	const QPointF end = deserializePoint(element.attribute("end"));
-	const QPointF cp1 = deserializePoint(element.attribute("cp1"));
-	const QPointF cp2 = deserializePoint(element.attribute("cp2"));
+	const QPointF begin = deserializePoint(element.attribute(QStringLiteral("begin")));
+	const QPointF end = deserializePoint(element.attribute(QStringLiteral("end")));
+	const QPointF cp1 = deserializePoint(element.attribute(QStringLiteral("cp1")));
+	const QPointF cp2 = deserializePoint(element.attribute(QStringLiteral("cp2")));
 
 	setPos(QPointF());
 	setX1(begin.x());
@@ -181,7 +185,7 @@ void CurveItem::deserializePenBrush(const QDomElement &element)
 
 QPointF CurveItem::deserializePoint(const QString &string) const
 {
-	const QStringList splittedStr = string.split(":");
+	const QStringList splittedStr = string.split(QStringLiteral(":"));
 	if (splittedStr.count() == 2) {
 		const qreal x = splittedStr[0].toDouble();
 		const qreal y = splittedStr[1].toDouble();
@@ -270,7 +274,7 @@ QVariant MarkerItem::itemChange(QGraphicsItem::GraphicsItemChange change, const 
 void MarkerItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	Q_UNUSED(event)
-	emit static_cast<AbstractItem *>(parentItem())->mouseInteractionStarted();
+	Q_EMIT static_cast<AbstractItem *>(parentItem())->mouseInteractionStarted();
 }
 
 void MarkerItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -282,5 +286,5 @@ void MarkerItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void MarkerItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 	Q_UNUSED(event)
-	emit static_cast<AbstractItem *>(parentItem())->mouseInteractionStopped();
+	Q_EMIT static_cast<AbstractItem *>(parentItem())->mouseInteractionStopped();
 }

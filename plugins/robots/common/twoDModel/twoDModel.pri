@@ -75,6 +75,7 @@ HEADERS += \
 	$$PWD/src/engine/view/scene/sensorItem.h \
 	$$PWD/src/engine/view/scene/rangeSensorItem.h \
 	$$PWD/src/engine/view/scene/lidarSensorItem.h \
+	$$PWD/src/engine/view/parts/itemPropertiesDialog.h \
 	$$PWD/src/engine/view/parts/palette.h \
 	$$PWD/src/engine/view/parts/actionsBox.h \
 	$$PWD/src/engine/view/parts/gridParameters.h \
@@ -96,6 +97,7 @@ HEADERS += \
 	$$PWD/src/engine/model/physics/simplePhysicsEngine.h \
 	$$PWD/src/engine/model/physics/parts/box2DRobot.h \
 	$$PWD/src/engine/model/physics/parts/box2DWheel.h \
+	$$PWD/src/engine/items/solidGraphicItem.h \
 	$$PWD/src/engine/items/solidItem.h \
 	$$PWD/src/engine/items/wallItem.h \
 	$$PWD/src/engine/items/stylusItem.h \
@@ -144,6 +146,7 @@ SOURCES += \
 	$$PWD/src/engine/view/scene/sensorItem.cpp \
 	$$PWD/src/engine/view/scene/rangeSensorItem.cpp \
 	$$PWD/src/engine/view/scene/lidarSensorItem.cpp \
+	$$PWD/src/engine/view/parts/itemPropertiesDialog.cpp \
 	$$PWD/src/engine/view/parts/palette.cpp \
 	$$PWD/src/engine/view/parts/actionsBox.cpp \
 	$$PWD/src/engine/view/parts/gridParameters.cpp \
@@ -165,6 +168,7 @@ SOURCES += \
 	$$PWD/src/engine/model/physics/simplePhysicsEngine.cpp \
 	$$PWD/src/engine/model/physics/parts/box2DRobot.cpp \
 	$$PWD/src/engine/model/physics/parts/box2DWheel.cpp \
+	$$PWD/src/engine/items/solidGraphicItem.cpp \
 	$$PWD/src/engine/items/solidItem.cpp \
 	$$PWD/src/engine/items/wallItem.cpp \
 	$$PWD/src/engine/items/stylusItem.cpp \

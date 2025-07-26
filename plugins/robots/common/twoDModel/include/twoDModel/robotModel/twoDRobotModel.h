@@ -20,6 +20,7 @@
 
 #include "twoDModel/twoDModelDeclSpec.h"
 #include "twoDModel/engine/twoDModelDisplayWidget.h"
+#include <QDebug>
 
 namespace twoDModel {
 
@@ -75,8 +76,10 @@ public:
 	/// Returns robot`s fixture friction coefficient.
 	virtual qreal friction() const = 0;
 
+	/// Returns robot`s fixture restitution coefficient.
+	virtual qreal restitution() const = 0;
+
 	/// Returns robot`s rectangle size in pixels.
-	/// By default returns (50, 50).
 	virtual QSizeF size() const;
 
 	/// Returns a point (pixels) in items coordinates arround which robot rotates.
@@ -125,10 +128,33 @@ public:
 
 	/// Returns a reference to object providing different parts of 2D model emulator.
 	engine::TwoDModelEngineInterface *engine();
-
 	/// Returns scanning angle and max distance by given device type.
 	virtual QPair<qreal,int> rangeSensorAngleAndDistance (const kitBase::robotModel::DeviceInfo &deviceType) const;
 
+	virtual void setOnePercentAngularVelocity(const qreal onePercentAngularVelocity) {
+		Q_UNUSED(onePercentAngularVelocity);
+	}
+
+	virtual void setMass(const qreal mass) {
+		Q_UNUSED(mass);
+	};
+
+	virtual void setWidth(const qreal width) {
+		qDebug() << __LINE__ << __FILE__;
+		Q_UNUSED(width);
+	};
+
+	virtual void setHeight(const qreal height) {
+		Q_UNUSED(height);
+	};
+
+	virtual void setFriction(const qreal friction) {
+		Q_UNUSED(friction);
+	};
+
+	virtual void setRestitution(const qreal restitution) {
+		Q_UNUSED(restitution);
+	};
 signals:
 	void settingsChanged();
 protected:

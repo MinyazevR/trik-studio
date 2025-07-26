@@ -32,7 +32,7 @@ class RobotItem : public graphicsUtils::RotateItem, public items::SolidItem
 
 public:
 	RobotItem(const QString &robotImageFileName, model::RobotModel &robotModel);
-
+	~RobotItem();
 	QRectF boundingRect() const override;
 	QRectF calcNecessaryBoundingRect() const override;
 	void drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -67,6 +67,7 @@ public:
 	QPolygonF collidingPolygon() const override;
 	qreal mass() const override;
 	qreal friction() const override;
+	qreal restitution() const override;
 	BodyType bodyType() const override;
 
 protected:

@@ -1,0 +1,29 @@
+#pragma once
+
+#include "solidItem.h"
+#include <qrutils/graphicsUtils/abstractItem.h>
+#include <qrkernel/settingsManager.h>
+
+namespace twoDModel {
+namespace view {
+        class ItemPropertiesDialog;
+}
+
+namespace items {
+
+class SolidGraphicItem: public graphicsUtils::AbstractItem, public SolidItem
+{
+	Q_OBJECT
+	Q_DISABLE_COPY(SolidGraphicItem)
+public:
+	SolidGraphicItem(twoDModel::view::ItemPropertiesDialog *dialog);
+	void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+Q_SIGNALS:
+	void defaultParamsSetted(SolidGraphicItem *);
+	void itemParamsChanged(SolidGraphicItem *);
+
+private:
+	QScopedPointer<twoDModel::view::ItemPropertiesDialog> mPropertyDialog;
+};
+}
+}

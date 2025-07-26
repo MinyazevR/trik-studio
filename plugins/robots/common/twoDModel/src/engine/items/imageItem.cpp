@@ -15,7 +15,12 @@
 #include "imageItem.h"
 
 #include <QtGui/QPainter>
-#include <QtWidgets/QAction>
+#if (QT_VERSION <= QT_VERSION_CHECK(6, 0, 0))
+        #include <QtWidgets/QAction>
+#else
+        #include <QtGui/QAction>
+#endif
+
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
 #include <qrkernel/settingsManager.h>
@@ -75,7 +80,7 @@ QPainterPath ImageItem::resizeArea() const
 
 QAction *ImageItem::imageTool()
 {
-	auto * const result = new QAction(loadTextColorIcon(":/icons/2d_image.svg"), tr("Image (I)"), nullptr);
+	auto * const result = new QAction(loadTextColorIcon(QStringLiteral(":/icons/2d_image.svg")), tr("Image (I)"), nullptr);
 	result->setShortcuts({QKeySequence(Qt::Key_I), QKeySequence(Qt::Key_Minus)});
 	result->setCheckable(false);
 	return result;
@@ -109,17 +114,17 @@ QPainterPath ImageItem::shape() const
 QDomElement ImageItem::serialize(QDomElement &parent) const
 {
 	QDomElement imageNode = AbstractItem::serialize(parent);
-	imageNode.setTagName("image");
+	imageNode.setTagName(QStringLiteral("image"));
 
 //	mImage.serialize(imageNode);
-	imageNode.setAttribute("rect", QString("%1:%2:%3:%4").arg(
+	imageNode.setAttribute(QStringLiteral("rect"), QStringLiteral("%1:%2:%3:%4").arg(
 			QString::number(x1())
 			, QString::number(y1())
 			, QString::number(x2() - x1())
 			, QString::number(y2() - y1())));
-	imageNode.setAttribute("position", QString::number(x()) + ":" + QString::number(y()));
-	imageNode.setAttribute("imageId", mImage->imageId());
-	imageNode.setAttribute("isBackground", mBackgroundRole ? "true" : "false");
+	imageNode.setAttribute(QStringLiteral("position"), QString::number(x()) + ":" + QString::number(y()));
+	imageNode.setAttribute(QStringLiteral("imageId"), mImage->imageId());
+	imageNode.setAttribute(QStringLiteral("isBackground"), mBackgroundRole ? QStringLiteral("true") : QStringLiteral("false"));
 	return imageNode;
 }
 
@@ -127,14 +132,15 @@ void ImageItem::deserialize(const QDomElement &element)
 {
 	AbstractItem::deserialize(element);
 	QRectF rect;
-	if (element.hasAttribute("backgroundRect")) {
-		rect = deserializeRect(element.attribute("backgroundRect"));
+	if (element.hasAttribute(QStringLiteral("backgroundRect"))) {
+		rect = deserializeRect(element.attribute(QStringLiteral("backgroundRect")));
 		setPos(0, 0);
 		setBackgroundRole(true);
 	} else {
-		rect = deserializeRect(element.attribute("rect"));
-		setPos(RectangleImpl::deserializePoint(element.attribute("position")));
-		setBackgroundRole(element.attribute("isBackground", "false") == "true");
+		rect = deserializeRect(element.attribute(QStringLiteral("rect")));
+		setPos(RectangleImpl::deserializePoint(element.attribute(QStringLiteral("position"))));
+		setBackgroundRole(element.attribute(
+		                          QStringLiteral("isBackground"), QStringLiteral("false")) == QStringLiteral("true"));
 	}
 	setX1(rect.left());
 	setX2(rect.right());
@@ -160,14 +166,14 @@ QString ImageItem::path() const
 void ImageItem::setMemorize(bool memorize)
 {
 	mImage->setExternal(!memorize);
-	emit internalImageChanged();
+	Q_EMIT internalImageChanged();
 }
 
 void ImageItem::setPath(const QString &path)
 {
 	mImage->loadFrom(path);
 	update();
-	emit internalImageChanged();
+	Q_EMIT internalImageChanged();
 }
 
 void ImageItem::setBackgroundRole(bool background)
@@ -188,7 +194,7 @@ bool ImageItem::isBackground() const
 QVariant ImageItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
 	if (change == QGraphicsItem::ItemSelectedHasChanged) {
-		emit selectedChanged(value.toBool());
+		Q_EMIT selectedChanged(value.toBool());
 		if (!value.toBool() && isBackground()) {
 			setFlag(ItemIsSelectable, false);
 			setEditable(false);
@@ -221,7 +227,7 @@ void ImageItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 QRectF ImageItem::deserializeRect(const QString &string) const
 {
-	const QStringList splittedStr = string.split(":");
+	const QStringList splittedStr = string.split(QStringLiteral(":"));
 	if (splittedStr.count() == 4) {
 		const auto x = splittedStr[0].toDouble();
 		const auto y = splittedStr[1].toDouble();
@@ -236,7 +242,7 @@ QRectF ImageItem::deserializeRect(const QString &string) const
 void ImageItem::resizeItem(QGraphicsSceneMouseEvent *event)
 {
 	mEstimatedPos += event->scenePos() - event->lastScenePos();
-	const auto showGrid = SettingsManager::value("2dShowGrid").toBool();
+	const auto showGrid = SettingsManager::value(QStringLiteral("2dShowGrid")).toBool();
 	if (!showGrid || event->modifiers() == Qt::ControlModifier) {
 		if (dragState() != None) {
 			calcResizeItem(event);
@@ -245,7 +251,7 @@ void ImageItem::resizeItem(QGraphicsSceneMouseEvent *event)
 		}
 	} else if (dragState() != None) {
 		setFlag(QGraphicsItem::ItemIsMovable, false);
-		const auto gridSize = SettingsManager::value("2dGridCellSize").toInt();
+		const auto gridSize = SettingsManager::value(QStringLiteral("2dGridCellSize")).toInt();
 		const auto x = alignedCoordinate(event->scenePos().x(), gridSize);
 		const auto y = alignedCoordinate(event->scenePos().y(), gridSize);
 		setXYWithDragState(mapFromScene(x, y));
@@ -256,7 +262,7 @@ void ImageItem::resizeItem(QGraphicsSceneMouseEvent *event)
 		// and align top left corner to grid
 		QRectF itemBoundingRect = calcNecessaryBoundingRect();
 		const auto topLeft = mapToScene(QPointF(itemBoundingRect.left(), itemBoundingRect.top()));
-		const auto gridSize = SettingsManager::value("2dGridCellSize").toInt();
+		const auto gridSize = SettingsManager::value(QStringLiteral("2dGridCellSize")).toInt();
 		const auto x = alignedCoordinate(topLeft.x(), gridSize);
 		const auto y = alignedCoordinate(topLeft.y(), gridSize);
 		auto delta = QPointF(x, y) - topLeft;

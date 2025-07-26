@@ -36,7 +36,7 @@ Box2DRobot::Box2DRobot(Box2DPhysicsEngine *engine, twoDModel::model::RobotModel 
 	bodyDef.rotation = b2MakeRot(angle);
 	mBodyId = b2CreateBody(engine->box2DWorldId(), &bodyDef);
 	b2ShapeDef fixtureDef = b2DefaultShapeDef();
-	fixtureDef.material.restitution = 0.6f;
+	fixtureDef.material.restitution = mModel->info().restitution();
 	fixtureDef.material.friction = mModel->info().friction();
 	QPolygonF collidingPolygon = mModel->info().collidingPolygon();
 	QPointF localCenter = collidingPolygon.boundingRect().center();
@@ -47,12 +47,12 @@ Box2DRobot::Box2DRobot(Box2DPhysicsEngine *engine, twoDModel::model::RobotModel 
 	fixtureDef.density = engine->computeDensity(collidingPolygon, mModel->info().mass());
 	b2Hull hull = b2ComputeHull(mPolygon.get(), collidingPolygon.size());
 	b2Polygon polygon = b2MakePolygon(&hull, 0.0f);
-	b2ShapeId polygonShapeId = b2CreatePolygonShape(mBodyId, &fixtureDef, &polygon);
+	mRobotShapeId = b2CreatePolygonShape(mBodyId, &fixtureDef, &polygon);
 	b2Body_SetUserData(mBodyId, this);
 	b2Body_SetAngularDamping(mBodyId, 1.0f);
 	b2Body_SetLinearDamping(mBodyId, 1.0f);
 	connectWheels();
-	auto finalPolygon = b2Shape_GetPolygon(polygonShapeId);
+	auto finalPolygon = b2Shape_GetPolygon(mRobotShapeId);
 
 	for (int i = 0; i < finalPolygon.count; ++i) {
 		auto position = b2Body_GetPosition(mBodyId);
@@ -159,6 +159,42 @@ void Box2DRobot::setRotation(float angle)
 
 	reinitSensors();
 }
+
+void Box2DRobot::setRestitution(float restitution)
+{
+	b2Shape_SetRestitution(mRobotShapeId, restitution);
+}
+
+void Box2DRobot::setFriction(float friction)
+{
+	b2Shape_SetFriction(mRobotShapeId, friction);
+}
+
+void Box2DRobot::setMass(float mass)
+{
+	auto density = mEngine->computeDensity(mModel->info().collidingPolygon(), mass);
+	b2Shape_SetDensity(mRobotShapeId, density, true);
+}
+
+//void Box2DRobot::setWidthOrHeight(float widthOrHeight)
+//{
+//	qDebug() << __LINE__ << __FILE__;
+//	Q_UNUSED(widthOrHeight)
+//	QPolygonF collidingPolygon = mModel->info().collidingPolygon();
+//	qDebug() << "width: " << mModel->info().size().width();
+//	QPointF localCenter = collidingPolygon.boundingRect().center();
+//	mPolygon.reset(new b2Vec2[collidingPolygon.size()]);
+//	for (int i = 0; i < collidingPolygon.size(); ++i) {
+//		mPolygon[i] = mEngine->positionToBox2D(collidingPolygon.at(i) - localCenter);
+//	}
+//	qDebug() << __LINE__ << __FILE__;
+//	b2Hull hull = b2ComputeHull(mPolygon.get(), collidingPolygon.size());
+//	b2Polygon polygon = b2MakePolygon(&hull, 0.0f);
+//	// b2DestroyShape(mRobotShapeId, true);
+//	b2Shape_SetPolygon(mRobotShapeId, &polygon);
+//	qDebug() << __LINE__ << __FILE__;
+//}
+
 
 void Box2DRobot::reinitSensor(const twoDModel::view::SensorItem *sensor)
 {

@@ -94,6 +94,8 @@ TwoDModelScene::TwoDModelScene(model::Model &model
 
 	connect(&mModel, &model::Model::robotAdded, this, &TwoDModelScene::onRobotAdd);
 	connect(&mModel, &model::Model::robotRemoved, this, &TwoDModelScene::onRobotRemove);
+	connect(&mModel, &model::Model::robotItemAdded, this, &TwoDModelScene::onRobotAdd);
+	connect(&mModel, &model::Model::robotItemRemoved, this, &TwoDModelScene::onRobotRemove);
 }
 
 TwoDModelScene::~TwoDModelScene()
@@ -137,6 +139,7 @@ TwoDModelScene::~TwoDModelScene()
 
 bool TwoDModelScene::oneRobot() const
 {
+	qDebug() << __LINE__ << __FILE__ << mRobots.size();
 	return mRobots.size() == 1;
 }
 
@@ -228,10 +231,12 @@ void TwoDModelScene::onRobotAdd(model::RobotModel *robotModel)
 	connect(&*robotItem, &RobotItem::drawTrace, &mModel.worldModel(), &model::WorldModel::appendRobotTrace);
 
 	robotItem->setEditable(!mRobotReadOnly);
-
+	qDebug() << __LINE__ << __FILE__;
 	addItem(robotItem.data());
 	robotItem->robotModel().startPositionMarker()->setZValue(robotItem->zValue() - lowPrecision);
-	addItem(robotItem->robotModel().startPositionMarker()); // Steal ownership	
+	qDebug() << __LINE__ << __FILE__;
+	addItem(robotItem->robotModel().startPositionMarker()); // Steal ownership
+	qDebug() << __LINE__ << __FILE__;
 	subscribeItem(robotModel->startPositionMarker());
 
 	mRobots.insert(robotModel, robotItem);
@@ -241,9 +246,17 @@ void TwoDModelScene::onRobotAdd(model::RobotModel *robotModel)
 
 void TwoDModelScene::onRobotRemove(model::RobotModel *robotModel)
 {
-	mRobots.remove(robotModel);
-
-	emit robotListChanged(nullptr);
+	qDebug() << __LINE__ << __FILE__;
+	if (auto item = mRobots[robotModel]) {
+		qDebug() << __LINE__ << __FILE__;
+		removeItem(robotModel->startPositionMarker());
+		removeItem(item.data());
+		mRobots.remove(robotModel);
+		item.reset();
+		//	qDebug() << __LINE__ << __FILE__ << mRobots[robotModel].data();
+		emit robotListChanged(nullptr);
+		qDebug() << __LINE__ << __FILE__;
+	}
 }
 
 void TwoDModelScene::onWallAdded(QSharedPointer<items::WallItem> wall)
@@ -997,9 +1010,9 @@ void TwoDModelScene::alignWalls()
 	}
 }
 
-RobotItem *TwoDModelScene::robot(model::RobotModel &robotModel)
+QSharedPointer<RobotItem> TwoDModelScene::robot(model::RobotModel &robotModel)
 {
-	return mRobots.value(&robotModel).data();
+	return mRobots.value(&robotModel);
 }
 
 void TwoDModelScene::centerOnRobot(RobotItem *selectedItem)

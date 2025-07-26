@@ -28,6 +28,9 @@ namespace graphicsUtils {
 }
 
 namespace twoDModel {
+        namespace items {
+	class SolidGraphicItem;
+	}
 	namespace view {
 		class TwoDModelScene;
 		class RobotItem;
@@ -78,12 +81,17 @@ public:
 	b2WorldId box2DWorldId();
 
 public slots:
+	void onItemParamsChanged(twoDModel::items::SolidGraphicItem *);
 	void onItemDragged(graphicsUtils::AbstractItem *item);
 	void onRobotStartPositionChanged(const QPointF &newPos, twoDModel::model::RobotModel *robot);
 	void onRobotStartAngleChanged(const qreal newAngle, twoDModel::model::RobotModel *robot);
 	void onMouseReleased(const QPointF &newPos, qreal newAngle);
 	void onMousePressed();
 	void onRecoverRobotPosition(const QPointF &pos);
+	void onRobotRestitutionChanged(const qreal restitution, model::RobotModel *robot);
+	void onRobotFrictionChanged(const qreal restitution, model::RobotModel *robot);
+	void onRobotMassChanged(const qreal mass, model::RobotModel *robot);
+//	void onRobotWidthOrHeightChanged(const qreal widthOrHeight, model::RobotModel *robot);
 
 protected:
 	void onPixelsInCmChanged(qreal value) override;

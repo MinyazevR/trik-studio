@@ -28,6 +28,7 @@
 #include "twoDModel/engine/twoDModelDisplayWidget.h"
 
 #include "twoDModel/twoDModelDeclSpec.h"
+#include <QSharedPointer>
 
 class QComboBox;
 class QPushButton;
@@ -230,7 +231,7 @@ private:
 
 	void onRobotListChange(RobotItem *robotItem);
 
-	void setSelectedRobotItem(RobotItem *robotItem);
+	void setSelectedRobotItem(QSharedPointer<RobotItem> &robotItem);
 	void unsetSelectedRobotItem();
 
 	void incrementTimelineCounter();
@@ -245,7 +246,7 @@ private:
 	RobotItemPopup *mRobotItemPopup {};  // Takes ownership
 	SpeedPopup *mSpeedPopup {};  // Takes owneship
 
-	RobotItem *mSelectedRobotItem {};
+	QWeakPointer<RobotItem> mSelectedRobotItem;
 	kitBase::DevicesConfigurationWidget *mCurrentConfigurer {};
 
 	model::Model &mModel;

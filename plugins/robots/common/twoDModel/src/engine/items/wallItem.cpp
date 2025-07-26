@@ -14,7 +14,11 @@
 
 #include "wallItem.h"
 
-#include <QtWidgets/QAction>
+#if (QT_VERSION <= QT_VERSION_CHECK(6, 0, 0))
+        #include <QtWidgets/QAction>
+#else
+        #include <QtGui/QAction>
+#endif
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
 #include <qrkernel/settingsManager.h>
@@ -26,7 +30,10 @@ using namespace qReal;
 using namespace graphicsUtils;
 
 WallItem::WallItem(const QPointF &begin, const QPointF &end)
-	: mImage(":/icons/2d_wall.png")
+        : mImage(QStringLiteral(":/icons/2d_wall.png")),
+          mWidth(wallWidth),
+          mFriction(wallFriction),
+          mRestitution(wallRestituion)
 {
 	setX1(begin.x());
 	setY1(begin.y());
@@ -56,7 +63,7 @@ WallItem *WallItem::clone() const
 
 QAction *WallItem::wallTool()
 {
-	QAction * const result = new QAction(QIcon(":/icons/2d_wall.png"), tr("Wall (W)"), nullptr);
+	QAction * const result = new QAction(QIcon(QStringLiteral(":/icons/2d_wall.png")), tr("Wall (W)"), nullptr);
 	result->setShortcuts({QKeySequence(Qt::Key_W), QKeySequence(Qt::Key_2)});
 	result->setCheckable(true);
 	return result;
@@ -66,7 +73,7 @@ void WallItem::setPrivateData()
 {
 	setZValue(ZValue::Wall);
 	QPen pen(this->pen());
-	pen.setWidth(mWallWidth);
+	pen.setWidth(mWidth);
 	pen.setStyle(Qt::NoPen);
 	setPen(pen);
 	QBrush brush(this->brush());
@@ -87,28 +94,28 @@ QPointF WallItem::end() const
 
 QRectF WallItem::boundingRect() const
 {
-	return mLineImpl.boundingRect(x1(), y1(), x2(), y2(), pen().width(), mWallWidth);
+	return mLineImpl.boundingRect(x1(), y1(), x2(), y2(), pen().width(), mWidth);
 }
 
 QPainterPath WallItem::shape() const
 {
 	QPainterPath result;
 	result.setFillRule(Qt::WindingFill);
-	result.addPath(mLineImpl.shape(mWallWidth, x1(), y1(), x2(), y2()));
+	result.addPath(mLineImpl.shape(mWidth, x1(), y1(), x2(), y2()));
 	result.addPath(resizeArea());
 	return result;
 }
 
 QPainterPath WallItem::resizeArea() const
 {
-	return mLineImpl.fieldForResizeItem(mWallWidth, x1(), y1(), x2(), y2());
+	return mLineImpl.fieldForResizeItem(mWidth, x1(), y1(), x2(), y2());
 }
 
 void WallItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
-	painter->drawPath(mLineImpl.shape(mWallWidth, x1(), y1(), x2(), y2()));
+	painter->drawPath(mLineImpl.shape(mWidth, x1(), y1(), x2(), y2()));
 	recalculateBorders();
 }
 
@@ -126,8 +133,8 @@ void WallItem::setPenBrushForExtraction(QPainter *painter, const QStyleOptionGra
 
 void WallItem::drawExtractionForItem(QPainter *painter)
 {
-	mLineImpl.drawExtractionForItem(painter, x1(), y1(), x2(), y2(), mWallWidth);
-	mLineImpl.drawFieldForResizeItem(painter, mWallWidth, x1(), y1(), x2(), y2());
+	mLineImpl.drawExtractionForItem(painter, x1(), y1(), x2(), y2(), mWidth);
+	mLineImpl.drawFieldForResizeItem(painter, mWidth, x1(), y1(), x2(), y2());
 }
 
 qreal WallItem::width() const
@@ -138,11 +145,15 @@ qreal WallItem::width() const
 QDomElement WallItem::serialize(QDomElement &parent) const
 {
 	QDomElement wallNode = AbstractItem::serialize(parent);
-	wallNode.setTagName("wall");
-	setPenBrushToElement(wallNode, "wall");
+	wallNode.setTagName(QStringLiteral("wall"));
+	setPenBrushToElement(wallNode, QStringLiteral("wall"));
 	auto pos = scenePos();
 	mLineImpl.serialize(wallNode, x1() + pos.x(), y1() + pos.y()
 			, x2() + pos.x(), y2() + pos.y());
+
+	wallNode.setAttribute(QStringLiteral("width"), QString::number(mWidth));
+	wallNode.setAttribute(QStringLiteral("friction"), QString::number(mFriction));
+	wallNode.setAttribute(QStringLiteral("restitution"), QString::number(mRestitution));
 	return wallNode;
 }
 
@@ -160,8 +171,19 @@ void WallItem::deserialize(const QDomElement &element)
 	setY2(end.y());
 
 	readPenBrush(element);
-	if (pen().width()) {
-		mWallWidth = pen().width();
+
+	if (element.hasAttribute(QStringLiteral("width"))) {
+		mWidth = element.attribute(QStringLiteral("width"), QStringLiteral("0")).toInt();
+	} else {
+		mWidth = pen().width();
+	}
+
+	if (element.hasAttribute(QStringLiteral("friction"))) {
+		mFriction = element.attribute(QStringLiteral("friction"), QStringLiteral("0")).toDouble();
+	}
+
+	if (element.hasAttribute(QStringLiteral("restitution"))) {
+		mRestitution = element.attribute(QStringLiteral("restitution"), QStringLiteral("0")).toDouble();
 	}
 
 	recalculateBorders();
@@ -174,7 +196,7 @@ QPainterPath WallItem::path() const
 
 void WallItem::recalculateBorders()
 {
-	mPath = mLineImpl.shape(mWallWidth, begin().x(), begin().y(), end().x(), end().y());
+	mPath = mLineImpl.shape(mWidth, begin().x(), begin().y(), end().x(), end().y());
 }
 
 void WallItem::resizeItem(QGraphicsSceneMouseEvent *event)
@@ -185,8 +207,8 @@ void WallItem::resizeItem(QGraphicsSceneMouseEvent *event)
 		AbstractItem::resizeItem(event);
 		reshapeRectWithShift();
 	} else {
-		if (SettingsManager::value("2dShowGrid").toBool() && event->modifiers() != Qt::ControlModifier) {
-			resizeWithGrid(event, SettingsManager::value("2dGridCellSize").toInt());
+		if (SettingsManager::value(QStringLiteral("2dShowGrid")).toBool() && event->modifiers() != Qt::ControlModifier) {
+			resizeWithGrid(event, SettingsManager::value(QStringLiteral("2dGridCellSize")).toInt());
 		} else {
 			if (dragState() == TopLeft || dragState() == BottomRight) {
 				calcResizeItem(event);
@@ -276,7 +298,7 @@ QPolygonF WallItem::collidingPolygon() const
 	const QPolygonF polygon = mPath.toFillPolygon();
 	// here we have "one point" wall
 	if (polygon.isEmpty()) {
-		auto offset = QPointF(mWallWidth, mWallWidth);
+		auto offset = QPointF(mWidth, mWidth);
 		return QRectF(begin() - offset / 2, begin() + offset / 2);
 	}
 
@@ -316,7 +338,12 @@ qreal WallItem::mass() const
 
 qreal WallItem::friction() const
 {
-	return 1.0;
+	return mFriction;
+}
+
+qreal WallItem::restitution() const
+{
+	return mRestitution;
 }
 
 SolidItem::BodyType WallItem::bodyType() const
