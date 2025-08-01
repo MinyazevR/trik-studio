@@ -83,6 +83,7 @@ public:
 public slots:
 	void onItemParamsChanged(twoDModel::items::SolidGraphicItem *);
 	void onItemDragged(graphicsUtils::AbstractItem *item);
+	void onAllItemParamsChanged(twoDModel::items::SolidGraphicItem *item);
 	void onRobotStartPositionChanged(const QPointF &newPos, twoDModel::model::RobotModel *robot);
 	void onRobotStartAngleChanged(const qreal newAngle, twoDModel::model::RobotModel *robot);
 	void onMouseReleased(const QPointF &newPos, qreal newAngle);
@@ -91,7 +92,7 @@ public slots:
 	void onRobotRestitutionChanged(const qreal restitution, model::RobotModel *robot);
 	void onRobotFrictionChanged(const qreal restitution, model::RobotModel *robot);
 	void onRobotMassChanged(const qreal mass, model::RobotModel *robot);
-//	void onRobotWidthOrHeightChanged(const qreal widthOrHeight, model::RobotModel *robot);
+	void onRobotWidthOrHeightChanged(const qreal widthOrHeight, model::RobotModel *robot);
 
 protected:
 	void onPixelsInCmChanged(qreal value) override;

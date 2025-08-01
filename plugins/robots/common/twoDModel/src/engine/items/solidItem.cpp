@@ -30,3 +30,14 @@ qreal SolidItem::linearDamping() const
 {
 	return 0.0;
 }
+
+
+void SolidItem::setAngularDamping(const qreal angularDamping)
+{
+	Q_UNUSED(angularDamping)
+}
+
+void SolidItem::setLinearDamping(const qreal linearDamping)
+{
+	Q_UNUSED(linearDamping)
+}

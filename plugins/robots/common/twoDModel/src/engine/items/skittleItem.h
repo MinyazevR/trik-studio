@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include "src/engine/items/solidItem.h"
+#include "src/engine/items/solidGraphicItem.h"
 #include <qrutils/graphicsUtils/abstractItem.h>
 
 class QSvgRenderer;
@@ -22,7 +22,7 @@ class QSvgRenderer;
 namespace twoDModel {
 namespace items {
 
-class SkittleItem final: public graphicsUtils::AbstractItem, public SolidItem
+class SkittleItem final: public SolidGraphicItem
 {
 	Q_OBJECT
 	Q_DISABLE_COPY(SkittleItem)
@@ -55,22 +55,28 @@ public:
 	BodyType bodyType() const override;
 	qreal friction() const override;
 	qreal restitution() const override;
+	void setFriction(const qreal friction) override;
+	void setRestitution(const qreal restitution) override;
+	void setMass(const qreal mass) override;
+	void setRadius(const int radius);
+	QMap<QString, QVariant> defaultParams() const override;
 	QPolygonF collidingPolygon() const override;
 	qreal angularDamping() const override;
 	qreal linearDamping() const override;
-
+	virtual void onDialogAccepted() override;
 	QPainterPath path() const;
 
 private:
 	QPointF mStartPosition;
 	qreal mStartRotation {0.0};
-	int mWidth;
-	int mHeight;
+	int mRadius;
+	// int mWidth;
+	// int mHeight;
 	qreal mMass;
 	qreal mFriction;
 	qreal mRestitution;
-	qreal mAngularDumping;
-	qreal mLinearDumping;
+	qreal mAngularDamping;
+	qreal mLinearDamping;
 	QSvgRenderer *mSvgRenderer;
 };
 

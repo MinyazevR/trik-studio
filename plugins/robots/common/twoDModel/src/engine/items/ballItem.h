@@ -60,7 +60,12 @@ public:
 	qreal angularDamping() const override;
 	qreal linearDamping() const override;
 	QPainterPath shape () const override;
-
+	void setRestitution(const qreal restitution) override;
+	void setFriction(const qreal friction) override;
+	void setMass(const qreal mass) override;
+	void setRadius(const qreal radius);
+	QMap<QString, QVariant> defaultParams() const override;
+	virtual void onDialogAccepted() override;
 	QPainterPath path() const;
 
 private:
@@ -70,8 +75,8 @@ private:
 	qreal mMass;
 	qreal mFriction;
 	qreal mRestitution;
-	qreal mAngularDumping;
-	qreal mLinearDumping;
+	qreal mAngularDamping;
+	qreal mLinearDamping;
 
 	QSvgRenderer *mSvgRenderer;
 };

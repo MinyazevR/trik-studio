@@ -55,7 +55,10 @@ public:
 	QPolygonF collidingPolygon() const override;
 	qreal mass() const override;
 	qreal friction() const override;
+	void setFriction(const qreal friction) override;
 	qreal restitution() const override;
+	void setMass(const qreal mass) override;
+	void setRestitution(const qreal restitution) override;
 	bool isCircle() const override;
 	BodyType bodyType() const override;
 

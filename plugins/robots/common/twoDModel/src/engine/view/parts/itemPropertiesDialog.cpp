@@ -7,54 +7,65 @@
 #include <QDialogButtonBox>
 #include <src/engine/items/solidGraphicItem.h>
 #include <QDebug>
+#include <QVBoxLayout>
+#include <QPushButton>
+
 using namespace twoDModel::view;
 
 ItemPropertiesDialog::ItemPropertiesDialog()
-        : mLayout(new QFormLayout(this)) {
+        : mVBoxLayout(new QVBoxLayout(this))
+        , mFormLayout(new QFormLayout()) {
 
-	QDialogButtonBox* buttons = new QDialogButtonBox(
-	    QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-	    this
-	);
+	this->setWindowTitle("Item properties");
+	mVBoxLayout->addLayout(mFormLayout);
+	mVBoxLayout->addStretch();
 
-	connect(buttons, &QDialogButtonBox::accepted, this, &ItemPropertiesDialog::saveSettings);
-	connect(buttons, &QDialogButtonBox::rejected, this, &ItemPropertiesDialog::reject);
+	QHBoxLayout *buttonLayout = new QHBoxLayout();
+	QPushButton *saveButton = new QPushButton("Save");
+	QPushButton *cancelButton = new QPushButton("Cancel");
+	buttonLayout->addWidget(saveButton);
+	buttonLayout->addWidget(cancelButton);
+	mVBoxLayout->addLayout(buttonLayout);
+	connect(saveButton, &QPushButton::pressed, this, &ItemPropertiesDialog::saveSettings);
+	connect(cancelButton, &QPushButton::pressed, this, &ItemPropertiesDialog::reject);
+}
 
-	mLayout->addRow(buttons);
+QMap<QString, QVariant> &ItemPropertiesDialog::currentSettings() {
+	return mCurrentValues;
 }
 
 void ItemPropertiesDialog::saveSettings() {
 
-	qDebug() << "SAVE SEttINGS";
-	for (auto it = mWidgets.begin(); it != mWidgets.end(); ++it) {
-		const QString& key = it.key();
-
-	    QWidget* widget = it.value();
-
-	    if (auto spinBox = qobject_cast<QSpinBox*>(widget)) {
-		mSettingsManager[key] = spinBox->value();
-	    }
-	    else if (auto doubleSpinBox = qobject_cast<QDoubleSpinBox*>(widget)) {
-		mSettingsManager[key] = doubleSpinBox->value();
-	    } else if (auto checkBox = qobject_cast<QCheckBox*>(widget)) {
-		    mSettingsManager[key] = checkBox->isChecked();
-	    } else if (auto lineEdit = qobject_cast<QLineEdit*>(widget)) {
-		    mSettingsManager[key] = lineEdit->text();
-	    }
+	for (auto &&key: mDoubleSpinWidgets.keys()) {
+		auto spinWidget = mDoubleSpinWidgets[key];
+		mCurrentValues[key] = spinWidget->value();
 	}
 
 	accept();
 }
 
 void ItemPropertiesDialog::reject() {
-    // Явно восстанавливаем старые значения в виджетах (опционально)
-//    mRestitutionSpin->setValue(mTmpRestitution);
-    QDialog::reject();
+
+	for (auto &&key: mDoubleSpinWidgets.keys()) {
+		auto prevValue = mCurrentValues[key];
+		mDoubleSpinWidgets[key]->setValue(prevValue.toDouble());
+	}
+
+	QDialog::reject();
 }
 
-void ItemPropertiesDialog::onDefaultItemSetted(twoDModel::items::SolidGraphicItem *item) {
-	auto spin = new QDoubleSpinBox(this);
-	auto restitutionValue = item->restitution();
-	spin->setValue(restitutionValue);
-	mLayout->addRow(QStringLiteral("restituition") + ":", spin);
+void ItemPropertiesDialog::onDefaultItemSetted(twoDModel::items::SolidItem *item) {
+
+	auto defaultParams = item->defaultParams();
+	for(auto &&key: defaultParams.keys()) {
+		auto value = defaultParams[key];
+		if (value.canConvert<double>()) {
+			mDoubleSpinWidgets[key] = new QDoubleSpinBox(this);
+			mDoubleSpinWidgets[key]->setSingleStep(0.01);
+			mDoubleSpinWidgets[key]->setDecimals(4);
+			mDoubleSpinWidgets[key]->setValue(value.toDouble());
+			mCurrentValues[key] = value;
+			mFormLayout->addRow(key + ":", mDoubleSpinWidgets[key]);
+		}
+	}
 }

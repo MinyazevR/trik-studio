@@ -17,12 +17,12 @@
 #include <qrutils/graphicsUtils/lineImpl.h>
 #include <qrutils/graphicsUtils/abstractItem.h>
 
-#include "src/engine/items/solidItem.h"
+#include "src/engine/items/solidGraphicItem.h"
 
 namespace twoDModel {
 namespace items {
 
-class WallItem : public graphicsUtils::AbstractItem, public SolidItem
+class WallItem : public SolidGraphicItem
 {
 	Q_OBJECT
 	Q_DISABLE_COPY(WallItem)
@@ -69,6 +69,10 @@ public:
 	qreal mass() const override;
 	qreal friction() const override;
 	qreal restitution() const override;
+	void setRestitution(const qreal restitution) override;
+	void setFriction(const qreal friction) override;
+	void setMass(const qreal mass) override;
+	QMap<QString, QVariant> defaultParams() const override;
 	BodyType bodyType() const override;
 
 protected:

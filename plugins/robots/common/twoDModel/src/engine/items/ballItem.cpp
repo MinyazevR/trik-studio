@@ -21,7 +21,7 @@
         #include <QtGui/QAction>
 #endif
 #include <QtSvg/QSvgRenderer>
-
+#include <QDebug>
 #include <twoDModel/engine/model/constants.h>
 #include "../view/parts/itemPropertiesDialog.h"
 
@@ -33,8 +33,8 @@ BallItem::BallItem(const QPointF &position)
           mMass(ballMass),
           mFriction(ballFriction),
           mRestitution(ballRestituion),
-          mAngularDumping(ballAngularDamping),
-          mLinearDumping(ballLinearDamping),
+          mAngularDamping(ballAngularDamping),
+          mLinearDamping(ballLinearDamping),
           mSvgRenderer(new QSvgRenderer)
 
 {
@@ -68,7 +68,9 @@ void BallItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *optio
 {
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
-	mSvgRenderer->render(painter, boundingRect());
+	auto rect = QRectF({-static_cast<qreal>(30 / 2.0), -static_cast<qreal>(30 / 2.0)}
+	                   , QSize{30, 30});
+	mSvgRenderer->render(painter, rect);
 }
 
 void BallItem::setPenBrushForExtraction(QPainter *painter, const QStyleOptionGraphicsItem *option)
@@ -107,8 +109,8 @@ QDomElement BallItem::serialize(QDomElement &element) const
 	ballNode.setAttribute(QStringLiteral("mass"), QString::number(mMass));
 	ballNode.setAttribute(QStringLiteral("friction"), QString::number(mFriction));
 	ballNode.setAttribute(QStringLiteral("restitution"), QString::number(mRestitution));
-	ballNode.setAttribute(QStringLiteral("angularDumping"), QString::number(mAngularDumping));
-	ballNode.setAttribute(QStringLiteral("linearDumping"), QString::number(mLinearDumping));
+	ballNode.setAttribute(QStringLiteral("angularDumping"), QString::number(mAngularDamping));
+	ballNode.setAttribute(QStringLiteral("linearDumping"), QString::number(mLinearDamping));
 	return ballNode;
 }
 
@@ -140,11 +142,11 @@ void BallItem::deserialize(const QDomElement &element)
 	}
 
 	if (element.hasAttribute(QStringLiteral("angularDumping"))) {
-		mAngularDumping = element.attribute(QStringLiteral("angularDumping"), QStringLiteral("0")).toDouble();
+		mAngularDamping = element.attribute(QStringLiteral("angularDumping"), QStringLiteral("0")).toDouble();
 	}
 
 	if (element.hasAttribute(QStringLiteral("linearDumping"))) {
-		mLinearDumping = element.attribute(QStringLiteral("linearDumping"), QStringLiteral("0")).toDouble();
+		mLinearDamping = element.attribute(QStringLiteral("linearDumping"), QStringLiteral("0")).toDouble();
 	}
 
 	setPos(QPointF(x, y));
@@ -152,7 +154,7 @@ void BallItem::deserialize(const QDomElement &element)
 	mStartPosition = {markerX, markerY};
 	setRotation(rotation);
 	Q_EMIT x1Changed(x1());
-	Q_EMIT itemParamsChanged(this);
+	Q_EMIT allItemParamsChanged(this);
 }
 
 QPainterPath BallItem::shape() const
@@ -160,6 +162,44 @@ QPainterPath BallItem::shape() const
 	QPainterPath result;
 	result.addEllipse(boundingRect());
 	return result;
+}
+
+void BallItem::setRestitution(const qreal restitution)
+{
+	mRestitution = restitution;
+	Q_EMIT itemParamsChanged(this);
+}
+
+void BallItem::setFriction(const qreal friction)
+{
+	mFriction = friction;
+	Q_EMIT itemParamsChanged(this);
+}
+
+void BallItem::setMass(const qreal mass)
+{
+	qDebug() << "IN SET MASS";
+	mMass = mass;
+	Q_EMIT itemParamsChanged(this);
+}
+
+void BallItem::setRadius(const qreal radius)
+{
+	qDebug() << "IN SET radius";
+	mRadius = radius;
+	Q_EMIT allItemParamsChanged(this);
+}
+
+void BallItem::onDialogAccepted() {
+	auto currentSettings = propertyDialog()->currentSettings();
+
+	for (auto &&key: currentSettings.keys()) {
+		auto value = currentSettings[key];
+		if (key == "Radius") {
+			setRadius(value.toDouble());
+		}
+	}
+	SolidGraphicItem::onDialogAccepted();
 }
 
 void BallItem::saveStartPosition()
@@ -185,12 +225,12 @@ QPolygonF BallItem::collidingPolygon() const
 
 qreal BallItem::angularDamping() const
 {
-	return mAngularDumping;
+	return mAngularDamping;
 }
 
 qreal BallItem::linearDamping() const
 {
-	return mLinearDumping;
+	return mLinearDamping;
 }
 
 QPainterPath BallItem::path() const
@@ -228,6 +268,18 @@ qreal BallItem::friction() const
 qreal BallItem::restitution() const
 {
 	return mRestitution;
+}
+
+QMap<QString, QVariant> BallItem::defaultParams() const
+{
+	return {
+		{"Radius", mRadius},
+		{"Restitution", mRestitution},
+		{"Friction", mFriction},
+		{"Mass", mMass},
+		{"Angular Damping", mAngularDamping},
+		{"Linear Damping", mLinearDamping}
+	};
 }
 
 SolidItem::BodyType BallItem::bodyType() const

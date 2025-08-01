@@ -17,6 +17,8 @@
 #include <QtGui/QPolygonF>
 #include <QtCore/qglobal.h>
 #include <QObject>
+#include <QMap>
+#include <QVariant>
 
 namespace twoDModel {
 namespace items {
@@ -49,11 +51,17 @@ public:
 	/// Returns body's mass in kg.
 	virtual qreal mass() const = 0;
 
+	virtual void setMass(const qreal mass) = 0;
+
 	/// Returns body's friction.
 	virtual qreal friction() const = 0;
 
+	virtual void setFriction(const qreal friction) = 0;
+
 	/// Returns body's restitution.
 	virtual qreal restitution() const = 0;
+
+	virtual void setRestitution(const qreal restitution) = 0;
 
 	/// Returns body's type.
 	virtual BodyType bodyType() const = 0;
@@ -61,8 +69,16 @@ public:
 	/// Returns body's angular damping.
 	virtual qreal angularDamping() const;
 
+	virtual void setAngularDamping(const qreal angularDamping);
+
 	/// Returns body's linear damping.
 	virtual qreal linearDamping() const;
+
+	virtual void setLinearDamping(const qreal linearDamping);
+
+	virtual QMap<QString, QVariant> defaultParams() const {
+		return {};
+	}
 };
 
 }

@@ -136,13 +136,13 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
 //		onRobotRestitutionChanged(restitution, dynamic_cast<model::RobotModel *>(sender()));
 //	});
 
-//	connect(robot, &model::RobotModel::widthChanged, this, [&] (const qreal widthOrHeight){
-//		qDebug() << __LINE__ << __FILE__;
-//		QEventLoop loop;
-//		QTimer::singleShot(10s, &loop, &QEventLoop::quit);
-//		loop.exec();
-//		onRobotWidthOrHeightChanged(widthOrHeight, dynamic_cast<model::RobotModel *>(sender()));
-//	});
+	connect(robot, &model::RobotModel::widthChanged, this, [&] (const qreal widthOrHeight){
+		qDebug() << __LINE__ << __FILE__;
+		QEventLoop loop;
+		QTimer::singleShot(10s, &loop, &QEventLoop::quit);
+		loop.exec();
+		onRobotWidthOrHeightChanged(widthOrHeight, dynamic_cast<model::RobotModel *>(sender()));
+	});
 
 //	connect(robot, &model::RobotModel::heightChanged, this, [&] (const qreal widthOrHeight){
 //		qDebug() << __LINE__ << __FILE__;
@@ -183,6 +183,13 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
 			mRobotSensors[model].insert(sensor);
 			mBox2DRobots[model]->addSensor(sensor);
 		});
+
+		connect(shrRobot.data(), &view::RobotItem::allItemParamsChanged, this, [&](twoDModel::view::RobotItem *rItem) {
+			qDebug() << "ROBOT WIDTH OR HEIGHT WAS CHANGED";
+			auto model = &rItem->robotModel();
+			this->onRobotWidthOrHeightChanged(1.0, model);
+		});
+
 		qDebug() << __LINE__ << __FILE__;
 		connect(shrRobot.data(), &view::RobotItem::sensorRemoved, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
@@ -208,7 +215,8 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot, const QPointF
 		delete mBox2DRobots[robot];
 	}
 
-	mBox2DRobots[robot] = new Box2DRobot(this, robot, positionToBox2D(pos), angleToBox2D(angle));
+	auto robotItem = new Box2DRobot(this, robot, positionToBox2D(pos), angleToBox2D(angle));
+	mBox2DRobots[robot] = robotItem;
 	mLeftWheels[robot] = mBox2DRobots[robot]->getWheelAt(0);
 	mRightWheels[robot] = mBox2DRobots[robot]->getWheelAt(1);
 }
@@ -259,16 +267,16 @@ void Box2DPhysicsEngine::onRobotMassChanged(const qreal mass, model::RobotModel 
 	mBox2DRobots[robot]->setMass(mass);
 }
 
-//void Box2DPhysicsEngine::onRobotWidthOrHeightChanged(const qreal widthOrHeight, model::RobotModel *robot)
-//{
-//	qDebug() << __LINE__ << __FILE__ << mBox2DRobots.size();
-//	if (!mBox2DRobots.contains(robot)) {
-//		return;
-//	}
+void Box2DPhysicsEngine::onRobotWidthOrHeightChanged(const qreal widthOrHeight, model::RobotModel *robot)
+{
+	qDebug() << __LINE__ << __FILE__ << mBox2DRobots.size();
+	if (!mBox2DRobots.contains(robot)) {
+		return;
+	}
 
-//	qDebug() << __LINE__ << __FILE__;
-//	mBox2DRobots[robot]->setWidthOrHeight(widthOrHeight);
-//}
+	qDebug() << __LINE__ << __FILE__;
+	mBox2DRobots[robot]->setWidthOrHeight(widthOrHeight);
+}
 
 void Box2DPhysicsEngine::onMouseReleased(const QPointF &newPos, qreal newAngle)
 {
@@ -317,6 +325,7 @@ void Box2DPhysicsEngine::removeRobot(model::RobotModel * const robot)
 
 void Box2DPhysicsEngine::recalculateParameters(qreal timeInterval)
 {
+	qDebug() << "EEEEEEEEEEEEEEEEEEEEEEEEEE";
 	const int subStepCount = 10;
 
 	model::RobotModel * const robot = mRobots.first();
@@ -351,11 +360,12 @@ void Box2DPhysicsEngine::recalculateParameters(qreal timeInterval)
 	mPrevAngle = b2Rot_GetAngle(b2Body_GetRotation(rBodyId));
 
 	b2World_Step(mWorldId, secondsInterval, subStepCount);
-	static volatile auto sThisFlagHelpsToAvoidClangError = true;
-	if ("If you want debug BOX2D, fix this expression to be false" && sThisFlagHelpsToAvoidClangError) {
-		return;
-	}
+//	static volatile auto sThisFlagHelpsToAvoidClangError = false;
+//	if ("If you want debug BOX2D, fix this expression to be false" && sThisFlagHelpsToAvoidClangError) {
+//		return;
+//	}
 
+	qDebug() << "BBBBBBBBBBBBBBBBBBBBBBBBBBB";
 	QPainterPath path;
 
 	for(QGraphicsItem *item : mBox2DDynamicItems.keys()) {
@@ -377,6 +387,7 @@ void Box2DPhysicsEngine::recalculateParameters(qreal timeInterval)
 		}
 	}
 
+	qDebug() << "AAAAAAAAAAAAAAAAAAAAAAA";
 	auto bodyId = mBox2DRobots[robot]->getBodyId();
 	auto angle = b2Rot_GetAngle(b2Body_GetRotation(bodyId));
 	auto position = b2Body_GetPosition(bodyId);
@@ -416,8 +427,8 @@ void Box2DPhysicsEngine::recalculateParameters(qreal timeInterval)
 	});
 
 
-//		 uncomment it for watching mutual position of robot and wheels (polygon form)
-//		path.addPolygon(mBox2DRobots[robot]->getDebuggingPolygon());
+	        // uncomment it for watching mutual position of robot and wheels (polygon form)
+//	        path.addPolygon(mBox2DRobots[robot]->getDebuggingPolygon());
 //		path.addPolygon(mBox2DRobots[robot]->getWheelAt(0)->mDebuggingDrawPolygon);
 //		path.addPolygon(mBox2DRobots[robot]->getWheelAt(1)->mDebuggingDrawPolygon);
 
@@ -503,6 +514,7 @@ void Box2DPhysicsEngine::itemAdded(QGraphicsItem *item)
 	}
 	if (auto abstractItem = dynamic_cast<twoDModel::items::SolidGraphicItem *>(item)) {
 		connect(abstractItem, &twoDModel::items::SolidGraphicItem::itemParamsChanged, this, &Box2DPhysicsEngine::onItemParamsChanged);
+		connect(abstractItem, &twoDModel::items::SolidGraphicItem::allItemParamsChanged, this, &Box2DPhysicsEngine::onAllItemParamsChanged);
 	}
 }
 
@@ -572,6 +584,18 @@ void Box2DPhysicsEngine::onItemParamsChanged(twoDModel::items::SolidGraphicItem 
 		mBox2DDynamicItems[item]->setMass(item, mass);
 		mBox2DDynamicItems[item]->setAngularDamping(angularDamping);
 		mBox2DDynamicItems[item]->setLinearDamping(linerarDamping);
+	}
+}
+
+void Box2DPhysicsEngine::onAllItemParamsChanged(twoDModel::items::SolidGraphicItem * item) {
+	onItemParamsChanged(item);
+	if (auto ballItem = dynamic_cast<items::BallItem *>(item)) {
+		itemRemoved(item);
+		QPolygonF collidingPolygon = ballItem->collidingPolygon();
+		b2Vec2 pos = positionToBox2D(collidingPolygon.boundingRect().center());
+		Box2DItem *box2dItem = new Box2DItem(this, item, pos, angleToBox2D(item->rotation()));
+		mBox2DDynamicItems[item] = box2dItem;
+		return;
 	}
 }
 

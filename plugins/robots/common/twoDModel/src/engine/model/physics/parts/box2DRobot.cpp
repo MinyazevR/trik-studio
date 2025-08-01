@@ -176,24 +176,24 @@ void Box2DRobot::setMass(float mass)
 	b2Shape_SetDensity(mRobotShapeId, density, true);
 }
 
-//void Box2DRobot::setWidthOrHeight(float widthOrHeight)
-//{
-//	qDebug() << __LINE__ << __FILE__;
-//	Q_UNUSED(widthOrHeight)
-//	QPolygonF collidingPolygon = mModel->info().collidingPolygon();
-//	qDebug() << "width: " << mModel->info().size().width();
-//	QPointF localCenter = collidingPolygon.boundingRect().center();
-//	mPolygon.reset(new b2Vec2[collidingPolygon.size()]);
-//	for (int i = 0; i < collidingPolygon.size(); ++i) {
-//		mPolygon[i] = mEngine->positionToBox2D(collidingPolygon.at(i) - localCenter);
-//	}
-//	qDebug() << __LINE__ << __FILE__;
-//	b2Hull hull = b2ComputeHull(mPolygon.get(), collidingPolygon.size());
-//	b2Polygon polygon = b2MakePolygon(&hull, 0.0f);
-//	// b2DestroyShape(mRobotShapeId, true);
-//	b2Shape_SetPolygon(mRobotShapeId, &polygon);
-//	qDebug() << __LINE__ << __FILE__;
-//}
+void Box2DRobot::setWidthOrHeight(float widthOrHeight)
+{
+	qDebug() << __LINE__ << __FILE__;
+	Q_UNUSED(widthOrHeight)
+	QPolygonF collidingPolygon = mModel->info().collidingPolygon();
+	qDebug() << "width: " << mModel->info().size().width();
+	QPointF localCenter = collidingPolygon.boundingRect().center();
+	mPolygon.reset(new b2Vec2[collidingPolygon.size()]);
+	for (int i = 0; i < collidingPolygon.size(); ++i) {
+		mPolygon[i] = mEngine->positionToBox2D(collidingPolygon.at(i) - localCenter);
+	}
+	qDebug() << __LINE__ << __FILE__;
+	b2Hull hull = b2ComputeHull(mPolygon.get(), collidingPolygon.size());
+	b2Polygon polygon = b2MakePolygon(&hull, 0.0f);
+	// b2DestroyShape(mRobotShapeId, true);
+	b2Shape_SetPolygon(mRobotShapeId, &polygon);
+	qDebug() << __LINE__ << __FILE__;
+}
 
 
 void Box2DRobot::reinitSensor(const twoDModel::view::SensorItem *sensor)

@@ -17,10 +17,15 @@ class SolidGraphicItem: public graphicsUtils::AbstractItem, public SolidItem
 	Q_DISABLE_COPY(SolidGraphicItem)
 public:
 	SolidGraphicItem(twoDModel::view::ItemPropertiesDialog *dialog);
+	virtual ~SolidGraphicItem() = 0;
 	void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+	twoDModel::view::ItemPropertiesDialog* propertyDialog();
+public Q_SLOTS:
+	virtual void onDialogAccepted();
 Q_SIGNALS:
 	void defaultParamsSetted(SolidGraphicItem *);
 	void itemParamsChanged(SolidGraphicItem *);
+	void allItemParamsChanged(SolidGraphicItem *);
 
 private:
 	QScopedPointer<twoDModel::view::ItemPropertiesDialog> mPropertyDialog;

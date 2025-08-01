@@ -407,7 +407,7 @@ void RobotModel::setWidth(const qreal width)
 void RobotModel::setHeight(const qreal height)
 {
 	info().setHeight(height);
-	Q_EMIT heightChanged(height);
+	Q_EMIT widthChanged(height);
 }
 
 void RobotModel::setFriction(const qreal friction)

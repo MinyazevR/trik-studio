@@ -140,6 +140,21 @@ qreal SensorItem::friction() const
 	return 0.0;
 }
 
+void SensorItem::setFriction(const qreal friction)
+{
+	Q_UNUSED(friction)
+}
+
+void SensorItem::setRestitution(const qreal restitution)
+{
+	Q_UNUSED(restitution)
+}
+
+void SensorItem::setMass(const qreal mass)
+{
+	Q_UNUSED(mass)
+}
+
 qreal SensorItem::restitution() const
 {
 	return 0.8f;

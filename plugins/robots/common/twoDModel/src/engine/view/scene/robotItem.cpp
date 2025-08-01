@@ -16,7 +16,9 @@
 
 #include "twoDModel/engine/model/constants.h"
 #include "src/engine/items/startPosition.h"
+#include "../parts/itemPropertiesDialog.h"
 #include <QDebug>
+#include <QMenu>
 
 using namespace twoDModel::view;
 using namespace graphicsUtils;
@@ -26,13 +28,19 @@ using namespace kitBase::robotModel::robotParts;
 const int border = 0;
 const int defaultTraceWidth = 6;
 
-RobotItem::~RobotItem(){
-	qDebug() << "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
+RobotItem::~RobotItem() {
 }
+
 RobotItem::RobotItem(const QString &robotImageFileName, model::RobotModel &robotModel)
-	: mImage(robotImageFileName, true)
+        : mImage(robotImageFileName, true)
+        , mPropertyDialog(new twoDModel::view::ItemPropertiesDialog())
 	, mRobotModel(robotModel)
 {
+	connect(this, &RobotItem::defaultParamsSetted,
+	                mPropertyDialog.data(), &twoDModel::view::ItemPropertiesDialog::onDefaultItemSetted);
+	connect(mPropertyDialog.data(), &twoDModel::view::ItemPropertiesDialog::accepted,
+	                this, &RobotItem::onDialogAccepted);
+
 	connect(&mRobotModel, &model::RobotModel::robotRided, this, &RobotItem::ride);
 	connect(&mRobotModel, &model::RobotModel::positionChanged, this, &RobotItem::setPos);
 	connect(&mRobotModel, &model::RobotModel::rotationChanged, this, &RobotItem::setRotation);
@@ -56,6 +64,8 @@ RobotItem::RobotItem(const QString &robotImageFileName, model::RobotModel &robot
 //		setX2(x1() + robotSize.width());
 //		setY2(y1() + robotSize.height());
 //		mMarkerPoint = mRobotModel.info().rotationCenter();
+//		setTransformOriginPoint(mRobotModel.info().robotCenter());
+//		mBeepItem.setPos((robotSize.width() - beepWavesSize) / 2, (robotSize.height() - beepWavesSize) / 2);
 //	});
 
 	const QSizeF robotSize = mRobotModel.info().size();
@@ -87,6 +97,39 @@ RobotItem::RobotItem(const QString &robotImageFileName, model::RobotModel &robot
 		sensorItem->setRotation(configuration.second);
 	}
 	savePos();
+	Q_EMIT defaultParamsSetted(this);
+}
+
+void RobotItem::onDialogAccepted() {
+	qDebug() << "onDialogAccepted";
+	auto settings = mPropertyDialog->currentSettings();
+	for (auto &&key: settings.keys()) {
+		auto value = settings[key];
+		if (key == "Restitution") {
+			setRestitution(value.toDouble());
+		}
+		if (key == "Mass") {
+			setMass(value.toDouble());
+		}
+		if (key == "Friction") {
+			setFriction(value.toDouble());
+		}
+		if (key == "Width") {
+			qDebug() << "setWidth";
+			setWidth(value.toDouble());
+		}
+		if (key == "Height") {
+			qDebug() << "setHeight";
+			setHeight(value.toDouble());
+		}
+		if (key == "Angular Damping") {
+			setAngularDamping(value.toDouble());
+		}
+		if (key == "Linear Damping") {
+			setLinearDamping(value.toDouble());
+		}
+	}
+
 }
 
 void RobotItem::drawItem(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -95,7 +138,22 @@ void RobotItem::drawItem(QPainter* painter, const QStyleOptionGraphicsItem* opti
 	Q_UNUSED(widget)
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setRenderHint(QPainter::SmoothPixmapTransform);
+	qDebug() << "DRAW RobotItem";
 	mImage.draw(*painter, RectangleImpl::calcRect(x1(), y1(), x2(), y2()).toRect());
+}
+
+QMap<QString, QVariant> RobotItem::defaultParams() const
+{
+	return {
+		{"Restitution", mRobotModel.info().restitution()},
+		{"Friction", mRobotModel.info().friction()},
+		{"Mass", mRobotModel.info().mass()},
+		{"Height", mRobotModel.info().size().height()},
+		{"Width", mRobotModel.info().size().width()}
+	};
+//		{"Angular Damping", mRobotModel.info().},
+//		{"Linear Damping", mLinearDamping}
+//	};
 }
 
 void RobotItem::drawExtractionForItem(QPainter* painter)
@@ -257,6 +315,27 @@ QVariant RobotItem::itemChange(GraphicsItemChange change, const QVariant &value)
 
 void RobotItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+	if (!editable()) {
+		return;
+	}
+
+	if (!isSelected()) {
+		scene()->clearSelection();
+		setSelected(true);
+	}
+
+	event->accept();
+
+	QMenu menu;
+	QAction *showPropertiesAction = menu.addAction(QStringLiteral("Properties"));
+	QAction *selectedAction = menu.exec(event->screenPos());
+
+	if (selectedAction == showPropertiesAction) {
+		if (mPropertyDialog->exec() == QDialog::Rejected) {
+			return;
+		}
+	}
+
 	QGraphicsItem::contextMenuEvent(event);
 }
 
@@ -293,9 +372,46 @@ qreal RobotItem::friction() const
 	return mRobotModel.info().friction();
 }
 
+void RobotItem::setFriction(const qreal friction)
+{
+	mRobotModel.info().setFriction(friction);
+}
+
+void RobotItem::setMass(const qreal mass)
+{
+	mRobotModel.info().setMass(mass);
+}
+
 qreal RobotItem::restitution() const
 {
 	return mRobotModel.info().restitution();
+}
+
+void RobotItem::setRestitution(const qreal restitution)
+{
+	mRobotModel.info().setRestitution(restitution);
+}
+
+void RobotItem::setHeight(const qreal height)
+{
+	mRobotModel.info().setHeight(height);
+	const QSizeF robotSize = mRobotModel.info().size();
+	setY2(y1() + robotSize.height());
+	mMarkerPoint = mRobotModel.info().rotationCenter();
+	setTransformOriginPoint(mRobotModel.info().robotCenter());
+	mBeepItem.setPos((robotSize.width() - beepWavesSize) / 2, (robotSize.height() - beepWavesSize) / 2);
+	Q_EMIT allItemParamsChanged(this);
+}
+
+void RobotItem::setWidth(const qreal width)
+{
+	mRobotModel.info().setWidth(width);
+	const QSizeF robotSize = mRobotModel.info().size();
+	setX2(x1() + robotSize.width());
+	mMarkerPoint = mRobotModel.info().rotationCenter();
+	setTransformOriginPoint(mRobotModel.info().robotCenter());
+	mBeepItem.setPos((robotSize.width() - beepWavesSize) / 2, (robotSize.height() - beepWavesSize) / 2);
+	Q_EMIT allItemParamsChanged(this);
 }
 
 twoDModel::items::SolidItem::BodyType RobotItem::bodyType() const

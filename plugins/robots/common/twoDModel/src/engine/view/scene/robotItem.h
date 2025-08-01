@@ -21,12 +21,13 @@
 #include "sensorItem.h"
 #include "src/engine/items/solidItem.h"
 #include "twoDModel/engine/model/robotModel.h"
+#include "src/engine/items/solidGraphicItem.h"
 
 namespace twoDModel {
 namespace view {
 
 /** @brief Class that represents a robot in 2D model */
-class RobotItem : public graphicsUtils::RotateItem, public items::SolidItem
+class RobotItem: public graphicsUtils::RotateItem,  public items::SolidItem
 {
 	Q_OBJECT
 
@@ -41,7 +42,6 @@ public:
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 	void resizeItem(QGraphicsSceneMouseEvent *event) override;
-
 	QDomElement serialize(QDomElement &parent) const override;
 	void deserialize(const QDomElement &element) override;
 
@@ -69,7 +69,15 @@ public:
 	qreal friction() const override;
 	qreal restitution() const override;
 	BodyType bodyType() const override;
+	void setFriction(const qreal friction) override;
+	void setMass(const qreal mass) override;
+	void setRestitution(const qreal restitution) override;
+	void setWidth(const qreal width);
+	void setHeight(const qreal height);
+	QMap<QString, QVariant> defaultParams() const override;
 
+public Q_SLOTS:
+	void onDialogAccepted();
 protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
@@ -83,6 +91,10 @@ signals:
 	void sensorAdded(SensorItem *sensor);
 	void sensorRemoved(SensorItem *sensor);
 	void sensorUpdated(SensorItem *sensor);
+
+	void defaultParamsSetted(RobotItem *);
+	void itemParamsChanged(RobotItem *);
+	void allItemParamsChanged(RobotItem *);
 
 private:
 	class BeepItem : public QGraphicsItem
@@ -116,7 +128,7 @@ private:
 
 	QPointF mDragStart;
 	QPointF mMarkerPoint;
-
+	QScopedPointer<twoDModel::view::ItemPropertiesDialog> mPropertyDialog;
 	model::RobotModel &mRobotModel;
 };
 

@@ -23,23 +23,25 @@
 
 #include <QtSvg/QSvgRenderer>
 #include <twoDModel/engine/model/constants.h>
+#include "../view/parts/itemPropertiesDialog.h"
 
 using namespace twoDModel::items;
 
 SkittleItem::SkittleItem(const QPointF &position)
-        : mWidth(skittleSize.width()),
-          mHeight(skittleSize.height()),
+        : SolidGraphicItem(new twoDModel::view::ItemPropertiesDialog()),
+          mRadius(skittleRadius),
           mMass(skittleMass),
           mFriction(skittleFriction),
           mRestitution(skittleRestituion),
-          mAngularDumping(skittleAngularDamping),
-          mLinearDumping(skittleLinearDamping),
+          mAngularDamping(skittleAngularDamping),
+          mLinearDamping(skittleLinearDamping),
           mSvgRenderer(new QSvgRenderer)
 {
 	mSvgRenderer->load(QStringLiteral(":/icons/2d_can.svg"));
 	setPos(position);
 	setZValue(ZValue::Moveable);
 	setTransformOriginPoint(boundingRect().center());
+	emit defaultParamsSetted(this);
 }
 
 SkittleItem::~SkittleItem()
@@ -57,10 +59,10 @@ QAction *SkittleItem::skittleTool()
 
 QRectF SkittleItem::boundingRect() const
 {
-	return QRectF({-static_cast<qreal>(mWidth) / 2, -static_cast<qreal>(mHeight) / 2}
-	              , QSize{mWidth, mHeight});
+	return QRectF({-static_cast<qreal>(mRadius) / 2, -static_cast<qreal>(mRadius) / 2}
+	              , QSize{mRadius, mRadius});
 }
-
+// 	Q_EMIT itemParamsChanged(this);
 void SkittleItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	Q_UNUSED(option)
@@ -101,12 +103,11 @@ QDomElement SkittleItem::serialize(QDomElement &element) const
 	skittleNode.setAttribute(QStringLiteral("rotation"), QString::number(rotation()));
 	skittleNode.setAttribute(QStringLiteral("startRotation"), QString::number(mStartRotation));
 	skittleNode.setAttribute(QStringLiteral("mass"), QString::number(mMass));
-	skittleNode.setAttribute(QStringLiteral("width"), QString::number(mWidth));
-	skittleNode.setAttribute(QStringLiteral("height"), QString::number(mHeight));
+	skittleNode.setAttribute(QStringLiteral("radius"), QString::number(mRadius));
 	skittleNode.setAttribute(QStringLiteral("friction"), QString::number(mFriction));
 	skittleNode.setAttribute(QStringLiteral("restitution"), QString::number(mRestitution));
-	skittleNode.setAttribute(QStringLiteral("angularDumping"), QString::number(mAngularDumping));
-	skittleNode.setAttribute(QStringLiteral("linearDumping"), QString::number(mLinearDumping));
+	skittleNode.setAttribute(QStringLiteral("angularDumping"), QString::number(mAngularDamping));
+	skittleNode.setAttribute(QStringLiteral("linearDumping"), QString::number(mLinearDamping));
 	return skittleNode;
 }
 
@@ -121,12 +122,8 @@ void SkittleItem::deserialize(const QDomElement &element)
 	qreal rotation = element.attribute(QStringLiteral("rotation"), QStringLiteral("0")).toDouble();
 	mStartRotation = element.attribute(QStringLiteral("startRotation"), QStringLiteral("0")).toDouble();
 
-	if (element.hasAttribute(QStringLiteral("width"))) {
-		mWidth = element.attribute(QStringLiteral("width"), QStringLiteral("0")).toDouble();
-	}
-
-	if (element.hasAttribute(QStringLiteral("height"))) {
-		mHeight = element.attribute(QStringLiteral("height"), QStringLiteral("0")).toDouble();
+	if (element.hasAttribute(QStringLiteral("radius"))) {
+		mRadius = element.attribute(QStringLiteral("radius"), QStringLiteral("0")).toDouble();
 	}
 
 	if (element.hasAttribute(QStringLiteral("friction"))) {
@@ -138,11 +135,11 @@ void SkittleItem::deserialize(const QDomElement &element)
 	}
 
 	if (element.hasAttribute(QStringLiteral("angularDumping"))) {
-		mAngularDumping = element.attribute(QStringLiteral("angularDumping"), QStringLiteral("0")).toDouble();
+		mAngularDamping = element.attribute(QStringLiteral("angularDamping"), QStringLiteral("0")).toDouble();
 	}
 
 	if (element.hasAttribute(QStringLiteral("linearDumping"))) {
-		mLinearDumping = element.attribute(QStringLiteral("linearDumping"), QStringLiteral("0")).toDouble();
+		mLinearDamping = element.attribute(QStringLiteral("linearDamping"), QStringLiteral("0")).toDouble();
 	}
 
 	setPos(QPointF(x, y));
@@ -175,12 +172,12 @@ QPolygonF SkittleItem::collidingPolygon() const
 
 qreal SkittleItem::angularDamping() const
 {
-	return mAngularDumping;
+	return mAngularDamping;
 }
 
 qreal SkittleItem::linearDamping() const
 {
-	return mLinearDumping;
+	return mLinearDamping;
 }
 
 QPainterPath SkittleItem::path() const
@@ -210,10 +207,56 @@ qreal SkittleItem::mass() const
 	return mMass;
 }
 
+void SkittleItem::onDialogAccepted() {
+	auto currentSettings = propertyDialog()->currentSettings();
+
+	for (auto &&key: currentSettings.keys()) {
+		auto value = currentSettings[key];
+		if (key == "Radius") {
+			setRadius(value.toDouble());
+		}
+	}
+	SolidGraphicItem::onDialogAccepted();
+}
+
+
+void SkittleItem::setRadius(const int radius)
+{
+	mRadius = radius;
+}
+
 qreal SkittleItem::friction() const
 {
 	return mFriction;
 }
+
+void SkittleItem::setFriction(const qreal friction)
+{
+	mFriction = friction;
+}
+
+void SkittleItem::setRestitution(const qreal restitution)
+{
+	mRestitution = restitution;
+}
+
+void SkittleItem::setMass(const qreal mass)
+{
+	mMass =  mass;
+}
+
+QMap<QString, QVariant> SkittleItem::defaultParams() const
+{
+	return {
+		{"Radius", mRadius},
+		{"Restitution", mRestitution},
+		{"Friction", mFriction},
+		{"Mass", mMass},
+		{"Angular damping", mAngularDamping},
+		{"Linear damping", mLinearDamping}
+	};
+}
+
 
 qreal SkittleItem::restitution() const
 {

@@ -56,7 +56,7 @@ public:
 	void setRestitution(float restitution);
 	void setFriction(float friction);
 	void setMass(float mass);
-//	void setWidthOrHeight(float widthOrHeight);
+	void setWidthOrHeight(float widthOrHeight);
 	void reinitSensor(const view::SensorItem *sensor);
 	void reinitSensors();
 

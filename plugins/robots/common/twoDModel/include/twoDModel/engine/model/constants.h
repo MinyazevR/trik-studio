@@ -28,7 +28,7 @@ static constexpr qreal ballAngularDamping = 0.09f;
 static constexpr qreal ballLinearDamping = 0.09f;
 
 // move to skittleItem?
-const QSize skittleSize(20, 20);
+static constexpr int skittleRadius = 20;
 static constexpr qreal skittleMass = 0.05f;
 static constexpr qreal skittleFriction = 0.2f;
 static constexpr qreal skittleRestituion = 0.8f;

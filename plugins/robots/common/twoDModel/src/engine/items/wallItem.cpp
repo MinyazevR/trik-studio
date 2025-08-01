@@ -24,13 +24,15 @@
 #include <qrkernel/settingsManager.h>
 #include <qrutils/mathUtils/geometry.h>
 #include <twoDModel/engine/model/constants.h>
+#include "../view/parts/itemPropertiesDialog.h"
 
 using namespace twoDModel::items;
 using namespace qReal;
 using namespace graphicsUtils;
 
 WallItem::WallItem(const QPointF &begin, const QPointF &end)
-        : mImage(QStringLiteral(":/icons/2d_wall.png")),
+        : SolidGraphicItem(new twoDModel::view::ItemPropertiesDialog()),
+          mImage(QStringLiteral(":/icons/2d_wall.png")),
           mWidth(wallWidth),
           mFriction(wallFriction),
           mRestitution(wallRestituion)
@@ -45,6 +47,15 @@ WallItem::WallItem(const QPointF &begin, const QPointF &end)
 	connect(this, &AbstractItem::mouseInteractionStarted, this, [this](){
 			mEstimatedPos = pos();
 		});
+	emit defaultParamsSetted(this);
+}
+
+QMap<QString, QVariant> WallItem::defaultParams() const
+{
+	return {
+		{"Restitution", mRestitution},
+		{"Friction", mFriction},
+	};
 }
 
 WallItem *WallItem::clone() const
@@ -95,6 +106,18 @@ QPointF WallItem::end() const
 QRectF WallItem::boundingRect() const
 {
 	return mLineImpl.boundingRect(x1(), y1(), x2(), y2(), pen().width(), mWidth);
+}
+
+void WallItem::setRestitution(const qreal restitution) {
+	mRestitution = restitution;
+}
+
+void WallItem::setFriction(const qreal friction) {
+	mFriction = friction;
+}
+
+void WallItem::setMass(const qreal mass) {
+	Q_UNUSED(mass);
 }
 
 QPainterPath WallItem::shape() const

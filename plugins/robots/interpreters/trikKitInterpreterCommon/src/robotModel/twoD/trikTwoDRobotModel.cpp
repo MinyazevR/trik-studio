@@ -62,8 +62,8 @@ TrikTwoDRobotModel::TrikTwoDRobotModel(RobotModelInterface &realModel)
         , mLeftWheelPort(QStringLiteral("M3"))
         , mRightWheelPort(QStringLiteral("M4"))
 	, mDisplayWidget(new TrikDisplayWidget())
-	, mCollidingPolygon({QPointF(1, 10), QPointF(47, 10), QPointF(49, 20)
-			, QPointF(49, 30), QPointF(47, 40), QPointF(1, 40)})
+        , mCollidingPolygon({QPointF(1, 10), QPointF(47, 10), QPointF(49, 20)
+                        , QPointF(49, 30), QPointF(47, 40), QPointF(1, 40)})
         , mWidth(robotWidth)
         , mHeight(robotHeight)
         , mMass(robotMass)
@@ -273,7 +273,7 @@ qreal TrikTwoDRobotModel::restitution() const
 
 QSizeF TrikTwoDRobotModel::size() const
 {
-	qDebug() << __LINE__ << __FILE__ << mWidth << mHeight;
+//	qDebug() << __LINE__ << __FILE__ << mWidth << mHeight;
 	return QSizeF{mWidth, mHeight};
 }
 

@@ -190,14 +190,14 @@ void Model::addRobotModel(robotModel::TwoDRobotModel &robotModel, const QPointF 
 	connect(&mTimeline, &Timeline::tick, mRobotModel, &RobotModel::recalculateParams);
 	connect(&mTimeline, &Timeline::nextFrame, mRobotModel, &RobotModel::nextFragment);
 
-	connect(mRobotModel, &model::RobotModel::widthChanged, this, [this]() {
-		qDebug() << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n";
-//		replaceRobotModel(mRobotModel->info(), false);
-		qDebug() << __LINE__ << __FILE__;
-		Q_EMIT robotItemRemoved(mRobotModel);
+//	connect(mRobotModel, &model::RobotModel::widthChanged, this, [this]() {
+//		qDebug() << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n";
+////		replaceRobotModel(mRobotModel->info(), false);
 //		qDebug() << __LINE__ << __FILE__;
-		Q_EMIT robotItemAdded(mRobotModel);
-	});
+//		Q_EMIT robotItemRemoved(mRobotModel);
+////		qDebug() << __LINE__ << __FILE__;
+//		Q_EMIT robotItemAdded(mRobotModel);
+//	});
 
 //	connect(mRobotModel, &model::RobotModel::heightChanged, this, [this]() {
 //		replaceRobotModel(mRobotModel->info(), false);
