@@ -16,7 +16,7 @@
 
 #include <QtGui/QCursor>
 #include <QtWidgets/QGraphicsSceneMouseEvent>
-
+#include <QDebug>
 #include <kitBase/robotModel/robotParts/touchSensor.h>
 #include <kitBase/robotModel/robotParts/rangeSensor.h>
 #include <kitBase/robotModel/robotParts/lightSensor.h>
@@ -67,6 +67,7 @@ void SensorItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *sty
 	painter->setRenderHints(painter->renderHints()
 			| QPainter::SmoothPixmapTransform
 			| QPainter::HighQualityAntialiasing);
+	qDebug() << "SensorItem::drawItem" << mImageRect;
 	mImage.draw(*painter, mImageRect.toRect());
 	painter->restore();
 }

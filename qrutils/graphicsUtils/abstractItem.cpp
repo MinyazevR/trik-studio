@@ -22,7 +22,7 @@
 #include <QtWidgets/QStyleOptionGraphicsItem>
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 #include <QApplication>
-
+#include <QDebug>
 using namespace graphicsUtils;
 
 const qreal epsilon = 0.0000001;
@@ -542,6 +542,10 @@ bool AbstractItem::isHovered() const
 	return mHovered;
 }
 
+void AbstractItem::onPixelsInCmChanged(const qreal pixelsInCm) {
+	mPixelsInCm = pixelsInCm;
+}
+
 QString AbstractItem::id() const
 {
 	return mId;
@@ -571,6 +575,39 @@ QDomElement AbstractItem::serialize(QDomElement &parent) const
 	result.setAttribute("id", id());
 	parent.appendChild(result);
 	return result;
+}
+
+int AbstractItem::toPx(const QString &size) const
+{
+	auto idx = size.size();
+
+	if (size.endsWith("cm") || size.endsWith("mm")) {
+		idx -= 2;
+	} else if (size.endsWith("m")) {
+		idx -= 1;
+	}
+
+	auto substring = size.mid(0, idx);
+	bool ok = false;
+	auto numberSize = substring.toDouble(&ok);
+	qDebug() << "numberSize: " << numberSize;
+	if (ok) {
+		auto scale = 1.0f;
+
+		if (size.endsWith("cm")) {
+			scale = mPixelsInCm;
+		}
+		if (size.endsWith("mm")) {
+			scale = 0.1f * mPixelsInCm;
+		}
+		if (size.endsWith("m")) {
+			scale = 100.0f * mPixelsInCm;
+
+		}
+		return numberSize * scale;
+	} // todo: else report error
+
+	return {};
 }
 
 void AbstractItem::deserialize(const QDomElement &element)

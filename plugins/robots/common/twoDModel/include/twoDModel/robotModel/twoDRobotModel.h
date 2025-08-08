@@ -56,7 +56,9 @@ public:
 
 	/// Returns a path to an image that is used for robot item.
 	virtual QString robotImage() const = 0;
-
+	virtual void setPixelsInCm(const qreal pixelsInCm) {
+		Q_UNUSED(pixelsInCm)
+	}
 	/// Returns a port that is used for left robot wheel by default.
 	virtual kitBase::robotModel::PortInfo defaultLeftWheelPort() const = 0;
 

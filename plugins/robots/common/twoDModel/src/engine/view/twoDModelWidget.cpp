@@ -55,7 +55,7 @@
 
 #include "twoDModel/engine/model/constants.h"
 #include "twoDModel/engine/model/model.h"
-
+#include <QDoubleSpinBox>
 #include "nullTwoDModelDisplayWidget.h"
 #include <array>
 
@@ -109,6 +109,8 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 	connect(&mModel.settings(), &Settings::physicsChanged
 			, this, [this]() { updateUIPhysicsSettings(); });
 
+	connect(&mModel.settings(), &Settings::pixelsInCmChanged ,this, &TwoDModelWidget::updatePixelInCm);
+
 	connect(&mModel.timeline(), &Timeline::started, this, [this]() {
 		if (mRobotPositionReadOnly) {
 			returnToStartMarker();
@@ -141,14 +143,41 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 	checkSpeedButtons();
 	mUi->timelineBox->setSingleStep(Timeline::timeInterval * 0.001);
 
+	mUi->pixelsInCmDoubleSpinBox->setValue(pixelsInCm);
+	mModel.settings().setRealisticSensors(mUi->enableSensorNoiseCheckBox->isChecked());
+
 	mUi->horizontalRuler->setScene(mUi->graphicsView);
 	mUi->verticalRuler->setScene(mUi->graphicsView);
+
+	auto pixelsInCmSpinBox = mUi->pixelsInCmDoubleSpinBox;
+	pixelsInCmSpinBox->setRange(pixelsInCm, 1000);
+	pixelsInCmSpinBox->setDecimals(mModel.settings().pxPercision());
+
+	connect(pixelsInCmSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+	        this, [=](const qreal pixelsInCm) {
+		mUi->horizontalRuler->setPixelsInCm(pixelsInCm);
+		mUi->verticalRuler->setPixelsInCm(pixelsInCm);
+		mModel.settings().setPixelsInCm(pixelsInCm);
+		connect(mUi->gridParametersBox, &twoDModel::view::GridParameters::parametersChanged
+		                , &*mScene, [&]() { mScene->update(); });
+		auto robotModels = mModel.robotModels();
+		Q_EMIT mUi->gridParametersBox->parametersChanged();
+//		if (robotModels.size()) {
+//			// if full recreate
+//			mScene->onRobotRemove(robotModels[0]);
+		qDebug() << "robotItemRemoved";
+		        mScene->onRobotRemove(robotModels[0]);
+			mScene->onRobotAdd(robotModels[0]);
+//		        Q_EMIT mModel.robotItemRemoved(robotModels[0]);
+//		        Q_EMIT mModel.robotItemAdded(robotModels[0]);
+//		}
+	});
+
 	mUi->horizontalRuler->setPixelsInCm(pixelsInCm);
 	mUi->verticalRuler->setPixelsInCm(pixelsInCm);
 
 	/// @todo: make some values editable
 	mUi->detailsTab->setParamsSettings(mUi->physicsParamsFrame);
-	mUi->wheelDiamInCm->setValue(robotWheelDiameterInCm);
 	mUi->wheelDiamInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
 	mUi->robotHeightInCm->setValue(robotHeight / pixelsInCm); // Not sure if correct
 	mUi->robotHeightInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
@@ -169,6 +198,7 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 
 TwoDModelWidget::~TwoDModelWidget()
 {
+	qDebug() << "TwoDModelWidget::~TwoDModelWidget";
 	mSelectedRobotItem = nullptr;
 	mScene.reset();
 	delete mUi;
@@ -369,16 +399,22 @@ void TwoDModelWidget::setPortsGroupBoxAndWheelComboBoxes()
 {
 	mCurrentConfigurer = new DevicesConfigurationWidget(mUi->portsFrame, true, true);
 	mCurrentConfigurer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-	mCurrentConfigurer->loadRobotModels({ &mSelectedRobotItem->robotModel().info() });
-	mCurrentConfigurer->selectRobotModel(mSelectedRobotItem->robotModel().info());
-	mUi->portsFrame->layout()->addWidget(mCurrentConfigurer);
-	mCurrentConfigurer->connectDevicesConfigurationProvider(&mSelectedRobotItem->robotModel().configuration());
-	connectDevicesConfigurationProvider(&mSelectedRobotItem->robotModel().configuration());
 
-	auto connectWheelComboBox = [this](QComboBox * const comboBox, RobotModel::WheelEnum wheel) {
+	auto robotItem = mSelectedRobotItem.toStrongRef();
+	if (!robotItem) {
+		return;
+	}
+
+	mCurrentConfigurer->loadRobotModels({ &robotItem->robotModel().info() });
+	mCurrentConfigurer->selectRobotModel(robotItem->robotModel().info());
+	mUi->portsFrame->layout()->addWidget(mCurrentConfigurer);
+	mCurrentConfigurer->connectDevicesConfigurationProvider(&robotItem->robotModel().configuration());
+	connectDevicesConfigurationProvider(&robotItem->robotModel().configuration());
+
+	auto connectWheelComboBox = [this, robotItem](QComboBox * const comboBox, RobotModel::WheelEnum wheel) {
 				connect(comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged)
-						, this, [this, wheel, comboBox](int index) {
-								mSelectedRobotItem->robotModel().setMotorPortOnWheel(wheel
+				                , this, [this, wheel, comboBox, robotItem](int index) {
+					                        robotItem->robotModel().setMotorPortOnWheel(wheel
 										, comboBox->itemData(index).value<PortInfo>());
 						});
 		};
@@ -392,15 +428,17 @@ void TwoDModelWidget::setPortsGroupBoxAndWheelComboBoxes()
 
 void TwoDModelWidget::unsetPortsGroupBoxAndWheelComboBoxes()
 {
+	auto robotItem = mSelectedRobotItem.toStrongRef();
 	if (mCurrentConfigurer) {
 		mUi->portsFrame->layout()->removeWidget(mCurrentConfigurer);
 		mCurrentConfigurer->disconnectDevicesConfigurationProvider();
 
 		if (mSelectedRobotItem) {
-			mSelectedRobotItem->robotModel().configuration().disconnectDevicesConfigurationProvider();
+			robotItem->robotModel().configuration().disconnectDevicesConfigurationProvider();
 		}
 
 		delete mCurrentConfigurer;
+		mCurrentConfigurer = nullptr;
 	}
 }
 
@@ -443,6 +481,12 @@ void TwoDModelWidget::updateUIPhysicsSettings()
 	mUi->enableMotorNoiseCheckBox->setChecked(mModel.settings().realisticMotors());
 }
 
+void TwoDModelWidget::updatePixelInCm(const qreal pixelsInCm)
+{
+	mUi->pixelsInCmDoubleSpinBox->setValue(pixelsInCm);
+}
+
+
 void TwoDModelWidget::close()
 {
 	setVisible(false);
@@ -479,8 +523,10 @@ void TwoDModelWidget::onFirstShow()
 
 void TwoDModelWidget::centerOnRobot()
 {
-	if (mSelectedRobotItem && mFollowRobot && mSelectedRobotItem->robotModel().onTheGround()) {
-		mScene->centerOnRobot(mSelectedRobotItem);
+	auto robotItem = mSelectedRobotItem.toStrongRef();
+
+	if (mSelectedRobotItem && mFollowRobot && robotItem->robotModel().onTheGround()) {
+		mScene->centerOnRobot(robotItem.data());
 	}
 }
 
@@ -575,12 +621,13 @@ void TwoDModelWidget::onSelectionChange()
 	auto listSelectedItems = mScene->selectedItems();
 	RobotItem *robotItem = nullptr;
 	bool oneRobotItem = false;
+	auto robotItemRef = mSelectedRobotItem.toStrongRef();
 
 	for (auto &&item : listSelectedItems) {
 		if (dynamic_cast<RobotItem *>(item)) {
 			robotItem = dynamic_cast<RobotItem *>(item);
 			if (oneRobotItem) {
-				if (mSelectedRobotItem) {
+				if (robotItemRef) {
 					unsetSelectedRobotItem();
 				}
 
@@ -591,13 +638,13 @@ void TwoDModelWidget::onSelectionChange()
 	}
 
 	if (oneRobotItem
-			&& mSelectedRobotItem
-			&& robotItem->robotModel().info().robotId() == mSelectedRobotItem->robotModel().info().robotId())
+	                && robotItemRef
+	                && robotItem->robotModel().info().robotId() == robotItemRef->robotModel().info().robotId())
 	{
 		return;
 	}
 
-	if (mSelectedRobotItem) {
+	if (robotItemRef) {
 		unsetSelectedRobotItem();
 	}
 
@@ -606,7 +653,11 @@ void TwoDModelWidget::onSelectionChange()
 			return;
 		}
 
-		setSelectedRobotItem(robotItem);
+		auto sharedItem = mScene->getRobotItem(robotItem);
+		if (sharedItem.isNull()) {
+			return;
+		}
+		setSelectedRobotItem(sharedItem);
 	}
 }
 
@@ -940,8 +991,10 @@ void TwoDModelWidget::onDeviceConfigurationChanged(const QString &robotId
 	Q_UNUSED(device)
 	Q_UNUSED(reason)
 
+	auto robotItemRef = mSelectedRobotItem.toStrongRef();
+
 	/// @todo Convert configuration between models or something?
-	if (mSelectedRobotItem && robotId == mSelectedRobotItem->robotModel().info().robotId()) {
+	if (robotItemRef && robotId == robotItemRef->robotModel().info().robotId()) {
 		updateWheelComboBoxes();
 	}
 }
@@ -1011,8 +1064,13 @@ void TwoDModelWidget::updateWheelComboBoxes()
 	mUi->rightWheelComboBox->addItem(tr("No wheel"), QVariant::fromValue(PortInfo("None", output)));
 #endif
 
-	for (const PortInfo &port : mSelectedRobotItem->robotModel().info().availablePorts()) {
-		for (const DeviceInfo &device : mSelectedRobotItem->robotModel().info().allowedDevices(port)) {
+	auto robotItemRef = mSelectedRobotItem.toStrongRef();
+	if (!robotItemRef) {
+		return;
+	}
+
+	for (const PortInfo &port : robotItemRef->robotModel().info().availablePorts()) {
+		for (const DeviceInfo &device : robotItemRef->robotModel().info().allowedDevices(port)) {
 			if (device.isA<Motor>()) {
 				const QString item = tr("%1 (port %2)").arg(device.friendlyName(), port.userFriendlyName());
 				mUi->leftWheelComboBox->addItem(item, QVariant::fromValue(port));
@@ -1023,9 +1081,9 @@ void TwoDModelWidget::updateWheelComboBoxes()
 
 	if (!setSelectedPort(mUi->leftWheelComboBox, leftWheelOldPort)) {
 		if (!setSelectedPort(mUi->leftWheelComboBox
-				, mSelectedRobotItem->robotModel().info().defaultLeftWheelPort())) {
+		                , robotItemRef->robotModel().info().defaultLeftWheelPort())) {
 			qWarning() << "Incorrect defaultLeftWheelPort set in configurer:"
-					<< mSelectedRobotItem->robotModel().info().defaultLeftWheelPort().toString();
+			                << robotItemRef->robotModel().info().defaultLeftWheelPort().toString();
 
 			if (mUi->leftWheelComboBox->count() > 1) {
 				mUi->leftWheelComboBox->setCurrentIndex(1);
@@ -1035,10 +1093,10 @@ void TwoDModelWidget::updateWheelComboBoxes()
 
 	if (!setSelectedPort(mUi->rightWheelComboBox, rightWheelOldPort)) {
 		if (!setSelectedPort(mUi->rightWheelComboBox
-				, mSelectedRobotItem->robotModel().info().defaultRightWheelPort())) {
+		                , robotItemRef->robotModel().info().defaultRightWheelPort())) {
 
 			qWarning() << "Incorrect defaultRightWheelPort set in configurer:"
-					<< mSelectedRobotItem->robotModel().info().defaultRightWheelPort().toString();
+			                << robotItemRef->robotModel().info().defaultRightWheelPort().toString();
 
 			if (mUi->rightWheelComboBox->count() > 2) {
 				mUi->rightWheelComboBox->setCurrentIndex(2);
@@ -1051,11 +1109,16 @@ void TwoDModelWidget::updateWheelComboBoxes()
 
 void TwoDModelWidget::onRobotListChange(RobotItem *robotItem)
 {
+	auto item = mSelectedRobotItem.toStrongRef();
 	if (mScene->oneRobot()) {
+		qDebug() << "TwoDModelWidget::onRobotListChange 1";
 		setSelectedRobotItem(mScene->robot(*mModel.robotModels()[0]));
 	} else {
+		qDebug() << "TwoDModelWidget::onRobotListChange 2";
 		if (mSelectedRobotItem) {
-			unsetSelectedRobotItem();
+			if (item) {
+				unsetSelectedRobotItem();
+			}
 		}
 	}
 
@@ -1086,18 +1149,17 @@ void TwoDModelWidget::onRobotListChange(RobotItem *robotItem)
 	}
 }
 
-void TwoDModelWidget::setSelectedRobotItem(RobotItem *robotItem)
+void TwoDModelWidget::setSelectedRobotItem(const QSharedPointer<RobotItem> &robotItem)
 {
 	mSelectedRobotItem = robotItem;
 
-	connect(&mSelectedRobotItem->robotModel(), &RobotModel::robotRided, this, &TwoDModelWidget::centerOnRobot);
-	connect(&mSelectedRobotItem->robotModel(), &RobotModel::positionChanged, this, &TwoDModelWidget::centerOnRobot);
+	connect(&robotItem->robotModel(), &RobotModel::robotRided, this, &TwoDModelWidget::centerOnRobot);
+	connect(&robotItem->robotModel(), &RobotModel::positionChanged, this, &TwoDModelWidget::centerOnRobot);
 
 	setPortsGroupBoxAndWheelComboBoxes();
 	updateWheelComboBoxes();
-
 	mUi->detailsTab->setDisplay(nullptr);
-	mDisplay = mSelectedRobotItem->robotModel().info().displayWidget();
+	mDisplay = robotItem->robotModel().info().displayWidget();
 	mDisplay->setParent(this);
 	mDisplay->setMinimumSize(displaySize);
 	mDisplay->setMaximumSize(displaySize);
@@ -1109,11 +1171,12 @@ void TwoDModelWidget::setSelectedRobotItem(RobotItem *robotItem)
 
 void TwoDModelWidget::unsetSelectedRobotItem()
 {
+	auto robotItem = mSelectedRobotItem.toStrongRef();
 	if (mSelectedRobotItem) {
 		unsetPortsGroupBoxAndWheelComboBoxes();
-		disconnect(&mSelectedRobotItem->robotModel(), &RobotModel::robotRided, this
+		disconnect(&robotItem->robotModel(), &RobotModel::robotRided, this
 				, &TwoDModelWidget::centerOnRobot);
-		disconnect(&mSelectedRobotItem->robotModel(), &RobotModel::positionChanged, this
+		disconnect(&robotItem->robotModel(), &RobotModel::positionChanged, this
 				, &TwoDModelWidget::centerOnRobot);
 
 		mSelectedRobotItem = nullptr;

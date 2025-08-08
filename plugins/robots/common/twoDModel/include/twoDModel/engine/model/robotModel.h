@@ -81,6 +81,7 @@ public:
 	~RobotModel();
 
 	void reinit();
+	void reinitMotors();
 	void clear();
 	void returnToStartMarker();
 

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. */
 #include "box2DItem.h"
-
+#include <QDebug>
 #include "src/engine/model/physics/box2DPhysicsEngine.h"
 #include "src/engine/items/solidItem.h"
 
@@ -25,6 +25,7 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 	: mIsCircle(false)
 	, mEngine(*engine)
 {
+	qDebug() << __LINE__ << __FILE__;
 	b2BodyDef bodyDef = b2DefaultBodyDef();
 	bodyDef.position = pos;
 	bodyDef.rotation = b2MakeRot(angle);
@@ -35,6 +36,7 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 	} else if (item->bodyType() == SolidItem::STATIC) {
 		bodyDef.type = b2_staticBody;
 	}
+	qDebug() << __LINE__ << __FILE__;
 
 	auto worldId = this->mEngine.box2DWorldId();
 	mBodyId = b2CreateBody(worldId, &bodyDef);
@@ -42,15 +44,19 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 	b2Body_SetLinearDamping(mBodyId, item->linearDamping());
 	b2ShapeDef fixtureDef = b2DefaultShapeDef();
 	fixtureDef.material.restitution = 0.8f;
+	qDebug() << __LINE__ << __FILE__;
 	QPolygonF collidingPolygon = item->collidingPolygon();
 	QPointF localCenter = collidingPolygon.boundingRect().center();
 	b2Circle circleShape = {};
 	b2Polygon polygonShape = {};
+	qDebug() << __LINE__ << __FILE__;
 	if (item->isCircle()) {
+		        qDebug() << __LINE__ << __FILE__;
 		mIsCircle = true;
 		qreal radius = collidingPolygon.boundingRect().height() / 2;
 		circleShape.radius = this->mEngine.pxToM(radius);
 		fixtureDef.density = engine->computeDensity(radius, item->mass());
+		        qDebug() << __LINE__ << __FILE__;
 	} else {
 		if (collidingPolygon.isClosed()) {
 			collidingPolygon.removeLast();
@@ -66,12 +72,16 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 		fixtureDef.density = engine->computeDensity(collidingPolygon, item->mass());
 	}
 
+	        qDebug() << __LINE__ << __FILE__;
 	fixtureDef.material.friction = item->friction();
 	if (item->isCircle()) {
+		 qDebug() << __LINE__ << __FILE__;
 		b2CreateCircleShape(mBodyId, &fixtureDef, &circleShape);
+		 qDebug() << __LINE__ << __FILE__;
 	} else {
 		b2CreatePolygonShape(mBodyId, &fixtureDef, &polygonShape);
 	}
+	        qDebug() << __LINE__ << __FILE__;
 	b2Body_SetUserData(mBodyId, this);
 }
 

@@ -17,23 +17,36 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QAction>
 #include <QtSvg/QSvgRenderer>
-
+#include <QDebug>
 #include <twoDModel/engine/model/constants.h>
 
 using namespace twoDModel::items;
 
+namespace {
+        static constexpr int defaultBallRadiusPx = 30;
+	static constexpr double ballRadiusCm = 10.5;
+	static constexpr qreal ballMass = 0.015f;
+	static constexpr qreal ballFriction = 1.0f;
+	static constexpr qreal ballRestituion = 0.8f;
+	static constexpr qreal ballAngularDamping = 0.09f;
+	static constexpr qreal ballLinearDamping = 0.09f;
+}
+
+BallItem::~BallItem() = default;
+
 BallItem::BallItem(const QPointF &position)
-	: mSvgRenderer(new QSvgRenderer)
+        : mSvgRenderer(new QSvgRenderer),
+          mRadiusPx(defaultBallRadiusPx),
+          mMass(ballMass),
+          mFriction(ballFriction),
+          mRestitution(ballRestituion),
+          mAngularDamping(ballAngularDamping),
+          mLinearDamping(ballLinearDamping)
 {
 	mSvgRenderer->load(QString(":/icons/2d_ball.svg"));
 	setPos(position);
 	setZValue(ZValue::Moveable);
 	setTransformOriginPoint(boundingRect().center());
-}
-
-BallItem::~BallItem()
-{
-	delete mSvgRenderer;
 }
 
 QAction *BallItem::ballTool()
@@ -46,8 +59,8 @@ QAction *BallItem::ballTool()
 
 QRectF BallItem::boundingRect() const
 {
-	return QRectF({-static_cast<qreal>(ballSize.width() / 2.0), -static_cast<qreal>(ballSize.height() / 2.0)}
-				  , ballSize);
+	return QRectF({-static_cast<qreal>(mRadiusPx / 2.0), -static_cast<qreal>(mRadiusPx / 2.0)}
+	                      , QSize{mRadiusPx, mRadiusPx});
 }
 
 void BallItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -82,32 +95,43 @@ void BallItem::savePos()
 QDomElement BallItem::serialize(QDomElement &element) const
 {
 	QDomElement ballNode = AbstractItem::serialize(element);
-	ballNode.setTagName("ball");
-	ballNode.setAttribute("x", QString::number(x1() + scenePos().x()));
-	ballNode.setAttribute("y", QString::number(y1() + scenePos().y()));
-	ballNode.setAttribute("markerX", QString::number(x1() + mStartPosition.x()));
-	ballNode.setAttribute("markerY", QString::number(y1() + mStartPosition.y()));
-	ballNode.setAttribute("rotation", QString::number(rotation()));
-	ballNode.setAttribute("startRotation", QString::number(mStartRotation));
+	ballNode.setTagName(QStringLiteral("ball"));
+	ballNode.setAttribute(QStringLiteral("x"), QString::number(x1() + scenePos().x()));
+	ballNode.setAttribute(QStringLiteral("y"), QString::number(y1() + scenePos().y()));
+	ballNode.setAttribute(QStringLiteral("markerX"), QString::number(x1() + mStartPosition.x()));
+	ballNode.setAttribute(QStringLiteral("markerY"), QString::number(y1() + mStartPosition.y()));
+	ballNode.setAttribute(QStringLiteral("rotation"), QString::number(rotation()));
+	ballNode.setAttribute(QStringLiteral("startRotation"), QString::number(mStartRotation));
+
+	/* todo: add attributes to xml if user set this params manually and they equals default values
+	 * ballNode.setAttribute(QStringLiteral("radius"), QString::number(mRadiusPx));
+	 * ballNode.setAttribute(QStringLiteral("mass"), QString::number(mMass));
+	 * ballNode.setAttribute(QStringLiteral("friction"), QString::number(mFriction));
+	 * ballNode.setAttribute(QStringLiteral("restitution"), QString::number(mRestitution));
+	 * ballNode.setAttribute(QStringLiteral("angularDumping"), QString::number(mAngularDamping));
+	 * ballNode.setAttribute(QStringLiteral("linearDumping"), QString::number(mLinearDamping));
+	*/
+
 	return ballNode;
 }
 
 void BallItem::deserialize(const QDomElement &element)
 {
 	AbstractItem::deserialize(element);
+	qreal x = AbstractItem::toPx(element.attribute("x", "0"));
+	qreal y = AbstractItem::toPx(element.attribute("y", "0"));
 
-	qreal x = element.attribute("x", "0").toDouble();
-	qreal y = element.attribute("y", "0").toDouble();
-	qreal markerX = element.attribute("markerX", "0").toDouble();
-	qreal markerY = element.attribute("markerY", "0").toDouble();
-	qreal rotation = element.attribute("rotation", "0").toDouble();
-	mStartRotation = element.attribute("startRotation", "0").toDouble();
-
+	qreal markerX = AbstractItem::toPx(element.attribute("markerX", "0"));
+	qreal markerY = AbstractItem::toPx(element.attribute("markerY", "0"));
+	qreal rotation = AbstractItem::toPx(element.attribute("rotation", "0"));
+	mStartRotation = AbstractItem::toPx(element.attribute("startRotation", "0"));
+	qDebug() << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
+	qDebug() << x << y << markerX << markerY << rotation;
 	setPos(QPointF(x, y));
 	setTransformOriginPoint(boundingRect().center());
 	mStartPosition = {markerX, markerY};
 	setRotation(rotation);
-	emit x1Changed(x1());
+	Q_EMIT x1Changed(x1());
 }
 
 QPainterPath BallItem::shape() const
@@ -136,6 +160,11 @@ void BallItem::returnToStartPosition()
 QPolygonF BallItem::collidingPolygon() const
 {
 	return QPolygonF(boundingRect().adjusted(1, 1, -1, -1).translated(scenePos()));
+}
+
+void BallItem::onPixelsInCmChanged(const qreal pixelsInCm) {
+	mRadiusPx = pixelsInCm * ballRadiusCm;
+	AbstractItem::onPixelsInCmChanged(pixelsInCm);
 }
 
 qreal BallItem::angularDamping() const

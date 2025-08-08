@@ -18,7 +18,7 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
 #include <QtWidgets/QApplication>
-
+#include <QDebug>
 #include <qrkernel/settingsManager.h>
 #include <qrkernel/platformInfo.h>
 #include <qrutils/graphicsUtils/gridDrawer.h>
@@ -94,6 +94,8 @@ TwoDModelScene::TwoDModelScene(model::Model &model
 
 	connect(&mModel, &model::Model::robotAdded, this, &TwoDModelScene::onRobotAdd);
 	connect(&mModel, &model::Model::robotRemoved, this, &TwoDModelScene::onRobotRemove);
+	connect(&mModel, &model::Model::robotItemRemoved, this, &TwoDModelScene::onRobotRemove);
+	connect(&mModel, &model::Model::robotItemAdded, this, &TwoDModelScene::onRobotAdd);
 }
 
 TwoDModelScene::~TwoDModelScene()
@@ -226,6 +228,8 @@ void TwoDModelScene::onRobotAdd(model::RobotModel *robotModel)
 
 	connect(&*robotItem, &RobotItem::mousePressed, this, &TwoDModelScene::robotPressed);
 	connect(&*robotItem, &RobotItem::drawTrace, &mModel.worldModel(), &model::WorldModel::appendRobotTrace);
+	connect(&mModel.settings(), &twoDModel::model::Settings::pixelsInCmChanged,
+	                robotItem.data(), &RobotItem::onPixelsInCmChanged);
 
 	robotItem->setEditable(!mRobotReadOnly);
 
@@ -241,6 +245,8 @@ void TwoDModelScene::onRobotAdd(model::RobotModel *robotModel)
 
 void TwoDModelScene::onRobotRemove(model::RobotModel *robotModel)
 {
+	auto robotItem = mRobots[robotModel];
+	removeItem(robotItem.data());
 	mRobots.remove(robotModel);
 
 	emit robotListChanged(nullptr);
@@ -328,6 +334,13 @@ void TwoDModelScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		removeMoveFlag(mouseEvent, item.data());
 		// This will deselect all items
 		setSelectionArea(QPainterPath());
+
+		if (auto *abstractItem = dynamic_cast<AbstractItem *>(item.data())) {
+			auto &settings = mModel.settings();
+			QObject::connect(&settings, &twoDModel::model::Settings::pixelsInCmChanged,
+			                 abstractItem, &AbstractItem::onPixelsInCmChanged);
+			abstractItem->onPixelsInCmChanged(settings.pixelsInCm());
+		}
 	};
 
 	auto initColorField = [this, &initItem](const QSharedPointer<items::ColorFieldItem> &item) {
@@ -997,9 +1010,9 @@ void TwoDModelScene::alignWalls()
 	}
 }
 
-RobotItem *TwoDModelScene::robot(model::RobotModel &robotModel)
+QSharedPointer<RobotItem> TwoDModelScene::robot(model::RobotModel &robotModel)
 {
-	return mRobots.value(&robotModel).data();
+	return mRobots.value(&robotModel);
 }
 
 void TwoDModelScene::centerOnRobot(RobotItem *selectedItem)

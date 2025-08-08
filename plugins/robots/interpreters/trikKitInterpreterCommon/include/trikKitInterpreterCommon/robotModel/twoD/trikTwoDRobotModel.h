@@ -58,7 +58,11 @@ public:
 	QPolygonF collidingPolygon() const override;
 	qreal mass() const override;
 	qreal friction() const override;
+	QSizeF size() const override;
 	qreal onePercentAngularVelocity() const override;
+
+	void setPixelsInCm(const qreal pixelsInCm) override;
+	void setSize(const QSizeF &size);
 	QList<QPointF> wheelsPosition() const override;
 	QPair<qreal, int> rangeSensorAngleAndDistance (const kitBase::robotModel::DeviceInfo &deviceType) const override;
 
@@ -84,7 +88,8 @@ private:
 	QString mRightWheelPort;
 	twoDModel::engine::TwoDModelDisplayWidget *mDisplayWidget;
 	qReal::ErrorReporterInterface *mErrorReporter {};
-	QPolygonF mCollidingPolygon;
+	qreal mPixelsInCm {};
+	QSizeF mRobotSize {};
 	trikNetwork::MailboxInterface *mMailbox {}; //ownership TrikKitInterpreterPluginBase
 };
 

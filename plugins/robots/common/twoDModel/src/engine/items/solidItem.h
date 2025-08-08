@@ -16,6 +16,7 @@
 
 #include <QtGui/QPolygonF>
 #include <QtCore/qglobal.h>
+#include <twoDModel/engine/model/settings.h>
 
 namespace twoDModel {
 namespace items {

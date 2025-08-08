@@ -47,10 +47,12 @@ using namespace model;
 QGraphicsPathItem *debugPath = nullptr;
 #endif
 
-WorldModel::WorldModel()
-	: mXmlFactory(new QDomDocument)
+WorldModel::WorldModel(Settings &mSettings)
+        : mSettings(mSettings)
+        , mXmlFactory(new QDomDocument)
 	, mErrorReporter(nullptr)
 {
+	connect(&mSettings, &Settings::pixelsInCmChanged, this, &model::WorldModel::pixelsInCmChanged, Qt::UniqueConnection);
 }
 
 WorldModel::~WorldModel() = default;
@@ -62,7 +64,9 @@ void WorldModel::init(qReal::ErrorReporterInterface &errorReporter)
 
 qreal WorldModel::pixelsInCm() const
 {
-	return twoDModel::pixelsInCm;
+	qDebug() << "WorldModel pixelsInCm" << mSettings.pixelsInCm();
+//	return mSettings.pixelsInCm();
+	return 12.857142857;
 }
 
 QVector<int> WorldModel::lidarReading(const QPointF &position, qreal direction, int maxDistance, qreal maxAngle) const
@@ -758,6 +762,9 @@ void WorldModel::createSkittle(const QDomElement &element)
 void WorldModel::createBall(const QDomElement &element)
 {
 	auto ball = QSharedPointer<items::BallItem>::create(QPointF());
+	connect(&mSettings, &twoDModel::model::Settings::pixelsInCmChanged,
+	                 ball.data(), &items::BallItem::onPixelsInCmChanged);
+	ball->onPixelsInCmChanged(pixelsInCm());
 	ball->deserialize(element);
 	addBall(ball);
 }

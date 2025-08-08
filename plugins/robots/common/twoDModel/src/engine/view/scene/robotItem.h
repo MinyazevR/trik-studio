@@ -47,7 +47,7 @@ public:
 
 	/// Returns a mapping of ports to connected configured sensors.
 	QMap<kitBase::robotModel::PortInfo, SensorItem *> const &sensors() const;
-
+	void onPixelsInCmChanged(const qreal pixelsInCm) override;
 	void addSensor(const kitBase::robotModel::PortInfo &port, SensorItem *sensor);
 	void removeSensor(const kitBase::robotModel::PortInfo &port);
 	void updateSensorPosition(const kitBase::robotModel::PortInfo &port);

@@ -16,7 +16,7 @@
 
 #include "twoDModel/engine/model/constants.h"
 #include "src/engine/items/startPosition.h"
-
+#include <QDebug>
 using namespace twoDModel::view;
 using namespace graphicsUtils;
 using namespace twoDModel::model;
@@ -47,6 +47,8 @@ RobotItem::RobotItem(const QString &robotImageFileName, model::RobotModel &robot
 	setAcceptDrops(true);
 	setZValue(ZValue::Robot);
 	const QSizeF robotSize = mRobotModel.info().size();
+	qDebug() << "robotSizeWidth" << robotSize.width();
+	qDebug() << "robotSizeHeight" << robotSize.height();
 	setX2(x1() + robotSize.width());
 	setY2(y1() + robotSize.height());
 	mMarkerPoint = mRobotModel.info().rotationCenter();
@@ -192,6 +194,17 @@ void RobotItem::addSensor(const kitBase::robotModel::PortInfo &port, SensorItem 
 	sensor->setPos(mRobotModel.configuration().position(port));
 	sensor->setRotation(mRobotModel.configuration().direction(port));
 	emit sensorAdded(sensor);
+}
+
+void RobotItem::onPixelsInCmChanged(const qreal pixelsInCm)
+{
+	mRobotModel.info().setPixelsInCm(pixelsInCm);
+	AbstractItem::onPixelsInCmChanged(pixelsInCm);
+	const QSizeF robotSize = mRobotModel.info().size();
+	setX2(x1() + robotSize.width());
+	setY2(y1() + robotSize.height());
+	setX2(x1() + 225);
+	setY2(y1() + 225);
 }
 
 void RobotItem::removeSensor(const kitBase::robotModel::PortInfo &port)

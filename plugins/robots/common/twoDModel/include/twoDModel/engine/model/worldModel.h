@@ -24,6 +24,7 @@
 
 #include "twoDModel/engine/model/image.h"
 #include "twoDModel/twoDModelDeclSpec.h"
+#include "settings.h"
 
 class QGraphicsItem;
 
@@ -51,7 +52,7 @@ class TWO_D_MODEL_EXPORT WorldModel : public QObject
 	Q_OBJECT
 
 public:
-	WorldModel();
+	WorldModel(Settings &mSettings);
 	~WorldModel();
 
 	void init(qReal::ErrorReporterInterface &errorReporter);
@@ -266,6 +267,7 @@ private:
 	QMap<QString, int> mOrder;
 	QList<QSharedPointer<QGraphicsPathItem>> mRobotTrace;
 	QRect mBackgroundRect;
+	Settings &mSettings;
 	QScopedPointer<QDomDocument> mXmlFactory;
 	qReal::ErrorReporterInterface *mErrorReporter;  // Doesn`t take ownership.
 };

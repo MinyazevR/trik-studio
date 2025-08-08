@@ -29,7 +29,7 @@ class TWO_D_MODEL_EXPORT Settings : public QObject
 	Q_OBJECT
 
 public:
-	Settings() = default;
+	Settings();
 
 	/// Returns true is user selected realistic physical engine.
 	bool realisticPhysics() const;
@@ -39,6 +39,11 @@ public:
 
 	/// Returns true is user wants to add some noise to motors work.
 	bool realisticMotors() const;
+
+	/// Returns true is user wants to add some noise to motors work.
+	qreal pixelsInCm() const;
+
+	int pxPercision() const;
 
 	void serialize(QDomElement &parent) const;
 
@@ -50,14 +55,19 @@ public:
 
 	void setRealisticMotors(bool set);
 
+	void setPixelsInCm(const qreal pixelsInCm);
 signals:
 	/// Emitted each time when user modifies physical preferences.
 	void physicsChanged(bool isRealistic);
+
+	/// Emitted each time when user modifies physical preferences.
+	void pixelsInCmChanged(const qreal pixelsInCm);
 
 private:
 	bool mRealisticPhysics { false };
 	bool mRealisticSensors { false };
 	bool mRealisticMotors { false };
+	qreal mPixelsInCm;
 };
 
 }

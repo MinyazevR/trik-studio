@@ -67,6 +67,7 @@ public:
 	virtual void setPenBrushForExtraction(QPainter *painter, const QStyleOptionGraphicsItem *option);
 	virtual void setPenBrushDriftRect(QPainter *painter);
 	virtual QDomElement serialize(QDomElement &parent) const;
+	int toPx(const QString &size) const;
 	virtual void deserialize(const QDomElement &element);
 
 	static QStringList getPenStyleList();
@@ -108,7 +109,6 @@ public:
 	void setY2(qreal y2);
 
 	void setCoordinates(const QRectF &pos);
-
 	virtual void reshapeRectWithShift();
 	virtual void changeDragState(qreal x, qreal y);
 	DragState dragState() const;
@@ -135,11 +135,9 @@ public:
 
 	/// Sets a unique identifier of an item.
 	void setId(const QString &id);
-
 	virtual void setEditable(bool editable);
 	bool editable() const;
 	bool isHovered() const;
-
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 	Qt::CursorShape getResizeCursor();
@@ -176,6 +174,8 @@ signals:
 
 	/// Emitted when user releases left mouse button on this item.
 	void mouseInteractionStopped();
+public Q_SLOTS:
+	virtual void onPixelsInCmChanged(const qreal pixelsInCm);
 
 protected:
 	explicit AbstractItem(Qt::CursorShape resizeCursor, QGraphicsItem *parent = nullptr);
@@ -201,6 +201,7 @@ private:
 	qreal mY1 {0};
 	qreal mX2 {0};
 	qreal mY2 {0};
+	qreal mPixelsInCm;
 	QString mId;
 	bool mEditable {true};
 	bool mHovered {false};

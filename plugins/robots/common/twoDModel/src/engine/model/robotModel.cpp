@@ -19,7 +19,7 @@
 #include <QtGui/QTransform>
 
 #include <qrutils/mathUtils/math.h>
-
+#include <QDebug>
 #include <kitBase/robotModel/robotParts/encoderSensor.h>
 #include <kitBase/robotModel/robotParts/motor.h>
 #include <kitBase/robotModel/robotParts/rangeSensor.h>
@@ -49,20 +49,25 @@ RobotModel::RobotModel(robotModel::TwoDRobotModel &robotModel
 	, mPosStamps(positionStampsCount)
 	, mStartPositionMarker(new items::StartPosition(info().size()))
 {
+	reinitMotors();
 	reinit();
 }
 
 RobotModel::~RobotModel() = default;
 
-void RobotModel::reinit()
+void RobotModel::reinitMotors()
 {
 	mMotors.clear();
+	auto pxRadius = 8.0f / 50.0f * mRobotModel.size().width();
 	for (const Device * const device : mRobotModel.configuration().devices()) {
 		if (device->deviceInfo().isA<robotParts::Motor>()) {
-			initMotor(robotWheelDiameterInPx / 2, 0, 0, device->port(), false);
+			initMotor(pxRadius, 0, 0, device->port(), false);
 		}
 	}
+}
 
+void RobotModel::reinit()
+{
 	mMarker = Qt::transparent;
 	mBeepTime = 0;
 	mDeltaDegreesOfAngle = 0;
@@ -71,6 +76,7 @@ void RobotModel::reinit()
 
 void RobotModel::clear()
 {
+	reinitMotors();
 	reinit();
 	returnToStartMarker();
 }
@@ -334,7 +340,9 @@ QVector<int> RobotModel::gyroscopeCalibrate()
 void RobotModel::nextStep()
 {
 	// Changing position quietly, they must not be caught by UI here.
+	qDebug() << "TTTTTTTTTTTTTTTTTTTTTTt";
 	mPos += mPhysicsEngine->positionShift(*this).toPointF();
+	qDebug() << "RRRRRRRRRRRRRRRRRRRR" << mPos;
 	mAngle += mPhysicsEngine->rotation(*this);
 	emit positionRecalculated(mPos, mAngle);
 }

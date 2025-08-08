@@ -20,6 +20,7 @@
 #include "twoDModel/engine/model/constants.h"
 #include "box2DWheel.h"
 #include "box2DItem.h"
+#include <QDebug>
 
 using namespace twoDModel::model::physics;
 using namespace parts;
@@ -41,8 +42,12 @@ Box2DRobot::Box2DRobot(Box2DPhysicsEngine *engine, twoDModel::model::RobotModel 
 	QPolygonF collidingPolygon = mModel->info().collidingPolygon();
 	QPointF localCenter = collidingPolygon.boundingRect().center();
 	mPolygon.reset(new b2Vec2[collidingPolygon.size()]);
+	qDebug() << mModel->info().name();
 	for (int i = 0; i < collidingPolygon.size(); ++i) {
+		auto t = collidingPolygon.at(i) - localCenter;
 		mPolygon[i] = engine->positionToBox2D(collidingPolygon.at(i) - localCenter);
+		qDebug() << "i:" << i << "mPolygon[i].x " << mPolygon[i].x << "mPolygon[i].y " << mPolygon[i].y;
+//		qDebug() << "t:" << t.x() << t.y();
 	}
 	fixtureDef.density = engine->computeDensity(collidingPolygon, mModel->info().mass());
 	b2Hull hull = b2ComputeHull(mPolygon.get(), collidingPolygon.size());

@@ -17,7 +17,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QComboBox>
-
+#include <QDebug>
 using namespace twoDModel::view;
 
 DetailsTab::DetailsTab(QWidget *parent)
@@ -42,6 +42,7 @@ DetailsTab::DetailsTab(QWidget *parent)
 
 DetailsTab::~DetailsTab()
 {
+	qDebug() << "DetailsTab::~DetailsTab";
 }
 
 void DetailsTab::initItem(QTreeWidgetItem *item, const QString &text, bool expanded)
@@ -59,8 +60,15 @@ void DetailsTab::initItem(QTreeWidgetItem *item, const QString &text, bool expan
 
 void DetailsTab::setDisplay(QWidget *widget)
 {
+	static bool setted = false;
 	mDisplay = widget;
 	mDisplayRoot->setHidden(widget == nullptr);
+	if (setted || widget == nullptr) {
+		return;
+	}
+	if (widget != nullptr) {
+		setted = true;
+	}
 	setItemWidget(mDisplayItem, 0, widget);
 }
 

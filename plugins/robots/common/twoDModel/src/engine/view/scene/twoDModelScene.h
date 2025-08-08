@@ -131,7 +131,16 @@ public slots:
 	void alignWalls();
 
 	/// Returns a pointer to a robot graphics item.
-	RobotItem *robot(model::RobotModel &robotModel);
+	QSharedPointer<RobotItem> robot(model::RobotModel &robotModel);
+
+	QSharedPointer<RobotItem> getRobotItem(RobotItem *item) {
+		for (auto &&value: mRobots.values()) {
+			if (value.data() == item) {
+				return value;
+			}
+		}
+		return {};
+	};
 
 	/// Focuses all graphics views on the robot if it is not visible.
 	void centerOnRobot(RobotItem *selectedItem = nullptr);
@@ -151,8 +160,7 @@ signals:
 
 	/// Emitted at any changes of robot list (adding or removing)
 	void robotListChanged(RobotItem *robotItem);
-
-private slots:
+public slots:
 	/// Called after robot model was added and create new robot item
 	/// @param robotModel Robot model which was added
 	void onRobotAdd(model::RobotModel *robotModel);
@@ -160,6 +168,7 @@ private slots:
 	/// Called after robot model was removed and removes robot item associated with this robot model
 	/// @param robotModel Robot model which was removed
 	void onRobotRemove(model::RobotModel *robotModel);
+private slots:
 
 	/// Called after new wall is added to a world model.
 	void onWallAdded(QSharedPointer<items::WallItem> wall);

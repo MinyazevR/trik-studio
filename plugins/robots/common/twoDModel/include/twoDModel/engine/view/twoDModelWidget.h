@@ -171,6 +171,7 @@ private slots:
 	void trainingModeChanged(bool enabled);
 
 	void updateUIPhysicsSettings();
+	void updatePixelInCm(const qreal pixelsInCm);
 
 private:
 	enum CursorType
@@ -230,7 +231,7 @@ private:
 
 	void onRobotListChange(RobotItem *robotItem);
 
-	void setSelectedRobotItem(RobotItem *robotItem);
+	void setSelectedRobotItem(const QSharedPointer<RobotItem> &robotItem);
 	void unsetSelectedRobotItem();
 
 	void incrementTimelineCounter();
@@ -245,7 +246,7 @@ private:
 	RobotItemPopup *mRobotItemPopup {};  // Takes ownership
 	SpeedPopup *mSpeedPopup {};  // Takes owneship
 
-	RobotItem *mSelectedRobotItem {};
+	QWeakPointer<RobotItem> mSelectedRobotItem;
 	kitBase::DevicesConfigurationWidget *mCurrentConfigurer {};
 
 	model::Model &mModel;

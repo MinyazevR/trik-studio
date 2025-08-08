@@ -15,10 +15,15 @@
 #include <QtXml/QDomElement>
 
 #include "twoDModel/engine/model/settings.h"
-
+#include "twoDModel/engine/model/constants.h"
 #include <qrkernel/settingsManager.h>
-
+#include <QDebug>
 using namespace twoDModel::model;
+
+static constexpr int pxSerializePercision = 3;
+
+Settings::Settings():
+        mPixelsInCm(twoDModel::pixelsInCm) {}
 
 bool Settings::realisticPhysics() const
 {
@@ -35,6 +40,16 @@ bool Settings::realisticMotors() const
 	return mRealisticMotors;
 }
 
+qreal Settings::pixelsInCm() const
+{
+	return mPixelsInCm;
+}
+
+int Settings::pxPercision() const
+{
+	return pxSerializePercision;
+}
+
 void Settings::serialize(QDomElement &parent) const
 {
 	auto result = parent.ownerDocument().createElement("settings");
@@ -42,6 +57,7 @@ void Settings::serialize(QDomElement &parent) const
 	result.setAttribute("realisticPhysics", mRealisticPhysics ? "true" : "false");
 	result.setAttribute("realisticSensors", mRealisticSensors ? "true" : "false");
 	result.setAttribute("realisticMotors", mRealisticMotors ? "true" : "false");
+	result.setAttribute("pixelsInCm", QString::number(mPixelsInCm, 'f', pxPercision()));
 }
 
 void Settings::deserialize(const QDomElement &parent)
@@ -50,6 +66,15 @@ void Settings::deserialize(const QDomElement &parent)
 	mRealisticSensors = parent.attribute("realisticSensors") == "true";
 	mRealisticMotors = parent.attribute("realisticMotors") == "true";
 	emit physicsChanged(mRealisticPhysics);
+
+	auto ok = false;
+	auto pixelsInCm = parent.attribute("pixelsInCm").toDouble(&ok);
+	qDebug() << "Settings::deserialize" << pixelsInCm;
+	if (ok) {
+		qDebug() << "Settings::deserialize ok" << pixelsInCm;
+		mPixelsInCm = pixelsInCm;
+		Q_EMIT pixelsInCmChanged(pixelsInCm);
+	}
 }
 
 void Settings::setRealisticPhysics(bool set)
@@ -66,4 +91,11 @@ void Settings::setRealisticSensors(bool set)
 void Settings::setRealisticMotors(bool set)
 {
 	mRealisticMotors = set;
+}
+
+void Settings::setPixelsInCm(const qreal pixelsInCm)
+{
+	qDebug() << "mPixelsInCm" << pixelsInCm;
+	mPixelsInCm = pixelsInCm;
+	Q_EMIT pixelsInCmChanged(pixelsInCm);
 }

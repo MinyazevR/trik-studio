@@ -19,7 +19,6 @@
 #include "timeline.h"
 #include "settings.h"
 #include <twoDModel/robotModel/twoDRobotModel.h>
-
 #include "twoDModel/twoDModelDeclSpec.h"
 
 namespace qReal {
@@ -101,9 +100,13 @@ signals:
 	/// @param robotModel Pointer to robot model which was removed
 	void robotAdded(RobotModel *robotModel);
 
+	void robotItemAdded(RobotModel *robotModel);
+
 	/// Emitted after robot model removed
 	/// @param robotModel Pointer to robot model which was added
 	void robotRemoved(RobotModel *robotModel);
+
+	void robotItemRemoved(RobotModel *robotModel);
 
 private slots:
 	void resetPhysics();

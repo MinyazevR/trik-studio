@@ -31,10 +31,11 @@ static auto XML_VERSION = "20190819";
 
 Model::Model(QObject *parent)
 	: QObject(parent)
-	, mChecker(nullptr)
-	, mErrorReporter(nullptr)
-	, mRealisticPhysicsEngine(nullptr)
-	, mSimplePhysicsEngine(nullptr)
+        , mWorldModel(mSettings)
+        , mChecker(nullptr)
+        , mErrorReporter(nullptr)
+        , mRealisticPhysicsEngine(nullptr)
+        , mSimplePhysicsEngine(nullptr)
 {
 	initPhysics();
 	connect(&mSettings, &Settings::physicsChanged, this, &Model::resetPhysics);
@@ -83,6 +84,7 @@ void Model::init(qReal::ErrorReporterInterface &errorReporter
 			, this, [&errorReporter](const QString &message) {
 				errorReporter.addCritical(tr("Error in checker: %1").arg(message));
 	});
+//	connect(&mSettings, &Settings::pixelsInCmChanged, &mWorldModel, &WorldModel::onPixelsInCmChanged);
 }
 
 WorldModel &Model::worldModel()

@@ -15,7 +15,6 @@
 #pragma once
 
 #include <qrutils/graphicsUtils/abstractItem.h>
-
 #include "src/engine/items/solidItem.h"
 
 class QSvgRenderer;
@@ -61,12 +60,18 @@ public:
 	QPainterPath shape () const override;
 
 	QPainterPath path() const;
-
+	void onPixelsInCmChanged(const qreal pixelsInCm) override;
 private:
 	QPointF mStartPosition;
 	qreal mStartRotation {0.0};
+	QScopedPointer<QSvgRenderer> mSvgRenderer;
+	int mRadiusPx;
+	qreal mMass;
+	qreal mFriction;
+	qreal mRestitution;
+	qreal mAngularDamping;
+	qreal mLinearDamping;
 
-	QSvgRenderer *mSvgRenderer;
 };
 
 }

@@ -30,7 +30,7 @@
 #include "parts/box2DWheel.h"
 #include "parts/box2DRobot.h"
 #include "parts/box2DItem.h"
-
+#include <QDebug>
 using namespace twoDModel::model::physics;
 using namespace parts;
 using namespace mathUtils;
@@ -40,7 +40,7 @@ const qreal scaleCoeff = 0.001;
 Box2DPhysicsEngine::Box2DPhysicsEngine (const WorldModel &worldModel
 		, const QList<RobotModel *> &robots)
 	: PhysicsEngineBase(worldModel, robots)
-	, mPixelsInCm(worldModel.pixelsInCm() * scaleCoeff)
+        , mPixelsInCm(worldModel.pixelsInCm() * scaleCoeff)
 	, mPrevPosition(b2Vec2{0, 0})
 	, mPrevAngle(0)
 {
@@ -55,6 +55,7 @@ Box2DPhysicsEngine::Box2DPhysicsEngine (const WorldModel &worldModel
 			this, [this](const QSharedPointer<QGraphicsItem> &i) {itemAdded(i.data());});
 	connect(&worldModel, &model::WorldModel::itemRemoved,
 			this, [this](const QSharedPointer<QGraphicsItem> &i) {itemRemoved(i.data());});
+	connect(&worldModel, &model::WorldModel::pixelsInCmChanged, this, &Box2DPhysicsEngine::onPixelsInCmChanged, Qt::UniqueConnection);
 }
 
 Box2DPhysicsEngine::~Box2DPhysicsEngine(){
@@ -121,32 +122,37 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
 	QTimer::singleShot(10, this, [this, robot]() {
 		mScene = dynamic_cast<view::TwoDModelScene *>(robot->startPositionMarker()->scene());
 
-		connect(mScene->robot(*robot), &view::RobotItem::mouseInteractionStopped, this, [=]() {
-			view::RobotItem *rItem = mScene->robot(*robot);
+		auto shrRobot = mScene->robot(*robot);
+		if (!shrRobot) {
+			return;
+		}
+
+		connect(shrRobot.data(), &view::RobotItem::mouseInteractionStopped, this, [=]() {
+			view::RobotItem *rItem = shrRobot.data();
 			if (rItem != nullptr) {
 				onMouseReleased(rItem->pos(), rItem->rotation());
 			}
 		});
 
-		connect(mScene->robot(*robot), &view::RobotItem::mouseInteractionStarted
+		connect(shrRobot.data(), &view::RobotItem::mouseInteractionStarted
 				, this, &Box2DPhysicsEngine::onMousePressed);
 
-		connect(mScene->robot(*robot), &view::RobotItem::recoverRobotPosition
+		connect(shrRobot.data(), &view::RobotItem::recoverRobotPosition
 				, this, &Box2DPhysicsEngine::onRecoverRobotPosition);
 
-		connect(mScene->robot(*robot), &view::RobotItem::sensorAdded, this, [&](twoDModel::view::SensorItem *sensor) {
+		connect(shrRobot.data(), &view::RobotItem::sensorAdded, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
 			mRobotSensors[model].insert(sensor);
 			mBox2DRobots[model]->addSensor(sensor);
 		});
-		connect(mScene->robot(*robot), &view::RobotItem::sensorRemoved, this, [&](twoDModel::view::SensorItem *sensor) {
+		connect(shrRobot.data(), &view::RobotItem::sensorRemoved, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
 			mRobotSensors[model].remove(sensor);
 			mBox2DRobots[model]->removeSensor(sensor);
 		});
-		connect(mScene->robot(*robot), &view::RobotItem::sensorUpdated
+		connect(shrRobot.data(), &view::RobotItem::sensorUpdated
 				, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
@@ -394,6 +400,7 @@ bool Box2DPhysicsEngine::isRobotStuck() const
 
 void Box2DPhysicsEngine::onPixelsInCmChanged(qreal value)
 {
+	qDebug() << __LINE__ << __FILE__ << value;
 	mPixelsInCm = value * scaleCoeff;
 }
 
@@ -437,6 +444,7 @@ void Box2DPhysicsEngine::onItemDragged(graphicsUtils::AbstractItem *item)
 	} else if (auto solidItem = dynamic_cast<items::SolidItem *>(item)) {
 		QPolygonF collidingPolygon = solidItem->collidingPolygon();
 		if (itemTracked(item)) {
+			qDebug() << "IS TRACKED\n";
 			if (solidItem->bodyType() == items::SolidItem::DYNAMIC) {
 				auto *bItem = mBox2DDynamicItems[item];
 
@@ -451,12 +459,20 @@ void Box2DPhysicsEngine::onItemDragged(graphicsUtils::AbstractItem *item)
 				bItem->setRotation(angleToBox2D(localRotation));
 			}
 		} else {
+			qDebug() << "IS NOT TRACKEDK\n";
 			b2Vec2 pos = positionToBox2D(collidingPolygon.boundingRect().center());
+			qDebug() << "IS NOT TRACKEDK 1\n";
+			item->rotation();
+			qDebug() << "IS NOT TRACKEDK 1.5\n";
+			qDebug() << angleToBox2D(item->rotation());
+			qDebug() << "IS NOT TRACKEDK 1.7\n";
 			Box2DItem *box2dItem = new Box2DItem(this, solidItem, pos, angleToBox2D(item->rotation()));
+			qDebug() << "IS NOT TRACKEDK 2\n";
 			mBox2DResizableItems[item] = box2dItem;
 			if (solidItem->bodyType() == items::SolidItem::DYNAMIC) {
 				mBox2DDynamicItems[item] = box2dItem;
 			}
+			qDebug() << "IS NOT TRACKEDK end\n";
 		}
 	} else {
 		/* Nothing */
@@ -487,6 +503,9 @@ b2Vec2 Box2DPhysicsEngine::pxToCm(const QPointF &posInPx) const
 
 qreal Box2DPhysicsEngine::cmToPx(float cm) const
 {
+	qDebug() << "mPixelsInCm" << mPixelsInCm;
+	qDebug() << "cm" << cm;
+	qDebug() << "cmToPx" << static_cast<qreal>(cm * static_cast<float>(mPixelsInCm));
 	return static_cast<qreal>(cm * static_cast<float>(mPixelsInCm));
 }
 
@@ -503,11 +522,13 @@ b2Vec2 Box2DPhysicsEngine::positionToBox2D(const QPointF &sceneCoords) const
 b2Vec2 Box2DPhysicsEngine::positionToBox2D(float x, float y) const
 {
 	QPointF invertedCoords = QPointF(x, -y);
+	qDebug() << "positionToBox2D" << (0.01f * pxToCm(invertedCoords)).x << (0.01f * pxToCm(invertedCoords)).y;
 	return 0.01f * pxToCm(invertedCoords);
 }
 
 QPointF Box2DPhysicsEngine::positionToScene(b2Vec2 boxCoords) const
 {
+	qDebug() << "positionToScene" << boxCoords.x << boxCoords.y;
 	return positionToScene(boxCoords.x, boxCoords.y);
 }
 
