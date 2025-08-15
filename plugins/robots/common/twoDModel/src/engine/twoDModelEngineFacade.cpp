@@ -27,7 +27,7 @@
 using namespace twoDModel::engine;
 
 TwoDModelEngineFacade::TwoDModelEngineFacade(twoDModel::robotModel::TwoDRobotModel &robotModel)
-	: mRobotModelName(robotModel.name())
+        : mRobotModelName(robotModel.name())
 	, mModel(new model::Model())
 	, mView(new view::TwoDModelWidget(*mModel, nullptr))
 	, mApi(new TwoDModelEngineApi(*mModel, *mView))
@@ -164,6 +164,8 @@ void TwoDModelEngineFacade::init(const kitBase::EventsForKitPluginInterface &eve
 			&kitBase::EventsForKitPluginInterface::robotModelChanged,
 			this,
 			[this, connectTwoDModel, disconnectTwoDModel, reloadWorld](const QString &modelName) {
+		                qDebug() << "TLLLLLLLLLLLLLLLLLLLL" << modelName << mRobotModelName;
+				qDebug() << mDock;
 				const bool isCurrentModel = modelName == mRobotModelName;
 				if (isCurrentModel) {
 					connectTwoDModel();

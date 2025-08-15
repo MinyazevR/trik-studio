@@ -81,6 +81,7 @@ public slots:
 	void onItemDragged(graphicsUtils::AbstractItem *item);
 	void onRobotStartPositionChanged(const QPointF &newPos, twoDModel::model::RobotModel *robot);
 	void onRobotStartAngleChanged(const qreal newAngle, twoDModel::model::RobotModel *robot);
+	void onRobotSizeChanged(twoDModel::model::RobotModel *robot);
 	void onMouseReleased(const QPointF &newPos, qreal newAngle);
 	void onMousePressed();
 	void onRecoverRobotPosition(const QPointF &pos);

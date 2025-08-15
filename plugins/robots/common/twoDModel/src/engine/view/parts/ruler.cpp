@@ -29,6 +29,7 @@ Ruler::Ruler(QWidget *parent)
 	: QFrame(parent)
 	, mOrientation(Qt::Horizontal)
 	, mPixelsInCm(1.0)
+        , mUnit(Ruler::Unit::Centimeters)
 {
 	mFont.setPixelSize(8);
 }
@@ -60,6 +61,25 @@ void Ruler::setPixelsInCm(qreal pixelsInCm)
 	mPixelsInCm = pixelsInCm;
 }
 
+void Ruler::setUnit(const Ruler::Unit &unit)
+{
+	mUnit = unit;
+}
+
+qreal Ruler::countCoeff() {
+	switch (mUnit) {
+	case Ruler::Unit::Pixels:
+		return 1.0f;
+	case Ruler::Unit::Centimeters:
+		return mPixelsInCm;
+	case Ruler::Unit::Millimeters:
+		return mPixelsInCm * 0.1f;
+	case Ruler::Unit::Meters:
+		return mPixelsInCm * 100.0f;
+	}
+	return 1.0f;
+}
+
 void Ruler::paintEvent(QPaintEvent *event)
 {
 	QFrame::paintEvent(event);
@@ -73,12 +93,12 @@ void Ruler::paintEvent(QPaintEvent *event)
 	// Without making first cell being multiple of shift the first marker will be always upon the first
 	// line and that looks horrible when user scrolls the scene.
 	const int realFirstCell = firstCell / shift * shift * gridSize;
-
+	auto factor = countCoeff();
 	for (int coordinate = realFirstCell
 			; coordinate < relevantCoordinate(sceneRect.bottomRight())
 			; coordinate += shift * gridSize)
 	{
-		const QString text = QString::number(coordinate / mPixelsInCm);
+		const QString text = QString::number(coordinate / factor);
 		const QRectF boundingRect = textBoundingRect(text);
 		const qreal relevantPosition = relevantCoordinate(mView->mapFromScene(makePoint(coordinate, 0)));
 		const QPointF position = drawingPoint(relevantPosition, boundingRect.size());

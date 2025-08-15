@@ -32,7 +32,7 @@ class RobotItem : public graphicsUtils::RotateItem, public items::SolidItem
 
 public:
 	RobotItem(const QString &robotImageFileName, model::RobotModel &robotModel);
-
+	void updateSize(model::RobotModel &robotModel);
 	QRectF boundingRect() const override;
 	QRectF calcNecessaryBoundingRect() const override;
 	void drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -95,6 +95,8 @@ private:
 		void drawBeepArcs(QPainter *painter, const QPointF &center, qreal radius);
 	};
 
+	void setSize();
+	void reconfigureSpecialDevices(model::RobotModel &robotModel);
 	/// Same as QGraphicsItem::setPos(). Needed as slot for connection.
 	void setPos(const QPointF &newPos);
 	/// Same as QGraphicsItem::setRotation(). Needed as slot for connection.

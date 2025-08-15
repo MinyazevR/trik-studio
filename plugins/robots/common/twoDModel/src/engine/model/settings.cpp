@@ -15,7 +15,7 @@
 #include <QtXml/QDomElement>
 
 #include "twoDModel/engine/model/settings.h"
-
+#include "twoDModel/engine/model/constants.h"
 #include <qrkernel/settingsManager.h>
 
 using namespace twoDModel::model;
@@ -35,6 +35,11 @@ bool Settings::realisticMotors() const
 	return mRealisticMotors;
 }
 
+qreal Settings::pixelsInCm() const
+{
+	return mPixelsInCm;
+}
+
 void Settings::serialize(QDomElement &parent) const
 {
 	auto result = parent.ownerDocument().createElement("settings");
@@ -49,6 +54,11 @@ void Settings::deserialize(const QDomElement &parent)
 	mRealisticPhysics = parent.attribute("realisticPhysics") == "true";
 	mRealisticSensors = parent.attribute("realisticSensors") == "true";
 	mRealisticMotors = parent.attribute("realisticMotors") == "true";
+	const auto pixelsInCmStr = parent.attribute("pixelsInCm", "");
+	if (!pixelsInCmStr.isEmpty()) {
+		mPixelsInCm = pixelsInCmStr.toDouble();
+	}
+	emit pixelInCmChanged(mPixelsInCm);
 	emit physicsChanged(mRealisticPhysics);
 }
 
@@ -56,6 +66,12 @@ void Settings::setRealisticPhysics(bool set)
 {
 	mRealisticPhysics = set;
 	emit physicsChanged(mRealisticPhysics);
+}
+
+void Settings::setPixelsInCm(const qreal pixelsInCm)
+{
+	mPixelsInCm = pixelsInCm;
+	Q_EMIT pixelInCmChanged(mPixelsInCm);
 }
 
 void Settings::setRealisticSensors(bool set)

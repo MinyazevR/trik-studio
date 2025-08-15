@@ -127,6 +127,21 @@ QSizeF TwoDRobotModel::size() const
 	return QSizeF(50, 50);
 }
 
+qreal TwoDRobotModel::wheelDiameter() const
+{
+	return 16;
+}
+
+void TwoDRobotModel::setSize(const QSizeF &size)
+{
+	Q_UNUSED(size);
+}
+
+void TwoDRobotModel::setPixelsInCm(const qreal pixelsInCm)
+{
+	Q_UNUSED(pixelsInCm);
+}
+
 QPointF TwoDRobotModel::robotCenter() const
 {
 	return QPointF(size().width() / 2, size().height() / 2);

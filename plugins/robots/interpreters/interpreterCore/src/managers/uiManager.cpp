@@ -137,6 +137,7 @@ void UiManager::addWidgetToToolbar(kitBase::robotModel::RobotModelInterface &rob
 		return;
 	}
 
+	qDebug() << "gggg" << robotModel.name() << widget->objectName();
 	QAction * const action = mCustomWidgetsBar->addWidget(widget);
 	mToolBarWidgets[action] = &robotModel;
 }
@@ -197,6 +198,7 @@ void UiManager::switchToMode(UiManager::Mode mode)
 
 	saveDocks();
 	mCurrentMode = mode;
+	qDebug() << "AAAAAAAAAAAAAAAAAA";
 	reloadDocksSavingToolbarsAndErrors();
 	toggleModeButtons();
 }
@@ -298,6 +300,7 @@ void UiManager::reloadDocksSavingToolbarsAndErrors() const
 	const bool robotConsoleWasVisible = mRobotConsole->isVisible();
 	QMap<QToolBar *, bool> toolBarsVisiblity;
 	for (QToolBar * const toolBar : mMainWindow.toolBars()) {
+		qDebug() << "toolBar" << toolBar->objectName();
 		toolBarsVisiblity[toolBar] = toolBar->isVisible();
 	}
 
@@ -408,6 +411,7 @@ void UiManager::hack2dModelDock() const
 	// that is not influeced by mMainWindow::restoreState. So we must first switch to a docked form
 	// and then restore docks state.
 	if (utils::SmartDock * const twoDModel = mMainWindow.windowWidget()->findChild<utils::SmartDock *>()) {
+		qDebug() << "YEAAAAAAAAAAAAAAAAAAH";
 		twoDModel->switchToDocked();
 	}
 }

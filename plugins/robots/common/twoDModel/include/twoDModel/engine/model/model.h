@@ -87,7 +87,6 @@ public:
 
 	/// Activates or deactivates constraints checker.
 	void setConstraintsEnabled(bool enabled);
-
 signals:
 	/// Emitted each time when some user actions lead to world model modifications
 	/// @param xml World model description in xml format
@@ -104,6 +103,8 @@ signals:
 	/// Emitted after robot model removed
 	/// @param robotModel Pointer to robot model which was added
 	void robotRemoved(RobotModel *robotModel);
+
+	void settingsChanged();
 
 private slots:
 	void resetPhysics();

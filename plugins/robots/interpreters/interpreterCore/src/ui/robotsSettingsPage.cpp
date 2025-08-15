@@ -334,6 +334,7 @@ void RobotsSettingsPage::changeRobotModel(QAbstractButton * const robotModelButt
 		QList<AdditionalPreferences *> const selectedKitPreferences = kitPlugin->settingsWidgets();
 		for (AdditionalPreferences * const selectedKitPreference: selectedKitPreferences) {
 			if (selectedKitPreference) {
+				qDebug() << "selectedKitPreference" << selectedKitPreference;
 				selectedKitPreference->onRobotModelChanged(selectedRobotModel);
 			}
 		}

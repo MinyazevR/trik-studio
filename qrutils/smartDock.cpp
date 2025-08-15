@@ -22,7 +22,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
-
+#include <QDebug>
 #include <qrutils/widgets/qRealDialog.h>
 #include <qrgui/plugins/toolPluginInterface/usedInterfaces/editorInterface.h>
 
@@ -109,6 +109,7 @@ void SmartDock::switchToFloatingQuietly()
 void SmartDock::attachToMainWindow(Qt::DockWidgetArea area)
 {
 	if (!mMainWindow) {
+		qDebug() << "not attachToMainWindow";
 		return;
 	}
 
@@ -116,9 +117,11 @@ void SmartDock::attachToMainWindow(Qt::DockWidgetArea area)
 	setParent(mMainWindow);
 	mMainWindow->addDockWidget(area, this);
 	if (mCurrentMode == Mode::Docked) {
+		qDebug() << "Mode 1";
 		mCurrentMode = Mode::Floats;
 		switchToDockedQuietly();
 	} else {
+		qDebug() << "Mode 2";
 		mCurrentMode = Mode::Docked;
 		switchToFloatingQuietly();
 	}

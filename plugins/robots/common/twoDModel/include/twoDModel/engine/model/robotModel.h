@@ -173,6 +173,7 @@ public slots:
 signals:
 	void positionChanged(const QPointF &newPosition);
 	void rotationChanged(qreal newRotation);
+	void sizeChanged(RobotModel &);
 
 	void deserialized(QPointF newPosition, qreal newRotation);
 

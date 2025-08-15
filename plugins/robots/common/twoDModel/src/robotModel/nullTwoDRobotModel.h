@@ -42,6 +42,8 @@ public:
 	kitBase::robotModel::PortInfo defaultRightWheelPort() const override;
 
 	engine::TwoDModelDisplayWidget *displayWidget() const override;
+	void setPixelsInCm(const qreal pixelsInCm) override;
+	void setSize(const QSizeF &size) override;
 
 	qreal mass() const override;
 	qreal friction() const override;

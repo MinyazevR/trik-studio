@@ -35,6 +35,13 @@ public:
 	/// Returns the orientation of this ruler.
 	Qt::Orientation orientation() const;
 
+	enum class Unit {
+		Pixels
+		, Centimeters
+		, Meters
+		, Millimeters
+	};
+
 public slots:
 	/// Returns the orientation of this ruler.
 	void setOrientation(Qt::Orientation orientation);
@@ -42,6 +49,8 @@ public slots:
 	/// Reconfigures ruller to calculate distances in other metrics. The distance between grid lines in pixels
 	/// stays the same, but values in centimeters modified.
 	void setPixelsInCm(qreal pixelsInCm);
+
+	void setUnit(const Ruler::Unit &unit);
 
 	/// Configures this ruller to work with the given graphics view.
 	void setScene(QGraphicsView *scene);
@@ -55,11 +64,12 @@ private:
 	QPointF makePoint(qreal relevantCoordinate, qreal irrelevantCoordinate) const;
 	QPointF drawingPoint(qreal relevantCoordinate, const QSizeF &textSize) const;
 	QRectF textBoundingRect(const QString &text) const;
-
+	qreal countCoeff();
 	Qt::Orientation mOrientation;
 	qreal mPixelsInCm;
 	QGraphicsView *mView {};  // Doesn`t take owership
 	QFont mFont;
+	Unit mUnit;
 };
 
 }

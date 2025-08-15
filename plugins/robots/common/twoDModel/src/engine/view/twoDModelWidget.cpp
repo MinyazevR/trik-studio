@@ -93,6 +93,11 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 	mUi->enableSensorNoiseCheckBox->setChecked(mModel.settings().realisticSensors());
 	mUi->enableMotorNoiseCheckBox->setChecked(mModel.settings().realisticMotors());
 	changePhysicsSettings();
+	updatePixelInCm(mModel.settings().pixelsInCm());
+	auto models = mModel.robotModels();
+	if (!models.isEmpty()) {
+		updateModelProperties(*models[0]);
+	}
 
 	connect(&*mScene, &TwoDModelScene::selectionChanged, this, &TwoDModelWidget::onSelectionChange);
 	connect(&*mScene, &TwoDModelScene::mousePressed, this, &TwoDModelWidget::refreshCursor);
@@ -108,6 +113,8 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 
 	connect(&mModel.settings(), &Settings::physicsChanged
 			, this, [this]() { updateUIPhysicsSettings(); });
+
+	connect(&mModel.settings(), &Settings::pixelInCmChanged, this, &TwoDModelWidget::updatePixelInCm);
 
 	connect(&mModel.timeline(), &Timeline::started, this, [this]() {
 		if (mRobotPositionReadOnly) {
@@ -131,6 +138,7 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 		// Setting value in percents
 		mSpeedPopup->setSpeed(100 / speedFactors[defaultSpeedFactorIndex] * value);
 	});
+
 	setRunStopButtonsVisibility();
 
 	mUi->palette->unselect();
@@ -140,31 +148,52 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 	mModel.timeline().setSpeedFactor(speedFactors[defaultSpeedFactorIndex]);
 	checkSpeedButtons();
 	mUi->timelineBox->setSingleStep(Timeline::timeInterval * 0.001);
-
 	mUi->horizontalRuler->setScene(mUi->graphicsView);
 	mUi->verticalRuler->setScene(mUi->graphicsView);
-	mUi->horizontalRuler->setPixelsInCm(pixelsInCm);
-	mUi->verticalRuler->setPixelsInCm(pixelsInCm);
-
-	/// @todo: make some values editable
 	mUi->detailsTab->setParamsSettings(mUi->physicsParamsFrame);
-	mUi->wheelDiamInCm->setValue(robotWheelDiameterInCm);
 	mUi->wheelDiamInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
-	mUi->robotHeightInCm->setValue(robotHeight / pixelsInCm); // Not sure if correct
 	mUi->robotHeightInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
-	mUi->robotWidthInCm->setValue(robotWidth / pixelsInCm);
 	mUi->robotWidthInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
-	mUi->robotMassInGr->setValue(robotMass);
 	mUi->robotMassInGr->setButtonSymbols(QAbstractSpinBox::NoButtons);
+
+//	for (auto &&model : mModel.robotModels()) {
+//		connect(model, &twoDModel::model::RobotModel::sizeChanged,
+//		                mScene.data(), &TwoDModelScene::reinitModel);
+//	}
 
 	connect(&mModel, &model::Model::robotAdded, [this](){
 		auto robotModels = mModel.robotModels();
-		auto robotTrack = robotModels.isEmpty() || robotModels[0]->info().wheelsPosition().size() < 2 ? robotWidth
+		// todo: lol
+		auto robotTrack = robotModels.isEmpty() ||
+		                robotModels[0]->info().wheelsPosition().size() < 2 ? robotModels[0]->info().size().width()
 				: qAbs(robotModels[0]->info().wheelsPosition()[0].y() - robotModels[0]->info().wheelsPosition()[1].y());
-		mUi->robotTrackInCm->setValue(robotTrack / pixelsInCm);
+		mUi->robotTrackInCm->setValue(robotTrack / mModel.settings().pixelsInCm());
 	});
-	mUi->robotTrackInCm->setValue(robotWidth / pixelsInCm);
+
 	mUi->robotTrackInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
+}
+
+void TwoDModelWidget::updatePixelInCm(const qreal pixelsInCm)
+{
+	/// @todo: make some values editable
+	mUi->pixelsInCmDoubleSpinBox->setValue(pixelsInCm);
+	mUi->horizontalRuler->setPixelsInCm(pixelsInCm);
+	mUi->verticalRuler->setPixelsInCm(pixelsInCm);
+	Q_EMIT mUi->gridParametersBox->parametersChanged();
+	mScene->update();
+}
+
+void TwoDModelWidget::updateModelProperties(model::RobotModel &robotModel)
+{
+	auto &settings = mModel.settings();
+	auto robotSize = robotModel.info().size();
+	auto pixelsInCm = settings.pixelsInCm();
+	mUi->wheelDiamInCm->setValue(robotModel.info().wheelDiameter() / pixelsInCm);
+	qDebug() << "Try to get value";
+	mUi->robotHeightInCm->setValue(robotSize.height() / pixelsInCm); // Not sure if correct
+	mUi->robotWidthInCm->setValue(robotSize.width() / pixelsInCm);
+	mUi->robotMassInGr->setValue(robotModel.info().mass());
+	mUi->robotTrackInCm->setValue(robotSize.width() / pixelsInCm);
 }
 
 TwoDModelWidget::~TwoDModelWidget()
@@ -322,6 +351,10 @@ void TwoDModelWidget::connectUiButtons()
 	connect(mUi->realisticPhysicsCheckBox, &QAbstractButton::clicked, this, &TwoDModelWidget::changePhysicsSettings);
 	connect(mUi->enableMotorNoiseCheckBox, &QAbstractButton::clicked, this, &TwoDModelWidget::changePhysicsSettings);
 	connect(mUi->enableSensorNoiseCheckBox, &QAbstractButton::clicked, this, &TwoDModelWidget::changePhysicsSettings);
+	connect(mUi->pixelsInCmDoubleSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+	        this, [=](const qreal pixelsInCm) {
+		mModel.settings().setPixelsInCm(pixelsInCm);
+	});
 
 	connect(&mActions->deleteAllAction(), &QAction::triggered, this, [this](){
 		if (QMessageBox::Yes
@@ -367,6 +400,7 @@ void TwoDModelWidget::connectUiButtons()
 
 void TwoDModelWidget::setPortsGroupBoxAndWheelComboBoxes()
 {
+	qDebug() << "setPortsGroupBoxAndWheelComboBoxes";
 	mCurrentConfigurer = new DevicesConfigurationWidget(mUi->portsFrame, true, true);
 	mCurrentConfigurer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 	mCurrentConfigurer->loadRobotModels({ &mSelectedRobotItem->robotModel().info() });
@@ -445,6 +479,7 @@ void TwoDModelWidget::updateUIPhysicsSettings()
 
 void TwoDModelWidget::close()
 {
+	qDebug() << "TwoDModelWidget::close()";
 	setVisible(false);
 }
 
@@ -474,6 +509,7 @@ void TwoDModelWidget::onFirstShow()
 {
 	enableRobotFollowing(SettingsManager::value("2dFollowingRobot").toBool());
 	setCursorType(static_cast<CursorType>(SettingsManager::value("2dCursorType").toInt()));
+	qDebug() << "onFirstShow" << SettingsManager::value("2d_detailsVisible").toBool();
 	setDetailsVisibility(SettingsManager::value("2d_detailsVisible").toBool());
 }
 
@@ -569,6 +605,7 @@ QList<AbstractItem *> TwoDModelWidget::selectedColorItems() const
 void TwoDModelWidget::onSelectionChange()
 {
 	if (!mScene || mScene->oneRobot()) {
+		qDebug() << "robot size is 1";
 		return;
 	}
 
@@ -579,6 +616,7 @@ void TwoDModelWidget::onSelectionChange()
 	for (auto &&item : listSelectedItems) {
 		if (dynamic_cast<RobotItem *>(item)) {
 			robotItem = dynamic_cast<RobotItem *>(item);
+			qDebug() << "selection change" << robotItem->robotModel().info().name();
 			if (oneRobotItem) {
 				if (mSelectedRobotItem) {
 					unsetSelectedRobotItem();
@@ -743,6 +781,7 @@ void TwoDModelWidget::setController(ControllerInterface &controller)
 
 void TwoDModelWidget::setInteractivityFlags(ReadOnlyFlags flags)
 {
+	qDebug() << "SET VISIBLE";
 	const bool worldReadOnly = (flags & ReadOnly::World) != 0;
 
 	mUi->palette->setVisible(!worldReadOnly);
@@ -991,6 +1030,37 @@ bool TwoDModelWidget::setSelectedPort(QComboBox * const comboBox, const PortInfo
 	return false;
 }
 
+void TwoDModelWidget::updateMetricComboBoxes()
+{
+	if (!mSelectedRobotItem) {
+		mUi->metricComboBox->hide();
+		return;
+	}
+
+	static const std::map<QString, Ruler::Unit> availableUnits = {
+	        {"Pixels", Ruler::Unit::Pixels }
+	        , {"Centimeters", Ruler::Unit::Centimeters}
+	        , {"Meters", Ruler::Unit::Meters}
+	        , {"Millimeters", Ruler::Unit::Millimeters}
+	};
+
+	for (auto currentUnit =  availableUnits .begin();
+	     currentUnit != availableUnits.end(); currentUnit++) {
+		mUi->metricComboBox->addItem(currentUnit->first, currentUnit->first);
+	}
+
+	connect(mUi->metricComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged)
+	        , this, [this](int index) {
+		const auto key = mUi->metricComboBox->itemData(index).value<QString>();
+		auto value = availableUnits.find(key);
+		if (value != availableUnits.end()) {
+			mUi->horizontalRuler->setUnit(value->second);
+			mUi->verticalRuler->setUnit(value->second);
+			Q_EMIT mUi->gridParametersBox->parametersChanged();
+		}
+	});
+}
+
 void TwoDModelWidget::updateWheelComboBoxes()
 {
 	if (!mSelectedRobotItem) {
@@ -1051,6 +1121,7 @@ void TwoDModelWidget::updateWheelComboBoxes()
 
 void TwoDModelWidget::onRobotListChange(RobotItem *robotItem)
 {
+	qDebug() << "onRobotListChange(RobotItem *robotItem)";
 	if (mScene->oneRobot()) {
 		setSelectedRobotItem(mScene->robot(*mModel.robotModels()[0]));
 	} else {
@@ -1086,15 +1157,31 @@ void TwoDModelWidget::onRobotListChange(RobotItem *robotItem)
 	}
 }
 
+namespace {
+        static bool isTrikModel(const QString &name) {
+		return name.contains("TrikV62");
+
+	}
+}
+
 void TwoDModelWidget::setSelectedRobotItem(RobotItem *robotItem)
 {
 	mSelectedRobotItem = robotItem;
 
 	connect(&mSelectedRobotItem->robotModel(), &RobotModel::robotRided, this, &TwoDModelWidget::centerOnRobot);
 	connect(&mSelectedRobotItem->robotModel(), &RobotModel::positionChanged, this, &TwoDModelWidget::centerOnRobot);
+	connect(&mSelectedRobotItem->robotModel(), &RobotModel::sizeChanged, this, &TwoDModelWidget::updateModelProperties);
 
 	setPortsGroupBoxAndWheelComboBoxes();
 	updateWheelComboBoxes();
+
+	if (isTrikModel(mSelectedRobotItem->robotModel().info().name())) {
+		mUi->detailsTab->setMetricSettings(mUi->metricFrame);
+		 updateMetricComboBoxes();
+	} else {
+		mUi->detailsTab->setMetricSectionsVisible(false);
+		mUi->metricFrame->hide();
+	}
 
 	mUi->detailsTab->setDisplay(nullptr);
 	mDisplay = mSelectedRobotItem->robotModel().info().displayWidget();

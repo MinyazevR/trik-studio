@@ -16,7 +16,7 @@
 
 #include "twoDModel/engine/model/constants.h"
 #include "src/engine/items/startPosition.h"
-
+#include <QDebug>
 using namespace twoDModel::view;
 using namespace graphicsUtils;
 using namespace twoDModel::model;
@@ -33,6 +33,7 @@ RobotItem::RobotItem(const QString &robotImageFileName, model::RobotModel &robot
 	connect(&mRobotModel, &model::RobotModel::positionChanged, this, &RobotItem::setPos);
 	connect(&mRobotModel, &model::RobotModel::rotationChanged, this, &RobotItem::setRotation);
 	connect(&mRobotModel, &model::RobotModel::playingSoundChanged, this, &RobotItem::setNeededBeep);
+	connect(&mRobotModel, &model::RobotModel::sizeChanged, this, &RobotItem::updateSize);
 
 	connect(&mRobotModel.configuration(), &model::SensorsConfiguration::deviceRemoved, this, &RobotItem::removeSensor);
 	connect(&mRobotModel.configuration(), &model::SensorsConfiguration::positionChanged
@@ -46,35 +47,64 @@ RobotItem::RobotItem(const QString &robotImageFileName, model::RobotModel &robot
 	setAcceptHoverEvents(true);
 	setAcceptDrops(true);
 	setZValue(ZValue::Robot);
-	const QSizeF robotSize = mRobotModel.info().size();
-	setX2(x1() + robotSize.width());
-	setY2(y1() + robotSize.height());
-	mMarkerPoint = mRobotModel.info().rotationCenter();
+
+	updateSize(robotModel);
 	QPen pen(this->pen());
 	pen.setWidth(defaultTraceWidth);
 	setPen(pen);
 
-	setTransformOriginPoint(mRobotModel.info().robotCenter());
-	mBeepItem.setParentItem(this);
-	mBeepItem.setPos((robotSize.width() - beepWavesSize) / 2, (robotSize.height() - beepWavesSize) / 2);
 	mBeepItem.setVisible(false);
 
 	RotateItem::init();
 
 	QHash<kitBase::robotModel::PortInfo, kitBase::robotModel::DeviceInfo> sensors = robotModel.info().specialDevices();
 	for (const kitBase::robotModel::PortInfo &port : sensors.keys()) {
+		qDebug() << "port.toString();" << port.toString();
 		const kitBase::robotModel::DeviceInfo device = sensors[port];
 		SensorItem *sensorItem = new SensorItem(robotModel.configuration(), port
-				, robotModel.info().sensorImagePath(device), robotModel.info().sensorImageRect(device));
+		                , robotModel.info().sensorImagePath(device), robotModel.info().sensorImageRect(device));
 		addSensor(port, sensorItem);
 
 		const QPair<QPoint, qreal> configuration(robotModel.info().specialDeviceConfiguration(port));
 		QPoint position(configuration.first.x() * boundingRect().width() / 2
-				, configuration.first.y() * boundingRect().height() / 2);
+		                , configuration.first.y() * boundingRect().height() / 2);
 		sensorItem->setPos(position + boundingRect().center());
 		sensorItem->setRotation(configuration.second);
 	}
 	savePos();
+}
+
+
+void RobotItem::setSize()
+{
+	const QSizeF robotSize = mRobotModel.info().size();
+	setX2(x1() + robotSize.width());
+	setY2(y1() + robotSize.height());
+	mMarkerPoint = mRobotModel.info().rotationCenter();
+	setTransformOriginPoint(mRobotModel.info().robotCenter());
+	setTransformOriginPoint(mRobotModel.info().robotCenter());
+	mBeepItem.setParentItem(this);
+	mBeepItem.setPos((robotSize.width() - beepWavesSize) / 2, (robotSize.height() - beepWavesSize) / 2);
+}
+
+void RobotItem::reconfigureSpecialDevices(model::RobotModel &robotModel)
+{
+	QHash<kitBase::robotModel::PortInfo, kitBase::robotModel::DeviceInfo> sensors = robotModel.info().specialDevices();
+	for (const kitBase::robotModel::PortInfo &port : sensors.keys()) {
+		auto sensorItem = mSensors[port];
+		const QPair<QPoint, qreal> configuration(robotModel.info().specialDeviceConfiguration(port));
+		QPoint position(configuration.first.x() * boundingRect().width() / 2
+		                , configuration.first.y() * boundingRect().height() / 2);
+		sensorItem->setPos(position + boundingRect().center());
+		sensorItem->setRotation(configuration.second);
+	}
+}
+
+void RobotItem::updateSize(model::RobotModel &robotModel)
+{
+	setSize();
+	reconfigureSpecialDevices(robotModel);
+
 }
 
 void RobotItem::drawItem(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

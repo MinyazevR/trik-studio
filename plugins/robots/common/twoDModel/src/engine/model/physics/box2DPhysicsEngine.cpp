@@ -40,7 +40,7 @@ const qreal scaleCoeff = 0.001;
 Box2DPhysicsEngine::Box2DPhysicsEngine (const WorldModel &worldModel
 		, const QList<RobotModel *> &robots)
 	: PhysicsEngineBase(worldModel, robots)
-	, mPixelsInCm(worldModel.pixelsInCm() * scaleCoeff)
+        , mPixelsInCm(worldModel.settings().pixelsInCm() * scaleCoeff)
 	, mPrevPosition(b2Vec2{0, 0})
 	, mPrevAngle(0)
 {
@@ -55,6 +55,8 @@ Box2DPhysicsEngine::Box2DPhysicsEngine (const WorldModel &worldModel
 			this, [this](const QSharedPointer<QGraphicsItem> &i) {itemAdded(i.data());});
 	connect(&worldModel, &model::WorldModel::itemRemoved,
 			this, [this](const QSharedPointer<QGraphicsItem> &i) {itemRemoved(i.data());});
+	connect(&worldModel.settings(), &Settings::pixelInCmChanged,
+	        this, &Box2DPhysicsEngine::onPixelsInCmChanged);
 }
 
 Box2DPhysicsEngine::~Box2DPhysicsEngine(){
@@ -116,6 +118,10 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
 
 	connect(robot, &model::RobotModel::rotationChanged, this, [&] (const qreal newAngle){
 		onRobotStartAngleChanged(newAngle, dynamic_cast<model::RobotModel *>(sender()));
+	});
+
+	connect(robot, &model::RobotModel::sizeChanged, this, [&] () {
+		onRobotSizeChanged(dynamic_cast<model::RobotModel *>(sender()));
 	});
 
 	QTimer::singleShot(10, this, [this, robot]() {
@@ -185,6 +191,15 @@ void Box2DPhysicsEngine::onRobotStartAngleChanged(const qreal newAngle, model::R
 	}
 
 	mBox2DRobots[robot]->setRotation(angleToBox2D(newAngle));
+}
+
+void Box2DPhysicsEngine::onRobotSizeChanged(model::RobotModel *robot)
+{
+	if (!mBox2DRobots.contains(robot)) {
+		return;
+	}
+
+	mBox2DRobots[robot]->setWidthOrHeight();
 }
 
 void Box2DPhysicsEngine::onMouseReleased(const QPointF &newPos, qreal newAngle)

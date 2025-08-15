@@ -37,6 +37,7 @@ Box2DRobot::Box2DRobot(Box2DPhysicsEngine *engine, twoDModel::model::RobotModel 
 	mBodyId = b2CreateBody(engine->box2DWorldId(), &bodyDef);
 	b2ShapeDef fixtureDef = b2DefaultShapeDef();
 	fixtureDef.material.restitution = 0.6f;
+	// todo: reinit
 	fixtureDef.material.friction = mModel->info().friction();
 	QPolygonF collidingPolygon = mModel->info().collidingPolygon();
 	QPointF localCenter = collidingPolygon.boundingRect().center();
@@ -47,12 +48,12 @@ Box2DRobot::Box2DRobot(Box2DPhysicsEngine *engine, twoDModel::model::RobotModel 
 	fixtureDef.density = engine->computeDensity(collidingPolygon, mModel->info().mass());
 	b2Hull hull = b2ComputeHull(mPolygon.get(), collidingPolygon.size());
 	b2Polygon polygon = b2MakePolygon(&hull, 0.0f);
-	b2ShapeId polygonShapeId = b2CreatePolygonShape(mBodyId, &fixtureDef, &polygon);
+	mRobotShapeId = b2CreatePolygonShape(mBodyId, &fixtureDef, &polygon);
 	b2Body_SetUserData(mBodyId, this);
 	b2Body_SetAngularDamping(mBodyId, 1.0f);
 	b2Body_SetLinearDamping(mBodyId, 1.0f);
 	connectWheels();
-	auto finalPolygon = b2Shape_GetPolygon(polygonShapeId);
+	auto finalPolygon = b2Shape_GetPolygon(mRobotShapeId);
 
 	for (int i = 0; i < finalPolygon.count; ++i) {
 		auto position = b2Body_GetPosition(mBodyId);
@@ -62,6 +63,20 @@ Box2DRobot::Box2DRobot(Box2DPhysicsEngine *engine, twoDModel::model::RobotModel 
 	if (!mDebuggingDrawPolygon.isEmpty() && !mDebuggingDrawPolygon.isClosed()) {
 		mDebuggingDrawPolygon.append(mDebuggingDrawPolygon.first());
 	}
+}
+
+void Box2DRobot::setWidthOrHeight()
+{
+	QPolygonF collidingPolygon = mModel->info().collidingPolygon();
+	QPointF localCenter = collidingPolygon.boundingRect().center();
+	mPolygon.reset(new b2Vec2[collidingPolygon.size()]);
+	for (int i = 0; i < collidingPolygon.size(); ++i) {
+		mPolygon[i] = mEngine->positionToBox2D(collidingPolygon.at(i) - localCenter);
+	}
+	b2Hull hull = b2ComputeHull(mPolygon.get(), collidingPolygon.size());
+	b2Polygon polygon = b2MakePolygon(&hull, 0.0f);
+	// b2DestroyShape(mRobotShapeId, true);
+	b2Shape_SetPolygon(mRobotShapeId, &polygon);
 }
 
 Box2DRobot::~Box2DRobot() {

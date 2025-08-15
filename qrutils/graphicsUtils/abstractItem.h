@@ -74,7 +74,7 @@ public:
 
 	static QIcon loadThemedIcon(const QString& path, const QColor& color);
 	static QIcon loadTextColorIcon(const QString& path);
-
+	static qreal toPx(const QString &size, const int pixelsInCm);
 	QPen pen() const;
 	QBrush brush() const;
 	void setBrush(const QBrush &brush);

@@ -47,10 +47,12 @@ using namespace model;
 QGraphicsPathItem *debugPath = nullptr;
 #endif
 
-WorldModel::WorldModel()
-	: mXmlFactory(new QDomDocument)
+WorldModel::WorldModel(Settings &settings)
+        : mSettings(settings)
+        , mXmlFactory(new QDomDocument)
 	, mErrorReporter(nullptr)
 {
+	// todo:
 }
 
 WorldModel::~WorldModel() = default;
@@ -60,9 +62,9 @@ void WorldModel::init(qReal::ErrorReporterInterface &errorReporter)
 	mErrorReporter = &errorReporter;
 }
 
-qreal WorldModel::pixelsInCm() const
+Settings &WorldModel::settings() const
 {
-	return twoDModel::pixelsInCm;
+	return mSettings;
 }
 
 QVector<int> WorldModel::lidarReading(const QPointF &position, qreal direction, int maxDistance, qreal maxAngle) const
@@ -77,7 +79,7 @@ QVector<int> WorldModel::lidarReading(const QPointF &position, qreal direction, 
 		for (int j = 0; j < intersection.elementCount(); j++) {
 			auto el = intersection.elementAt(j);
 			if (el.type != QPainterPath::CurveToDataElement) {
-				auto lenght = QLineF(position, QPointF(el)).length() / pixelsInCm();
+				auto lenght = QLineF(position, QPointF(el)).length() / mSettings.pixelsInCm();
 				if (lenght < currentRangeInCm) {
 					currentRangeInCm = static_cast<int>(lenght);
 				}
@@ -129,7 +131,7 @@ QPainterPath WorldModel::rangeSensorScanningRegion(const QPointF &position, qrea
 		, QPair<qreal,int> angleAndRange) const
 {
 	const qreal rayWidthDegrees = angleAndRange.first;
-	const qreal rangeInPixels = angleAndRange.second * pixelsInCm();
+	const qreal rangeInPixels = angleAndRange.second * mSettings.pixelsInCm();
 
 	QPainterPath rayPath;
 	rayPath.arcTo(QRectF(-rangeInPixels, -rangeInPixels, 2 * rangeInPixels, 2 * rangeInPixels)

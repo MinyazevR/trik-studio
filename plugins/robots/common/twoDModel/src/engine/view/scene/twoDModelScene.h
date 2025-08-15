@@ -139,6 +139,8 @@ public slots:
 	/// Reread sensor configuration on given port, delete old sensor item and create new.
 	void reinitSensor(RobotItem *robotItem, const kitBase::robotModel::PortInfo &port);
 
+	void reinitModel(model::RobotModel *robotModel);
+
 signals:
 	/// Emitted each time when user presses mouse button somewhere on the scene.
 	void mousePressed();

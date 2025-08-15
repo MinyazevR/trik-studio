@@ -18,9 +18,10 @@
 #include <qrgui/plugins/toolPluginInterface/usedInterfaces/errorReporterInterface.h>
 #include <qrgui/plugins/toolPluginInterface/usedInterfaces/logicalModelAssistInterface.h>
 #include <kitBase/interpreterControlInterface.h>
-
+#include <iostream>
+#include <QThread>
 #include "src/engine/constraints/constraintsChecker.h"
-#include "src/robotModel/nullTwoDRobotModel.h"
+// #include "twoDModel/robotModel/nullTwoDRobotModel.h"
 #include "src/engine/items/startPosition.h"
 #include "physics/simplePhysicsEngine.h"
 #include "physics/box2DPhysicsEngine.h"
@@ -31,7 +32,8 @@ static auto XML_VERSION = "20190819";
 
 Model::Model(QObject *parent)
 	: QObject(parent)
-	, mChecker(nullptr)
+        , mWorldModel(mSettings)
+        , mChecker(nullptr)
 	, mErrorReporter(nullptr)
 	, mRealisticPhysicsEngine(nullptr)
 	, mSimplePhysicsEngine(nullptr)
@@ -145,9 +147,13 @@ QDomDocument Model::serialize() const
 
 void Model::deserialize(const QDomDocument &model)
 {
+	std::cerr << "AAAAAAAAAAAAAAAAAAA";
+	//QThread::sleep(5);
 	const auto &settings = model.documentElement().firstChildElement("settings");
 	mSettings.deserialize(settings);
-
+	std::cerr << "BBBBBBBBBBBBBBBBBBBBB";
+	//QThread::sleep(5);
+	mRobotModel->info().setPixelsInCm(mSettings.pixelsInCm());
 	if (mChecker) {
 		const auto &constraints = model.documentElement().firstChildElement("constraints");
 		/// @todo: should we handle if it returned false?
@@ -161,6 +167,7 @@ void Model::deserialize(const QDomDocument &model)
 
 	const auto &robotsList = model.elementsByTagName("robots");
 	if (!mRobotModel || robotsList.isEmpty()) return;
+
 	mRobotModel->reinit();
 	for (QDomElement element = robotsList.at(0).firstChildElement("robot")
 			; !element.isNull(); element = element.nextSiblingElement("robot")) {
@@ -187,11 +194,18 @@ void Model::addRobotModel(robotModel::TwoDRobotModel &robotModel, const QPointF 
 	connect(&mTimeline, &Timeline::tick, mRobotModel, &RobotModel::recalculateParams);
 	connect(&mTimeline, &Timeline::nextFrame, mRobotModel, &RobotModel::nextFragment);
 
+	connect(&mSettings, &Settings::pixelInCmChanged, this, [this](const qreal pixelInCm) {
+		mRobotModel->info().setPixelsInCm(pixelInCm);
+	});
+
+	qDebug() << "3";
 	mRobotModel->setPhysicalEngine(mSettings.realisticPhysics() ? *mRealisticPhysicsEngine : *mSimplePhysicsEngine);
 
 	mWorldModel.setRobotModel(mRobotModel);
 
+	qDebug() << "4";
 	emit robotAdded(mRobotModel);
+	qDebug() << "5";
 }
 
 void Model::removeRobotModel()
@@ -242,7 +256,7 @@ void Model::initPhysics()
 	connect(&mTimeline, &Timeline::stopped, mRealisticPhysicsEngine, &physics::PhysicsEngineBase::clearForcesAndStop);
 	connect(&mTimeline, &Timeline::tick, this, &Model::recalculatePhysicsParams);
 	connect(&mTimeline, &Timeline::nextFrame
-			, mRealisticPhysicsEngine, &physics::PhysicsEngineBase::nextFrame, Qt::UniqueConnection);
+	        , mRealisticPhysicsEngine, &physics::PhysicsEngineBase::nextFrame, Qt::UniqueConnection);
 }
 
 void Model::recalculatePhysicsParams()

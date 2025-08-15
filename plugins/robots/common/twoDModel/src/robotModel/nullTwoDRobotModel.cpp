@@ -65,6 +65,19 @@ qreal NullTwoDRobotModel::mass() const
 	return 0.3;  // 300 grams
 }
 
+void NullTwoDRobotModel::setPixelsInCm(const qreal pixelsInCm)
+{
+	Q_UNUSED(pixelsInCm);
+	Q_EMIT sizeParametersChanged();
+}
+
+void NullTwoDRobotModel::setSize(const QSizeF &size)
+{
+	Q_UNUSED(size);
+	Q_EMIT sizeParametersChanged();
+}
+
+
 qreal NullTwoDRobotModel::friction() const
 {
 	return 0.3;

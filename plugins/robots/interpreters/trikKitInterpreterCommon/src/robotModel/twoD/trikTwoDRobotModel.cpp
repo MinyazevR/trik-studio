@@ -50,13 +50,20 @@ using namespace trik::robotModel;
 using namespace trik::robotModel::twoD;
 using namespace kitBase::robotModel;
 
+namespace {
+        static constexpr qreal defaultPixelsInCm = 16.0f / 5.6f;
+	static constexpr qreal defaultRobotHeightInCm = 17.5f;
+	static constexpr qreal defaultRobotWidthInCm = 17.5f;
+}
+
 TrikTwoDRobotModel::TrikTwoDRobotModel(RobotModelInterface &realModel)
 	: twoDModel::robotModel::TwoDRobotModel(realModel)
 	, mLeftWheelPort("M3")
 	, mRightWheelPort("M4")
 	, mDisplayWidget(new TrikDisplayWidget())
-	, mCollidingPolygon({QPointF(1, 10), QPointF(47, 10), QPointF(49, 20)
-			, QPointF(49, 30), QPointF(47, 40), QPointF(1, 40)})
+        , mPixelsInCm(defaultPixelsInCm)
+        , mRobotSize{mPixelsInCm * defaultRobotWidthInCm,
+                               mPixelsInCm * defaultRobotHeightInCm}
 {
 	/// @todo: One day we will support gamepad in 2D model and there will be piece.
 	/// But till that day gamepad ports must be killed cause they spam logs.
@@ -66,6 +73,18 @@ TrikTwoDRobotModel::TrikTwoDRobotModel(RobotModelInterface &realModel)
 			removeAllowedConnections(port);
 		}
 	}
+}
+
+void TrikTwoDRobotModel::setPixelsInCm(const qreal pixelsInCm)
+{
+	const auto robotCmSize = mRobotSize / mPixelsInCm;
+	qDebug() << "robotCmSize:" << robotCmSize;
+	mPixelsInCm = pixelsInCm;
+	auto width = mPixelsInCm * robotCmSize.width();
+	auto height = mPixelsInCm * robotCmSize.height();
+	qDebug() << "new size: " << mRobotSize;
+	mRobotSize = {width, height};
+	Q_EMIT sizeParametersChanged();
 }
 
 QPair<qreal, int> TrikTwoDRobotModel::rangeSensorAngleAndDistance
@@ -207,7 +226,7 @@ void TrikTwoDRobotModel::setWheelPorts(const QString &leftWheelPort, const QStri
 QRect TrikTwoDRobotModel::sensorImageRect(const kitBase::robotModel::DeviceInfo &deviceType) const
 {
 	if (deviceType.isA<robotParts::TouchSensor>()) {
-			return QRect(-12, -5, 25, 10);
+		return QRect(-12, -5, 25, 10);
 	} else if (deviceType.isA<robotParts::LightSensor>()) {
 		return QRect(-6, -6, 12, 12);
 	} else if (deviceType.isA<robotModel::parts::TrikInfraredSensor>()) {
@@ -236,7 +255,38 @@ QPair<QPoint, qreal> TrikTwoDRobotModel::specialDeviceConfiguration(const PortIn
 
 QPolygonF TrikTwoDRobotModel::collidingPolygon() const
 {
-	return mCollidingPolygon;
+	/* default:
+	 * {
+	 *	QPointF(1, 10),
+	 *	QPointF(47, 10),
+	 *	QPointF(49, 20),
+	 *	QPointF(49, 30),
+	 *	QPointF(47, 40),
+	 *	QPointF(1, 40)
+	 * }
+	*/
+
+	static constexpr qreal firstWidthRoundingWidthFactorPx = 47.0f / 50.0;
+	static constexpr qreal secondWidthRoundingWidthFactorPx = 49.0f / 50.0;
+	static constexpr qreal heightRoundingWidthFactorPx = 10.0f / 50.0;
+
+	const auto currentWidth = mRobotSize.width();
+	const auto currentHeight = mRobotSize.height();
+	const auto heightStep = heightRoundingWidthFactorPx * currentHeight;
+
+	return QPolygonF({
+	        QPointF{1, heightStep},
+	        QPointF{firstWidthRoundingWidthFactorPx * currentWidth, heightStep},
+	        QPointF{secondWidthRoundingWidthFactorPx * currentWidth, 2 * heightStep},
+	        QPointF{secondWidthRoundingWidthFactorPx * currentWidth, 3 * heightStep},
+	        QPointF{firstWidthRoundingWidthFactorPx * currentWidth, 4 * heightStep},
+	        QPointF{1, 4 * heightStep}
+	});
+}
+
+qreal TrikTwoDRobotModel::wheelDiameter() const
+{
+	return 16.0f / 50.0f * mRobotSize.width();
 }
 
 qreal TrikTwoDRobotModel::mass() const
@@ -256,7 +306,26 @@ qreal TrikTwoDRobotModel::onePercentAngularVelocity() const
 
 QList<QPointF> TrikTwoDRobotModel::wheelsPosition() const
 {
-	return {QPointF(10, 3), QPointF(10, 47)};
+	static constexpr qreal firstFactorPx = 3.0f / 50.0;
+	static constexpr qreal secondFactorPx = 47.0f / 50.0;
+	static constexpr qreal widthFactorPx = 10.0f / 50.0;
+
+	const auto currentWidth = mRobotSize.width();
+	const auto currentHeight = mRobotSize.height();
+
+	return {QPointF(widthFactorPx * currentWidth, firstFactorPx * currentHeight),
+		                QPointF(10, secondFactorPx * currentHeight)};
+}
+
+QSizeF TrikTwoDRobotModel::size() const
+{
+	return mRobotSize;
+}
+
+void TrikTwoDRobotModel::setSize(const QSizeF &size)
+{
+	mRobotSize = size;
+	Q_EMIT sizeParametersChanged();
 }
 
 QHash<QString, int> TrikTwoDRobotModel::buttonCodes() const

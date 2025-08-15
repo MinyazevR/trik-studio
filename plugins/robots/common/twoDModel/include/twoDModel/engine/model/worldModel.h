@@ -21,7 +21,7 @@
 #include <QtGui/QPolygon>
 #include <QtWidgets/QGraphicsPathItem>
 #include <QtXml/QDomDocument>
-
+#include "settings.h"
 #include "twoDModel/engine/model/image.h"
 #include "twoDModel/twoDModelDeclSpec.h"
 
@@ -51,13 +51,13 @@ class TWO_D_MODEL_EXPORT WorldModel : public QObject
 	Q_OBJECT
 
 public:
-	WorldModel();
+	WorldModel(Settings &settings);
 	~WorldModel();
 
 	void init(qReal::ErrorReporterInterface &errorReporter);
 
 	/// Returns a number of pixels in 1 cm. This value may change, pixelsInCmChanged() signal will then be emitted.
-	qreal pixelsInCm() const;
+	Settings &settings() const;
 
 	/// Measures the distance between robot and wall
 	Q_INVOKABLE int rangeReading(const QPointF &position, qreal direction, int maxDistance, qreal maxAngle) const;
@@ -263,6 +263,7 @@ private:
 	QMap<QString, QSharedPointer<model::Image>> mImages;
 	QMap<QString, QSharedPointer<items::CommentItem>> mComments;
 	RobotModel * mRobotModel {}; // Doesn't take ownership
+	Settings &mSettings;
 	QMap<QString, int> mOrder;
 	QList<QSharedPointer<QGraphicsPathItem>> mRobotTrace;
 	QRect mBackgroundRect;

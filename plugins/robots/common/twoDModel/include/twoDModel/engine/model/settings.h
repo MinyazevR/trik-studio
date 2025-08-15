@@ -15,7 +15,7 @@
 #pragma once
 
 #include <QtCore/QObject>
-
+#include "constants.h"
 #include "twoDModel/twoDModelDeclSpec.h"
 
 class QDomElement;
@@ -40,24 +40,34 @@ public:
 	/// Returns true is user wants to add some noise to motors work.
 	bool realisticMotors() const;
 
+	qreal pixelsInCm() const;
+
 	void serialize(QDomElement &parent) const;
 
 	void deserialize(const QDomElement &parent);
 
 	void setRealisticPhysics(bool set);
 
+	void setPixelsInCm(const qreal pixelsInCm);
+
 	void setRealisticSensors(bool set);
 
 	void setRealisticMotors(bool set);
+
+	int pxPercision() const;
 
 signals:
 	/// Emitted each time when user modifies physical preferences.
 	void physicsChanged(bool isRealistic);
 
+	/// Emitted each time when user modifies physical preferences.
+	void pixelInCmChanged(const qreal pixelInCm);
+
 private:
 	bool mRealisticPhysics { false };
 	bool mRealisticSensors { false };
 	bool mRealisticMotors { false };
+	qreal mPixelsInCm { twoDModel::pixelsInCm };
 };
 
 }

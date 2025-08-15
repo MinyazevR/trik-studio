@@ -17,7 +17,7 @@
 #include <qmath.h>
 #include <QtCore/QtMath>
 #include <QtGui/QTransform>
-
+#include <QDebug>
 #include <qrutils/mathUtils/math.h>
 
 #include <kitBase/robotModel/robotParts/encoderSensor.h>
@@ -31,6 +31,7 @@
 #include "physics/physicsEngineBase.h"
 
 #include "src/engine/items/startPosition.h"
+#include <qrutils/graphicsUtils/abstractItem.h>
 
 using namespace twoDModel::model;
 using namespace kitBase::robotModel;
@@ -50,6 +51,10 @@ RobotModel::RobotModel(robotModel::TwoDRobotModel &robotModel
 	, mStartPositionMarker(new items::StartPosition(info().size()))
 {
 	reinit();
+	connect(&mRobotModel, &twoDModel::robotModel::TwoDRobotModel::sizeParametersChanged,
+	        this, [this](){
+		        Q_EMIT sizeChanged(*this);
+	});
 }
 
 RobotModel::~RobotModel() = default;
@@ -57,9 +62,10 @@ RobotModel::~RobotModel() = default;
 void RobotModel::reinit()
 {
 	mMotors.clear();
+	auto robotWheelDiameterPx = 8.0f / 50.0f * mRobotModel.size().width();
 	for (const Device * const device : mRobotModel.configuration().devices()) {
 		if (device->deviceInfo().isA<robotParts::Motor>()) {
-			initMotor(robotWheelDiameterInPx / 2, 0, 0, device->port(), false);
+			initMotor(robotWheelDiameterPx / 2, 0, 0, device->port(), false);
 		}
 	}
 
@@ -77,6 +83,7 @@ void RobotModel::clear()
 
 void RobotModel::returnToStartMarker()
 {
+	qDebug() << "returnToStartMarker postition:" << mStartPositionMarker->pos() - mRobotModel.robotCenter();
 	setRotation(mStartPositionMarker->rotation());
 	setPosition(mStartPositionMarker->pos() - mRobotModel.robotCenter());
 }
@@ -460,12 +467,25 @@ void RobotModel::deserializeWorldModel(const QDomElement &world)
 		robotElement.setTagName("robot");
 		robotElement.setAttribute("position", "0:0");
 		robotElement.setAttribute("direction", "0");
+		robotElement.setAttribute("width", "0");
+		robotElement.setAttribute("height", "0");
 	}
 
 	const QString positionStr = robotElement.attribute("position", "0:0");
+	const QString widthStr = robotElement.attribute("width", "");
+	const QString heightStr = robotElement.attribute("height", "");
 	const QStringList splittedStr = positionStr.split(":");
-	const qreal x = static_cast<qreal>(splittedStr[0].toDouble());
-	const qreal y = static_cast<qreal>(splittedStr[1].toDouble());
+	const qreal x = graphicsUtils::AbstractItem::toPx(splittedStr[0], mSettings.pixelsInCm());
+	const qreal y = graphicsUtils::AbstractItem::toPx(splittedStr[1], mSettings.pixelsInCm());
+	qDebug() << "a: " << widthStr << "b: " << heightStr;
+	if (!widthStr.isEmpty() && !heightStr.isEmpty()) {
+		const qreal width = graphicsUtils::AbstractItem::toPx(widthStr, mSettings.pixelsInCm());
+		const qreal height = graphicsUtils::AbstractItem::toPx(heightStr, mSettings.pixelsInCm());
+		qDebug() << "width: " << width << "height: " << height;
+		mRobotModel.setSize({width, height});
+		mSensorsConfiguration.setRobotSize({width, height});
+	}
+
 	onRobotReturnedOnGround();
 	setPosition(QPointF(x, y));
 	setRotation(robotElement.attribute("direction", "0").toDouble());

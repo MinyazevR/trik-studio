@@ -56,7 +56,7 @@ public:
 
 	void reinitSensor(const view::SensorItem *sensor);
 	void reinitSensors();
-
+	void setWidthOrHeight();
 	void applyForceToCenter(const b2Vec2 &force, bool wake);
 
 	b2BodyId getBodyId();
@@ -79,7 +79,7 @@ private:
 	twoDModel::model::RobotModel * const mModel; // Doesn't take ownership
 	twoDModel::model::physics::Box2DPhysicsEngine *mEngine; // Doesn't take ownership
 	b2WorldId mWorldId; // Doesn't take ownership
-
+	b2ShapeId mRobotShapeId;
 	QScopedArrayPointer<b2Vec2> mPolygon; // Takes ownership
 
 	bool mIsStopping = false;

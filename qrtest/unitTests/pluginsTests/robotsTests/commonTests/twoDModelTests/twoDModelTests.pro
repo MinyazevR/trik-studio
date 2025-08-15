@@ -18,7 +18,7 @@ include(../../../../common.pri)
 
 include(../../../../../../plugins/robots/common/twoDModel/twoDModel.pri)
 
-links(qrgui-preferences-dialog qrgui-text-editor qrgui-controller)
+links(qrgui-preferences-dialog qrgui-text-editor qrgui-controller robots-trik-kit)
 
 INCLUDEPATH += \
 	../../../../../../plugins/robots/common/twoDModel \
@@ -27,9 +27,11 @@ INCLUDEPATH += \
 # Tests
 HEADERS += \
 	$$PWD/engineTests/constraintsTests/constraintsParserTests.h \
+	$$PWD/engineTests/modelTests/modelParserTests.h \
 
 SOURCES += \
 	$$PWD/engineTests/constraintsTests/constraintsParserTests.cpp \
+	$$PWD/engineTests/modelTests/modelParserTests.cpp \
 
 # Support classes
 HEADERS += \

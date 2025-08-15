@@ -146,7 +146,8 @@ protected:
 private slots:
 	void saveWorldModelToRepo();
 	void saveBlobsToRepo();
-
+	void updatePixelInCm(const qreal pixelsInCm);
+	void updateModelProperties(model::RobotModel &);
 	void saveWorldModel();
 	void loadWorldModel();
 	void loadWorldModelWithoutRobot();
@@ -169,7 +170,6 @@ private slots:
 	void setStartMarker();
 
 	void trainingModeChanged(bool enabled);
-
 	void updateUIPhysicsSettings();
 
 private:
@@ -190,7 +190,6 @@ private:
 	};
 
 	static const int defaultPenWidth = 6;
-
 	void connectUiButtons();
 	void setPortsGroupBoxAndWheelComboBoxes();
 	void unsetPortsGroupBoxAndWheelComboBoxes();
@@ -227,6 +226,7 @@ private:
 
 	bool setSelectedPort(QComboBox * const comboBox, const kitBase::robotModel::PortInfo &port);
 	void updateWheelComboBoxes();
+	void updateMetricComboBoxes();
 
 	void onRobotListChange(RobotItem *robotItem);
 

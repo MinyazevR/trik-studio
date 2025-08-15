@@ -57,6 +57,7 @@ public:
 
 	QPolygonF collidingPolygon() const override;
 	qreal mass() const override;
+	qreal wheelDiameter() const override;
 	qreal friction() const override;
 	qreal onePercentAngularVelocity() const override;
 	QList<QPointF> wheelsPosition() const override;
@@ -65,6 +66,10 @@ public:
 	void setWheelPorts(const QString &leftWheelPort, const QString &rightWheelPort);
 
 	QHash<QString, int> buttonCodes() const override;
+
+	QSizeF size() const override;
+	void setSize(const QSizeF &size) override;
+	void setPixelsInCm(const qreal pixelsInCm) override;
 
 	/// Sets the error reporter for writing bubbling messages by shell emulator.
 	void setErrorReporter(qReal::ErrorReporterInterface &errorReporter);
@@ -84,7 +89,8 @@ private:
 	QString mRightWheelPort;
 	twoDModel::engine::TwoDModelDisplayWidget *mDisplayWidget;
 	qReal::ErrorReporterInterface *mErrorReporter {};
-	QPolygonF mCollidingPolygon;
+	qreal mPixelsInCm;
+	QSizeF mRobotSize;
 	trikNetwork::MailboxInterface *mMailbox {}; //ownership TrikKitInterpreterPluginBase
 };
 

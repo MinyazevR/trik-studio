@@ -13,7 +13,6 @@
  * limitations under the License. */
 
 #include "abstractItem.h"
-
 #include <QtCore/QUuid>
 #include <QtGui/QPainter>
 #include <QtWidgets/QMenu>
@@ -497,6 +496,32 @@ QIcon AbstractItem::loadTextColorIcon(const QString& path) {
 	auto text_color = QApplication::palette().color(QPalette::Text);
 	return loadThemedIcon(path, text_color);
 }
+
+qreal AbstractItem::toPx(const QString &size, const int pixelsInCm) {
+	auto idx = size.size();
+	if (size.endsWith("cm")) {
+		idx -= 2;
+	} else if (size.endsWith("mm")) {
+		idx -= 2;
+	} else if (size.endsWith("m")) {
+		idx -= 1;
+	}
+	auto pxString = size.mid(0, idx);
+	auto ok = false;
+	auto number = pxString.toDouble(&ok);
+	if (ok) {
+		if (size.endsWith("cm")) {
+			return number * pixelsInCm;
+		} else if (size.endsWith("mm")) {
+			return number * pixelsInCm * 10.0f;
+		} else if (size.endsWith("m")) {
+			return number * pixelsInCm * 0.1f;
+		}
+		return number;
+	} // todo: else report error
+	return {};
+}
+
 
 void AbstractItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 {

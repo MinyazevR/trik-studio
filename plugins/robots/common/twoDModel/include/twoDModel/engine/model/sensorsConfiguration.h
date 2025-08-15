@@ -37,10 +37,9 @@ public:
 
 	void setPosition(const kitBase::robotModel::PortInfo &port, const QPointF &position);
 	QPointF position(const kitBase::robotModel::PortInfo &port) const;
-
+	void setRobotSize(const QSizeF &robotSize);
 	void setDirection(const kitBase::robotModel::PortInfo &port, qreal direction);
 	qreal direction(const kitBase::robotModel::PortInfo &port) const;
-
 	kitBase::robotModel::DeviceInfo type(const kitBase::robotModel::PortInfo &port) const;
 
 	void clear();
@@ -80,7 +79,7 @@ private:
 
 	QPointF defaultPosition(const kitBase::robotModel::DeviceInfo &device) const;
 
-	const QSizeF mRobotSize;
+	QSizeF mRobotSize;
 	QString mRobotId;
 	QHash<kitBase::robotModel::PortInfo, SensorInfo> mSensorsInfo;
 };

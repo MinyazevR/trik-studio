@@ -33,7 +33,7 @@
 #include <kitBase/robotModel/robotParts/rangeSensor.h>
 #include <kitBase/robotModel/robotParts/vectorSensor.h>
 #include <kitBase/robotModel/robotParts/lidarSensor.h>
-
+#include <QDebug>
 #include "robotItem.h"
 
 #include "twoDModel/engine/model/model.h"
@@ -843,13 +843,17 @@ void TwoDModelScene::clearScene(bool removeRobot, Reason reason)
 		mModel.worldModel().clear();
 
 		for (model::RobotModel *robotModel : mRobots.keys()) {
-			robotModel->clear();
-			if (removeRobot) {
-				for (const kitBase::robotModel::PortInfo &port : configuredPorts(robotModel->info().robotId())) {
-					deviceConfigurationChanged(robotModel->info().robotId()
-							, port, kitBase::robotModel::DeviceInfo(), reason);
+			connect(robotModel, &model::RobotModel::sizeChanged,
+			        this, [this, robotModel, removeRobot, reason](){
+				qDebug() << "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE";
+				robotModel->clear();
+				if (removeRobot) {
+					for (const kitBase::robotModel::PortInfo &port : configuredPorts(robotModel->info().robotId())) {
+						deviceConfigurationChanged(robotModel->info().robotId()
+						                , port, kitBase::robotModel::DeviceInfo(), reason);
+					}
 				}
-			}
+			});
 		}
 
 	}
@@ -1016,6 +1020,13 @@ void TwoDModelScene::centerOnRobot(RobotItem *selectedItem)
 			view->centerOn(robotItem.data());
 		}
 	}
+}
+
+void TwoDModelScene::reinitModel(model::RobotModel *robotModel)
+{
+	qDebug() << "reinitModel";
+	onRobotRemove(robotModel);
+	onRobotAdd(robotModel);
 }
 
 void TwoDModelScene::reinitSensor(RobotItem *robotItem, const kitBase::robotModel::PortInfo &port)

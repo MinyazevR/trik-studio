@@ -16,7 +16,7 @@
 
 #include <qrutils/mathUtils/math.h>
 #include <qrutils/mathUtils/geometry.h>
-
+#include <QDebug>
 #include "twoDModel/engine/model/sensorsConfiguration.h"
 #include "kitBase/robotModel/robotParts/lidarSensor.h"
 
@@ -56,10 +56,16 @@ void SensorsConfiguration::onDeviceConfigurationChanged(const QString &robotId
 
 QPointF SensorsConfiguration::defaultPosition(const DeviceInfo &device) const
 {
+	qDebug() << "defaultPosition:" << mRobotSize;
 	/// @todo: Move it somewhere?
 	return  !device.simulated() || device.isA<kitBase::robotModel::robotParts::LidarSensor>()
 			? QPointF(mRobotSize.width() / 2, mRobotSize.height() / 2)
 			: QPointF(mRobotSize.width() * 3 / 2, mRobotSize.height() / 2);
+}
+
+void SensorsConfiguration::setRobotSize(const QSizeF &robotSize)
+{
+	mRobotSize = robotSize;
 }
 
 QPointF SensorsConfiguration::position(const PortInfo &port) const

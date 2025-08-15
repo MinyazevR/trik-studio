@@ -79,6 +79,12 @@ public:
 	/// By default returns (50, 50).
 	virtual QSizeF size() const;
 
+	virtual qreal wheelDiameter() const;
+
+	virtual void setPixelsInCm(const qreal pixelsInCm);
+
+	virtual void setSize(const QSizeF &size);
+
 	/// Returns a point (pixels) in items coordinates arround which robot rotates.
 	/// By default returns center of wheels.
 	virtual QPointF rotationCenter() const;
@@ -131,6 +137,7 @@ public:
 
 signals:
 	void settingsChanged();
+	void sizeParametersChanged();
 protected:
 	kitBase::robotModel::robotParts::Device *createDevice(
 			const kitBase::robotModel::PortInfo &port
