@@ -177,7 +177,7 @@ jobs:
       uses: MinyazevR/clazy-standalone-action@25c2ed4bdd8b84a6fc3de00e56140c63f6f4cd1f
       with:
         checks: 'level0,level1,level2'
-        database: './compile_commands.json'
+        database: '.'
         fail-on-warning: true
         install-stable: true
         only-diff: true
