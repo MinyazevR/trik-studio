@@ -174,7 +174,7 @@ jobs:
       if: ${{ inputs.build == true }}
 
     - name: Clazy-standalone
-      uses: MinyazevR/clazy-standalone-action@25c2ed4bdd8b84a6fc3de00e56140c63f6f4cd1f
+      uses: MinyazevR/clazy-standalone-action@61fb3b10b25a69176e98d5d5d9cdf04fc1a8d91c
       with:
         checks: 'level0,level1,level2'
         database: '.'
