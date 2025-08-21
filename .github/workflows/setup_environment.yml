@@ -178,7 +178,7 @@ jobs:
       if: ${{ inputs.build == true }}
 
     - name: Clazy-standalone
-      uses: MinyazevR/clazy-standalone-action@105658f67b3e77c4f0909112b36a651e7a1e7ad5
+      uses: MinyazevR/clazy-standalone-action@159916a59eb4d0d606413b9406c3ba28c38f2795
       with:
         checks: 'level0,level1,level2'
         database: 'build'
@@ -186,6 +186,7 @@ jobs:
         install-stable: true
         only-diff: true
         root-dir: ${{ github.workspace }}
+        ignore-header-deps: true
         ignore-external-files: true
         ignore-dirs: '^(buildScripts|thirdparty|installer)$'
       if: ${{ inputs.lint_clazy }}
