@@ -15,8 +15,9 @@
 
 #include <box2d/box2d.h>
 #include <qrutils/graphicsUtils/abstractItem.h>
-
+#include <QDebug>
 #include "twoDModel/engine/model/robotModel.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 #include "twoDModel/engine/model/constants.h"
 #include "twoDModel/engine/model/worldModel.h"
 #include "src/engine/view/scene/twoDModelScene.h"
@@ -35,7 +36,7 @@ using namespace twoDModel::model::physics;
 using namespace parts;
 using namespace mathUtils;
 
-const qreal scaleCoeff = 0.001;
+const qreal scaleCoeff = 1.0f;
 
 Box2DPhysicsEngine::Box2DPhysicsEngine (const WorldModel &worldModel
 		, const QList<RobotModel *> &robots)
@@ -55,6 +56,8 @@ Box2DPhysicsEngine::Box2DPhysicsEngine (const WorldModel &worldModel
 			this, [this](const QSharedPointer<QGraphicsItem> &i) {itemAdded(i.data());});
 	connect(&worldModel, &model::WorldModel::itemRemoved,
 			this, [this](const QSharedPointer<QGraphicsItem> &i) {itemRemoved(i.data());});
+	qDebug() << "b2World_GetRestitutionThreshold" << b2World_GetRestitutionThreshold(mWorldId);
+	b2World_SetRestitutionThreshold(mWorldId, 0.05f);
 }
 
 Box2DPhysicsEngine::~Box2DPhysicsEngine(){
@@ -67,6 +70,7 @@ Box2DPhysicsEngine::~Box2DPhysicsEngine(){
 QVector2D Box2DPhysicsEngine::positionShift(model::RobotModel &robot) const
 {
 	if (!mBox2DRobots.contains(&robot)) {
+		qDebug() << "AAAHAHHAHAH";
 		return QVector2D();
 	}
 	return QVector2D(positionToScene(b2Body_GetPosition(mBox2DRobots[&robot]->getBodyId()) - mPrevPosition));
@@ -75,6 +79,7 @@ QVector2D Box2DPhysicsEngine::positionShift(model::RobotModel &robot) const
 qreal Box2DPhysicsEngine::rotation(model::RobotModel &robot) const
 {
 	if (!mBox2DRobots.contains(&robot)) {
+		qDebug() << "EBEBEBEBEE";
 		return 0;
 	}
 
@@ -96,19 +101,39 @@ void Box2DPhysicsEngine::onPressedReleasedSelectedItems(bool active)
 	}
 }
 
+bool Box2DPhysicsEngine::resizableItem(QGraphicsItem * const item)
+{
+	return mBox2DResizableItems.contains(item);
+}
+
 bool Box2DPhysicsEngine::itemTracked(QGraphicsItem * const item)
 {
 	return mBox2DResizableItems.contains(item) || mBox2DDynamicItems.contains(item);
 }
 
-void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
+void Box2DPhysicsEngine::reinitRobot(RobotModel * const robot)
 {
+	removeRobot(robot);
 	PhysicsEngineBase::addRobot(robot);
 	addRobot(robot, robot->robotCenter(), robot->rotation());
-
 	auto bodyId = mBox2DRobots[robot]->getBodyId();
 	mPrevPosition = b2Body_GetPosition(bodyId);
 	mPrevAngle = b2Rot_GetAngle(b2Body_GetRotation(bodyId));
+	onMouseReleased(robot->position(), robot->rotation());
+	qDebug() << "BBBBBBBBBBBBBBBBBBBBBB";
+}
+
+void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
+{
+	reinitRobot(robot);
+	connect(robot, &model::RobotModel::deserialized, this, [&] () {
+		auto robotModel = dynamic_cast<model::RobotModel *>(sender());
+		qDebug() << "qDebug() << mRobots.length();" << mRobots.length();
+		qDebug() << "REINIT WHEN DESERIALIZED";
+		qDebug() << robotModel->info().name();
+		reinitRobot(robotModel);
+		qDebug() << "qDebug() << mRobots.length();" << mRobots.length();
+	});
 
 	connect(robot, &model::RobotModel::positionChanged, this, [&] (const QPointF &newPos) {
 		onRobotStartPositionChanged(newPos, dynamic_cast<model::RobotModel *>(sender()));
@@ -137,23 +162,31 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
 		connect(mScene->robot(*robot), &view::RobotItem::sensorAdded, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
-			mRobotSensors[model].insert(sensor);
+			auto box2DRobot = mBox2DRobots[model];
+			mRobotSensors[box2DRobot].insert(sensor);
 			mBox2DRobots[model]->addSensor(sensor);
 		});
 		connect(mScene->robot(*robot), &view::RobotItem::sensorRemoved, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
-			mRobotSensors[model].remove(sensor);
-			mBox2DRobots[model]->removeSensor(sensor);
+			auto box2DRobot = mBox2DRobots[model];
+			auto iterSensor = mRobotSensors[box2DRobot].constFind(sensor);
+			if (iterSensor != mRobotSensors[box2DRobot].end()) {
+				mRobotSensors[box2DRobot].remove(*iterSensor);
+				mBox2DRobots[model]->removeSensor(*iterSensor);
+			}
 		});
 		connect(mScene->robot(*robot), &view::RobotItem::sensorUpdated
 				, this, [&](twoDModel::view::SensorItem *sensor) {
 			auto rItem = dynamic_cast<view::RobotItem *>(sender());
 			auto model = &rItem->robotModel();
-			mBox2DRobots[model]->reinitSensor(sensor);
+			auto box2DRobot = mBox2DRobots[model];
+			auto iterSensor = mRobotSensors[box2DRobot].constFind(sensor);
+			if (iterSensor != mRobotSensors[box2DRobot].end()) {
+				mBox2DRobots[model]->reinitSensor(sensor);
+			}
 		});
 
-		connect(robot, &model::RobotModel::deserialized, this, &Box2DPhysicsEngine::onMouseReleased);
 	});
 }
 
@@ -164,8 +197,11 @@ void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot, const QPointF
 	}
 
 	mBox2DRobots[robot] = new Box2DRobot(this, robot, positionToBox2D(pos), angleToBox2D(angle));
+	qDebug() << "new robot is" << mBox2DRobots[robot];
 	mLeftWheels[robot] = mBox2DRobots[robot]->getWheelAt(0);
+	qDebug() << "new left wheel is" << mLeftWheels[robot];
 	mRightWheels[robot] = mBox2DRobots[robot]->getWheelAt(1);
+	qDebug() << "new right wheel is" << mRightWheels[robot];
 }
 
 void Box2DPhysicsEngine::onRobotStartPositionChanged(const QPointF &newPos, model::RobotModel *robot)
@@ -195,7 +231,9 @@ void Box2DPhysicsEngine::onMouseReleased(const QPointF &newPos, qreal newAngle)
 	onRobotStartPositionChanged(newPos, robot->getRobotModel());
 	onRobotStartAngleChanged(newAngle, robot->getRobotModel());
 
-	onPressedReleasedSelectedItems(true);
+	if (mScene) {
+		onPressedReleasedSelectedItems(true);
+	}
 }
 
 void Box2DPhysicsEngine::onMousePressed()
@@ -237,21 +275,29 @@ void Box2DPhysicsEngine::recalculateParameters(qreal timeInterval)
 	const int subStepCount = 10;
 
 	model::RobotModel * const robot = mRobots.first();
+	qDebug() << "qDebug() << mRobots.length() in recal" << mRobots.length();
 	if (!mBox2DRobots[robot]) {
+		qDebug() << "FUCKING";
 		return;
 	}
 
 	b2BodyId rBodyId = mBox2DRobots[robot]->getBodyId();
+	qDebug() << "FUCKING shhee";
+	qDebug() << mBox2DRobots[robot];
+	qDebug() << mLeftWheels[robot];
+	qDebug() << mRightWheels[robot];
 	float secondsInterval = timeInterval / 1000.0f;
 
 	if (mBox2DRobots[robot]->isStopping()){
+		qDebug() << "isStopping";
 		mBox2DRobots[robot]->stop();
 	} else {
 		// sAdpt is the speed adaptation coefficient for physics engines
 		const int sAdpt = 10;
 		const qreal speed1 = pxToM(wheelLinearSpeed(*robot, robot->leftWheel())) / secondsInterval * sAdpt;
 		const qreal speed2 = pxToM(wheelLinearSpeed(*robot, robot->rightWheel())) / secondsInterval * sAdpt;
-
+		qDebug() << "speed1" << speed1;
+		qDebug() << "speed2" << speed2;
 		if (qAbs(speed1) + qAbs(speed2) < FLT_EPSILON) {
 			mBox2DRobots[robot]->stop();
 			mLeftWheels[robot]->stop();
@@ -263,7 +309,9 @@ void Box2DPhysicsEngine::recalculateParameters(qreal timeInterval)
 		}
 	}
 
-
+	auto velocity = b2Body_GetLinearVelocity(mLeftWheels[robot]->getBodyId());
+	auto leftWheelPosition = b2Body_GetPosition(mLeftWheels[robot]->getBodyId());
+	auto rightWheelPosition = b2Body_GetPosition(mRightWheels[robot]->getBodyId());
 	mPrevPosition = b2Body_GetPosition(rBodyId);
 	mPrevAngle = b2Rot_GetAngle(b2Body_GetRotation(rBodyId));
 
@@ -372,6 +420,7 @@ void Box2DPhysicsEngine::nextFrame()
 		auto isEnabled = b2Body_IsEnabled(mBox2DDynamicItems[item]->getBodyId());
 		if (isEnabled && mBox2DDynamicItems[item]->angleOrPositionChanged()) {
 			QPointF scenePos = positionToScene(mBox2DDynamicItems[item]->getPosition());
+			qDebug() << "new scene position" << scenePos;
 			item->setPos(scenePos - item->boundingRect().center());
 			item->setRotation(angleToScene(mBox2DDynamicItems[item]->getRotation()));
 		}
@@ -421,7 +470,7 @@ void Box2DPhysicsEngine::itemAdded(QGraphicsItem *item)
 }
 
 void Box2DPhysicsEngine::onItemDragged(graphicsUtils::AbstractItem *item)
-{
+{	
 	// for items, that allows resizing/growing/reshaping, we should recreate box2d object
 	if (auto wallItem = dynamic_cast<items::WallItem *>(item)) {
 		itemRemoved(item);

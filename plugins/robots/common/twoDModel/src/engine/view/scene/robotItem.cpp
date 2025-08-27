@@ -13,9 +13,10 @@
  * limitations under the License. */
 
 #include "robotItem.h"
-
+#include <QDebug>
 #include "twoDModel/engine/model/constants.h"
 #include "src/engine/items/startPosition.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 
 using namespace twoDModel::view;
 using namespace graphicsUtils;
@@ -36,13 +37,25 @@ RobotItem::RobotItem(graphicsUtils::AbstractCoordinateSystem *metricSystem,
 	connect(&mRobotModel, &model::RobotModel::rotationChanged, this, &RobotItem::setRotation);
 	connect(&mRobotModel, &model::RobotModel::playingSoundChanged, this, &RobotItem::setNeededBeep);
 
+	connect(&mRobotModel, &model::RobotModel::geometryPropertyChanged, this, [this](){
+		prepareGeometryChange();
+		const QSizeF robotSize = mRobotModel.info().size();
+		setX2(x1() + robotSize.width());
+		setY2(y1() + robotSize.height());
+		mMarkerPoint = mRobotModel.info().rotationCenter();
+		setTransformOriginPoint(mRobotModel.info().robotCenter());
+		mBeepItem.setPos((robotSize.width() - beepWavesSize) / 2, (robotSize.height() - beepWavesSize) / 2);
+		RotateItem::init();
+		savePos();
+	});
+
 	connect(&mRobotModel.configuration(), &model::SensorsConfiguration::deviceRemoved, this, &RobotItem::removeSensor);
 	connect(&mRobotModel.configuration(), &model::SensorsConfiguration::positionChanged
 			, this, &RobotItem::updateSensorPosition);
 	connect(&mRobotModel.configuration(), &model::SensorsConfiguration::rotationChanged
 			, this, &RobotItem::updateSensorRotation);
 
-	connect(&mRobotModel.info(), &twoDModel::robotModel::TwoDRobotModel::settingsChanged
+	connect(&mRobotModel.info(), &twoDModel::model::TwoDRobotModelAdapter::settingsChanged
 			, this, &RobotItem::updateImage);
 
 	setAcceptHoverEvents(true);
@@ -81,6 +94,7 @@ RobotItem::RobotItem(graphicsUtils::AbstractCoordinateSystem *metricSystem,
 
 void RobotItem::drawItem(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+//	qDebug() << "drawRobotItem" << this;
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
 	painter->setRenderHint(QPainter::Antialiasing);
@@ -284,6 +298,11 @@ qreal RobotItem::mass() const
 qreal RobotItem::friction() const
 {
 	return mRobotModel.info().friction();
+}
+
+qreal RobotItem::restitution() const
+{
+	return mRobotModel.info().restitution();
 }
 
 twoDModel::items::SolidItem::BodyType RobotItem::bodyType() const

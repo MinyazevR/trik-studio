@@ -50,6 +50,7 @@ public:
 	~Box2DPhysicsEngine();
 	QVector2D positionShift(RobotModel &robot) const override;
 	qreal rotation(RobotModel &robot) const override;
+	void reinitRobot(RobotModel * const robot);
 	void addRobot(RobotModel * const robot) override;
 	void addRobot(RobotModel * const robot, const QPointF &pos, qreal angle);
 	void removeRobot(RobotModel * const robot) override;
@@ -94,7 +95,7 @@ private:
 	void onPressedReleasedSelectedItems(bool active);
 
 	bool itemTracked(QGraphicsItem * const item);
-
+	bool resizableItem(QGraphicsItem * const item);
 	twoDModel::view::TwoDModelScene *mScene {}; // Doesn't take ownership
 	qreal mPixelsInCm;
 	b2WorldId mWorldId;
@@ -104,7 +105,7 @@ private:
 	QMap<RobotModel *, parts::Box2DWheel *> mRightWheels;  // Does not take ownership
 	QMap<QGraphicsItem *, parts::Box2DItem *> mBox2DResizableItems;  // Takes ownership on b2Body instances
 	QMap<QGraphicsItem *, parts::Box2DItem *> mBox2DDynamicItems;  // Doesn't take ownership
-	QMap<RobotModel *, QSet<twoDModel::view::SensorItem *>> mRobotSensors; // Doesn't take ownership
+	QMap<parts::Box2DRobot *, QSet<twoDModel::view::SensorItem *>> mRobotSensors; // Doesn't take ownership
 
 	b2Vec2 mPrevPosition;
 	float mPrevAngle;

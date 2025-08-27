@@ -15,12 +15,13 @@
 
 #include <box2d/box2d.h>
 #include "src/engine/model/physics/box2DPhysicsEngine.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 #include "src/engine/view/scene/rangeSensorItem.h"
 #include "twoDModel/engine/model/robotModel.h"
 #include "twoDModel/engine/model/constants.h"
 #include "box2DWheel.h"
 #include "box2DItem.h"
-
+#include <QDebug>
 using namespace twoDModel::model::physics;
 using namespace parts;
 
@@ -36,7 +37,7 @@ Box2DRobot::Box2DRobot(Box2DPhysicsEngine *engine, twoDModel::model::RobotModel 
 	bodyDef.rotation = b2MakeRot(angle);
 	mBodyId = b2CreateBody(engine->box2DWorldId(), &bodyDef);
 	b2ShapeDef fixtureDef = b2DefaultShapeDef();
-	fixtureDef.material.restitution = 0.6f;
+	fixtureDef.material.restitution = mModel->info().restitution();
 	fixtureDef.material.friction = mModel->info().friction();
 	QPolygonF collidingPolygon = mModel->info().collidingPolygon();
 	QPointF localCenter = collidingPolygon.boundingRect().center();
@@ -44,6 +45,7 @@ Box2DRobot::Box2DRobot(Box2DPhysicsEngine *engine, twoDModel::model::RobotModel 
 	for (int i = 0; i < collidingPolygon.size(); ++i) {
 		mPolygon[i] = engine->positionToBox2D(collidingPolygon.at(i) - localCenter);
 	}
+	qDebug() << "robot density" << engine->computeDensity(collidingPolygon, mModel->info().mass());
 	fixtureDef.density = engine->computeDensity(collidingPolygon, mModel->info().mass());
 	b2Hull hull = b2ComputeHull(mPolygon.get(), collidingPolygon.size());
 	b2Polygon polygon = b2MakePolygon(&hull, 0.0f);
@@ -73,6 +75,9 @@ Box2DRobot::~Box2DRobot() {
 	}
 
 	qDeleteAll(mWheels);
+	for (auto &&sensor: mSensors.keys()) {
+		removeSensor(sensor);
+	}
 	qDeleteAll(mSensors);
 	b2DestroyBody(mBodyId);
 }
@@ -100,6 +105,7 @@ bool Box2DRobot::isStopping()
 
 void Box2DRobot::addSensor(const twoDModel::view::SensorItem *sensor)
 {
+	qDebug() << "addSensor";
 	// orientation and direction will be set by reinitSensor() method
 	mSensors[sensor] = new Box2DItem(mEngine, sensor, {0, 0}, 0);
 	reinitSensor(sensor);
@@ -107,6 +113,12 @@ void Box2DRobot::addSensor(const twoDModel::view::SensorItem *sensor)
 
 void Box2DRobot::removeSensor(const twoDModel::view::SensorItem *sensor)
 {
+	qDebug() << "CCCCCCCCCCCCCCCCc";
+	auto sens = mSensors[sensor];
+	qDebug() << sens;
+	if (!mSensors[sensor]) {
+		return;
+	}
 	b2BodyId bodyId = mSensors[sensor]->getBodyId();
 	std::vector<b2JointId> joints(1);
 	auto count = b2Body_GetJoints(bodyId, joints.data(), 1);
@@ -166,8 +178,11 @@ void Box2DRobot::reinitSensor(const twoDModel::view::SensorItem *sensor)
 	// when we manually use method SetTransform.
 	// So we need to handle elements such as sensors by hand.
 	// We use this method in case when user shifts or rotates sensor(s).
-
+	qDebug() << "reinitSensor";
 	auto box2dSensor = mSensors[sensor];
+	if (!box2dSensor) {
+		return;
+	}
 	auto bodyId = box2dSensor->getBodyId();
 	b2Body_SetLinearVelocity(bodyId, {0, 0});
 	b2Body_SetAngularVelocity(bodyId, 0);
@@ -184,17 +199,30 @@ void Box2DRobot::reinitSensor(const twoDModel::view::SensorItem *sensor)
 	QPointF localCenter = collidingPolygon.boundingRect().center();
 
 	QPointF deltaToCenter = mModel->robotCenter() - mModel->position();
+	qDebug() << "deltaToCenter" << deltaToCenter;
+	qDebug() << "sensor->pos()" << sensor->pos();
 	QPointF localPos = sensor->pos() - deltaToCenter;
+	qDebug() << "localPos1" << localPos;
 	QTransform transform;
 	QPointF dif = mModel->robotCenter();
+	qDebug() << "dif = " << dif;
 	transform.translate(-dif.x(), -dif.y());
 	transform.rotate(mModel->rotation());
+//	transform.rotate(0);
+	qDebug() << "rotation" << mModel->rotation();
+	qDebug() << "test1" << transform.map(QPointF{0, 0});
 	localPos = transform.map(localPos);
+	qDebug() << "localPos2" << localPos;
 	transform.reset();
 	transform.translate(dif.x(), dif.y());
 	localPos = transform.map(localPos);
-
+	qDebug() << "localPos3" << localPos;
+	QTransform lol;
+	lol.rotate(mModel->rotation());
+	qDebug() << lol.map(sensor->pos() - deltaToCenter);
+	qDebug() << "localCenter" << localCenter;
 	const b2Vec2 pos = mEngine->positionToBox2D(localPos - localCenter + mModel->robotCenter());
+	qDebug() << "positionToBox2D param" << localPos - localCenter + mModel->robotCenter();
 	// IMPORTANT: we connect every sensor with box2d circle item.
 	// So rotation of sensor doesn't matter, we set rotation corresponding to robot.
 	// if in future it will be changed, you'll see some strange behavior, because of joints. See connectSensor method.

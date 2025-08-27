@@ -27,6 +27,7 @@ TRANSLATIONS = \
 	$$PWD/../../../../qrtranslations/fr/plugins/robots/twoDModel_fr.ts \
 
 HEADERS += \
+        $$PWD/include/twoDModel/engine/model/twoDRobotModelAdapter.h \
 	$$PWD/include/twoDModel/robotModel/parts/colorSensorAmbient.h \
 	$$PWD/include/twoDModel/robotModel/parts/colorSensorReflected.h \
 	$$PWD/include/twoDModel/twoDModelDeclSpec.h \
@@ -67,6 +68,7 @@ HEADERS += \
 	$$PWD/include/twoDModel/robotModel/parts/lidar.h \
 	$$PWD/include/twoDModel/blocks/markerDownBlock.h \
 	$$PWD/include/twoDModel/blocks/markerUpBlock.h \
+        $$PWD/src/engine/items/solidAbstractItem.h
 
 HEADERS += \
 	$$PWD/src/engine/twoDModelEngineApi.h \

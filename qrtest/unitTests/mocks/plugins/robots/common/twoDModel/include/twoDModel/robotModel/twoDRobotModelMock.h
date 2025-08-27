@@ -44,6 +44,9 @@ public:
 	MOCK_CONST_METHOD0(collidingPolygon, QPolygonF());
 	MOCK_CONST_METHOD0(mass, qreal());
 	MOCK_CONST_METHOD0(friction, qreal());
+	MOCK_CONST_METHOD0(restitution, qreal());
+	MOCK_CONST_METHOD0(angularDamping, qreal());
+	MOCK_CONST_METHOD0(linearDamping, qreal());
 	MOCK_CONST_METHOD0(size, QSizeF());
 	MOCK_CONST_METHOD0(rotationCenter, QPointF());
 	MOCK_CONST_METHOD0(robotCenter, QPointF());

@@ -25,9 +25,18 @@ using namespace twoDModel::items;
 using namespace qReal;
 using namespace graphicsUtils;
 
+namespace {
+	static constexpr qreal wallFriction = 1.0f;
+	static constexpr qreal wallRestituion = 0.8f;
+	static constexpr int wallWidth = 10;
+}
+
 WallItem::WallItem(graphicsUtils::AbstractCoordinateSystem *metricSystem,
-		const QPointF &begin, const QPointF &end)
-	: mImage(":/icons/2d_wall.png")
+		const QPointF &begin, const QPointF &end) :
+	mImage(":/icons/2d_wall.png"),
+	mWidth(wallWidth),
+	mFriction(wallFriction),
+	mRestitution(wallRestituion)
 {
 	setCoordinateSystem(metricSystem);
 	setX1(begin.x());
@@ -68,7 +77,7 @@ void WallItem::setPrivateData()
 {
 	setZValue(ZValue::Wall);
 	QPen pen(this->pen());
-	pen.setWidth(mWallWidth);
+	pen.setWidth(mWidth);
 	pen.setStyle(Qt::NoPen);
 	setPen(pen);
 	QBrush brush(this->brush());
@@ -89,28 +98,28 @@ QPointF WallItem::end() const
 
 QRectF WallItem::boundingRect() const
 {
-	return mLineImpl.boundingRect(x1(), y1(), x2(), y2(), pen().width(), mWallWidth);
+	return mLineImpl.boundingRect(x1(), y1(), x2(), y2(), pen().width(), mWidth);
 }
 
 QPainterPath WallItem::shape() const
 {
 	QPainterPath result;
 	result.setFillRule(Qt::WindingFill);
-	result.addPath(mLineImpl.shape(mWallWidth, x1(), y1(), x2(), y2()));
+	result.addPath(mLineImpl.shape(mWidth, x1(), y1(), x2(), y2()));
 	result.addPath(resizeArea());
 	return result;
 }
 
 QPainterPath WallItem::resizeArea() const
 {
-	return mLineImpl.fieldForResizeItem(mWallWidth, x1(), y1(), x2(), y2());
+	return mLineImpl.fieldForResizeItem(mWidth, x1(), y1(), x2(), y2());
 }
 
 void WallItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
-	painter->drawPath(mLineImpl.shape(mWallWidth, x1(), y1(), x2(), y2()));
+	painter->drawPath(mLineImpl.shape(mWidth, x1(), y1(), x2(), y2()));
 	recalculateBorders();
 }
 
@@ -128,8 +137,8 @@ void WallItem::setPenBrushForExtraction(QPainter *painter, const QStyleOptionGra
 
 void WallItem::drawExtractionForItem(QPainter *painter)
 {
-	mLineImpl.drawExtractionForItem(painter, x1(), y1(), x2(), y2(), mWallWidth);
-	mLineImpl.drawFieldForResizeItem(painter, mWallWidth, x1(), y1(), x2(), y2());
+	mLineImpl.drawExtractionForItem(painter, x1(), y1(), x2(), y2(), mWidth);
+	mLineImpl.drawFieldForResizeItem(painter, mWidth, x1(), y1(), x2(), y2());
 }
 
 qreal WallItem::width() const
@@ -149,6 +158,8 @@ QDomElement WallItem::serialize(QDomElement &parent) const
 	                    coordSystem->toUnit(y1() + pos.y()),
 	                    coordSystem->toUnit(x2() + pos.x()),
 	                    coordSystem->toUnit(y2() + pos.y()));
+	wallNode.setAttribute("friction", QString::number(mFriction));
+	wallNode.setAttribute("restitution", QString::number(mRestitution));
 	return wallNode;
 }
 
@@ -168,7 +179,15 @@ void WallItem::deserialize(const QDomElement &element)
 
 	readPenBrush(element);
 	if (pen().widthF()) {
-		mWallWidth = pen().widthF();
+		mWidth = pen().widthF();
+	}
+
+	if (element.hasAttribute(QStringLiteral("friction"))) {
+		mFriction = element.attribute("friction", "0").toDouble();
+	}
+
+	if (element.hasAttribute(QStringLiteral("restitution"))) {
+		mRestitution = element.attribute("restitution", "0").toDouble();
 	}
 
 	recalculateBorders();
@@ -181,7 +200,7 @@ QPainterPath WallItem::path() const
 
 void WallItem::recalculateBorders()
 {
-	mPath = mLineImpl.shape(mWallWidth, begin().x(), begin().y(), end().x(), end().y());
+	mPath = mLineImpl.shape(mWidth, begin().x(), begin().y(), end().x(), end().y());
 }
 
 void WallItem::resizeItem(QGraphicsSceneMouseEvent *event)
@@ -283,7 +302,7 @@ QPolygonF WallItem::collidingPolygon() const
 	const QPolygonF polygon = mPath.toFillPolygon();
 	// here we have "one point" wall
 	if (polygon.isEmpty()) {
-		auto offset = QPointF(mWallWidth, mWallWidth);
+		auto offset = QPointF(mWidth, mWidth);
 		return QRectF(begin() - offset / 2, begin() + offset / 2);
 	}
 
@@ -323,7 +342,12 @@ qreal WallItem::mass() const
 
 qreal WallItem::friction() const
 {
-	return 1.0;
+	return mFriction;
+}
+
+qreal WallItem::restitution() const
+{
+	return mRestitution;
 }
 
 SolidItem::BodyType WallItem::bodyType() const

@@ -13,16 +13,14 @@
  * limitations under the License. */
 
 #pragma once
-
-#include <qrutils/graphicsUtils/abstractItem.h>
-#include "src/engine/items/solidItem.h"
+#include "src/engine/items/solidAbstractItem.h"
 
 class QSvgRenderer;
 
 namespace twoDModel {
 namespace items {
 
-class BallItem : public graphicsUtils::AbstractItem, public SolidItem
+class BallItem : public SolidAbstractItem
 {
 	Q_OBJECT
 	Q_DISABLE_COPY(BallItem)
@@ -55,6 +53,7 @@ public:
 	qreal mass() const override;
 	BodyType bodyType() const override;
 	qreal friction() const override;
+	qreal restitution() const override;
 	QPolygonF collidingPolygon() const override;
 	qreal angularDamping() const override;
 	qreal linearDamping() const override;
@@ -63,10 +62,17 @@ public:
 	QPainterPath path() const;
 
 private:
+	void setRadius(const qreal radius);
 	QPointF mStartPosition;
 	qreal mStartRotation {0.0};
 
 	QSvgRenderer *mSvgRenderer;
+	qreal mRadiusPx;
+	qreal mMass;
+	qreal mFriction;
+	qreal mRestitution;
+	qreal mAngularDamping;
+	qreal mLinearDamping;
 };
 
 }

@@ -70,6 +70,28 @@ QPointF SensorsConfiguration::position(const PortInfo &port) const
 	return mSensorsInfo[port].position;
 }
 
+void SensorsConfiguration::onSizeUpdated(const QSizeF size)
+{
+	mOldRobotSize = mRobotSize;
+	mRobotSize = size;
+}
+
+void SensorsConfiguration::updateAllSensorPosition()
+{
+	for (auto &&sensorInfo: mSensorsInfo.values()) {
+		// relative "left-up" corner of robot
+		auto currentPosition = sensorInfo.position;
+		auto currentWidth = currentPosition.x();
+		auto currentHeight = currentPosition.y();
+		auto widthDiff = mRobotSize.width() - mOldRobotSize.width();
+		auto heightDiff = mRobotSize.height() - mOldRobotSize.height();
+		sensorInfo.position = QPointF {
+			currentWidth + widthDiff,
+			currentHeight + heightDiff
+		};
+	}
+}
+
 void SensorsConfiguration::setPosition(const PortInfo &port, const QPointF &position)
 {
 	if (!mathUtils::Geometry::eq(mSensorsInfo[port].position, position)) {
@@ -156,7 +178,8 @@ SensorsConfiguration::SensorInfo::SensorInfo()
 {
 }
 
-SensorsConfiguration::SensorInfo::SensorInfo(const QPointF &position, qreal direction)
+SensorsConfiguration::SensorInfo::SensorInfo(const QPointF &position,
+					     qreal direction)
 	: position(position)
 	, direction(direction)
 	, isNull(false)

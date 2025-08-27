@@ -64,6 +64,9 @@ signals:
 	void positionChanged(const kitBase::robotModel::PortInfo &port);
 	void rotationChanged(const kitBase::robotModel::PortInfo &port);
 
+public Q_SLOTS:
+	void onSizeUpdated(const QSizeF size);
+
 private:
 	struct SensorInfo
 	{
@@ -81,8 +84,10 @@ private:
 			, Reason reason) override;
 
 	QPointF defaultPosition(const kitBase::robotModel::DeviceInfo &device) const;
+	void updateAllSensorPosition();
 
-	const QSizeF mRobotSize;
+	QSizeF mRobotSize;
+	QSizeF mOldRobotSize;
 	QString mRobotId;
 	QHash<kitBase::robotModel::PortInfo, SensorInfo> mSensorsInfo;
 	twoDModel::model::MetricCoordinateSystem &mMetricSystem;

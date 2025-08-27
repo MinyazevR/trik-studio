@@ -21,6 +21,7 @@
 #include "details/constraintsParser.h"
 #include "details/event.h"
 #include "twoDModel/engine/model/model.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 #include "src/engine/items/wallItem.h"
 #include "src/engine/items/skittleItem.h"
 #include "src/engine/items/ballItem.h"

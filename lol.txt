@@ -1,0 +1,2 @@
+::set-output name=errors-count::0
+::set-output name=warnings-count::0

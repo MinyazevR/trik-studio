@@ -19,6 +19,7 @@
 #include <qrgui/plugins/toolPluginInterface/usedInterfaces/logicalModelAssistInterface.h>
 #include <kitBase/interpreterControlInterface.h>
 
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 #include "src/engine/constraints/constraintsChecker.h"
 #include "src/robotModel/nullTwoDRobotModel.h"
 #include "src/engine/items/startPosition.h"
@@ -48,6 +49,7 @@ Model::Model(physics::PhysicsEngineFactory *engineFactory,
 
 Model::~Model()
 {
+	qDebug() << "delete robotModel";
 	delete mRealisticPhysicsEngine;
 	delete mSimplePhysicsEngine;
 	delete mRobotModel;
@@ -218,6 +220,7 @@ void Model::removeRobotModel()
 
 	mWorldModel.setRobotModel(nullptr);
 	emit robotRemoved(mRobotModel);
+	qDebug() << "delete robotModel";
 	delete mRobotModel;
 }
 

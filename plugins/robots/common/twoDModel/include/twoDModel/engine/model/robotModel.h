@@ -43,6 +43,7 @@ class PhysicsEngineBase;
 
 class WorldModel;
 class Timeline;
+class TwoDRobotModelAdapter;
 
 class TWO_D_MODEL_EXPORT RobotModel : public QObject
 {
@@ -101,7 +102,7 @@ public:
 	const Wheel &rightWheel() const;
 
 	/// Returns a reference to external robot description.
-	robotModel::TwoDRobotModel &info() const;
+	TwoDRobotModelAdapter &info() const;
 
 	Q_INVOKABLE int readEncoder(const kitBase::robotModel::PortInfo &port) const;
 	Q_INVOKABLE void resetEncoder(const kitBase::robotModel::PortInfo &port);
@@ -177,8 +178,9 @@ public slots:
 signals:
 	void positionChanged(const QPointF &newPosition);
 	void rotationChanged(qreal newRotation);
-
-	void deserialized(QPointF newPosition, qreal newRotation);
+	void geometryPropertyChanged(const QSizeF &size);
+	void deserialized();
+	void robotReinited();
 
 	/// Emitted when robot rided himself (moved on motors force, not dragged by user or smth) from one point to other.
 	void robotRided(const QPointF &newPosition, const qreal newRotation);
@@ -224,7 +226,7 @@ private:
 	QHash<kitBase::robotModel::PortInfo, kitBase::robotModel::PortInfo> mMotorToEncoderPortMap;
 
 	const Settings &mSettings;
-	twoDModel::robotModel::TwoDRobotModel &mRobotModel;
+	QScopedPointer<TwoDRobotModelAdapter> mRobotModel;
 	SensorsConfiguration mSensorsConfiguration;
 
 	QPointF mPos { 0, 0 };

@@ -18,19 +18,22 @@
 
 #include <qrutils/mathUtils/math.h>
 #include <box2d/box2d.h>
-#include "twoDModel/engine/model/constants.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 #include "box2DRobot.h"
-
+#include <QDebug>
 using namespace twoDModel::model::physics::parts;
 
 Box2DWheel::Box2DWheel(Box2DPhysicsEngine *engine
 		, const b2Vec2 &positionBox2D, const b2Rot &rotationBox2D, Box2DRobot &robot)
 	: mRobot(robot)
 	, mEngine(engine)
-	, mWheelHeightM(engine->pxToM(twoDModel::robotWheelDiameterInPx / 2))
-	, mWheelWidthM(engine->pxToM(twoDModel::robotWheelDiameterInPx))
+	, mWheelHeightM(engine->pxToM(
+		mRobot.getRobotModel()->info().wheelDiameter() / 2))
+	, mWheelWidthM(engine->pxToM(
+		mRobot.getRobotModel()->info().wheelDiameter()))
 	, mPolygon(new b2Vec2[8])
 {
+	qDebug() << "mWheelHeightM" << mWheelHeightM;
 	b2BodyDef bodyDef = b2DefaultBodyDef();
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = positionBox2D;
@@ -41,7 +44,9 @@ Box2DWheel::Box2DWheel(Box2DPhysicsEngine *engine
 	fixtureDef.material.restitution = 0.5;
 	fixtureDef.material.friction = mWheelFriction;
 	fixtureDef.density = engine->computeDensity(
-			QPolygonF(QRectF(0, 0, twoDModel::robotWheelDiameterInPx / 2, twoDModel::robotWheelDiameterInPx))
+			QPolygonF(QRectF(0, 0,
+				mRobot.getRobotModel()->info().wheelDiameter() / 2,
+				mRobot.getRobotModel()->info().wheelDiameter()))
 			, mWheelMass);
 
 	b2Vec2 center = b2Vec2{0.5f * mWheelWidthM, 0.5f * mWheelHeightM};
@@ -122,6 +127,7 @@ void Box2DWheel::keepConstantSpeed(float speed) {
 
 	//break stop
 	if (qAbs(speedDiff) < FLT_EPSILON) {
+		qDebug() << "break stop";
 		stop();
 		return;
 	}

@@ -55,6 +55,7 @@
 
 #include "twoDModel/engine/model/constants.h"
 #include "twoDModel/engine/model/model.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 
 #include "nullTwoDModelDisplayWidget.h"
 #include <array>
@@ -144,26 +145,69 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 	mUi->horizontalRuler->setScene(mUi->graphicsView);
 	mUi->verticalRuler->setScene(mUi->graphicsView);
 
-	auto pixelsInCm = mModel.settings().pixelsInCm();
+//	auto pixelsInCm = mModel.settings().pixelsInCm();
 	/// @todo: make some values editable
 	mUi->detailsTab->setParamsSettings(mUi->physicsParamsFrame);
-	mUi->wheelDiamInCm->setValue(robotWheelDiameterInCm);
-	mUi->wheelDiamInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
-	mUi->robotHeightInCm->setValue(robotHeight / pixelsInCm); // Not sure if correct
-	mUi->robotHeightInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
-	mUi->robotWidthInCm->setValue(robotWidth / pixelsInCm);
-	mUi->robotWidthInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
-	mUi->robotMassInGr->setValue(robotMass);
-	mUi->robotMassInGr->setButtonSymbols(QAbstractSpinBox::NoButtons);
 
-	connect(&mModel, &model::Model::robotAdded, [this, pixelsInCm](){
-		auto robotModels = mModel.robotModels();
-		auto robotTrack = robotModels.isEmpty() || robotModels[0]->info().wheelsPosition().size() < 2 ? robotWidth
-				: qAbs(robotModels[0]->info().wheelsPosition()[0].y() - robotModels[0]->info().wheelsPosition()[1].y());
-		mUi->robotTrackInCm->setValue(robotTrack / pixelsInCm);
+//	mUi->wheelDiamInCm->setValue(robotWheelDiameterInCm);
+//	mUi->wheelDiamInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
+//	mUi->robotHeightInCm->setValue(robotHeight / pixelsInCm); // Not sure if correct
+//	mUi->robotHeightInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
+//	mUi->robotWidthInCm->setValue(robotWidth / pixelsInCm);
+//	mUi->robotWidthInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
+//	mUi->robotMassInGr->setValue(robotMass);
+//	mUi->robotMassInGr->setButtonSymbols(QAbstractSpinBox::NoButtons);
+//	mUi->robotTrackInCm->setValue(robotWidth / pixelsInCm);
+//	mUi->robotTrackInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
+
+	auto setRobotPropertiesCallBack
+			= [&] (const twoDModel::model::TwoDRobotModelAdapter &robotInfo) {
+		qDebug() << "change properties";
+		auto &cootdinateSystem = mModel.coordinateMetricSystem();
+		auto robotTrack = cootdinateSystem.toUnit(robotInfo.robotTrack());
+		mUi->robotTrackInCm->setValue(robotTrack);
+		auto wheelDiam = cootdinateSystem.toUnit(robotInfo.wheelDiameter());
+		mUi->wheelDiamInCm->setValue(wheelDiam);
+		auto robotSize = robotInfo.size();
+		mUi->robotHeightInCm->setValue(cootdinateSystem.toUnit(robotSize.height()));
+		mUi->robotWidthInCm->setValue(cootdinateSystem.toUnit(robotSize.width()));
+		mUi->robotMassInGr->setValue(robotInfo.mass());
+		qDebug() << "new height" << cootdinateSystem.toUnit(robotSize.height());
+		qDebug() << "new width" << cootdinateSystem.toUnit(robotSize.width());
+		qDebug() << "new mass" << robotInfo.mass();
+	};
+
+//	auto reinitedCallback = [&](){
+//		const auto &robotInfo = mModel.robotModels()[0]->info();
+//		connect(&robotInfo, &model::TwoDRobotModelAdapter::robotParamChanged,
+//				this, [&] {
+//			setRobotPropertiesCallBack(robotInfo);
+//		});
+//	};
+
+	connect(&mModel, &model::Model::robotAdded, [this,
+		setRobotPropertiesCallBack]() {
+		if (mModel.robotModels().isEmpty()) {
+			// ?
+			qDebug() << "AAAAAAAAAAAAAAAAAAA";
+		}
+		auto robotModel = mModel.robotModels()[0];
+		robotModel->info();
+		connect(robotModel, &model::RobotModel::deserialized,
+				this, [setRobotPropertiesCallBack, robotModel]() {
+			setRobotPropertiesCallBack(robotModel->info());
+		});
 	});
-	mUi->robotTrackInCm->setValue(robotWidth / pixelsInCm);
-	mUi->robotTrackInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);
+
+	connect(&mModel.metricSystem(), &SizeUnit::sizeUnitChanged
+		, this, [=](const SizeUnit::Unit &unit) {
+		qDebug() << "azazaza";
+		Q_UNUSED(unit)
+		auto robotModels = mModel.robotModels();
+		if (robotModels.size() > 0) {
+			setRobotPropertiesCallBack(robotModels[0]->info());
+		}
+	});
 }
 
 TwoDModelWidget::~TwoDModelWidget()
@@ -368,8 +412,8 @@ void TwoDModelWidget::setPortsGroupBoxAndWheelComboBoxes()
 {
 	mCurrentConfigurer = new DevicesConfigurationWidget(mUi->portsFrame, true, true);
 	mCurrentConfigurer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-	mCurrentConfigurer->loadRobotModels({ &mSelectedRobotItem->robotModel().info() });
-	mCurrentConfigurer->selectRobotModel(mSelectedRobotItem->robotModel().info());
+	mCurrentConfigurer->loadRobotModels({ &mSelectedRobotItem->robotModel().info().model() });
+	mCurrentConfigurer->selectRobotModel(mSelectedRobotItem->robotModel().info().model());
 	mUi->portsFrame->layout()->addWidget(mCurrentConfigurer);
 	mCurrentConfigurer->connectDevicesConfigurationProvider(&mSelectedRobotItem->robotModel().configuration());
 	connectDevicesConfigurationProvider(&mSelectedRobotItem->robotModel().configuration());

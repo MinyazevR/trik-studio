@@ -17,15 +17,31 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QAction>
 #include <QtSvg/QSvgRenderer>
+#include <QDebug>
 
-#include <twoDModel/engine/model/constants.h>
+namespace {
+	static constexpr int defaultBallRadiusPx = 30;
+	static constexpr qreal ballMass = 0.3f;
+	static constexpr qreal ballFriction = 1.0f;
+	static constexpr qreal ballRestituion = 0.2f;
+	static constexpr qreal ballAngularDamping = 1.0f;
+	static constexpr qreal ballLinearDamping = 1.0f;
+}
+
 
 using namespace twoDModel::items;
 
 BallItem::BallItem(graphicsUtils::AbstractCoordinateSystem *metricSystem,
-		const QPointF &position)
-	: mSvgRenderer(new QSvgRenderer)
+		const QPointF &position):
+	mSvgRenderer(new QSvgRenderer),
+	mRadiusPx(defaultBallRadiusPx),
+	mMass(ballMass),
+	mFriction(ballFriction),
+	mRestitution(ballRestituion),
+	mAngularDamping(ballAngularDamping),
+	mLinearDamping(ballLinearDamping)
 {
+	qDebug() << "ball mass" << mMass;
 	setCoordinateSystem(metricSystem);
 	mSvgRenderer->load(QString(":/icons/2d_ball.svg"));
 	setPos(position);
@@ -48,8 +64,8 @@ QAction *BallItem::ballTool()
 
 QRectF BallItem::boundingRect() const
 {
-	return QRectF({-static_cast<qreal>(ballSize.width() / 2.0), -static_cast<qreal>(ballSize.height() / 2.0)}
-				  , ballSize);
+	return QRectF({-static_cast<qreal>(mRadiusPx / 2.0), -static_cast<qreal>(mRadiusPx / 2.0)}
+				  , QSizeF{mRadiusPx, mRadiusPx});
 }
 
 void BallItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -96,6 +112,12 @@ QDomElement BallItem::serialize(QDomElement &element) const
 	                      QString::number(coordSystem->toUnit(y1() + mStartPosition.y())));
 	ballNode.setAttribute("rotation", QString::number(rotation()));
 	ballNode.setAttribute("startRotation", QString::number(mStartRotation));
+	ballNode.setAttribute("radius", QString::number(coordSystem->toUnit(mRadiusPx)));
+	ballNode.setAttribute("mass", QString::number(mMass));
+	ballNode.setAttribute("friction", QString::number(mFriction));
+	ballNode.setAttribute("restitution", QString::number(mRestitution));
+	ballNode.setAttribute("angularDamping", QString::number(mAngularDamping));
+	ballNode.setAttribute("linearDamping", QString::number(mLinearDamping));
 	return ballNode;
 }
 
@@ -108,6 +130,28 @@ void BallItem::deserialize(const QDomElement &element)
 	qreal markerX = coordSystem->toPx(element.attribute("markerX", "0").toDouble());
 	qreal markerY = coordSystem->toPx(element.attribute("markerY", "0").toDouble());
 	qreal rotation = element.attribute("rotation", "0").toDouble();
+
+	const auto radius = element.attribute("radius", "");
+	if (!radius.isEmpty()) {
+		setRadius(coordSystem->toPx(radius.toDouble()));
+	}
+	const auto mass = element.attribute("mass", "");
+	if (!mass.isEmpty()) {
+		mMass = mass.toDouble();
+	}
+	const auto friction = element.attribute("friction", "");
+	if (!friction.isEmpty()) {
+		mFriction = friction.toDouble();
+	}
+	const auto angularDamping = element.attribute("angularDamping", "");
+	if (!angularDamping.isEmpty()) {
+		mAngularDamping = angularDamping.toDouble();
+	}
+	const auto linearDamping = element.attribute("linearDamping", "");
+	if (!linearDamping.isEmpty()) {
+		mLinearDamping = linearDamping.toDouble();
+	}
+
 	mStartRotation = element.attribute("startRotation", "0").toDouble();
 
 	setPos(QPointF(x, y));
@@ -147,12 +191,12 @@ QPolygonF BallItem::collidingPolygon() const
 
 qreal BallItem::angularDamping() const
 {
-	return 0.09f;
+	return mAngularDamping;
 }
 
 qreal BallItem::linearDamping() const
 {
-	return 0.09f;
+	return mLinearDamping;
 }
 
 QPainterPath BallItem::path() const
@@ -179,15 +223,26 @@ bool BallItem::isCircle() const
 
 qreal BallItem::mass() const
 {
-	return 0.015f;
+	return mMass;
 }
 
 qreal BallItem::friction() const
 {
-	return 1.0f;
+	return mFriction;
+}
+
+qreal BallItem::restitution() const
+{
+	return mRestitution;
 }
 
 SolidItem::BodyType BallItem::bodyType() const
 {
 	return SolidItem::DYNAMIC;
+}
+
+void BallItem::setRadius(const qreal radius)
+{
+	prepareGeometryChange();
+	mRadiusPx = radius;
 }

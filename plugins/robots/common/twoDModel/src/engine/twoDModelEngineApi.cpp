@@ -26,6 +26,7 @@
 
 #include "twoDModel/engine/twoDModelGuiFacade.h"
 #include "twoDModel/engine/model/model.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 #include "twoDModel/engine/model/constants.h"
 #include "twoDModel/engine/view/twoDModelWidget.h"
 
@@ -368,5 +369,5 @@ void TwoDModelEngineApi::enableBackgroundSceneDebugging()
 
 kitBase::robotModel::PortInfo TwoDModelEngineApi::videoPort() const
 {
-	return RobotModelUtils::findPort(mModel.robotModels()[0]->info(), "Video2Port", input);
+	return RobotModelUtils::findPort(mModel.robotModels()[0]->info().model(), "Video2Port", input);
 }

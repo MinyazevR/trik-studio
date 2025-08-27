@@ -25,6 +25,7 @@
 #include <kitBase/robotModel/robotModelUtils.h>
 #include <qrkernel/logging.h>
 #include <twoDModel/engine/model/model.h>
+#include <twoDModel/engine/model/twoDRobotModelAdapter.h>
 #include <twoDModel/engine/model/timeline.h>
 
 using namespace twoDModel;

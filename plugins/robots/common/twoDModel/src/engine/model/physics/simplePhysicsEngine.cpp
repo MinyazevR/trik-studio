@@ -20,6 +20,7 @@
 #include <qrutils/mathUtils/geometry.h>
 
 #include "twoDModel/engine/model/robotModel.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 #include "twoDModel/engine/model/constants.h"
 #include "twoDModel/engine/model/worldModel.h"
 

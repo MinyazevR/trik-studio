@@ -533,6 +533,12 @@
                  <property name="readOnly">
                   <bool>true</bool>
                  </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>999.999900000000025</double>
+                 </property>
                 </widget>
                </item>
                <item row="1" column="0">
@@ -552,6 +558,12 @@
                 <widget class="QDoubleSpinBox" name="robotHeightInCm">
                  <property name="readOnly">
                   <bool>true</bool>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>999.999900000000025</double>
                  </property>
                 </widget>
                </item>
@@ -573,6 +585,12 @@
                  <property name="readOnly">
                   <bool>true</bool>
                  </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>999.999900000000025</double>
+                 </property>
                 </widget>
                </item>
                <item row="3" column="0">
@@ -592,6 +610,9 @@
                 <widget class="QDoubleSpinBox" name="robotMassInGr">
                  <property name="readOnly">
                   <bool>true</bool>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
                  </property>
                  <property name="maximum">
                   <double>2000.000000000000000</double>
@@ -615,6 +636,12 @@
                 <widget class="QDoubleSpinBox" name="robotTrackInCm">
                  <property name="readOnly">
                   <bool>true</bool>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>999.999900000000025</double>
                  </property>
                 </widget>
                </item>

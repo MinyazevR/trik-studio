@@ -1,0 +1,530 @@
+diff --git a/plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.ui b/plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.ui
+index 807bd46f5..25d54083e 100644
+--- a/plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.ui
++++ b/plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.ui
+@@ -199,176 +199,17 @@
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+-      <item row="1" column="1" colspan="3">
+-       <widget class="QWidget" name="sceneHeaderWidget" native="true">
+-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+-         <property name="leftMargin">
+-          <number>0</number>
+-         </property>
+-         <property name="topMargin">
+-          <number>0</number>
+-         </property>
+-         <property name="rightMargin">
+-          <number>0</number>
+-         </property>
+-         <property name="bottomMargin">
+-          <number>0</number>
+-         </property>
+-         <item>
+-          <widget class="twoDModel::view::GridParameters" name="gridParametersBox">
+-           <property name="sizePolicy">
+-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+-             <horstretch>0</horstretch>
+-             <verstretch>0</verstretch>
+-            </sizepolicy>
+-           </property>
+-          </widget>
+-         </item>
+-         <item>
+-          <widget class="QPushButton" name="speedDownButton">
+-           <property name="sizePolicy">
+-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+-             <horstretch>0</horstretch>
+-             <verstretch>0</verstretch>
+-            </sizepolicy>
+-           </property>
+-           <property name="maximumSize">
+-            <size>
+-             <width>16</width>
+-             <height>16</height>
+-            </size>
+-           </property>
+-           <property name="focusPolicy">
+-            <enum>Qt::NoFocus</enum>
+-           </property>
+-           <property name="toolTip">
+-            <string>Decrease speed</string>
+-           </property>
+-           <property name="text">
+-            <string/>
+-           </property>
+-           <property name="icon">
+-            <iconset resource="../../../../../interpreters/interpreterCore/interpreterCore.qrc">
+-             <normaloff>:/icons/2d_minus.svg</normaloff>:/icons/2d_minus.svg</iconset>
+-           </property>
+-           <property name="autoRepeat">
+-            <bool>true</bool>
+-           </property>
+-           <property name="flat">
+-            <bool>true</bool>
+-           </property>
+-          </widget>
+-         </item>
+-         <item>
+-          <widget class="QDoubleSpinBox" name="timelineBox">
+-           <property name="enabled">
+-            <bool>false</bool>
+-           </property>
+-           <property name="sizePolicy">
+-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+-             <horstretch>0</horstretch>
+-             <verstretch>0</verstretch>
+-            </sizepolicy>
+-           </property>
+-           <property name="maximumSize">
+-            <size>
+-             <width>100</width>
+-             <height>16777215</height>
+-            </size>
+-           </property>
+-           <property name="focusPolicy">
+-            <enum>Qt::NoFocus</enum>
+-           </property>
+-           <property name="contextMenuPolicy">
+-            <enum>Qt::NoContextMenu</enum>
+-           </property>
+-           <property name="toolTip">
+-            <string>Time in 2D model</string>
+-           </property>
+-           <property name="readOnly">
+-            <bool>true</bool>
+-           </property>
+-           <property name="buttonSymbols">
+-            <enum>QAbstractSpinBox::NoButtons</enum>
+-           </property>
+-           <property name="suffix">
+-            <string> sec.</string>
+-           </property>
+-           <property name="decimals">
+-            <number>3</number>
+-           </property>
+-           <property name="maximum">
+-            <double>2000000000.000000000000000</double>
+-           </property>
+-          </widget>
+-         </item>
+-         <item>
+-          <widget class="QPushButton" name="speedUpButton">
++      <item row="3" column="1">
++       <widget class="graphicsUtils::AbstractView" name="graphicsView">
+         <property name="sizePolicy">
+-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+-             <horstretch>0</horstretch>
+-             <verstretch>0</verstretch>
++         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
++          <horstretch>1</horstretch>
++          <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+-           <property name="maximumSize">
+-            <size>
+-             <width>16</width>
+-             <height>16</height>
+-            </size>
+-           </property>
+-           <property name="focusPolicy">
+-            <enum>Qt::NoFocus</enum>
+-           </property>
+         <property name="toolTip">
+-            <string>Increase speed</string>
+-           </property>
+-           <property name="text">
+          <string/>
+         </property>
+-           <property name="icon">
+-            <iconset resource="../../../../../interpreters/interpreterCore/interpreterCore.qrc">
+-             <normaloff>:/icons/2d_plus.svg</normaloff>:/icons/2d_plus.svg</iconset>
+-           </property>
+-           <property name="autoRepeat">
+-            <bool>true</bool>
+-           </property>
+-           <property name="flat">
+-            <bool>true</bool>
+-           </property>
+-          </widget>
+-         </item>
+-        </layout>
+-       </widget>
+-      </item>
+-      <item row="2" column="1">
+-       <widget class="twoDModel::view::Ruler" name="horizontalRuler">
+-        <property name="sizePolicy">
+-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+-          <horstretch>0</horstretch>
+-          <verstretch>0</verstretch>
+-         </sizepolicy>
+-        </property>
+-        <property name="minimumSize">
+-         <size>
+-          <width>0</width>
+-          <height>20</height>
+-         </size>
+-        </property>
+-        <property name="maximumSize">
+-         <size>
+-          <width>16777215</width>
+-          <height>20</height>
+-         </size>
+-        </property>
+-        <property name="frameShape">
+-         <enum>QFrame::Panel</enum>
+-        </property>
+-        <property name="frameShadow">
+-         <enum>QFrame::Sunken</enum>
+-        </property>
+-        <property name="orientation" stdset="0">
+-         <number>1</number>
+-        </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+@@ -443,7 +284,7 @@
+            </property>
+           </widget>
+          </item>
+-         <item>
++         <item alignment="Qt::AlignHCenter">
+           <widget class="QFrame" name="detailsContainer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+@@ -556,6 +397,73 @@
+               </layout>
+              </widget>
+             </item>
++            <item>
++             <widget class="QFrame" name="metricFrame">
++              <property name="frameShape">
++               <enum>QFrame::NoFrame</enum>
++              </property>
++              <property name="frameShadow">
++               <enum>QFrame::Plain</enum>
++              </property>
++              <layout class="QVBoxLayout" name="verticalLayout_4">
++               <property name="leftMargin">
++                <number>0</number>
++               </property>
++               <property name="topMargin">
++                <number>0</number>
++               </property>
++               <property name="bottomMargin">
++                <number>0</number>
++               </property>
++               <item>
++                <widget class="QLabel" name="metricLabel">
++                 <property name="text">
++                  <string>Metric system units:</string>
++                 </property>
++                </widget>
++               </item>
++               <item>
++                <widget class="QComboBox" name="metricComboBox">
++                 <property name="enabled">
++                  <bool>true</bool>
++                 </property>
++                </widget>
++               </item>
++               <item>
++                <widget class="QLabel" name="pixelsInCmLabel">
++                 <property name="sizePolicy">
++                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
++                   <horstretch>0</horstretch>
++                   <verstretch>0</verstretch>
++                  </sizepolicy>
++                 </property>
++                 <property name="text">
++                  <string>Pixels in cm:</string>
++                 </property>
++                </widget>
++               </item>
++               <item>
++                <widget class="QDoubleSpinBox" name="pixelsInCmDoubleSpinBox">
++                 <property name="enabled">
++                  <bool>true</bool>
++                 </property>
++                 <property name="readOnly">
++                  <bool>true</bool>
++                 </property>
++                 <property name="decimals">
++                  <number>3</number>
++                 </property>
++                 <property name="maximum">
++                  <double>1000.000000000000000</double>
++                 </property>
++                 <property name="singleStep">
++                  <double>1.000000000000000</double>
++                 </property>
++                </widget>
++               </item>
++              </layout>
++             </widget>
++            </item>
+             <item>
+              <widget class="QFrame" name="physicsFrame">
+               <layout class="QVBoxLayout" name="verticalLayout">
+@@ -640,16 +548,10 @@
+                  </property>
+                 </widget>
+                </item>
+-               <item row="3" column="0">
+-                <widget class="QLabel" name="robotMass">
+-                 <property name="sizePolicy">
+-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+-                   <horstretch>0</horstretch>
+-                   <verstretch>0</verstretch>
+-                  </sizepolicy>
+-                 </property>
+-                 <property name="text">
+-                  <string>Robot mass:</string>
++               <item row="1" column="1">
++                <widget class="QDoubleSpinBox" name="robotHeightInCm">
++                 <property name="readOnly">
++                  <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+@@ -666,17 +568,23 @@
+                  </property>
+                 </widget>
+                </item>
+-               <item row="1" column="1">
+-                <widget class="QDoubleSpinBox" name="robotHeightInCm">
++               <item row="2" column="1">
++                <widget class="QDoubleSpinBox" name="robotWidthInCm">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+-               <item row="2" column="1">
+-                <widget class="QDoubleSpinBox" name="robotWidthInCm">
+-                 <property name="readOnly">
+-                  <bool>true</bool>
++               <item row="3" column="0">
++                <widget class="QLabel" name="robotMass">
++                 <property name="sizePolicy">
++                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
++                   <horstretch>0</horstretch>
++                   <verstretch>0</verstretch>
++                  </sizepolicy>
++                 </property>
++                 <property name="text">
++                  <string>Robot mass:</string>
+                  </property>
+                 </widget>
+                </item>
+@@ -690,13 +598,6 @@
+                  </property>
+                 </widget>
+                </item>
+-               <item row="4" column="1">
+-                <widget class="QDoubleSpinBox" name="robotTrackInCm">
+-                 <property name="readOnly">
+-                  <bool>true</bool>
+-                 </property>
+-                </widget>
+-               </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="robotTrack">
+                  <property name="sizePolicy">
+@@ -710,6 +611,13 @@
+                  </property>
+                 </widget>
+                </item>
++               <item row="4" column="1">
++                <widget class="QDoubleSpinBox" name="robotTrackInCm">
++                 <property name="readOnly">
++                  <bool>true</bool>
++                 </property>
++                </widget>
++               </item>
+               </layout>
+              </widget>
+             </item>
+@@ -719,17 +627,176 @@
+         </layout>
+        </widget>
+       </item>
+-      <item row="3" column="1">
+-       <widget class="graphicsUtils::AbstractView" name="graphicsView">
++      <item row="2" column="1">
++       <widget class="twoDModel::view::Ruler" name="horizontalRuler">
+         <property name="sizePolicy">
+-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+-          <horstretch>1</horstretch>
+-          <verstretch>1</verstretch>
++         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
++          <horstretch>0</horstretch>
++          <verstretch>0</verstretch>
++         </sizepolicy>
++        </property>
++        <property name="minimumSize">
++         <size>
++          <width>0</width>
++          <height>20</height>
++         </size>
++        </property>
++        <property name="maximumSize">
++         <size>
++          <width>16777215</width>
++          <height>20</height>
++         </size>
++        </property>
++        <property name="frameShape">
++         <enum>QFrame::Panel</enum>
++        </property>
++        <property name="frameShadow">
++         <enum>QFrame::Sunken</enum>
++        </property>
++        <property name="orientation" stdset="0">
++         <number>1</number>
++        </property>
++       </widget>
++      </item>
++      <item row="1" column="1" colspan="3">
++       <widget class="QWidget" name="sceneHeaderWidget" native="true">
++        <layout class="QHBoxLayout" name="horizontalLayout_3">
++         <property name="leftMargin">
++          <number>0</number>
++         </property>
++         <property name="topMargin">
++          <number>0</number>
++         </property>
++         <property name="rightMargin">
++          <number>0</number>
++         </property>
++         <property name="bottomMargin">
++          <number>0</number>
++         </property>
++         <item>
++          <widget class="twoDModel::view::GridParameters" name="gridParametersBox">
++           <property name="sizePolicy">
++            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
++             <horstretch>0</horstretch>
++             <verstretch>0</verstretch>
++            </sizepolicy>
++           </property>
++          </widget>
++         </item>
++         <item>
++          <widget class="QPushButton" name="speedDownButton">
++           <property name="sizePolicy">
++            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
++             <horstretch>0</horstretch>
++             <verstretch>0</verstretch>
++            </sizepolicy>
++           </property>
++           <property name="maximumSize">
++            <size>
++             <width>16</width>
++             <height>16</height>
++            </size>
++           </property>
++           <property name="focusPolicy">
++            <enum>Qt::NoFocus</enum>
++           </property>
++           <property name="toolTip">
++            <string>Decrease speed</string>
++           </property>
++           <property name="text">
++            <string/>
++           </property>
++           <property name="icon">
++            <iconset resource="../../../../../interpreters/interpreterCore/interpreterCore.qrc">
++             <normaloff>:/icons/2d_minus.svg</normaloff>:/icons/2d_minus.svg</iconset>
++           </property>
++           <property name="autoRepeat">
++            <bool>true</bool>
++           </property>
++           <property name="flat">
++            <bool>true</bool>
++           </property>
++          </widget>
++         </item>
++         <item>
++          <widget class="QDoubleSpinBox" name="timelineBox">
++           <property name="enabled">
++            <bool>false</bool>
++           </property>
++           <property name="sizePolicy">
++            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
++             <horstretch>0</horstretch>
++             <verstretch>0</verstretch>
++            </sizepolicy>
++           </property>
++           <property name="maximumSize">
++            <size>
++             <width>100</width>
++             <height>16777215</height>
++            </size>
++           </property>
++           <property name="focusPolicy">
++            <enum>Qt::NoFocus</enum>
++           </property>
++           <property name="contextMenuPolicy">
++            <enum>Qt::NoContextMenu</enum>
++           </property>
++           <property name="toolTip">
++            <string>Time in 2D model</string>
++           </property>
++           <property name="readOnly">
++            <bool>true</bool>
++           </property>
++           <property name="buttonSymbols">
++            <enum>QAbstractSpinBox::NoButtons</enum>
++           </property>
++           <property name="suffix">
++            <string> sec.</string>
++           </property>
++           <property name="decimals">
++            <number>3</number>
++           </property>
++           <property name="maximum">
++            <double>2000000000.000000000000000</double>
++           </property>
++          </widget>
++         </item>
++         <item>
++          <widget class="QPushButton" name="speedUpButton">
++           <property name="sizePolicy">
++            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
++             <horstretch>0</horstretch>
++             <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
++           <property name="maximumSize">
++            <size>
++             <width>16</width>
++             <height>16</height>
++            </size>
++           </property>
++           <property name="focusPolicy">
++            <enum>Qt::NoFocus</enum>
++           </property>
+            <property name="toolTip">
++            <string>Increase speed</string>
++           </property>
++           <property name="text">
+             <string/>
+            </property>
++           <property name="icon">
++            <iconset resource="../../../../../interpreters/interpreterCore/interpreterCore.qrc">
++             <normaloff>:/icons/2d_plus.svg</normaloff>:/icons/2d_plus.svg</iconset>
++           </property>
++           <property name="autoRepeat">
++            <bool>true</bool>
++           </property>
++           <property name="flat">
++            <bool>true</bool>
++           </property>
++          </widget>
++         </item>
++        </layout>
+        </widget>
+       </item>
+      </layout>

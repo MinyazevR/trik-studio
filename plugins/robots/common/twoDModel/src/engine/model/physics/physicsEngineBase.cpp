@@ -13,10 +13,11 @@
  * limitations under the License. */
 
 #include "physicsEngineBase.h"
-
+#include <QDebug>
 #include <qrutils/mathUtils/math.h>
 
 #include "twoDModel/engine/model/worldModel.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 
 using namespace twoDModel::model::physics;
 
@@ -73,5 +74,8 @@ void PhysicsEngineBase::itemRemoved(QGraphicsItem * const item)
 
 qreal PhysicsEngineBase::wheelLinearSpeed(RobotModel &robot, const RobotModel::Wheel &wheel) const
 {
+	qDebug() << wheel.spoiledSpeed;
+	qDebug() << wheel.radius;
+	qDebug() << robot.info().onePercentAngularVelocity();
 	return wheel.spoiledSpeed * 2 * mathUtils::pi * wheel.radius * robot.info().onePercentAngularVelocity() / 360;
 }

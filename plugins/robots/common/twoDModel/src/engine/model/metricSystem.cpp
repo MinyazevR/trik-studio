@@ -13,7 +13,7 @@
  * limitations under the License. */
 
 #include <QtXml/QDomElement>
-
+#include <QDebug>
 #include "twoDModel/engine/model/metricSystem.h"
 
 using namespace twoDModel::model;
@@ -71,12 +71,14 @@ void SizeUnit::deserialize(const QDomElement &parent)
 	} else {
 		setUnit(defaultUnit());
 	}
+	qDebug() << "uhuhuhuh";
 	emit sizeUnitChanged(mSizeUnit);
 }
 
 void SizeUnit::setUnit(const Unit &unit)
 {
 	mSizeUnit = unit;
+	emit sizeUnitChanged(mSizeUnit);
 }
 
 qreal SizeUnit::countFactor() const

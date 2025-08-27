@@ -18,7 +18,7 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
 #include <QtWidgets/QApplication>
-
+#include <QDebug>
 #include <qrkernel/settingsManager.h>
 #include <qrkernel/platformInfo.h>
 #include <qrutils/graphicsUtils/gridDrawer.h>
@@ -36,6 +36,7 @@
 #include "robotItem.h"
 
 #include "twoDModel/engine/model/model.h"
+#include "twoDModel/engine/model/twoDRobotModelAdapter.h"
 #include "twoDModel/engine/model/image.h"
 #include "src/engine/view/scene/sensorItem.h"
 #include "src/engine/view/scene/rangeSensorItem.h"
@@ -221,6 +222,7 @@ bool TwoDModelScene::isCorrectScene(const QList<QGraphicsItem *> &checkItems) co
 
 void TwoDModelScene::onRobotAdd(model::RobotModel *robotModel)
 {
+	qDebug() << "onRobotAdd";
 	auto robotItem = QSharedPointer<RobotItem>(
 	        new RobotItem(&mModel.coordinateMetricSystem(), robotModel->info().robotImage(), *robotModel));
 

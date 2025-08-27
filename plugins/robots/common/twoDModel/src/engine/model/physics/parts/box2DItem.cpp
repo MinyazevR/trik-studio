@@ -15,7 +15,7 @@
 
 #include "src/engine/model/physics/box2DPhysicsEngine.h"
 #include "src/engine/items/solidItem.h"
-
+#include <QDebug>
 using namespace twoDModel::model::physics;
 using namespace twoDModel::items;
 using namespace parts;
@@ -41,7 +41,7 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 	b2Body_SetAngularDamping(mBodyId, item->angularDamping());
 	b2Body_SetLinearDamping(mBodyId, item->linearDamping());
 	b2ShapeDef fixtureDef = b2DefaultShapeDef();
-	fixtureDef.material.restitution = 0.8f;
+	fixtureDef.material.restitution = item->restitution();
 	QPolygonF collidingPolygon = item->collidingPolygon();
 	QPointF localCenter = collidingPolygon.boundingRect().center();
 	b2Circle circleShape = {};
@@ -49,8 +49,11 @@ Box2DItem::Box2DItem(twoDModel::model::physics::Box2DPhysicsEngine *engine
 	if (item->isCircle()) {
 		mIsCircle = true;
 		qreal radius = collidingPolygon.boundingRect().height() / 2;
+		qDebug() << "Px Ball radius" << radius;
+		qDebug() << "Ball radius" << this->mEngine.pxToM(radius);
 		circleShape.radius = this->mEngine.pxToM(radius);
 		fixtureDef.density = engine->computeDensity(radius, item->mass());
+		qDebug() << "" << engine->computeDensity(radius, item->mass());
 	} else {
 		if (collidingPolygon.isClosed()) {
 			collidingPolygon.removeLast();
@@ -79,6 +82,7 @@ Box2DItem::~Box2DItem()
 {
 	b2DestroyBody(mBodyId);
 	if (!mIsCircle) {
+		qDebug() << "REMOVE";
 		delete[] mPolygon;
 	}
 }

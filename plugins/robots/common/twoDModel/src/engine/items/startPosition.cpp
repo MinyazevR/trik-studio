@@ -13,7 +13,7 @@
  * limitations under the License. */
 
 #include "startPosition.h"
-
+#include <QDebug>
 #include "twoDModel/engine/model/constants.h"
 
 using namespace twoDModel::items;
@@ -68,6 +68,7 @@ void StartPosition::deserialize(const QDomElement &startPositionElement)
 	auto *coordSystem = coordinateSystem();
 	auto x = coordSystem->toPx(startPositionElement.attribute("x").toDouble());
 	auto y = coordSystem->toPx(startPositionElement.attribute("y").toDouble());
+	qDebug() << "startPosition" << x << y;
 	setX(x);
 	setY(y);
 	setRotation(startPositionElement.attribute("direction").toDouble());
