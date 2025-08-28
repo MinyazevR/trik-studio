@@ -230,6 +230,7 @@ void ConstraintsChecker::bindRobotObject(twoDModel::model::RobotModel * const ro
 void ConstraintsChecker::bindDeviceObject(const QString &robotId
 		, model::RobotModel * const robot, const kitBase::robotModel::PortInfo &port)
 {
+	qDebug() << "portName" << portName(robotId, robot, port);
 	mObjects[portName(robotId, robot, port)] = robot->info().configuration().device(port);
 }
 

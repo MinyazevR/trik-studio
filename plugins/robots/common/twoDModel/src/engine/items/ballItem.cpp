@@ -21,11 +21,11 @@
 
 namespace {
 	static constexpr int defaultBallRadiusPx = 30;
-	static constexpr qreal ballMass = 0.3f;
+	static constexpr qreal ballMass = 0.015f;
 	static constexpr qreal ballFriction = 1.0f;
-	static constexpr qreal ballRestituion = 0.2f;
-	static constexpr qreal ballAngularDamping = 1.0f;
-	static constexpr qreal ballLinearDamping = 1.0f;
+	static constexpr qreal ballRestituion = 0.8f;
+	static constexpr qreal ballAngularDamping = 0.09f;
+	static constexpr qreal ballLinearDamping = 0.09f;
 }
 
 

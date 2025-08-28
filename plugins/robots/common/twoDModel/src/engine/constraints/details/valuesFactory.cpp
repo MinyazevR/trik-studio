@@ -13,7 +13,7 @@
  * limitations under the License. */
 
 #include "valuesFactory.h"
-
+#include <QDebug>
 #include <QtCore/QRect>
 
 #include <qrutils/mathUtils/geometry.h>
@@ -84,6 +84,7 @@ Value ValuesFactory::typeOf(const QString &objectId) const
 		}
 
 		QObject const *object = mObjects[objectId];
+		qDebug() << "object->metaObject()->className()" << object->metaObject()->className();
 		return object == nullptr ? typeOfNull : object->metaObject()->className();
 	};
 }
