@@ -25,6 +25,9 @@ public:
 	static constexpr qreal robotRestitution = 0.3f;
 	static constexpr qreal robotAngularDamping = 1.0f;
 	static constexpr qreal robotLinearDamping = 1.0f;
+	static constexpr qreal defaultWheelRestitution = 0.5f;
+	static constexpr qreal defaultWheelFriction = 1.0f;
+	static constexpr qreal defaultWheelMass = 0.1f;
 
 	explicit TwoDRobotModelAdapter(twoDModel::robotModel::TwoDRobotModel &twoDRobotModel)
 		: mTwoDRobotModel(twoDRobotModel),
@@ -34,7 +37,10 @@ public:
 		mFriction(robotFriction),
 		mRestitution(robotRestitution),
 		mLinearDamping(robotLinearDamping),
-		mAngularDamping(robotAngularDamping)
+		mAngularDamping(robotAngularDamping),
+		mWheelRestitution(defaultWheelRestitution),
+		mWheelFriction(defaultWheelFriction),
+		mWheelMass(defaultWheelMass)
 	{
 		connect(&mTwoDRobotModel, &twoDModel::robotModel::TwoDRobotModel::settingsChanged,
 				this, &TwoDRobotModelAdapter::settingsChanged);
@@ -110,6 +116,30 @@ public:
 	inline void setMass(const qreal mass) {
 		mMass = mass;
 		Q_EMIT robotParamChanged();
+	}
+
+	inline void setWheelMass(const qreal mass) {
+		mWheelMass = mass;
+	}
+
+	inline qreal wheelMass() {
+		return mWheelMass;
+	}
+
+	inline void setWheelRestitution(const qreal restitution) {
+		mWheelRestitution = restitution;
+	}
+
+	inline qreal wheelRestitution() {
+		return mWheelRestitution;
+	}
+
+	inline void setWheelFriction(const qreal friction) {
+		mWheelFriction = friction;
+	}
+
+	inline qreal wheelFriction() {
+		return mWheelFriction;
 	}
 
 	inline void setSize(const QSizeF &size) {
@@ -272,6 +302,9 @@ private:
 	qreal mRestitution;
 	qreal mLinearDamping;
 	qreal mAngularDamping;
+	qreal mWheelRestitution;
+	qreal mWheelFriction;
+	qreal mWheelMass;
 
 };
 

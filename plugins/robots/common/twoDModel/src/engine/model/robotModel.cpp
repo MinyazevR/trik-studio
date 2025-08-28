@@ -589,6 +589,18 @@ void RobotModel::deserializeWheels(const QDomElement &robotElement)
 
 	setMotorPortOnWheel(WheelEnum::left, PortInfo::fromString(wheels.attribute("left")));
 	setMotorPortOnWheel(WheelEnum::right, PortInfo::fromString(wheels.attribute("right")));
+
+	if (wheels.hasAttribute("mass")) {
+		info().setWheelMass(wheels.attribute("mass").toDouble());
+	}
+
+	if (wheels.hasAttribute("friction")) {
+		info().setWheelFriction(wheels.attribute("friction").toDouble());
+	}
+
+	if (wheels.hasAttribute("restitution")) {
+		info().setWheelRestitution(wheels.attribute("restitution").toDouble());
+	}
 }
 
 twoDModel::items::StartPosition *RobotModel::startPositionMarker()

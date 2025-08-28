@@ -54,8 +54,6 @@ private:
 	twoDModel::model::physics::Box2DPhysicsEngine *mEngine; // Doesn't take ownership
 	const float mWheelHeightM;
 	const float mWheelWidthM;
-	const float mWheelFriction = 1.0f;
-	const float mWheelMass = 0.1f;
 	b2Vec2 *mPolygon; // Takes ownership
 };
 

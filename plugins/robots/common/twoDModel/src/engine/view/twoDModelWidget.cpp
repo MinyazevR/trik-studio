@@ -177,24 +177,18 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 		qDebug() << "new mass" << robotInfo.mass();
 	};
 
-//	auto reinitedCallback = [&](){
-//		const auto &robotInfo = mModel.robotModels()[0]->info();
-//		connect(&robotInfo, &model::TwoDRobotModelAdapter::robotParamChanged,
-//				this, [&] {
-//			setRobotPropertiesCallBack(robotInfo);
-//		});
-//	};
-
 	connect(&mModel, &model::Model::robotAdded, [this,
 		setRobotPropertiesCallBack]() {
-		if (mModel.robotModels().isEmpty()) {
-			// ?
-			qDebug() << "AAAAAAAAAAAAAAAAAAA";
-		}
+
 		auto robotModel = mModel.robotModels()[0];
-		robotModel->info();
+
 		connect(robotModel, &model::RobotModel::deserialized,
 				this, [setRobotPropertiesCallBack, robotModel]() {
+			setRobotPropertiesCallBack(robotModel->info());
+		});
+
+		connect(&robotModel->info(), &model::TwoDRobotModelAdapter::robotParamChanged,
+				this, [setRobotPropertiesCallBack, robotModel] {
 			setRobotPropertiesCallBack(robotModel->info());
 		});
 	});

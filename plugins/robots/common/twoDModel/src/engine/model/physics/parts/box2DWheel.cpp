@@ -33,7 +33,6 @@ Box2DWheel::Box2DWheel(Box2DPhysicsEngine *engine
 		mRobot.getRobotModel()->info().wheelDiameter()))
 	, mPolygon(new b2Vec2[8])
 {
-	qDebug() << "mWheelHeightM" << mWheelHeightM;
 	b2BodyDef bodyDef = b2DefaultBodyDef();
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = positionBox2D;
@@ -41,13 +40,13 @@ Box2DWheel::Box2DWheel(Box2DPhysicsEngine *engine
 	mBodyId = b2CreateBody(engine->box2DWorldId(), &bodyDef);
 
 	b2ShapeDef fixtureDef = b2DefaultShapeDef();
-	fixtureDef.material.restitution = 0.5;
-	fixtureDef.material.friction = mWheelFriction;
+	fixtureDef.material.restitution = mRobot.getRobotModel()->info().wheelRestitution();
+	fixtureDef.material.friction = mRobot.getRobotModel()->info().wheelRestitution();
 	fixtureDef.density = engine->computeDensity(
 			QPolygonF(QRectF(0, 0,
 				mRobot.getRobotModel()->info().wheelDiameter() / 2,
 				mRobot.getRobotModel()->info().wheelDiameter()))
-			, mWheelMass);
+			, mRobot.getRobotModel()->info().wheelMass());
 
 	b2Vec2 center = b2Vec2{0.5f * mWheelWidthM, 0.5f * mWheelHeightM};
 	mPolygon[0] = b2Vec2{0.2f * mWheelWidthM, mWheelHeightM} - center;
