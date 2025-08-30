@@ -393,12 +393,14 @@ void Box2DPhysicsEngine::nextFrame()
 {
 	for (auto it = mBox2DDynamicItems.constBegin(); it != mBox2DDynamicItems.constEnd(); ++it) {
 		auto *item = it.key();
-		auto isEnabled = b2Body_IsEnabled(mBox2DDynamicItems[item]->getBodyId()); // clazy:exclude=detaching-member
-		if (isEnabled && mBox2DDynamicItems[item]->angleOrPositionChanged()) { // clazy:exclude=detaching-member
-			QPointF scenePos = positionToScene(mBox2DDynamicItems[item]->getPosition()); // clazy:exclude=detaching-member
+		// clazy:excludeall=detaching-member
+		auto isEnabled = b2Body_IsEnabled(mBox2DDynamicItems[item]->getBodyId());
+		if (isEnabled && mBox2DDynamicItems[item]->angleOrPositionChanged()) {
+			QPointF scenePos = positionToScene(mBox2DDynamicItems[item]->getPosition());
 			item->setPos(scenePos - item->boundingRect().center());
-			item->setRotation(angleToScene(mBox2DDynamicItems[item]->getRotation())); // clazy:exclude=detaching-member
+			item->setRotation(angleToScene(mBox2DDynamicItems[item]->getRotation()));
 		}
+		// clazy:enable
 	}
 }
 
