@@ -17,7 +17,6 @@
 #include <qmath.h>
 #include <QtCore/QtMath>
 #include <QtGui/QTransform>
-
 #include <qrutils/mathUtils/math.h>
 
 #include <kitBase/robotModel/robotParts/encoderSensor.h>
@@ -27,7 +26,7 @@
 #include "twoDModel/engine/model/constants.h"
 #include "twoDModel/engine/model/settings.h"
 #include "twoDModel/engine/model/timeline.h"
-
+#include "twoDModel/engine/model/metricCoordinateSystem.h"
 #include "physics/physicsEngineBase.h"
 
 #include "src/engine/items/startPosition.h"
@@ -40,14 +39,17 @@ const int positionStampsCount = 50;
 
 RobotModel::RobotModel(robotModel::TwoDRobotModel &robotModel
 		, const Settings &settings
+		, twoDModel::model::MetricCoordinateSystem &metricSystem
 		, QObject *parent)
 	: QObject(parent)
 	, mSettings(settings)
 	, mRobotModel(robotModel)
-	, mSensorsConfiguration(robotModel.robotId(), robotModel.size())
+	, mSensorsConfiguration(metricSystem, robotModel.robotId(), robotModel.size())
 	, mMarker(Qt::transparent)
 	, mPosStamps(positionStampsCount)
-	, mStartPositionMarker(new items::StartPosition(info().size()))
+	, mStartPositionMarker(
+		new items::StartPosition(&metricSystem, info().size()))
+	, mMetricSystem(metricSystem)
 {
 	reinit();
 }
@@ -57,7 +59,7 @@ RobotModel::~RobotModel() = default;
 void RobotModel::reinit()
 {
 	mMotors.clear();
-	for (const Device * const device : mRobotModel.configuration().devices()) {
+	for (auto &&device : mRobotModel.configuration().devices()) {
 		if (device->deviceInfo().isA<robotParts::Motor>()) {
 			initMotor(robotWheelDiameterInPx / 2, 0, 0, device->port(), false);
 		}
@@ -100,7 +102,7 @@ RobotModel::Wheel *RobotModel::initMotor(int radius, int speed, uint64_t degrees
 	/// @todo We need some mechanism to set correspondence between motors and encoders. In NXT motors and encoders are
 	///       physically plugged into one port, so we can find corresponding port by name. But in TRIK encoders can be
 	///       connected differently.
-	for (const Device * const device : mRobotModel.configuration().devices()) {
+	for (auto &&device : mRobotModel.configuration().devices()) {
 		if (device->deviceInfo().isA<EncoderSensor>()
 				&& (device->port().name() == port.name() || device->port().nameAliases().contains(port.name())))
 		{
@@ -182,7 +184,7 @@ void RobotModel::stopRobot()
 	mRobotModel.displayWidget()->reset();
 	mIsFirstAngleStamp = true;
 	mPosStamps.clear();
-	emit playingSoundChanged(false);
+	Q_EMIT playingSoundChanged(false);
 	for (auto &&engine : mMotors) {
 		engine->speed = 0;
 		engine->breakMode = true;
@@ -192,10 +194,10 @@ void RobotModel::stopRobot()
 void RobotModel::countBeep()
 {
 	if (mBeepTime > 0) {
-		emit playingSoundChanged(true);
+		Q_EMIT playingSoundChanged(true);
 		mBeepTime -= Timeline::timeInterval;
 	} else {
-		emit playingSoundChanged(false);
+		Q_EMIT playingSoundChanged(false);
 	}
 }
 
@@ -268,7 +270,7 @@ QPainterPath RobotModel::robotBoundingPath(const bool withSensors) const
 	path.addRect(boundingRect);
 
 	if (withSensors) {
-		for (const PortInfo &port : mRobotModel.configurablePorts()){
+		for (auto &&port : mRobotModel.configurablePorts()){
 			path.addPath(sensorBoundingPath(port));
 		}
 	}
@@ -336,7 +338,7 @@ void RobotModel::nextStep()
 	// Changing position quietly, they must not be caught by UI here.
 	mPos += mPhysicsEngine->positionShift(*this).toPointF();
 	mAngle += mPhysicsEngine->rotation(*this);
-	emit positionRecalculated(mPos, mAngle);
+	Q_EMIT positionRecalculated(mPos, mAngle);
 }
 
 void RobotModel::recalculateParams()
@@ -375,7 +377,7 @@ void RobotModel::nextFragment()
 		return;
 	}
 
-	emit robotRided(mPos, mAngle);
+	Q_EMIT robotRided(mPos, mAngle);
 }
 
 QPointF RobotModel::position() const
@@ -383,11 +385,11 @@ QPointF RobotModel::position() const
 	return mPos;
 }
 
-void RobotModel::setPosition(const QPointF &newPos)
+void RobotModel::setPosition(QPointF newPos)
 {
 	if (newPos != mPos) {
 		mPos = newPos;
-		emit positionChanged(newPos);
+		Q_EMIT positionChanged(newPos);
 	}
 }
 
@@ -400,7 +402,7 @@ void RobotModel::setRotation(qreal angle)
 {
 	if (!mathUtils::Math::eq(mAngle, angle)) {
 		mAngle = angle;
-		emit rotationChanged(angle);
+		Q_EMIT rotationChanged(angle);
 	}
 }
 
@@ -447,7 +449,9 @@ void RobotModel::serializeWorldModel(QDomElement &parent) const
 	}
 
 	QDomElement robot = world.ownerDocument().createElement("robot");
-	robot.setAttribute("position", QString::number(mPos.x()) + ":" + QString::number(mPos.y()));
+	robot.setAttribute("position",
+	                   QString::number(mMetricSystem.toUnit(mPos.x()))
+	                   + ":" + QString::number(mMetricSystem.toUnit(mPos.y())));
 	robot.setAttribute("direction", QString::number(mAngle));
 	mStartPositionMarker->serialize(robot);
 	world.appendChild(robot);
@@ -467,10 +471,10 @@ void RobotModel::deserializeWorldModel(const QDomElement &world)
 	const qreal x = static_cast<qreal>(splittedStr[0].toDouble());
 	const qreal y = static_cast<qreal>(splittedStr[1].toDouble());
 	onRobotReturnedOnGround();
-	setPosition(QPointF(x, y));
+	setPosition(mMetricSystem.toPx({x, y}));
 	setRotation(robotElement.attribute("direction", "0").toDouble());
 	mStartPositionMarker->deserializeCompatibly(robotElement);
-	emit deserialized(QPointF(mPos.x(), mPos.y()), mAngle);
+	Q_EMIT deserialized(QPointF(mPos.x(), mPos.y()), mAngle);
 }
 
 void RobotModel::deserialize(const QDomElement &robotElement)
@@ -502,8 +506,13 @@ void RobotModel::setMotorPortOnWheel(WheelEnum wheel, const kitBase::robotModel:
 {
 	if (mWheelsToMotorPortsMap[wheel] != port) {
 		mWheelsToMotorPortsMap[wheel] = port;
-		emit wheelOnPortChanged(wheel, port);
+		Q_EMIT wheelOnPortChanged(wheel, port);
 	}
+}
+
+kitBase::robotModel::PortInfo RobotModel::getPortInfoOnWheel(WheelEnum wheel) const
+{
+	return mWheelsToMotorPortsMap[wheel];
 }
 
 int RobotModel::varySpeed(const int speed) const

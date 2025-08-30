@@ -18,6 +18,7 @@
 #include "robotModel.h"
 #include "timeline.h"
 #include "settings.h"
+#include "metricCoordinateSystem.h"
 #include <twoDModel/robotModel/twoDRobotModel.h>
 
 #include "twoDModel/twoDModelDeclSpec.h"
@@ -39,6 +40,10 @@ class ConstraintsChecker;
 
 namespace model {
 
+namespace physics {
+class PhysicsEngineFactory;
+}
+
 /// A main class managing model part of 2D emulator. Creates and maintains different parts
 /// such as world map, robot model, timelines and physical engines.
 class TWO_D_MODEL_EXPORT Model : public QObject
@@ -46,7 +51,9 @@ class TWO_D_MODEL_EXPORT Model : public QObject
 	Q_OBJECT
 
 public:
-	explicit Model(QObject *parent = nullptr);
+	/// Dependency injection for the physics engine
+	explicit Model(physics::PhysicsEngineFactory *engineFactory,
+	               QObject *parent = nullptr);
 	~Model();
 
 	void init(qReal::ErrorReporterInterface &errorReporter
@@ -65,6 +72,12 @@ public:
 	/// Returns a reference to a 2D model`s settings storage.
 	Settings &settings();
 
+	/// Metric coordinate system for usage in twoDModelWidget
+	MetricCoordinateSystem &coordinateMetricSystem();
+
+	/// Metric system for usage in twoDModelWidget (and Grid)
+	SizeUnit &metricSystem();
+
 	/// Returns a pointer to an object that reports system errors.
 	qReal::ErrorReporterInterface *errorReporter();
 
@@ -74,7 +87,7 @@ public:
 	/// Add new robot model
 	/// @param robotModel Model to be added
 	/// @param pos Initial positon of robot model
-	void addRobotModel(robotModel::TwoDRobotModel &robotModel, const QPointF &pos = QPointF());
+	void addRobotModel(robotModel::TwoDRobotModel &robotModel, QPointF pos = QPointF());
 
 	/// Remove robot model
 	void removeRobotModel();
@@ -88,7 +101,7 @@ public:
 	/// Activates or deactivates constraints checker.
 	void setConstraintsEnabled(bool enabled);
 
-signals:
+Q_SIGNALS:
 	/// Emitted each time when some user actions lead to world model modifications
 	/// @param xml World model description in xml format
 	void modelChanged(const QDomDocument &xml);
@@ -99,13 +112,13 @@ signals:
 
 	/// Emitted after new robot model added
 	/// @param robotModel Pointer to robot model which was removed
-	void robotAdded(RobotModel *robotModel);
+	void robotAdded(twoDModel::model::RobotModel *robotModel);
 
 	/// Emitted after robot model removed
 	/// @param robotModel Pointer to robot model which was added
-	void robotRemoved(RobotModel *robotModel);
+	void robotRemoved(twoDModel::model::RobotModel *robotModel);
 
-private slots:
+private Q_SLOTS:
 	void resetPhysics();
 	void recalculatePhysicsParams();
 
@@ -113,14 +126,16 @@ private:
 	void initPhysics();
 
 	Settings mSettings;
+	MetricCoordinateSystem mMetricCoordinateSystem;
 	WorldModel mWorldModel;
 	Timeline mTimeline;
 	QScopedPointer<constraints::ConstraintsChecker> mChecker;
 	RobotModel * mRobotModel {}; //Has ownership
 	qReal::ErrorReporterInterface *mErrorReporter;  // Doesn`t take ownership.
 	qReal::LogicalModelAssistInterface *mLogicalModel;  // Doesn`t take ownership.
-	physics::PhysicsEngineBase *mRealisticPhysicsEngine;  // Takes ownership.
-	physics::PhysicsEngineBase *mSimplePhysicsEngine;  // Takes ownership.
+	QScopedPointer<physics::PhysicsEngineFactory> mEngineFactory;
+	physics::PhysicsEngineBase *mRealisticPhysicsEngine {};  // Takes ownership.
+	physics::PhysicsEngineBase *mSimplePhysicsEngine {};  // Takes ownership.
 	quint64 mStartTimestamp {0};
 };
 

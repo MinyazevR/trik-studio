@@ -26,16 +26,18 @@
 namespace twoDModel {
 namespace model {
 
+class MetricCoordinateSystem;
+
 /// Represents position and direction of simulated sensors relative to robot.
 class TWO_D_MODEL_EXPORT SensorsConfiguration : public QObject, public kitBase::DevicesConfigurationProvider
 {
 	Q_OBJECT
 
 public:
-	SensorsConfiguration(const QString &robotModelName, const QSizeF &robotSize);
+	SensorsConfiguration(twoDModel::model::MetricCoordinateSystem &metricSystem,
+	                     const QString &robotModelName, QSizeF robotSize);
 
-
-	void setPosition(const kitBase::robotModel::PortInfo &port, const QPointF &position);
+	void setPosition(const kitBase::robotModel::PortInfo &port, QPointF position);
 	QPointF position(const kitBase::robotModel::PortInfo &port) const;
 
 	void setDirection(const kitBase::robotModel::PortInfo &port, qreal direction);
@@ -66,7 +68,7 @@ private:
 	struct SensorInfo
 	{
 		SensorInfo();
-		SensorInfo(const QPointF &position, qreal direction);
+		SensorInfo(QPointF position, qreal direction);
 
 		QPointF position;
 		qreal direction;
@@ -83,6 +85,7 @@ private:
 	const QSizeF mRobotSize;
 	QString mRobotId;
 	QHash<kitBase::robotModel::PortInfo, SensorInfo> mSensorsInfo;
+	twoDModel::model::MetricCoordinateSystem &mMetricSystem;
 };
 
 }

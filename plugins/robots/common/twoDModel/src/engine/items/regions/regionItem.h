@@ -20,6 +20,11 @@ class QDomElement;
 class QGraphicsTextItem;
 
 namespace twoDModel {
+
+namespace model {
+class MetricCoordinateSystem;
+}
+
 namespace items {
 
 /// Represents some zone on the 2D model world, probably with some text like "Start zone".
@@ -28,7 +33,9 @@ class RegionItem : public QGraphicsObject
 	Q_OBJECT
 
 public:
-	explicit RegionItem(QGraphicsItem *parent = nullptr);
+	explicit RegionItem(
+	                twoDModel::model::MetricCoordinateSystem *metricSystem,
+	                QGraphicsItem *parent = nullptr);
 
 	/// Returns a unique identifier of the region.
 	QString id() const;
@@ -49,7 +56,7 @@ public:
 	QPointF textPosition() const;
 
 	/// Sets the upper-left corner of the text relatively to upper-left corner of the item.
-	void setTextPosition(const QPointF &pos);
+	void setTextPosition(QPointF pos);
 
 	/// Returns the color of the item`s borders, text and hatching.
 	QColor color() const;
@@ -58,15 +65,17 @@ public:
 	void setColor(const QColor &color);
 
 	/// Sets the size of an item on the scene.
-	void setSize(const QSizeF &size);
+	void setSize(QSizeF size);
 
 	/// Returns true if the given point in scene coordinates is contained by this region.
-	bool containsPoint(const QPointF &point) const;
+	bool containsPoint(QPointF point) const;
 
 	/// Returns true if the center of the bounding rect of the given item is contained by this region.
 	bool containsItem(QGraphicsItem *item) const;
 
 	QRectF boundingRect() const override;
+
+	twoDModel::model::MetricCoordinateSystem *metricSystem() const;
 
 	virtual void serialize(QDomElement &element) const;
 	virtual void deserialize(const QDomElement &element);
@@ -86,6 +95,7 @@ private:
 	bool mFilled;
 	QColor mColor;
 	QSizeF mSize;
+	twoDModel::model::MetricCoordinateSystem *mMetricSystem;
 };
 
 }
