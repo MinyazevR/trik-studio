@@ -460,7 +460,7 @@ void Box2DPhysicsEngine::onItemDragged(graphicsUtils::AbstractItem *item)
 		Box2DItem *box2dItem = new Box2DItem(this, wallItem, pos, angleToBox2D(item->rotation()));
 		mBox2DResizableItems[item] = box2dItem;
 		return;
-	} else if (auto solidItem = qobject_cast<items::SolidItem *>(item)) {
+	} else if (auto solidItem = dynamic_cast<items::SolidItem *>(item)) { // clazy:exclude=unneeded-cast
 		QPolygonF collidingPolygon = solidItem->collidingPolygon();
 		if (itemTracked(item)) {
 			if (solidItem->bodyType() == items::SolidItem::DYNAMIC) {
