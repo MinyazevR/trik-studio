@@ -360,7 +360,7 @@ void Box2DPhysicsEngine::recalculateParameters(qreal timeInterval)
 //		path.addPolygon(mBox2DRobots[robot]->getWheelAt(0)->mDebuggingDrawPolygon);
 //		path.addPolygon(mBox2DRobots[robot]->getWheelAt(1)->mDebuggingDrawPolygon);
 
-	const QMap<const view::SensorItem *, Box2DItem *> sensors = mBox2DRobots[robot]->getSensors();
+	const QMap<const view::SensorItem *, Box2DItem *> sensors = mBox2DRobots[robot]->getSensors(); // clazy:exclude=qmap-with-pointer-key
 	for (auto it = sensors.constBegin(); it != sensors.constEnd(); ++it) {
 		auto* sensor = it.value();
 		const b2Vec2 position = b2Body_GetPosition(sensor->getBodyId());
