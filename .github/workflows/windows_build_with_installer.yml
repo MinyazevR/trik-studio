@@ -152,6 +152,7 @@ jobs:
         run: |
             cd ${{ env.BUILD_DIR }}
             export TRIK_PYTHONPATH=$(cygpath -w "${pythonLocation}/Lib")
+            export UBSAN_OPTIONS=print_stacktrace=1;
             mingw32-make -k check
 
       - name: Prepare all dlls
