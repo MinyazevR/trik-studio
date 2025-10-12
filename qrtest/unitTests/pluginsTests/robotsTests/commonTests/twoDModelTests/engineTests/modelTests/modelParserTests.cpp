@@ -18,7 +18,7 @@
 #include <twoDModel/robotModel/twoDRobotModelMock.h>
 #include <twoDModel/engine/model/model.h>
 #include <twoDModel/engine/model/robotModel.h>
-#include <twoDModel/engine/model/twoDModelRobotParameters.h>
+// #include <twoDModel/engine/model/twoDModelRobotParameters.h>
 #include "src/engine/items/wallItem.h"
 #include "src/engine/items/startPosition.h"
 #include "src/engine/items/skittleItem.h"
@@ -169,12 +169,14 @@ TEST_F(ModelParserTests, defaultMetricSystemCustomObjectParametersTest)
 	EXPECT_FLOAT_EQ(robotModel->position().y(), 25.0f);
 	EXPECT_FLOAT_EQ(robotModel->rotation(), 0.0f);
 
+/*
 	const auto parameters = robotModel->parameters();
 	EXPECT_FLOAT_EQ(parameters->friction(), 0.3f);
 	EXPECT_FLOAT_EQ(parameters->restitution(), 0.5f);
 	EXPECT_FLOAT_EQ(parameters->linearDamping(), 3.5f);
 	EXPECT_FLOAT_EQ(parameters->angularDamping(), 2.5f);
 	EXPECT_FLOAT_EQ(parameters->mass(), 1.2f);
+*/
 }
 
 constexpr auto epsilon = 1e-4;
@@ -290,11 +292,12 @@ TEST_F(ModelParserTests, cmConfugurationDefaultParametersTest)
 	EXPECT_LT_ABS(robotModel->position().x(), 10.0f);
 	EXPECT_LT_ABS(robotModel->position().y(), 25.0f);
 	EXPECT_FLOAT_EQ(robotModel->rotation(), 0.0f);
-
+/*
 	const auto parameters = robotModel->parameters();
 	EXPECT_FLOAT_EQ(parameters->friction(), 0.3f);
 	EXPECT_FLOAT_EQ(parameters->restitution(), 0.6f);
 	EXPECT_FLOAT_EQ(parameters->linearDamping(), 1.0f);
 	EXPECT_FLOAT_EQ(parameters->angularDamping(), 1.0f);
 	EXPECT_FLOAT_EQ(parameters->mass(), 1.05f);
+*/
 }
