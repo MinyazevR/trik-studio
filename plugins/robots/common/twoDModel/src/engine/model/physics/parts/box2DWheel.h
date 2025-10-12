@@ -31,10 +31,9 @@ class Box2DRobot;
 class Box2DWheel
 {
 public:
-	Box2DWheel(twoDModel::model::RobotModel * const robotModel,
-		   twoDModel::model::physics::Box2DPhysicsEngine *engine
-			, b2Vec2 positionBox2D
-			, b2Rot rotationBox2D
+	Box2DWheel(twoDModel::model::physics::Box2DPhysicsEngine *engine
+			, const b2Vec2 &positionBox2D
+			, const b2Rot &rotationBox2D
 			, Box2DRobot &mRobot);
 	~Box2DWheel();
 
@@ -55,6 +54,8 @@ private:
 	twoDModel::model::physics::Box2DPhysicsEngine *mEngine; // Doesn't take ownership
 	const float mWheelHeightM;
 	const float mWheelWidthM;
+	const float mWheelFriction = 1.0f;
+	const float mWheelMass = 0.1f;
 	b2Vec2 *mPolygon; // Takes ownership
 };
 

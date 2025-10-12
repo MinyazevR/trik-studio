@@ -55,7 +55,6 @@
 #include "src/engine/commands/loadWorldCommand.h"
 
 #include "twoDModel/engine/model/constants.h"
-#include "twoDModel/engine/model/twoDModelRobotParameters.h"
 #include "twoDModel/engine/model/model.h"
 
 #include "nullTwoDModelDisplayWidget.h"
@@ -154,10 +153,8 @@ TwoDModelWidget::TwoDModelWidget(Model &model, QWidget *parent)
 	updateRobotInfoWidget(pixelsInCm, tr("cm"));
 	connect(&mModel, &model::Model::robotAdded, this, [this, pixelsInCm](){
 		auto robotModels = mModel.robotModels();
-		auto robotTrack = robotModels.isEmpty() ||
-					robotModels[0]->parameters()->wheelsPosition().size() < 2 ? robotWidth
-				: qAbs(robotModels[0]->parameters()->wheelsPosition()[0].y()
-						- robotModels[0]->parameters()->wheelsPosition()[1].y());
+		auto robotTrack = robotModels.isEmpty() || robotModels[0]->info().wheelsPosition().size() < 2 ? robotWidth
+				: qAbs(robotModels[0]->info().wheelsPosition()[0].y() - robotModels[0]->info().wheelsPosition()[1].y());
 		mUi->robotTrackInCm->setValue(robotTrack / pixelsInCm);
 	});
 }
@@ -185,9 +182,8 @@ void TwoDModelWidget::updateRobotInfoWidget(const qreal factor, const QString& u
 	mUi->robotMassInGr->setButtonSymbols(QAbstractSpinBox::NoButtons);
 
 	auto robotModels = mModel.robotModels();
-	auto robotTrack = robotModels.isEmpty() || robotModels[0]->parameters()->wheelsPosition().size() < 2 ? robotWidth
-			: qAbs(robotModels[0]->parameters()->wheelsPosition()[0].y()
-						- robotModels[0]->parameters()->wheelsPosition()[1].y());
+	auto robotTrack = robotModels.isEmpty() || robotModels[0]->info().wheelsPosition().size() < 2 ? robotWidth
+			: qAbs(robotModels[0]->info().wheelsPosition()[0].y() - robotModels[0]->info().wheelsPosition()[1].y());
 	mUi->robotTrackInCm->setValue(robotTrack / factor);
 	mUi->robotTrackUnit->setText(unitString);
 	mUi->robotTrackInCm->setButtonSymbols(QAbstractSpinBox::NoButtons);

@@ -84,11 +84,6 @@ qreal SensorsConfiguration::direction(const PortInfo &port) const
 	return mSensorsInfo[port].direction;
 }
 
-void SensorsConfiguration::onSizeUpdated(QSizeF robot)
-{
-	mRobotSize = robot;
-}
-
 void SensorsConfiguration::setDirection(const PortInfo &port, qreal direction)
 {
 	if (!mathUtils::Math::eq(mSensorsInfo[port].direction, direction)) {

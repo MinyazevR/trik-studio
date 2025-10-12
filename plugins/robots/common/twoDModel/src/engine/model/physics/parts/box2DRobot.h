@@ -50,13 +50,14 @@ public:
 
 	void addSensor(const view::SensorItem *sensor);
 	void removeSensor(const view::SensorItem *sensor);
-	void moveToPoint(b2Vec2 destination);
+
+	void moveToPoint(const b2Vec2 &destination);
 	void setRotation(float angle);
 
 	void reinitSensor(const view::SensorItem *sensor);
 	void reinitSensors();
 
-	void applyForceToCenter(b2Vec2 force, bool wake);
+	void applyForceToCenter(const b2Vec2 &force, bool wake);
 
 	b2BodyId getBodyId();
 	twoDModel::model::RobotModel *getRobotModel() const;

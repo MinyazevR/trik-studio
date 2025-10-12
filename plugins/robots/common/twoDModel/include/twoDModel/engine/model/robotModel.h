@@ -34,7 +34,7 @@ class StartPosition;
 }
 
 namespace model {
-class TwoDRobotModelParameters;
+
 class MetricCoordinateSystem;
 class Settings;
 namespace physics {
@@ -84,7 +84,6 @@ public:
 	~RobotModel();
 
 	void reinit();
-	void reinitMotors();
 	void clear();
 	void returnToStartMarker();
 
@@ -103,8 +102,6 @@ public:
 
 	/// Returns a reference to external robot description.
 	robotModel::TwoDRobotModel &info() const;
-
-	QPointer<model::TwoDRobotModelParameters> parameters() const;
 
 	Q_INVOKABLE int readEncoder(const kitBase::robotModel::PortInfo &port) const;
 	Q_INVOKABLE void resetEncoder(const kitBase::robotModel::PortInfo &port);
@@ -173,14 +170,14 @@ public:
 	/// Sets a physical engine. Robot recalculates its position using this engine.
 	void setPhysicalEngine(physics::PhysicsEngineBase &engine);
 
-public Q_SLOTS:
+public slots:
 	void recalculateParams();
 	void nextFragment();
 
-Q_SIGNALS:
+signals:
 	void positionChanged(const QPointF &newPosition);
 	void rotationChanged(qreal newRotation);
-	void sizeChanged(const QSizeF newSize);
+
 	void deserialized(QPointF newPosition, qreal newRotation);
 
 	/// Emitted when robot rided himself (moved on motors force, not dragged by user or smth) from one point to other.
@@ -229,8 +226,6 @@ private:
 	// Doesn't take ownership, ownership is twoDModel::model::Model.
 	QPointer<Settings> mSettings;
 	twoDModel::robotModel::TwoDRobotModel &mRobotModel;
-	// Takes ownership
-	QPointer<TwoDRobotModelParameters> mRobotModelParameters;
 	// Takes ownership.
 	QPointer<SensorsConfiguration> mSensorsConfiguration;
 
