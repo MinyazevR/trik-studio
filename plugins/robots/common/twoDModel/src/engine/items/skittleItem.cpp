@@ -111,10 +111,12 @@ QDomElement SkittleItem::serialize(QDomElement &element) const
 	                         QString::number(coordSystem->toUnit(y1() + mStartPosition.y())));
 	skittleNode.setAttribute("rotation", QString::number(rotation()));
 	skittleNode.setAttribute("startRotation", QString::number(mStartRotation));
-	SolidItem::serialize(skittleNode);
-	if (propertyChanged(mDiameterPx, skittleDiameter)) {
-		skittleNode.setAttribute("diameter", QString::number(coordSystem->toUnit(mDiameterPx)));
-	}
+	skittleNode.setAttribute("diameter", QString::number(coordSystem->toUnit(mDiameterPx)));
+	skittleNode.setAttribute("mass", QString::number(mMass));
+	skittleNode.setAttribute("friction", QString::number(mFriction));
+	skittleNode.setAttribute("restitution", QString::number(mRestitution));
+	skittleNode.setAttribute("angularDamping", QString::number(mAngularDamping));
+	skittleNode.setAttribute("linearDamping", QString::number(mLinearDamping));
 	return skittleNode;
 }
 
@@ -176,14 +178,14 @@ QPolygonF SkittleItem::collidingPolygon() const
 	return QPolygonF(boundingRect().adjusted(1, 1, -1, -1).translated(scenePos()));
 }
 
-qreal SkittleItem::angularDamping(bool getDefault) const
+qreal SkittleItem::angularDamping() const
 {
-	return getDefault ? skittleAngularDamping : mAngularDamping;
+	return mAngularDamping;
 }
 
-qreal SkittleItem::linearDamping(bool getDefault) const
+qreal SkittleItem::linearDamping() const
 {
-	return getDefault ? skittleLinearDamping : mLinearDamping;
+	return mLinearDamping;
 }
 
 QPainterPath SkittleItem::path() const
@@ -208,19 +210,19 @@ bool SkittleItem::isCircle() const
 	return true;
 }
 
-qreal SkittleItem::mass(bool getDefault) const
+qreal SkittleItem::mass() const
 {
-	return getDefault ? skittleMass : mMass;
+	return mMass;
 }
 
-qreal SkittleItem::friction(bool getDefault) const
+qreal SkittleItem::friction() const
 {
-	return getDefault ? skittleFriction : mFriction;
+	return mFriction;
 }
 
-qreal SkittleItem::restitution(bool getDefault) const
+qreal SkittleItem::restitution() const
 {
-	return getDefault ? skittleRestituion : mRestitution;
+	return mRestitution;
 }
 
 void SkittleItem::setDiameter(const qreal diameter)

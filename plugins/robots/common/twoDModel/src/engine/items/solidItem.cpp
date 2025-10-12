@@ -16,45 +16,17 @@
 
 using namespace twoDModel::items;
 
-void SolidItem::serialize(QDomElement &element) const
-{
-	if (bodyType() == BodyType::DYNAMIC) {
-		const auto itemAngularDamping = angularDamping();
-		if (propertyChanged(itemAngularDamping, angularDamping(true))) {
-			element.setAttribute("angularDamping", QString::number(itemAngularDamping));
-		}
-		const auto itemLinearDamping = linearDamping();
-		if (propertyChanged(itemLinearDamping, linearDamping(true))) {
-			element.setAttribute("linearDamping", QString::number(itemLinearDamping));
-		}
-		const auto itemMass = mass();
-		if (propertyChanged(itemMass, mass(true))) {
-			element.setAttribute("mass", QString::number(itemMass));
-		}
-	}
-	const auto itemFriction = friction();
-	if (propertyChanged(itemFriction, friction(true))) {
-		element.setAttribute("friction", QString::number(itemFriction));
-	}
-	const auto itemRestitution = restitution();
-	if (propertyChanged(itemRestitution, restitution(true))) {
-		element.setAttribute("restitution", QString::number(itemRestitution));
-	}
-}
-
 bool SolidItem::isCircle() const
 {
 	return false;
 }
 
-qreal SolidItem::angularDamping(bool getDefault) const
+qreal SolidItem::angularDamping() const
 {
-	Q_UNUSED(getDefault)
 	return 0.0;
 }
 
-qreal SolidItem::linearDamping(bool getDefault) const
+qreal SolidItem::linearDamping() const
 {
-	Q_UNUSED(getDefault)
 	return 0.0;
 }

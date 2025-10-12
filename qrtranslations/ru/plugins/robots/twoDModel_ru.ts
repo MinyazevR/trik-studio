@@ -696,7 +696,7 @@
 <context>
     <name>twoDModel::model::Model</name>
     <message>
-        <location filename="../../../../plugins/robots/common/twoDModel/src/engine/model/model.cpp" line="+68"/>
+        <location filename="../../../../plugins/robots/common/twoDModel/src/engine/model/model.cpp" line="+67"/>
         <source>The task was accomplished in %1 sec!</source>
         <translation>Задание выполнено за %1 сек!</translation>
     </message>
@@ -706,7 +706,7 @@
         <translation>Ошибка в проверяющей программе: %1</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="+98"/>
         <source>This robot model already exists</source>
         <translation>Эта модель робота уже существует</translation>
     </message>
@@ -1151,7 +1151,7 @@
 <context>
     <name>twoDModel::view::TwoDModelWidget</name>
     <message>
-        <location filename="../../../../plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.cpp" line="+352"/>
+        <location filename="../../../../plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.cpp" line="+348"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
@@ -1169,17 +1169,17 @@
         <translation type="vanished">Отмена</translation>
     </message>
     <message>
-        <location line="-199"/>
+        <location line="-196"/>
         <source>cm</source>
         <translation>см</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+28"/>
         <source>kg</source>
         <translation>кг</translation>
     </message>
     <message>
-        <location line="+278"/>
+        <location line="+277"/>
         <source>Training mode: solution will not be checked</source>
         <translation>Режим тренировки: решение не будет проверяться</translation>
     </message>

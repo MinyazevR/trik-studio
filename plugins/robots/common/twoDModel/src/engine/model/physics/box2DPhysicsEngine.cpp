@@ -19,7 +19,6 @@
 #include "twoDModel/engine/model/robotModel.h"
 #include "twoDModel/engine/model/constants.h"
 #include "twoDModel/engine/model/worldModel.h"
-#include "twoDModel/engine/model/twoDModelRobotParameters.h"
 #include "src/engine/view/scene/twoDModelScene.h"
 #include "src/engine/view/scene/robotItem.h"
 #include "src/engine/view/scene/sensorItem.h"
@@ -37,11 +36,10 @@ using namespace twoDModel::model::physics;
 using namespace parts;
 using namespace mathUtils;
 
-constexpr auto scaleFactor = 0.1f;
 Box2DPhysicsEngine::Box2DPhysicsEngine (const WorldModel &worldModel
 		, const QList<RobotModel *> &robots)
 	: PhysicsEngineBase(worldModel, robots)
-	, mPixelsInCm(scaleFactor * worldModel.pixelsInCm())
+	, mPixelsInCm(worldModel.pixelsInCm())
 	, mPrevPosition(b2Vec2{0, 0})
 	, mPrevAngle(0)
 {
@@ -109,84 +107,78 @@ bool Box2DPhysicsEngine::itemTracked(QGraphicsItem * const item)
 
 void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot)
 {
-	addRobot(robot, robot->robotCenter(), robot->rotation());
 	PhysicsEngineBase::addRobot(robot);
+	addRobot(robot, robot->robotCenter(), robot->rotation());
+
 	auto it = mBox2DRobots.constFind(robot);
 	if (it == mBox2DRobots.constEnd()) {
 		return;
 	}
+
 	auto bodyId = it.value()->getBodyId();
 	mPrevPosition = b2Body_GetPosition(bodyId);
 	mPrevAngle = b2Rot_GetAngle(b2Body_GetRotation(bodyId));
 
-	if (!mAlreadyConnected) {
-		connect(robot, &model::RobotModel::positionChanged, this, [&] (QPointF newPos) {
-			onRobotStartPositionChanged(newPos, qobject_cast<model::RobotModel *>(sender()));
+	connect(robot, &model::RobotModel::positionChanged, this, [&] (QPointF newPos) {
+		onRobotStartPositionChanged(newPos, qobject_cast<model::RobotModel *>(sender()));
+	});
+
+	connect(robot, &model::RobotModel::rotationChanged, this, [&] (const qreal newAngle){
+		onRobotStartAngleChanged(newAngle, qobject_cast<model::RobotModel *>(sender()));
+	});
+
+	QTimer::singleShot(10, this, [this, robot]() {
+		mScene = qobject_cast<view::TwoDModelScene *>(robot->startPositionMarker()->scene());
+
+		connect(mScene->robot(*robot), &view::RobotItem::mouseInteractionStopped, this, [=]() {
+			view::RobotItem *rItem = mScene->robot(*robot);
+			if (rItem != nullptr) {
+				onMouseReleased(rItem->pos(), rItem->rotation());
+			}
 		});
 
-		connect(robot, &model::RobotModel::rotationChanged, this, [&] (const qreal newAngle){
-			onRobotStartAngleChanged(newAngle, qobject_cast<model::RobotModel *>(sender()));
+		connect(mScene->robot(*robot), &view::RobotItem::mouseInteractionStarted
+				, this, &Box2DPhysicsEngine::onMousePressed);
+
+		connect(mScene->robot(*robot), &view::RobotItem::recoverRobotPosition
+				, this, &Box2DPhysicsEngine::onRecoverRobotPosition);
+
+		connect(mScene->robot(*robot), &view::RobotItem::sensorAdded, this, [&](twoDModel::view::SensorItem *sensor) {
+			auto rItem = qobject_cast<view::RobotItem *>(sender());
+			auto model = &rItem->robotModel();
+			mRobotSensors[model].insert(sensor);
+			auto it = mBox2DRobots.constFind(model);
+			if (it != mBox2DRobots.constEnd()) {
+				it.value()->addSensor(sensor);
+			}
+		});
+		connect(mScene->robot(*robot), &view::RobotItem::sensorRemoved, this, [&](twoDModel::view::SensorItem *sensor) {
+			auto rItem = qobject_cast<view::RobotItem *>(sender());
+			auto model = &rItem->robotModel();
+			mRobotSensors[model].remove(sensor);
+			auto it = mBox2DRobots.constFind(model);
+			if (it != mBox2DRobots.constEnd()) {
+				it.value()->removeSensor(sensor);
+			}
+		});
+		connect(mScene->robot(*robot), &view::RobotItem::sensorUpdated
+				, this, [&](twoDModel::view::SensorItem *sensor) {
+			auto rItem = qobject_cast<view::RobotItem *>(sender());
+			auto model = &rItem->robotModel();
+			auto it = mBox2DRobots.constFind(model);
+			if (it != mBox2DRobots.constEnd()) {
+				it.value()->reinitSensor(sensor);
+			}
 		});
 
-		QTimer::singleShot(10, this, [this, robot]() {
-			mScene = qobject_cast<view::TwoDModelScene *>(robot->startPositionMarker()->scene());
-
-			connect(mScene->robot(*robot), &view::RobotItem::mouseInteractionStopped, this, [=]() {
-				view::RobotItem *rItem = mScene->robot(*robot);
-				if (rItem != nullptr) {
-					onMouseReleased(rItem->pos(), rItem->rotation());
-				}
-			});
-
-			connect(mScene->robot(*robot), &view::RobotItem::mouseInteractionStarted
-					, this, &Box2DPhysicsEngine::onMousePressed);
-
-			connect(mScene->robot(*robot), &view::RobotItem::recoverRobotPosition
-					, this, &Box2DPhysicsEngine::onRecoverRobotPosition);
-
-			connect(mScene->robot(*robot), &view::RobotItem::sensorAdded, this,
-								[&](twoDModel::view::SensorItem *sensor) {
-				auto rItem = qobject_cast<view::RobotItem *>(sender());
-				auto model = &rItem->robotModel();
-				mRobotSensors[model].insert(sensor);
-				auto it = mBox2DRobots.constFind(model);
-				if (it != mBox2DRobots.constEnd()) {
-					it.value()->addSensor(sensor);
-				}
-			});
-			connect(mScene->robot(*robot), &view::RobotItem::sensorRemoved,
-								this, [&](twoDModel::view::SensorItem *sensor) {
-				auto rItem = qobject_cast<view::RobotItem *>(sender());
-				auto model = &rItem->robotModel();
-				mRobotSensors[model].remove(sensor);
-				auto it = mBox2DRobots.constFind(model);
-				if (it != mBox2DRobots.constEnd()) {
-					it.value()->removeSensor(sensor);
-				}
-			});
-			connect(mScene->robot(*robot), &view::RobotItem::sensorUpdated
-					, this, [&](twoDModel::view::SensorItem *sensor) {
-				auto rItem = qobject_cast<view::RobotItem *>(sender());
-				auto model = &rItem->robotModel();
-				auto it = mBox2DRobots.constFind(model);
-				if (it != mBox2DRobots.constEnd()) {
-					it.value()->reinitSensor(sensor);
-				}
-			});
-
-			connect(robot, &model::RobotModel::deserialized, this, [this](QPointF newPos, qreal newAngle){
-				addRobot(qobject_cast<model::RobotModel *>(sender()));
-				Box2DPhysicsEngine::onMouseReleased(newPos, newAngle);
-			});
-		});
-		mAlreadyConnected = true;
-	}
+		connect(robot, &model::RobotModel::deserialized, this, &Box2DPhysicsEngine::onMouseReleased);
+	});
 }
 
 void Box2DPhysicsEngine::addRobot(model::RobotModel * const robot, QPointF pos, qreal angle)
 {
 	if (mBox2DRobots.contains(robot)) {
-		removeRobot(robot);
+		delete mBox2DRobots[robot];
 	}
 
 	mBox2DRobots[robot] = new Box2DRobot(this, robot, positionToBox2D(pos), angleToBox2D(angle));
@@ -200,8 +192,7 @@ void Box2DPhysicsEngine::onRobotStartPositionChanged(QPointF newPos, model::Robo
 		return;
 	}
 
-	QPointF robotCenter(robot->parameters()->size().width() / 2,
-				robot->parameters()->size().height() / 2);
+	QPointF robotCenter(robot->info().size().width() / 2, robot->info().size().height() / 2);
 	mBox2DRobots[robot]->moveToPoint(positionToBox2D(newPos + robotCenter));
 }
 
@@ -259,10 +250,7 @@ void Box2DPhysicsEngine::onRecoverRobotPosition(QPointF pos)
 void Box2DPhysicsEngine::removeRobot(model::RobotModel * const robot)
 {
 	PhysicsEngineBase::removeRobot(robot);
-	if (mBox2DRobots.contains(robot)) {
-		delete mBox2DRobots[robot];
-	}
-	mRobotSensors.remove(robot);
+	delete mBox2DRobots[robot];
 	mBox2DRobots.remove(robot);
 	mLeftWheels.remove(robot);
 	mRightWheels.remove(robot);
