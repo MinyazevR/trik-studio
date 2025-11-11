@@ -8,8 +8,26 @@ case $RUNNER_OS in
   macOS)
      QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin | head -n 1)
      [ -d "$QT_DIR" ] && export PATH="$QT_DIR:$PATH"
+     
+     QT_PREFIX=$($qmake -query QT_INSTALL_PREFIX)
+     QT_HEADERS=$($qmake -query QT_INSTALL_HEADERS)
+     QT_LIBS=$($qmake -query QT_INSTALL_LIBS)
+     QT_PLUGINS=$($qmake -query QT_INSTALL_PLUGINS)
+     QT_QML=$($qmake -query QT_INSTALL_QML)
+
+     export QT_CONF_FILE="$PWD/qt_5_15.conf"
+     cat > "$QT_CONF_FILE" << EOL
+     [Paths]
+     Prefix = $QT_PREFIX
+     Headers = $QT_HEADERS
+     Libraries = $QT_LIBS
+     Plugins = $QT_PLUGINS
+     Qml = $QT_QML
+     EOL
+
      export PATH="/usr/local/opt/ccache/libexec:$PATH"
      export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+     export PATH="/usr/local/opt/qt/bin/:$PATH"
      echo "Now path is $PATH"
     ;;
   Linux)

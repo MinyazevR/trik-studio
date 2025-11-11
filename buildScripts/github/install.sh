@@ -31,7 +31,7 @@ case "$(uname)" in
     export HOMEBREW_NO_INSTALL_CLEANUP=1
     export HOMEBREW_NO_AUTO_UPDATE=1
     brew tap "hudochenkov/sshpass"
-    TRIK_BREW_PACKAGES="ccache coreutils libusb pkg-config gnu-sed sshpass p7zip python@3.${TRIK_PYTHON3_VERSION_MINOR}"
+    TRIK_BREW_PACKAGES="ccache coreutils qt libusb pkg-config gnu-sed sshpass p7zip python@3.${TRIK_PYTHON3_VERSION_MINOR}"
     for pkg in $TRIK_BREW_PACKAGES ; do
       p="${pkg##*/}"
       p="${p%.*}"

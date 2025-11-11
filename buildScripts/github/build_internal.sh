@@ -14,7 +14,12 @@ mkdir -p build && pushd "$BUILD_DIR"
 export PYTHON_DIR=$(python3.${TRIK_PYTHON3_VERSION_MINOR}-config --prefix)
 rm -f .qmake.cache
 
-qmake -Wall PYTHON_VERSION=3.$TRIK_PYTHON3_VERSION_MINOR PYTHON_PATH=/usr CONFIG+=$CONFIG $QMAKE_EXTRA "$ROOT_DIR/$PROJECT.pro"
+if [[ -n "${QT_CONF_FILE+x}" ]]; then
+    qmake -qtconf "$QT_CONF_FILE" -Wall PYTHON_VERSION=3.${TRIK_PYTHON3_VERSION_MINOR-} PYTHON_PATH=/usr CONFIG+=${CONFIG-} ${QMAKE_EXTRA-} "$ROOT_DIR/$PROJECT.pro"
+else
+    qmake -Wall PYTHON_VERSION=3.${TRIK_PYTHON3_VERSION_MINOR-} PYTHON_PATH=/usr CONFIG+=${CONFIG-} ${QMAKE_EXTRA-} "$ROOT_DIR/$PROJECT.pro"
+fi
+
 make -j $(nproc) qmake_all 2>&1 | tee -a build.log
 ccache -s
 if [ "$NEED_COMPILE_DATABASE" = "true" ]; then
