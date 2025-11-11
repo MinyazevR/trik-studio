@@ -30,14 +30,21 @@ case "$(uname)" in
   Darwin)
     export HOMEBREW_NO_INSTALL_CLEANUP=1
     export HOMEBREW_NO_AUTO_UPDATE=1
+    TRIK_PYTHON3_VERSION_PATCH=${TRIK_PYTHON3_VERSION_PATCH:-0}
     brew tap "hudochenkov/sshpass"
-    TRIK_BREW_PACKAGES="ccache coreutils libusb pkg-config gnu-sed sshpass p7zip python@3.${TRIK_PYTHON3_VERSION_MINOR}"
+    TRIK_BREW_PACKAGES="ccache coreutils libusb pkg-config gnu-sed sshpass p7zip"
     for pkg in $TRIK_BREW_PACKAGES ; do
       p="${pkg##*/}"
       p="${p%.*}"
       brew install --quiet "$pkg" || brew upgrade "$pkg" || brew link --force "$pkg" || echo "Failed to install/upgrade $pkg"
     done
     modules=("qtscript")
+    PYTHON_VERSION="$TRIK_PYTHON.$TRIK_PYTHON3_VERSION_PATCH"
+    PYTHON_INSTALLER_NAME="python-$PYTHON_VERSION-macos11.pkg"
+    PYTHON_DOWNLOAD_URL="https://www.python.org/ftp/python/$PYTHON_VERSION/${PYTHON_INSTALLER_NAME}"
+    curl -o "/tmp/${PYTHON_INSTALLER_NAME}" "${PYTHON_DOWNLOAD_URL}"
+    sudo installer -pkg "/tmp/${PYTHON_INSTALLER_NAME}" -target /
+    
     install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" $modules
     sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
     xcodebuild -showsdks
