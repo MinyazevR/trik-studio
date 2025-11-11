@@ -37,9 +37,9 @@ case "$(uname)" in
       p="${p%.*}"
       brew install --quiet "$pkg" || brew upgrade "$pkg" || brew link --force "$pkg" || echo "Failed to install/upgrade $pkg"
     done
-    arch -x86_64 brew install python@3.${TRIK_PYTHON3_VERSION_MINOR}
+    arch -x86_64 brew reinstall python@3.${TRIK_PYTHON3_VERSION_MINOR}
     INTEL_PYTHON_PATH=$(arch -x86_64 brew --prefix python@3.${TRIK_PYTHON3_VERSION_MINOR})
-    echo "$INTEL_PYTHON_PATH: $INTEL_PYTHON_PATH"
+    echo "INTEL_PYTHON_PATH: $INTEL_PYTHON_PATH"
     modules=("qtscript")
     install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" $modules
     sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
