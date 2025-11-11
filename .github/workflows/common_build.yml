@@ -51,7 +51,7 @@ jobs:
       os: macos-14
       build: true
       build_installer: false
-      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=warn_off"
+      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=no-sanitizers CONFIG+=warn_off CONFIG+=arm64"
       trik_python3_version_minor: 11
 
   build-macos-debug-tests:
