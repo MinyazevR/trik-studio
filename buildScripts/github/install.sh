@@ -39,7 +39,7 @@ case "$(uname)" in
       brew install --quiet "$pkg" || brew upgrade "$pkg" || brew link --force "$pkg" || echo "Failed to install/upgrade $pkg"
     done
     modules=("qtscript")
-    PYTHON_VERSION="$TRIK_PYTHON.$TRIK_PYTHON3_VERSION_PATCH"
+    PYTHON_VERSION="3.${TRIK_PYTHON3_VERSION_MINOR}.$TRIK_PYTHON3_VERSION_PATCH"
     PYTHON_INSTALLER_NAME="python-$PYTHON_VERSION-macos11.pkg"
     PYTHON_DOWNLOAD_URL="https://www.python.org/ftp/python/$PYTHON_VERSION/${PYTHON_INSTALLER_NAME}"
     curl -o "/tmp/${PYTHON_INSTALLER_NAME}" "${PYTHON_DOWNLOAD_URL}"

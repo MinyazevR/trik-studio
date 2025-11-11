@@ -91,8 +91,6 @@ macx:QMAKE_TARGET_BUNDLE_PREFIX = com.cybertech
 
 macx-clang {
 	QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.13
-	CONFIG += sdk_no_version_check
 }
 
 equals(TEMPLATE, lib) {
