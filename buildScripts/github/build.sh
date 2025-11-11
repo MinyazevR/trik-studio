@@ -28,6 +28,7 @@ EOL
      export PATH="/usr/local/opt/ccache/libexec:$PATH"
      export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
      export PATH="/usr/local/opt/qt/bin/:$PATH"
+     export PATH="/opt/homebrew/opt/qt/bin:$PATH"
      echo "Now path is $PATH"
     ;;
   Linux)
