@@ -9,11 +9,11 @@ case $RUNNER_OS in
      QT_DIR=$(ls -dv "$HOME"/Qt/${TRIK_QT_VERSION}*/*/bin | head -n 1)
      [ -d "$QT_DIR" ] && export PATH="$QT_DIR:$PATH"
      
-     QT_PREFIX=$($qmake -query QT_INSTALL_PREFIX)
-     QT_HEADERS=$($qmake -query QT_INSTALL_HEADERS)
-     QT_LIBS=$($qmake -query QT_INSTALL_LIBS)
-     QT_PLUGINS=$($qmake -query QT_INSTALL_PLUGINS)
-     QT_QML=$($qmake -query QT_INSTALL_QML)
+     QT_PREFIX=$(qmake -query QT_INSTALL_PREFIX)
+     QT_HEADERS=$(qmake -query QT_INSTALL_HEADERS)
+     QT_LIBS=$(qmake -query QT_INSTALL_LIBS)
+     QT_PLUGINS=$(qmake -query QT_INSTALL_PLUGINS)
+     QT_QML=$(qmake -query QT_INSTALL_QML)
 
      export QT_CONF_FILE="$PWD/qt_5_15.conf"
      cat > "$QT_CONF_FILE" << EOL
