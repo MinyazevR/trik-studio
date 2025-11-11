@@ -93,6 +93,7 @@ macx-clang {
 	QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 13.0
 	CONFIG += sdk_no_version_check
+	QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
 }
 
 equals(TEMPLATE, lib) {
