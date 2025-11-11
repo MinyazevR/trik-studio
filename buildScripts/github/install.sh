@@ -35,7 +35,7 @@ case "$(uname)" in
     for pkg in $TRIK_BREW_PACKAGES ; do
       p="${pkg##*/}"
       p="${p%.*}"
-      brew install --quiet "$pkg" || brew upgrade "$pkg" || brew link --force "$pkg" || echo "Failed to install/upgrade $pkg"
+      brew install --quiet "$pkg" --universal || brew upgrade "$pkg" || brew link --force "$pkg" || echo "Failed to install/upgrade $pkg"
     done
     modules=("qtscript")
     install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" $modules
