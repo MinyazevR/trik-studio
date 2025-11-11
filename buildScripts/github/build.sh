@@ -17,13 +17,13 @@ case $RUNNER_OS in
 
      export QT_CONF_FILE="$PWD/qt_5_15.conf"
      cat > "$QT_CONF_FILE" << EOL
-     [Paths]
-     Prefix = $QT_PREFIX
-     Headers = $QT_HEADERS
-     Libraries = $QT_LIBS
-     Plugins = $QT_PLUGINS
-     Qml = $QT_QML
-     EOL
+[Paths]
+Prefix = $QT_PREFIX
+Headers = $QT_HEADERS
+Libraries = $QT_LIBS
+Plugins = $QT_PLUGINS
+Qml = $QT_QML
+EOL
 
      export PATH="/usr/local/opt/ccache/libexec:$PATH"
      export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
