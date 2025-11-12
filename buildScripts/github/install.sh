@@ -32,7 +32,7 @@ case "$(uname)" in
     export HOMEBREW_NO_AUTO_UPDATE=1
     TRIK_PYTHON3_VERSION_PATCH=${TRIK_PYTHON3_VERSION_PATCH:-0}
     brew tap "hudochenkov/sshpass"
-    TRIK_BREW_PACKAGES="ccache coreutils libusb pkg-config gnu-sed sshpass p7zip"
+    TRIK_BREW_PACKAGES="ccache coreutils pkg-config gnu-sed sshpass p7zip"
     for pkg in $TRIK_BREW_PACKAGES ; do
       p="${pkg##*/}"
       p="${p%.*}"
@@ -44,6 +44,12 @@ case "$(uname)" in
     PYTHON_DOWNLOAD_URL="https://www.python.org/ftp/python/$PYTHON_VERSION/${PYTHON_INSTALLER_NAME}"
     curl -o "/tmp/${PYTHON_INSTALLER_NAME}" "${PYTHON_DOWNLOAD_URL}"
     sudo installer -pkg "/tmp/${PYTHON_INSTALLER_NAME}" -target /
+    
+    curl -O https://github.com/macports/macports-base/releases/download/v2.11.5/MacPorts-2.11.5-14-Sonoma.pkg
+    sudo installer -pkg MacPorts-2.11.5-14-Sonoma.pkg -target /
+    echo "/opt/local/bin" >> $GITHUB_PATH
+    sudo port selfupdate
+    arch -x86_64 sudo port install libusb
     
     install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" $modules
     sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
