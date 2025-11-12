@@ -42,6 +42,7 @@ PROJECT="$PROJECT" \
 BUILD_DIR="$BUILD_DIR" \
 ROOT_DIR="$ROOT_DIR" \
 RUNNER_OS="$RUNNER_OS" \
+PKG_CONFIG_PATH="$PKG_CONFIG_PATH" \
 buildScripts/github/build_internal.sh
 
 
