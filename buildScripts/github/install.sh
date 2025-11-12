@@ -50,7 +50,7 @@ case "$(uname)" in
     
     curl -L --fail --output "${MACPORTS_PKG}" "${MACPORTS_URL}"
     sudo installer -pkg "${MACPORTS_PKG}" -target /
-    echo "/opt/local/bin" >> $GITHUB_PATH
+    export PATH="/opt/local/bin:$PATH"
     sudo port selfupdate
     arch -x86_64 sudo port install libusb
     
