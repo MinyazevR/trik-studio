@@ -52,7 +52,7 @@ case "$(uname)" in
     sudo installer -pkg "${MACPORTS_PKG}" -target /
     export PATH="/opt/local/bin:$PATH"
     sudo port selfupdate
-    arch -x86_64 sudo port install libusb
+    sudo port install libusb +universal
     
     install_qt mac desktop "${TRIK_QT_VERSION}" "$HOME/Qt" $modules
     sudo xcode-select -s /Applications/Xcode_${XCODE_VERSION}.app/Contents/Developer
