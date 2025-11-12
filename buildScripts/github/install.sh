@@ -45,9 +45,13 @@ case "$(uname)" in
     curl -o "/tmp/${PYTHON_INSTALLER_NAME}" "${PYTHON_DOWNLOAD_URL}"
     sudo installer -pkg "/tmp/${PYTHON_INSTALLER_NAME}" -target /
     
-    curl -O https://github.com/macports/macports-base/releases/download/v2.11.5/MacPorts-2.11.5-14-Sonoma.pkg
-    sudo installer -pkg MacPorts-2.11.5-14-Sonoma.pkg -target /
-    echo "/opt/local/bin" >> $GITHUB_PATH
+    MACPORTS_PKG="MacPorts-2.11.6-14-Sonoma.pkg"
+    MACPORTS_URL="https://github.com/macports/macports-base/releases/download/v2.11.6/${MACPORTS_PKG}"
+    
+    curl -L --fail --output "${MACPORTS_PKG}" "${MACPORTS_URL}"
+    
+    curl -O https://github.com/macports/macports-base/releases/download/v2.11.6/MacPorts-2.11.6-14-Sonoma.pkg
+    sudo installer -pkg "${MACPORTS_PKG}" -target /
     sudo port selfupdate
     arch -x86_64 sudo port install libusb
     
