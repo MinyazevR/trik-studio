@@ -40,6 +40,9 @@ unix:debug {
 !gcc4:!gcc5:!clang:!win32:gcc:*-g++*:system($$QMAKE_CXX --version | grep -qEe '"\\<4\\.[0-9]+\\."' ){ CONFIG += gcc4 }
 
 GLOBAL_PWD = $$absolute_path($$PWD)
+TRIK_STUDIO_GLOBAL_PWD = $$GLOBAL_PWD
+message("TRIK_STUDIO_GLOBAL_PWD:: $$TRIK_STUDIO_GLOBAL_PWD")
+cache(TRIK_STUDIO_GLOBAL_PWD)
 GLOBAL_OUTPWD = $$absolute_path($$OUT_PWD)
 
 
@@ -288,6 +291,20 @@ defineTest(copyToDestdir) {
 
 	export(QMAKE_POST_LINK)
 }
+
+defineTest(resolve_alias) {
+PROJECT_NAME = $$1
+for(ALIAS_PAIR, MY_LIB_ALIASES) {
+    OLD_NAME = $$section(ALIAS_PAIR, :, 0, 0)
+	NEW_NAME = $$section(ALIAS_PAIR, :, 1, 1)
+
+equals(PROJECT_NAME, $$OLD_NAME) {
+	    return($$NEW_NAME)
+	    }
+    }
+    return($$PROJECT_NAME)
+}
+
 
 defineTest(includes) {
 	PROJECTS = $$1
