@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikTextualInterpreter.cpp" line="+164"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikTextualInterpreter.cpp" line="+164"/>
         <source>Bogus input values</source>
         <translation>Неподходящие значения аргументов</translation>
     </message>
@@ -17,7 +17,7 @@
 <context>
     <name>TrikAdditionalPreferences</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.ui" line="+14"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.ui" line="+14"/>
         <source>Form</source>
         <translation>Настройки TRIK</translation>
     </message>
@@ -88,88 +88,8 @@
         <source>Browse</source>
         <translation type="vanished">Открыть</translation>
     </message>
-</context>
-<context>
-    <name>TrikBrick</name>
     <message>
-        <source>Trying to read from file %1 failed</source>
-        <translation type="obsolete">Не удалось открыть файл %1</translation>
-    </message>
-    <message>
-        <source>No configured motor on port: %1</source>
-        <translation type="obsolete">Не найден сконфигурированный  мотор на порту: %1</translation>
-    </message>
-    <message>
-        <source>No configured sensor on port: %1</source>
-        <translation type="obsolete">Не найден сконфигурированный  сенсор на порту: %1</translation>
-    </message>
-    <message>
-        <source>No configured accelerometer</source>
-        <translation type="obsolete">Акселерометр не сконфигурирован</translation>
-    </message>
-    <message>
-        <source>No configured gyroscope</source>
-        <translation type="obsolete">Гиродатчик не сконфигурирован</translation>
-    </message>
-    <message>
-        <source>No configured LineSensor on port: %1</source>
-        <translation type="obsolete">Не найден сконфигурированный сенсор линии на порту: %1</translation>
-    </message>
-    <message>
-        <source>No configured encoder on port: %1</source>
-        <translation type="obsolete">Не найден сконфигурированный енкодер на порту: %1</translation>
-    </message>
-    <message>
-        <source>No configured led</source>
-        <translation type="obsolete">LED не сконфигурирован</translation>
-    </message>
-    <message>
-        <source>Get photo with camera started</source>
-        <translation type="obsolete">Процесс получения снимка начат</translation>
-    </message>
-    <message>
-        <source>Get photo with camera finished</source>
-        <translation type="obsolete">Процесс получения снимка завершен</translation>
-    </message>
-    <message>
-        <source>Cannot get a photo from camera (possibly because of wrong camera name)</source>
-        <translation type="obsolete">Получить снимок с помощью камеры не удалось (возможно из-за неправильного имени камеры)</translation>
-    </message>
-    <message>
-        <source>Cannot get a photo from folders/project (possibly because of wrong path/empty project)</source>
-        <translation type="obsolete">Получить снимок из папки/проекта не удалось (возможно из-за неправильного пути/отстуствия снимков в проекте)</translation>
-    </message>
-    <message>
-        <source>No cofigured random device</source>
-        <translation type="obsolete">Генератор случайных чисел не сконфигурирован</translation>
-    </message>
-</context>
-<context>
-    <name>TrikDisplayWidget</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikDisplayWidget.ui" line="+14"/>
-        <source>Trik Display</source>
-        <translation>Дисплей TRIK</translation>
-    </message>
-</context>
-<context>
-    <name>TwoDExecutionControl</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/twoDExecutionControl.cpp" line="+28"/>
-        <source>&apos;%1&apos; is disabled
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>No cofigured random device</source>
-        <translation>Генератор случайных чисел не сконфигурирован</translation>
-    </message>
-</context>
-<context>
-    <name>trik::TrikAdditionalPreferences</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.cpp" line="+33"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.cpp" line="+33"/>
         <source>2D robot image:</source>
         <translation>Картинка робота в 2D:</translation>
     </message>
@@ -188,21 +108,11 @@
         <source>You should restart the program to apply changes</source>
         <translation>Перезапустите программу, чтобы применить изменения</translation>
     </message>
-    <message>
-        <source>Open Directory</source>
-        <translation type="vanished">Открыть директорию</translation>
-    </message>
 </context>
 <context>
-    <name>trik::TrikBrick</name>
+    <name>TrikBrick</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikbrick.cpp" line="+84"/>
-        <location line="+76"/>
-        <source>2d model shell part was not found</source>
-        <translation>Консоль 2d модели не найдена</translation>
-    </message>
-    <message>
-        <location line="-30"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikbrick.cpp" line="+130"/>
         <location line="+283"/>
         <source>Trying to read from file %1 failed</source>
         <translation>Не удалось открыть файл %1</translation>
@@ -214,17 +124,23 @@
     </message>
     <message>
         <source>No configured sensor on port: %1</source>
-        <translation type="vanished">Не найден сконфигурированный  сенсор на порту: %1</translation>
+        <translation type="obsolete">Не найден сконфигурированный  сенсор на порту: %1</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="-106"/>
+        <location line="+76"/>
+        <source>2d model shell part was not found</source>
+        <translation>Консоль 2d модели не найдена</translation>
+    </message>
+    <message>
+        <location line="+61"/>
         <source>No configured scalar sensor on port: %1</source>
-        <translation type="unfinished">Не найден скалярный сенсор на порту: %1</translation>
+        <translation>Не найден скалярный сенсор на порту: %1</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>No configured lidar on port: %1</source>
-        <translation type="unfinished">Не найден скалярный лидар на порту: %1</translation>
+        <translation>Не найден скалярный лидар на порту: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -244,7 +160,7 @@
     <message>
         <location line="+19"/>
         <source>No configured ColorSensor on port: %1</source>
-        <translation type="unfinished">Не найден сконфигурированный сенсор цвета на порту: %1</translation>
+        <translation>Не найден сконфигурированный сенсор цвета на порту: %1</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -283,21 +199,21 @@
     </message>
     <message>
         <source>No cofigured random device</source>
-        <translation type="vanished">Генератор случайных чисел не сконфигурирован</translation>
+        <translation type="obsolete">Генератор случайных чисел не сконфигурирован</translation>
     </message>
 </context>
 <context>
-    <name>trik::TrikKitInterpreterPluginBase</name>
+    <name>TrikDisplayWidget</name>
     <message>
-        <source>Start QTS</source>
-        <translation type="vanished">Запустить QTS</translation>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikDisplayWidget.ui" line="+14"/>
+        <source>Trik Display</source>
+        <translation>Дисплей TRIK</translation>
     </message>
+</context>
+<context>
+    <name>TrikKitInterpreterPluginBase</name>
     <message>
-        <source>Stop QTS</source>
-        <translation type="vanished">Оставновить QTS</translation>
-    </message>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikKitInterpreterPluginBase.cpp" line="+39"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikKitInterpreterPluginBase.cpp" line="+39"/>
         <source>Start</source>
         <translation>Запустить</translation>
     </message>
@@ -328,9 +244,41 @@
     </message>
 </context>
 <context>
+    <name>TwoDExecutionControl</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/twoDExecutionControl.cpp" line="+28"/>
+        <source>&apos;%1&apos; is disabled
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>No cofigured random device</source>
+        <translation>Генератор случайных чисел не сконфигурирован</translation>
+    </message>
+</context>
+<context>
+    <name>trik::TrikAdditionalPreferences</name>
+    <message>
+        <source>Open Directory</source>
+        <translation type="vanished">Открыть директорию</translation>
+    </message>
+</context>
+<context>
+    <name>trik::TrikKitInterpreterPluginBase</name>
+    <message>
+        <source>Start QTS</source>
+        <translation type="vanished">Запустить QTS</translation>
+    </message>
+    <message>
+        <source>Stop QTS</source>
+        <translation type="vanished">Оставновить QTS</translation>
+    </message>
+</context>
+<context>
     <name>trik::TrikTextualInterpreter</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikTextualInterpreter.cpp" line="-96"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikTextualInterpreter.cpp" line="-96"/>
         <location line="+15"/>
         <source>Unsupported script file type</source>
         <translation>Неверный формат файла</translation>

@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/threadsValidator.cpp" line="+141"/>
+        <location filename="../../../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/threadsValidator.cpp" line="+141"/>
         <source>Trying to join a thread with an unknown id. Possible causes: calling fork from a subprogram or trying to merge two threads without a join</source>
         <translation>Попытка присоединиться к потоку с неизвестным идентификатором. Возможные причины: распараллеливание внутри подпрограммы или попытка склеить два потока без блока &quot;join&quot;</translation>
     </message>
@@ -64,66 +64,15 @@
         <translation>Исходящая связь ни к чему не присоединена</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/trikQtsControlFlowValidator.cpp" line="+37"/>
+        <location filename="../../../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/trikQtsControlFlowValidator.cpp" line="+37"/>
         <source>There is nothing to generate, diagram doesn&apos;t have Initial Node</source>
         <translation>На диаграмме нет блока &quot;Начало&quot;</translation>
     </message>
 </context>
 <context>
-    <name>trik::qts::TrikQtsGeneratorPlugin</name>
+    <name>TrikQtsGeneratorPluginBase</name>
     <message>
-        <source>Generation (QtScript)</source>
-        <translation type="vanished">Генерация (QtScript)</translation>
-    </message>
-    <message>
-        <source>Generation (Java Script)</source>
-        <translation type="vanished">Генерация (Java Script)</translation>
-    </message>
-    <message>
-        <source>Generate TRIK code</source>
-        <translation type="vanished">Генерировать код на QtScript</translation>
-    </message>
-    <message>
-        <source>Upload program</source>
-        <translation type="vanished">Загрузить программу</translation>
-    </message>
-    <message>
-        <source>Run program</source>
-        <translation type="vanished">Загрузить и выполнить программу</translation>
-    </message>
-    <message>
-        <source>Stop robot</source>
-        <translation type="vanished">Остановить робота</translation>
-    </message>
-    <message>
-        <source>Generate TRIK Code</source>
-        <translation type="vanished">Сгенерированть код для ТРИК на QtScript</translation>
-    </message>
-    <message>
-        <source>Upload TRIK Program</source>
-        <translation type="vanished">Загрузить программу</translation>
-    </message>
-    <message>
-        <source>Run TRIK Program</source>
-        <translation type="vanished">Исполнить программу</translation>
-    </message>
-    <message>
-        <source>Stop TRIK Robot</source>
-        <translation type="vanished">Остановить выполнение программы для TRIK</translation>
-    </message>
-    <message>
-        <source>QtScript Source File</source>
-        <translation type="vanished">Файл с исходным кодом на QtScript</translation>
-    </message>
-    <message>
-        <source>No connection to robot</source>
-        <translation type="vanished">Нет соединения с роботом, проверьте настройки, проверьте, включён ли робот</translation>
-    </message>
-</context>
-<context>
-    <name>trik::qts::TrikQtsGeneratorPluginBase</name>
-    <message>
-        <location filename="../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/trikQtsGeneratorPluginBase.cpp" line="+73"/>
+        <location filename="../../../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/trikQtsGeneratorPluginBase.cpp" line="+73"/>
         <source>Network operation timed out</source>
         <translation>Не удалось получить ответ от робота, проверьте настройки, проверьте, включён ли робот</translation>
     </message>
@@ -176,6 +125,53 @@
         <location line="+72"/>
         <source>There are no files to upload. You must open or generate at least one *.js or *.py file.</source>
         <translation>Нет файлов для загрузки. Вы должны открыть или сгенерировать хотя бы один *.js или *.py файл.</translation>
+    </message>
+</context>
+<context>
+    <name>trik::qts::TrikQtsGeneratorPlugin</name>
+    <message>
+        <source>Generation (QtScript)</source>
+        <translation type="vanished">Генерация (QtScript)</translation>
+    </message>
+    <message>
+        <source>Generation (Java Script)</source>
+        <translation type="vanished">Генерация (Java Script)</translation>
+    </message>
+    <message>
+        <source>Generate TRIK code</source>
+        <translation type="vanished">Генерировать код на QtScript</translation>
+    </message>
+    <message>
+        <source>Upload program</source>
+        <translation type="vanished">Загрузить программу</translation>
+    </message>
+    <message>
+        <source>Run program</source>
+        <translation type="vanished">Загрузить и выполнить программу</translation>
+    </message>
+    <message>
+        <source>Stop robot</source>
+        <translation type="vanished">Остановить робота</translation>
+    </message>
+    <message>
+        <source>Generate TRIK Code</source>
+        <translation type="vanished">Сгенерированть код для ТРИК на QtScript</translation>
+    </message>
+    <message>
+        <source>Upload TRIK Program</source>
+        <translation type="vanished">Загрузить программу</translation>
+    </message>
+    <message>
+        <source>Run TRIK Program</source>
+        <translation type="vanished">Исполнить программу</translation>
+    </message>
+    <message>
+        <source>Stop TRIK Robot</source>
+        <translation type="vanished">Остановить выполнение программы для TRIK</translation>
+    </message>
+    <message>
+        <source>QtScript Source File</source>
+        <translation type="vanished">Файл с исходным кодом на QtScript</translation>
     </message>
     <message>
         <source>No connection to robot</source>

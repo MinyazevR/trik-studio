@@ -2,9 +2,60 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>HttpCommunicator</name>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="+60"/>
+        <location line="+40"/>
+        <source>Pioneer base station IP address is not set. It can be set in Settings window.</source>
+        <translation>IP-адрес базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
+    </message>
+    <message>
+        <location line="-34"/>
+        <location line="+40"/>
+        <source>Pioneer base station port is not set. It can be set in Settings window.</source>
+        <translation>Порт базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
+    </message>
+    <message>
+        <location line="-34"/>
+        <location line="+9"/>
+        <source>Generation failed, upload aborted.</source>
+        <translation>Генерация завершились с ошибкой, загрузка отменена.</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Uploading to: %1, please wait...</source>
+        <translation>Производится загрузка на %1, пожалуйста, подождите...</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Starting program. Senging request to: %1, please wait...</source>
+        <translation>Скрипт запускается. Запрос запуска к %1, пожалуйста, подождите...</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Stopping program is not supported for HTTP communication mode.</source>
+        <translation>Остановка программы не поддерживается в режиме передачи по HTTP, используйте инструмент &quot;controller&quot; для связи с роботом (включается в настройках).</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Uploading finished.</source>
+        <translation>Загрузка завершена.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Start finished.</source>
+        <translation>Запуск завершён.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pioneer base station took too long to respond. Request aborted.</source>
+        <translation>НСУ Пионер не отвечает.</translation>
+    </message>
+</context>
+<context>
     <name>PioneerAdditionalPreferences</name>
     <message>
-        <location filename="../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/widgets/pioneerAdditionalPreferences.ui" line="+14"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/widgets/pioneerAdditionalPreferences.ui" line="+14"/>
         <source>Form</source>
         <translation>Форма</translation>
     </message>
@@ -88,12 +139,12 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/pioneerLuaMasterGenerator.cpp" line="+111"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/pioneerLuaMasterGenerator.cpp" line="+111"/>
         <source>There is no opened diagram</source>
         <translation>Диаграмма не открыта</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/generators/semanticTreeManager.cpp" line="+121"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/generators/semanticTreeManager.cpp" line="+121"/>
         <source>Generation internal error, please send bug report to developers.Additional info: zone node %1 can not be used as labeled node.</source>
         <translation>Внутренняя ошибка генерации. Дополнительная информация: узел зоны %1 не может быть использован как помеченный узел.</translation>
     </message>
@@ -188,54 +239,6 @@
         <translation type="vanished">Загрузка начата, пожалуйста, подождите...</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="+134"/>
-        <source>Uploading finished.</source>
-        <translation>Загрузка завершена.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Start finished.</source>
-        <translation>Запуск завершён.</translation>
-    </message>
-    <message>
-        <location line="-82"/>
-        <location line="+40"/>
-        <source>Pioneer base station IP address is not set. It can be set in Settings window.</source>
-        <translation>IP-адрес базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
-    </message>
-    <message>
-        <location line="-34"/>
-        <location line="+40"/>
-        <source>Pioneer base station port is not set. It can be set in Settings window.</source>
-        <translation>Порт базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
-    </message>
-    <message>
-        <location line="-34"/>
-        <location line="+9"/>
-        <source>Generation failed, upload aborted.</source>
-        <translation>Генерация завершились с ошибкой, загрузка отменена.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Uploading to: %1, please wait...</source>
-        <translation>Производится загрузка на %1, пожалуйста, подождите...</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Starting program. Senging request to: %1, please wait...</source>
-        <translation>Скрипт запускается. Запрос запуска к %1, пожалуйста, подождите...</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Stopping program is not supported for HTTP communication mode.</source>
-        <translation>Остановка программы не поддерживается в режиме передачи по HTTP, используйте инструмент &quot;controller&quot; для связи с роботом (включается в настройках).</translation>
-    </message>
-    <message>
-        <location line="+32"/>
-        <source>Pioneer base station took too long to respond. Request aborted.</source>
-        <translation>НСУ Пионер не отвечает.</translation>
-    </message>
-    <message>
         <source>Generation or compilation failed, upload aborted.</source>
         <translation type="vanished">Генерация или компиляция завершились с ошибкой, загрузка отменена.</translation>
     </message>
@@ -258,7 +261,7 @@
         <translation type="vanished">Квадрокоптер &quot;Пионер&quot;</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/pioneerLuaGeneratorPlugin.cpp" line="+45"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/pioneerLuaGeneratorPlugin.cpp" line="+45"/>
         <source>Pioneer model (real copter)</source>
         <translation>Реальный квадрокоптер</translation>
     </message>
@@ -389,7 +392,7 @@
 <context>
     <name>pioneer::lua::PioneerLuaMasterGenerator</name>
     <message>
-        <location filename="../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/pioneerLuaMasterGenerator.cpp" line="+34"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/pioneerLuaMasterGenerator.cpp" line="+34"/>
         <source>Generation failed. Possible causes are internal error in generator or too complex program structure.</source>
         <translation>Генерация закончилась с ошибкой. Возможные причины: внутренняя ошибка генератора или слишком сложная структура программы. Обратитесь к разработчикам.</translation>
     </message>
@@ -417,7 +420,7 @@
         <translation type="vanished">Количество блоков &quot;Условие&quot; и &quot;Конец условия&quot; должно быть равным.</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/generators/pioneerStateMachineGenerator.cpp" line="+195"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/generators/pioneerStateMachineGenerator.cpp" line="+195"/>
         <source>Generation internal error, failed to create a node.</source>
         <translation>Внутренняя ошибка генерации. Дополнительная информация: не удалось создать узел семантического дерева.</translation>
     </message>

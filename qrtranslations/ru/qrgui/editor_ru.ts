@@ -2,6 +2,55 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>BrokenLine</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/brokenLine.cpp" line="+24"/>
+        <source>Delete point</source>
+        <translation>Удалить точку</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Delete segment</source>
+        <translation>Удалить отрезок</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Remove all points</source>
+        <translation>Удалить все точки</translation>
+    </message>
+</context>
+<context>
+    <name>EdgeElement</name>
+    <message>
+        <location filename="../../../qrgui/editor/edgeElement.cpp" line="+62"/>
+        <source>Reverse</source>
+        <translation>Развернуть</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Change shape type</source>
+        <translation>Изменить тип линии</translation>
+    </message>
+</context>
+<context>
+    <name>LineFactory</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/lineFactory.cpp" line="+49"/>
+        <source>Broken</source>
+        <translation>Ломаная</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Square</source>
+        <translation>Прямоугольная</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Curve</source>
+        <translation>Кривая</translation>
+    </message>
+</context>
+<context>
     <name>PropertyEditorView</name>
     <message>
         <source>Specify directory:</source>
@@ -22,7 +71,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../qrgui/editor/sceneCustomizer.cpp" line="+23"/>
+        <location filename="../../../qrgui/editor/sceneCustomizer.cpp" line="+23"/>
         <source>Add connection</source>
         <translation>Добавить провязку</translation>
     </message>
@@ -50,6 +99,14 @@
         <location line="+1"/>
         <source>Collapse explosion</source>
         <translation>Свернуть эксплозию</translation>
+    </message>
+</context>
+<context>
+    <name>SquareLine</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/squareLine.cpp" line="+27"/>
+        <source>Lay out</source>
+        <translation>Переразложить</translation>
     </message>
 </context>
 <context>
@@ -147,40 +204,9 @@
     </message>
 </context>
 <context>
-    <name>qReal::gui::editor::BrokenLine</name>
-    <message>
-        <location filename="../../qrgui/editor/private/brokenLine.cpp" line="+24"/>
-        <source>Delete point</source>
-        <translation>Удалить точку</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Delete segment</source>
-        <translation>Удалить отрезок</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Remove all points</source>
-        <translation>Удалить все точки</translation>
-    </message>
-</context>
-<context>
-    <name>qReal::gui::editor::EdgeElement</name>
-    <message>
-        <location filename="../../qrgui/editor/edgeElement.cpp" line="+62"/>
-        <source>Reverse</source>
-        <translation>Развернуть</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Change shape type</source>
-        <translation>Изменить тип линии</translation>
-    </message>
-</context>
-<context>
     <name>qReal::gui::editor::EditorViewScene</name>
     <message>
-        <location filename="../../qrgui/editor/editorViewScene.cpp" line="+294"/>
+        <location filename="../../../qrgui/editor/editorViewScene.cpp" line="+294"/>
         <source>Create new element</source>
         <translation>Создать новый элемент</translation>
     </message>
@@ -223,27 +249,9 @@
     </message>
 </context>
 <context>
-    <name>qReal::gui::editor::LineFactory</name>
-    <message>
-        <location filename="../../qrgui/editor/private/lineFactory.cpp" line="+49"/>
-        <source>Broken</source>
-        <translation>Ломаная</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Square</source>
-        <translation>Прямоугольная</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Curve</source>
-        <translation>Кривая</translation>
-    </message>
-</context>
-<context>
     <name>qReal::gui::editor::NodeElement</name>
     <message>
-        <location filename="../../qrgui/editor/nodeElement.cpp" line="+53"/>
+        <location filename="../../../qrgui/editor/nodeElement.cpp" line="+53"/>
         <source>Switch on grid</source>
         <translation>Включить сетку</translation>
     </message>
@@ -251,7 +259,7 @@
 <context>
     <name>qReal::gui::editor::PropertyEditorView</name>
     <message>
-        <location filename="../../qrgui/editor/propertyEditorView.cpp" line="+305"/>
+        <location filename="../../../qrgui/editor/propertyEditorView.cpp" line="+305"/>
         <source>Specify directory:</source>
         <translation>Выберите каталог:</translation>
     </message>
@@ -264,23 +272,15 @@
 <context>
     <name>qReal::gui::editor::PushButtonPropertyManager</name>
     <message>
-        <location filename="../../qrgui/editor/private/pushButtonProperty.cpp" line="+38"/>
+        <location filename="../../../qrgui/editor/private/pushButtonProperty.cpp" line="+38"/>
         <source>Click to choose</source>
         <translation>Кликните для выбора</translation>
     </message>
 </context>
 <context>
-    <name>qReal::gui::editor::SquareLine</name>
-    <message>
-        <location filename="../../qrgui/editor/private/squareLine.cpp" line="+27"/>
-        <source>Lay out</source>
-        <translation>Переразложить</translation>
-    </message>
-</context>
-<context>
     <name>qReal::gui::editor::view::details::ExploserView</name>
     <message>
-        <location filename="../../qrgui/editor/private/exploserView.cpp" line="+80"/>
+        <location filename="../../../qrgui/editor/private/exploserView.cpp" line="+80"/>
         <location line="+111"/>
         <source>New </source>
         <translation>Новый </translation>
