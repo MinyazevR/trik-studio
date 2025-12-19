@@ -4,19 +4,66 @@
 <context>
     <name>ActionsManager</name>
     <message>
-        <source>Real robot</source>
-        <translation type="obsolete">Robot réel</translation>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="+45"/>
+        <source>To main page</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+246"/>
+        <source>Real robot</source>
+        <translation>Robot réel</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>2D model</source>
-        <translation type="obsolete">Modèle 2D</translation>
+        <translation>Modèle 2D</translation>
+    </message>
+</context>
+<context>
+    <name>BlockInterpreter</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/interpreter/blockInterpreter.cpp" line="+92"/>
+        <location line="+74"/>
+        <source>No connection to robot</source>
+        <translation>Pas de connexion au robot</translation>
+    </message>
+    <message>
+        <location line="-68"/>
+        <source>Interpreter is already running</source>
+        <translation>L&apos;interprétateur est deja lancé</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>Connected successfully</source>
+        <translation>Connexion reussie</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Can&apos;t connect to a robot.</source>
+        <translation>La connexion au robot a échoué.</translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Cannot create new thread with already occupied id %1</source>
+        <translation>Impossible de créer un nouveau thread avec un identificateur deja utilisé %1</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Threads limit exceeded. Maximum threads count is %1</source>
+        <translation>Le nombre limite de threads est atteint. La limite est de %1 </translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Killing non-existent thread %1</source>
+        <translation>Terminaison du thread non existant %1</translation>
     </message>
 </context>
 <context>
     <name>DefaultRobotModel</name>
     <message>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/defaultRobotModel.cpp" line="+31"/>
         <source>Empty model</source>
-        <translation type="obsolete">Modèle vide</translation>
+        <translation>Modèle vide</translation>
     </message>
 </context>
 <context>
@@ -53,7 +100,7 @@
 <context>
     <name>PreferencesRobotSettingsPage</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/ui/robotsSettingsPage.ui" line="+23"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/ui/robotsSettingsPage.ui" line="+23"/>
         <source>Graphics Watcher update intervals</source>
         <translation>Intervalle de mise à jour des graphes</translation>
     </message>
@@ -144,7 +191,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/customizer.cpp" line="+27"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/customizer.cpp" line="+27"/>
         <source>TRIK Studio</source>
         <translation>TRIK Studio</translation>
     </message>
@@ -163,7 +210,7 @@
         <translation type="vanished">Conflit de configuration des capteurs, verifiez que les ports des capteurs soient utilisés de manière consistente dans le programme</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="+32"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="-260"/>
         <source>Run</source>
         <translation>Executer</translation>
     </message>
@@ -218,7 +265,7 @@
         <translation>Arrêter l&apos;interpréteur</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/managers/exerciseExportManager.cpp" line="+53"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/exerciseExportManager.cpp" line="+53"/>
         <source>Select file to export save to</source>
         <translation>Selectionner le fichier pour l&apos;export</translation>
     </message>
@@ -228,7 +275,7 @@
         <translation>Fichier TRIK Studio (*.qrs)</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/managers/uiManager.cpp" line="+63"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/uiManager.cpp" line="+63"/>
         <source>Blocks</source>
         <translation>Blocs</translation>
     </message>
@@ -255,7 +302,7 @@
         <translation type="vanished">temps</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/interpreter/details/autoconfigurer.cpp" line="+60"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/interpreter/details/autoconfigurer.cpp" line="+60"/>
         <source>%2 has been auto configured to port %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -268,40 +315,7 @@
 <context>
     <name>RobotsPluginFacade</name>
     <message>
-        <source>Robots</source>
-        <translation type="obsolete">Robots</translation>
-    </message>
-</context>
-<context>
-    <name>interpreterCore::ActionsManager</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="-71"/>
-        <source>To main page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+246"/>
-        <source>Real robot</source>
-        <translation>Robot réel</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>2D model</source>
-        <translation>Modèle 2D</translation>
-    </message>
-</context>
-<context>
-    <name>interpreterCore::DefaultRobotModel</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/defaultRobotModel.cpp" line="+31"/>
-        <source>Empty model</source>
-        <translation>Modèle vide</translation>
-    </message>
-</context>
-<context>
-    <name>interpreterCore::RobotsPluginFacade</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/robotsPluginFacade.cpp" line="+159"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/robotsPluginFacade.cpp" line="+159"/>
         <source>Robots</source>
         <translation>Robots</translation>
     </message>
@@ -329,7 +343,7 @@
 <context>
     <name>interpreterCore::UiManager</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/managers/uiManager.cpp" line="-66"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/uiManager.cpp" line="-66"/>
         <source>Miscellaneous</source>
         <translation type="unfinished"></translation>
     </message>
@@ -362,45 +376,6 @@
         <location line="+146"/>
         <source>Modes</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>interpreterCore::interpreter::BlockInterpreter</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/interpreter/blockInterpreter.cpp" line="+92"/>
-        <location line="+74"/>
-        <source>No connection to robot</source>
-        <translation type="unfinished">Pas de connexion au robot</translation>
-    </message>
-    <message>
-        <location line="-68"/>
-        <source>Interpreter is already running</source>
-        <translation type="unfinished">L&apos;interprétateur est deja lancé</translation>
-    </message>
-    <message>
-        <location line="+52"/>
-        <source>Connected successfully</source>
-        <translation type="unfinished">Connexion reussie</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Can&apos;t connect to a robot.</source>
-        <translation type="unfinished">La connexion au robot a échoué.</translation>
-    </message>
-    <message>
-        <location line="+44"/>
-        <source>Cannot create new thread with already occupied id %1</source>
-        <translation type="unfinished">Impossible de créer un nouveau thread avec un identificateur deja utilisé %1</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Threads limit exceeded. Maximum threads count is %1</source>
-        <translation type="unfinished">Le nombre limite de threads est atteint. La limite est de %1 </translation>
-    </message>
-    <message>
-        <location line="+22"/>
-        <source>Killing non-existent thread %1</source>
-        <translation type="unfinished">Terminaison du thread non existant %1</translation>
     </message>
 </context>
 <context>
@@ -437,7 +412,7 @@
 <context>
     <name>interpreterCore::ui::ExerciseExportDialog</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/ui/exerciseExportDialog.cpp" line="+31"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/ui/exerciseExportDialog.cpp" line="+31"/>
         <source>Select non-modifiable parts of exercize</source>
         <translation>Selectionnez les parties non modifiables de l&apos;exercice</translation>
     </message>
@@ -480,7 +455,7 @@
 <context>
     <name>interpreterCore::ui::ModeStripe</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/ui/modeStripe.cpp" line="+22"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/ui/modeStripe.cpp" line="+22"/>
         <source>press %2 or click here to switch to %3</source>
         <translation>Appuyez sur %2 ou cliquez ici pour passer en %3</translation>
     </message>
@@ -488,7 +463,7 @@
 <context>
     <name>interpreterCore::ui::RobotsSettingsPage</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/interpreterCore/src/ui/robotsSettingsPage.cpp" line="+78"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/ui/robotsSettingsPage.cpp" line="+78"/>
         <source>No constructor kit plugins loaded</source>
         <translation>Aucune extension n&apos;est chargée</translation>
     </message>

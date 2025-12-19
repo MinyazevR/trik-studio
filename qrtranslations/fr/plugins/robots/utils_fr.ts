@@ -27,9 +27,65 @@
         <source>SensorsGraph</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../../../plugins/robots/utils/src/graphicsWatcher/sensorsGraph.cpp" line="+141"/>
+        <source>Stop tracking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Start tracking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Reset plot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Zoom In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Zoom Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export values...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>trik::UploaderTool</name>
+    <name>TcpRobotCommunicator</name>
+    <message>
+        <location filename="../../../../plugins/robots/utils/src/robotCommunication/tcpRobotCommunicator.cpp" line="+81"/>
+        <source>Empty program name, can not upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Can not read generated file, uploading aborted</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TcpRobotCommunicatorWorker</name>
+    <message>
+        <location filename="../../../../plugins/robots/utils/src/robotCommunication/tcpRobotCommunicatorWorker.cpp" line="+232"/>
+        <source>Unable to resolve host.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Connection failed. IP: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UploaderTool</name>
     <message>
         <location filename="../../../../plugins/robots/utils/src/uploaderTool.cpp" line="+131"/>
         <source>WinSCP process failed to launch, check path in settings.</source>
@@ -68,32 +124,6 @@
     </message>
 </context>
 <context>
-    <name>utils::robotCommunication::TcpRobotCommunicator</name>
-    <message>
-        <location filename="../../../../plugins/robots/utils/src/robotCommunication/tcpRobotCommunicator.cpp" line="+81"/>
-        <source>Empty program name, can not upload</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Can not read generated file, uploading aborted</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>utils::robotCommunication::TcpRobotCommunicatorWorker</name>
-    <message>
-        <location filename="../../../../plugins/robots/utils/src/robotCommunication/tcpRobotCommunicatorWorker.cpp" line="+232"/>
-        <source>Unable to resolve host.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Connection failed. IP: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>utils::sensorsGraph::SensorViewer</name>
     <message>
         <location filename="../../../../plugins/robots/utils/src/graphicsWatcher/sensorViewer.cpp" line="+109"/>
@@ -108,39 +138,6 @@
     <message>
         <location line="+106"/>
         <source>value: </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>utils::sensorsGraph::SensorsGraph</name>
-    <message>
-        <location filename="../../../../plugins/robots/utils/src/graphicsWatcher/sensorsGraph.cpp" line="+141"/>
-        <source>Stop tracking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Start tracking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Reset plot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Zoom In</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Export values...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

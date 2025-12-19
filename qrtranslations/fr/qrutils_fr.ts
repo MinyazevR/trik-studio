@@ -4,20 +4,30 @@
 <context>
     <name>Block</name>
     <message>
+        <location filename="../../qrutils/interpreter/block.cpp" line="+60"/>
         <source>Control flow break detected, stopping</source>
-        <translation type="obsolete">Une pause de flux de contrôle détecté, arrêt en cours</translation>
+        <translation>Une pause de flux de contrôle détecté, arrêt en cours</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <location line="+93"/>
+        <source>Block has disappeared!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-78"/>
         <source>Too many outgoing links</source>
-        <translation type="obsolete">Trop de liens sortants</translation>
+        <translation>Trop de liens sortants</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>No outgoing links, please connect this block to something or use Final Node to end program</source>
-        <translation type="obsolete">Aucun lien sortant, s&apos;il vous plait connectez ce bloc à un autre ou bien utilisez un nœud final pour terminer le programme</translation>
+        <translation>Aucun lien sortant, s&apos;il vous plait connectez ce bloc à un autre ou bien utilisez un nœud final pour terminer le programme</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Outgoing link is not connected</source>
-        <translation type="obsolete">Le lien sortant n&apos;est pas connecté</translation>
+        <translation>Le lien sortant n&apos;est pas connecté</translation>
     </message>
 </context>
 <context>
@@ -122,35 +132,6 @@
         <location line="+47"/>
         <source>&apos; has unconnected link</source>
         <translation>&apos; a un lien non connecté</translation>
-    </message>
-</context>
-<context>
-    <name>qReal::interpretation::Block</name>
-    <message>
-        <location filename="../../qrutils/interpreter/block.cpp" line="+60"/>
-        <source>Control flow break detected, stopping</source>
-        <translation>Une pause de flux de contrôle détecté, arrêt en cours</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <location line="+93"/>
-        <source>Block has disappeared!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-78"/>
-        <source>Too many outgoing links</source>
-        <translation>Trop de liens sortants</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>No outgoing links, please connect this block to something or use Final Node to end program</source>
-        <translation>Aucun lien sortant, s&apos;il vous plait connectez ce bloc à un autre ou bien utilisez un nœud final pour terminer le programme</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Outgoing link is not connected</source>
-        <translation>Le lien sortant n&apos;est pas connecté</translation>
     </message>
 </context>
 <context>

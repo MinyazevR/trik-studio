@@ -2,9 +2,27 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
 <context>
+    <name>MasterGeneratorBase</name>
+    <message>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+119"/>
+        <source>This diagram cannot be generated into the structured code. Generating it into the code with &apos;goto&apos; statements.</source>
+        <translation>Ce diagramme ne peut pas être transformé en code structuré. Le code contenant &apos;goto&apos; sera généré.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>This diagram cannot be even generated into the code with &apos;goto&apos;statements. Please contact the developers.</source>
+        <translation>Ce diagramme ne peut pas être transformé même en code avec des expressions &apos;goto&apos;. S&apos;il vous plait, contactez les developpeurs.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This diagram cannot be generated into the structured code.</source>
+        <translation>Ce diagramme ne peut pas être transformé en code structuré.</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../plugins/robots/generators/generatorBase/src/converters/reservedVariablesConverter.cpp" line="+64"/>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/converters/reservedVariablesConverter.cpp" line="+64"/>
         <source>Device on port %1 is not configured. Please select it on the &quot;Configure devices&quot; panel on the right-hand side.</source>
         <translation>Le capteur sur le port %1 n&apos;est pas configuré. S&apos;il vous plait, sélectionné son type sur le panel &quot;Configuration des capteurs&quot; sur votre droite.</translation>
     </message>
@@ -14,12 +32,12 @@
         <translation>/* ERREUR SELECTIONNEZ LE TYPE DU CAPTEUR */</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+79"/>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="-57"/>
         <source>There is no opened diagram</source>
         <translation>Il n&apos;y a pas de diagramme d&apos;ouvert</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/generators/generatorBase/src/parts/subprograms.cpp" line="+83"/>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/parts/subprograms.cpp" line="+83"/>
         <source>Graphical diagram instance not found</source>
         <translation>L&apos;instance graphique du diagramme n&apos;est pas trouvé</translation>
     </message>
@@ -38,7 +56,7 @@
         <translation type="vanished">Cet identificateur est deja utilisé:</translation>
     </message>
     <message>
-        <location filename="../../../../plugins/robots/generators/generatorBase/src/primaryControlFlowValidator.cpp" line="+44"/>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/primaryControlFlowValidator.cpp" line="+44"/>
         <source>There is nothing to generate, diagram doesn&apos;t have Initial Node</source>
         <translation>Impossible de générer le code car le diagramme ne contient pas de nœud initial</translation>
     </message>
@@ -131,24 +149,6 @@
         <location line="+26"/>
         <source>Outgoing link is not connected</source>
         <translation>Le lien sortant n&apos;est pas raccordé</translation>
-    </message>
-</context>
-<context>
-    <name>generatorBase::MasterGeneratorBase</name>
-    <message>
-        <location filename="../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+40"/>
-        <source>This diagram cannot be generated into the structured code. Generating it into the code with &apos;goto&apos; statements.</source>
-        <translation>Ce diagramme ne peut pas être transformé en code structuré. Le code contenant &apos;goto&apos; sera généré.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>This diagram cannot be even generated into the code with &apos;goto&apos;statements. Please contact the developers.</source>
-        <translation>Ce diagramme ne peut pas être transformé même en code avec des expressions &apos;goto&apos;. S&apos;il vous plait, contactez les developpeurs.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>This diagram cannot be generated into the structured code.</source>
-        <translation>Ce diagramme ne peut pas être transformé en code structuré.</translation>
     </message>
 </context>
 </TS>

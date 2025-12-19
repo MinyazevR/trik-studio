@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikTextualInterpreter.cpp" line="+164"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikTextualInterpreter.cpp" line="+164"/>
         <source>Bogus input values</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17,7 +17,7 @@
 <context>
     <name>TrikAdditionalPreferences</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.ui" line="+14"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.ui" line="+14"/>
         <source>Form</source>
         <translation>Préférences TRIK</translation>
     </message>
@@ -76,40 +76,8 @@
         <source>Pack images to project</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>TrikDisplayWidget</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikDisplayWidget.ui" line="+14"/>
-        <source>Trik Display</source>
-        <translation>L&apos;écran Trik</translation>
-    </message>
-</context>
-<context>
-    <name>TrikKitInterpreterPluginBase</name>
-    <message>
-        <source>Enter robot`s IP-address here...</source>
-        <translation type="obsolete">Tapez l&apos;adresse IP du robot ici...</translation>
-    </message>
-</context>
-<context>
-    <name>TwoDExecutionControl</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/twoDExecutionControl.cpp" line="+28"/>
-        <source>&apos;%1&apos; is disabled
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>No cofigured random device</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>trik::TrikAdditionalPreferences</name>
-    <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.cpp" line="+33"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.cpp" line="+33"/>
         <source>2D robot image:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -130,9 +98,9 @@
     </message>
 </context>
 <context>
-    <name>trik::TrikBrick</name>
+    <name>TrikBrick</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikbrick.cpp" line="+84"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikbrick.cpp" line="+84"/>
         <location line="+76"/>
         <source>2d model shell part was not found</source>
         <translation type="unfinished"></translation>
@@ -215,20 +183,17 @@
     </message>
 </context>
 <context>
-    <name>trik::TrikKitInterpreterPlugin</name>
+    <name>TrikDisplayWidget</name>
     <message>
-        <source>TRIK</source>
-        <translation type="vanished">TRIK</translation>
-    </message>
-    <message>
-        <source>Enter robot`s IP-address here...</source>
-        <translation type="vanished">Tapez l&apos;adresse IP du robot ici...</translation>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikDisplayWidget.ui" line="+14"/>
+        <source>Trik Display</source>
+        <translation>L&apos;écran Trik</translation>
     </message>
 </context>
 <context>
-    <name>trik::TrikKitInterpreterPluginBase</name>
+    <name>TrikKitInterpreterPluginBase</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikKitInterpreterPluginBase.cpp" line="+39"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikKitInterpreterPluginBase.cpp" line="+39"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
@@ -255,13 +220,38 @@
     <message>
         <location line="+199"/>
         <source>Enter robot`s IP-address here...</source>
-        <translation type="unfinished">Tapez l&apos;adresse IP du robot ici...</translation>
+        <translation>Tapez l&apos;adresse IP du robot ici...</translation>
+    </message>
+</context>
+<context>
+    <name>TwoDExecutionControl</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/twoDExecutionControl.cpp" line="+28"/>
+        <source>&apos;%1&apos; is disabled
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>No cofigured random device</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>trik::TrikKitInterpreterPlugin</name>
+    <message>
+        <source>TRIK</source>
+        <translation type="vanished">TRIK</translation>
+    </message>
+    <message>
+        <source>Enter robot`s IP-address here...</source>
+        <translation type="vanished">Tapez l&apos;adresse IP du robot ici...</translation>
     </message>
 </context>
 <context>
     <name>trik::TrikTextualInterpreter</name>
     <message>
-        <location filename="../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikTextualInterpreter.cpp" line="-96"/>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikTextualInterpreter.cpp" line="-96"/>
         <location line="+15"/>
         <source>Unsupported script file type</source>
         <translation type="unfinished"></translation>
