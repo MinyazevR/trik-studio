@@ -1,6 +1,6 @@
 [submodule "plugins/robots/thirdparty/trikRuntime"]
 	path = plugins/robots/thirdparty/trikRuntime/trikRuntime
-	url = https://github.com/trikset/trikRuntime
+	url = https://github.com/MinyazevR/trikRuntime
 	branch = master
 [submodule "qrtest/thirdparty/googletest/googletest"]
 	path = qrtest/thirdparty/googletest/googletest
