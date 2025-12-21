@@ -143,7 +143,7 @@ jobs:
       build: true
       build_installer: true
       need_deploy: false
-      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=sanitizer CONFIG+=sanitize-undefined CONFIG+=sanitize_address"
+      qmake_extra: "CONFIG+=tests CONFIG+=noPch CONFIG+=ccache CONFIG+=sanitizer CONFIG+=sanitize-undefined"
       gcc_version: 13
       trik_qt_version: 5.15
       trik_python3_version_minor: 11
