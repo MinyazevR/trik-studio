@@ -13,7 +13,8 @@ export PYTHONIOENCODING=utf-8
 env
 
 
-make check -k -s && ( set +eux ; cd "bin" && eval "$TESTS" )
+make check -k -s
+cd "bin" && eval "$TESTS"
 
 [ -r tests_qrs.7z ] || curl -Lo tests_qrs.7z https://dl.trikset.com/edu/.solutions20200701/testing_small.7z
 which 7z &> /dev/null && 7z -y x tests_qrs.7z || 7za x tests_qrs.7z
