@@ -29,7 +29,8 @@ SUBDIRS += \
 	metaMetaModel \
 	pluginManager \
 	toolPluginInterface \
-	thirdparty \
+
+!autolupdate:SUBDIRS+=thirdparty
 
 pluginManager.subdir = $$PWD/plugins/pluginManager
 metaMetaModel.subdir = $$PWD/plugins/metaMetaModel

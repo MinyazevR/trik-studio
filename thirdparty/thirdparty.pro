@@ -17,10 +17,13 @@ TEMPLATE = subdirs
 HEADERS += \
 	runExtensions.h \
 
+!autolupdate {
+
 SUBDIRS = \
 	qslog \
 	gamepad \
 	checkapp \
+}
 
 qslog.file = qslog/QsLogSharedLibrary.pro
 gamepad.depends = qslog
