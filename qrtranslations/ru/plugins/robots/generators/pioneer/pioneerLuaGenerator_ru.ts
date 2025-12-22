@@ -4,52 +4,40 @@
 <context>
     <name>HttpCommunicator</name>
     <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="+60"/>
-        <location line="+40"/>
         <source>Pioneer base station IP address is not set. It can be set in Settings window.</source>
-        <translation>IP-адрес базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
+        <translation type="vanished">IP-адрес базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+40"/>
         <source>Pioneer base station port is not set. It can be set in Settings window.</source>
-        <translation>Порт базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
+        <translation type="vanished">Порт базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
     </message>
     <message>
-        <location line="-34"/>
-        <location line="+9"/>
         <source>Generation failed, upload aborted.</source>
-        <translation>Генерация завершились с ошибкой, загрузка отменена.</translation>
+        <translation type="vanished">Генерация завершились с ошибкой, загрузка отменена.</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>Uploading to: %1, please wait...</source>
-        <translation>Производится загрузка на %1, пожалуйста, подождите...</translation>
+        <translation type="vanished">Производится загрузка на %1, пожалуйста, подождите...</translation>
     </message>
     <message>
-        <location line="+24"/>
         <source>Starting program. Senging request to: %1, please wait...</source>
-        <translation>Скрипт запускается. Запрос запуска к %1, пожалуйста, подождите...</translation>
+        <translation type="vanished">Скрипт запускается. Запрос запуска к %1, пожалуйста, подождите...</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>Stopping program is not supported for HTTP communication mode.</source>
-        <translation>Остановка программы не поддерживается в режиме передачи по HTTP, используйте инструмент &quot;controller&quot; для связи с роботом (включается в настройках).</translation>
+        <translation type="vanished">Остановка программы не поддерживается в режиме передачи по HTTP, используйте инструмент &quot;controller&quot; для связи с роботом (включается в настройках).</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>Uploading finished.</source>
-        <translation>Загрузка завершена.</translation>
+        <translation type="vanished">Загрузка завершена.</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>Start finished.</source>
-        <translation>Запуск завершён.</translation>
+        <translation type="vanished">Запуск завершён.</translation>
     </message>
     <message>
-        <location line="+11"/>
         <source>Pioneer base station took too long to respond. Request aborted.</source>
-        <translation>НСУ Пионер не отвечает.</translation>
+        <translation type="vanished">НСУ Пионер не отвечает.</translation>
     </message>
 </context>
 <context>
@@ -241,6 +229,54 @@
     <message>
         <source>Generation or compilation failed, upload aborted.</source>
         <translation type="vanished">Генерация или компиляция завершились с ошибкой, загрузка отменена.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="+60"/>
+        <location line="+40"/>
+        <source>Pioneer base station IP address is not set. It can be set in Settings window.</source>
+        <translation type="unfinished">IP-адрес базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
+    </message>
+    <message>
+        <location line="-34"/>
+        <location line="+40"/>
+        <source>Pioneer base station port is not set. It can be set in Settings window.</source>
+        <translation type="unfinished">Порт базовой станции Пионера не указан. Его можно указать в окне &quot;Настройки&quot; -&gt; &quot;Роботы&quot; -&gt; &quot;Пионер&quot;.</translation>
+    </message>
+    <message>
+        <location line="-34"/>
+        <location line="+9"/>
+        <source>Generation failed, upload aborted.</source>
+        <translation type="unfinished">Генерация завершились с ошибкой, загрузка отменена.</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Uploading to: %1, please wait...</source>
+        <translation type="unfinished">Производится загрузка на %1, пожалуйста, подождите...</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Starting program. Senging request to: %1, please wait...</source>
+        <translation type="unfinished">Скрипт запускается. Запрос запуска к %1, пожалуйста, подождите...</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Stopping program is not supported for HTTP communication mode.</source>
+        <translation type="unfinished">Остановка программы не поддерживается в режиме передачи по HTTP, используйте инструмент &quot;controller&quot; для связи с роботом (включается в настройках).</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Uploading finished.</source>
+        <translation type="unfinished">Загрузка завершена.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Start finished.</source>
+        <translation type="unfinished">Запуск завершён.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Pioneer base station took too long to respond. Request aborted.</source>
+        <translation type="unfinished">НСУ Пионер не отвечает.</translation>
     </message>
 </context>
 <context>

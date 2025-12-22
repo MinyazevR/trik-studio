@@ -2,7 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
 <context>
-    <name>Ev3GeneratorFactory</name>
+    <name>ev3::Ev3GeneratorFactory</name>
     <message>
         <location filename="../../../../../../plugins/robots/generators/ev3/ev3GeneratorBase/src/simpleGenerators/sendMailGenerator.cpp" line="35"/>
         <location filename="../../../../../../plugins/robots/generators/ev3/ev3GeneratorBase/src/simpleGenerators/receiveMailGenerator.cpp" line="38"/>

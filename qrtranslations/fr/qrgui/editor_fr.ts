@@ -4,50 +4,42 @@
 <context>
     <name>BrokenLine</name>
     <message>
-        <location filename="../../../qrgui/editor/private/brokenLine.cpp" line="+24"/>
         <source>Delete point</source>
-        <translation>Supprimer le point</translation>
+        <translation type="vanished">Supprimer le point</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Delete segment</source>
-        <translation>Supprimer le segment</translation>
+        <translation type="vanished">Supprimer le segment</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Remove all points</source>
-        <translation>Supprimer tous les points</translation>
+        <translation type="vanished">Supprimer tous les points</translation>
     </message>
 </context>
 <context>
     <name>EdgeElement</name>
     <message>
-        <location filename="../../../qrgui/editor/edgeElement.cpp" line="+62"/>
         <source>Reverse</source>
-        <translation>Retourner</translation>
+        <translation type="vanished">Retourner</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Change shape type</source>
-        <translation>Modifier le type de ligne</translation>
+        <translation type="vanished">Modifier le type de ligne</translation>
     </message>
 </context>
 <context>
     <name>LineFactory</name>
     <message>
-        <location filename="../../../qrgui/editor/private/lineFactory.cpp" line="+49"/>
         <source>Broken</source>
-        <translation>Brisée</translation>
+        <translation type="vanished">Brisée</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Square</source>
-        <translation>Rectiligne</translation>
+        <translation type="vanished">Rectiligne</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Curve</source>
-        <translation>Courbée</translation>
+        <translation type="vanished">Courbée</translation>
     </message>
 </context>
 <context>
@@ -104,9 +96,8 @@
 <context>
     <name>SquareLine</name>
     <message>
-        <location filename="../../../qrgui/editor/private/squareLine.cpp" line="+27"/>
         <source>Lay out</source>
-        <translation>Étaler</translation>
+        <translation type="vanished">Étaler</translation>
     </message>
 </context>
 <context>
@@ -149,6 +140,37 @@
     <message>
         <source>Switch on grid</source>
         <translation type="vanished">Afficher la grille</translation>
+    </message>
+</context>
+<context>
+    <name>qReal::gui::editor::BrokenLine</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/brokenLine.cpp" line="+24"/>
+        <source>Delete point</source>
+        <translation type="unfinished">Supprimer le point</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Delete segment</source>
+        <translation type="unfinished">Supprimer le segment</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Remove all points</source>
+        <translation type="unfinished">Supprimer tous les points</translation>
+    </message>
+</context>
+<context>
+    <name>qReal::gui::editor::EdgeElement</name>
+    <message>
+        <location filename="../../../qrgui/editor/edgeElement.cpp" line="+62"/>
+        <source>Reverse</source>
+        <translation type="unfinished">Retourner</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Change shape type</source>
+        <translation type="unfinished">Modifier le type de ligne</translation>
     </message>
 </context>
 <context>
@@ -197,6 +219,24 @@
     </message>
 </context>
 <context>
+    <name>qReal::gui::editor::LineFactory</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/lineFactory.cpp" line="+49"/>
+        <source>Broken</source>
+        <translation type="unfinished">Brisée</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Square</source>
+        <translation type="unfinished">Rectiligne</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Curve</source>
+        <translation type="unfinished">Courbée</translation>
+    </message>
+</context>
+<context>
     <name>qReal::gui::editor::NodeElement</name>
     <message>
         <location filename="../../../qrgui/editor/nodeElement.cpp" line="+53"/>
@@ -223,6 +263,14 @@
         <location filename="../../../qrgui/editor/private/pushButtonProperty.cpp" line="+38"/>
         <source>Click to choose</source>
         <translation>Cliquez pour choisir</translation>
+    </message>
+</context>
+<context>
+    <name>qReal::gui::editor::SquareLine</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/squareLine.cpp" line="+27"/>
+        <source>Lay out</source>
+        <translation type="unfinished">Étaler</translation>
     </message>
 </context>
 <context>

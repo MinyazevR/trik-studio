@@ -4,30 +4,24 @@
 <context>
     <name>Block</name>
     <message>
-        <location filename="../../qrutils/interpreter/block.cpp" line="+60"/>
         <source>Control flow break detected, stopping</source>
-        <translation>Обнаружен разрыв потока управления, исполнение завершено</translation>
+        <translation type="vanished">Обнаружен разрыв потока управления, исполнение завершено</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+93"/>
         <source>Block has disappeared!</source>
-        <translation>Блок исчез!</translation>
+        <translation type="vanished">Блок исчез!</translation>
     </message>
     <message>
-        <location line="-78"/>
         <source>Too many outgoing links</source>
-        <translation>Слишком много исходящих связей</translation>
+        <translation type="vanished">Слишком много исходящих связей</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>No outgoing links, please connect this block to something or use Final Node to end program</source>
-        <translation>Нет исходящих связей. Пожалуйста, подключите этот блок к чему-нибудь или используйте блок &quot;Конец&quot;, чтобы завершить выполнение программы</translation>
+        <translation type="vanished">Нет исходящих связей. Пожалуйста, подключите этот блок к чему-нибудь или используйте блок &quot;Конец&quot;, чтобы завершить выполнение программы</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Outgoing link is not connected</source>
-        <translation>Исходящая связь ни к чему не подключена</translation>
+        <translation type="vanished">Исходящая связь ни к чему не подключена</translation>
     </message>
 </context>
 <context>
@@ -213,24 +207,30 @@
 <context>
     <name>qReal::interpretation::Block</name>
     <message>
+        <location filename="../../qrutils/interpreter/block.cpp" line="+60"/>
         <source>Control flow break detected, stopping</source>
-        <translation type="vanished">Обнаружен разрыв потока управления, исполнение завершено</translation>
+        <translation>Обнаружен разрыв потока управления, исполнение завершено</translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Too many outgoing links</source>
-        <translation type="vanished">Слишком много исходящих связей</translation>
+        <translation>Слишком много исходящих связей</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>No outgoing links, please connect this block to something or use Final Node to end program</source>
-        <translation type="vanished">Нет исходящих связей. Пожалуйста, подключите этот блок к чему-нибудь или используйте блок &quot;Конец&quot;, чтобы завершить выполнение программы</translation>
+        <translation>Нет исходящих связей. Пожалуйста, подключите этот блок к чему-нибудь или используйте блок &quot;Конец&quot;, чтобы завершить выполнение программы</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Outgoing link is not connected</source>
-        <translation type="vanished">Исходящая связь ни к чему не подключена</translation>
+        <translation>Исходящая связь ни к чему не подключена</translation>
     </message>
     <message>
+        <location line="-27"/>
+        <location line="+93"/>
         <source>Block has disappeared!</source>
-        <translation type="vanished">Блок исчез!</translation>
+        <translation>Блок исчез!</translation>
     </message>
 </context>
 <context>

@@ -4,19 +4,16 @@
 <context>
     <name>DevicesConfigurationWidget</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/kitBase/src/devicesConfigurationWidget.cpp" line="+103"/>
         <source>%1:</source>
-        <translation>%1 :</translation>
+        <translation type="vanished">%1 :</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Port %1:</source>
-        <translation>Port %1 :</translation>
+        <translation type="vanished">Port %1 :</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>Unused</source>
-        <translation>Pas utilisé</translation>
+        <translation type="vanished">Pas utilisé</translation>
     </message>
 </context>
 <context>
@@ -30,17 +27,41 @@
 <context>
     <name>WaitForButtonBlock</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/kitBase/src/blocksBase/common/waitForButtonBlock.cpp" line="+37"/>
         <source>Incorrect button port %1</source>
-        <translation>Le port de bouton %1 n&apos;est pas correct</translation>
+        <translation type="vanished">Le port de bouton %1 n&apos;est pas correct</translation>
     </message>
 </context>
 <context>
     <name>WaitForSensorBlock</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/kitBase/src/blocksBase/common/waitForSensorBlock.cpp" line="+46"/>
         <source>%1 is not configured on port %2</source>
-        <translation>%1 n&apos;est pas configuré sur le port %2</translation>
+        <translation type="vanished">%1 n&apos;est pas configuré sur le port %2</translation>
+    </message>
+</context>
+<context>
+    <name>kitBase::DevicesConfigurationWidget</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/kitBase/src/devicesConfigurationWidget.cpp" line="+103"/>
+        <source>%1:</source>
+        <translation type="unfinished">%1 :</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Port %1:</source>
+        <translation type="unfinished">Port %1 :</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Unused</source>
+        <translation type="unfinished">Pas utilisé</translation>
+    </message>
+</context>
+<context>
+    <name>kitBase::blocksBase::common::WaitForButtonBlock</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/kitBase/src/blocksBase/common/waitForButtonBlock.cpp" line="+37"/>
+        <source>Incorrect button port %1</source>
+        <translation type="unfinished">Le port de bouton %1 n&apos;est pas correct</translation>
     </message>
 </context>
 <context>
@@ -68,6 +89,14 @@
     <message>
         <source>White</source>
         <translation type="vanished">Blanc</translation>
+    </message>
+</context>
+<context>
+    <name>kitBase::blocksBase::common::WaitForSensorBlock</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/kitBase/src/blocksBase/common/waitForSensorBlock.cpp" line="+46"/>
+        <source>%1 is not configured on port %2</source>
+        <translation type="unfinished">%1 n&apos;est pas configuré sur le port %2</translation>
     </message>
 </context>
 <context>

@@ -4,25 +4,22 @@
 <context>
     <name>BluetoothRobotCommunicationThread</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/ev3Kit/src/communication/bluetoothRobotCommunicationThread.cpp" line="+82"/>
         <source>Cannot open port </source>
-        <translation>Не удается открыть порт </translation>
+        <translation type="vanished">Не удается открыть порт </translation>
     </message>
 </context>
 <context>
     <name>Ev3RobotCommunicationThread</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/ev3Kit/src/communication/ev3RobotCommunicationThread.cpp" line="+55"/>
         <source>EV3 limits filename length to %1 characters, but you have %2, please, rename your project.</source>
-        <translation>EV3 не загружает файлы длиннее %1 символов. Длина имени Вашего файла %2 символов. Пожалуйста, сократите имя программы.</translation>
+        <translation type="vanished">EV3 не загружает файлы длиннее %1 символов. Длина имени Вашего файла %2 символов. Пожалуйста, сократите имя программы.</translation>
     </message>
 </context>
 <context>
     <name>UsbRobotCommunicationThread</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/ev3Kit/src/communication/usbRobotCommunicationThread.cpp" line="+99"/>
         <source>Cannot find EV3 device. Check robot connected and turned on and try again.</source>
-        <translation>Не могу найти устройство EV3. Проверьте, что робот включен и присоединен и попробуйте снова.</translation>
+        <translation type="vanished">Не могу найти устройство EV3. Проверьте, что робот включен и присоединен и попробуйте снова.</translation>
     </message>
 </context>
 <context>
@@ -44,6 +41,22 @@
     </message>
 </context>
 <context>
+    <name>ev3::communication::BluetoothRobotCommunicationThread</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/ev3Kit/src/communication/bluetoothRobotCommunicationThread.cpp" line="+82"/>
+        <source>Cannot open port </source>
+        <translation type="unfinished">Не удается открыть порт </translation>
+    </message>
+</context>
+<context>
+    <name>ev3::communication::Ev3RobotCommunicationThread</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/ev3Kit/src/communication/ev3RobotCommunicationThread.cpp" line="+55"/>
+        <source>EV3 limits filename length to %1 characters, but you have %2, please, rename your project.</source>
+        <translation type="unfinished">EV3 не загружает файлы длиннее %1 символов. Длина имени Вашего файла %2 символов. Пожалуйста, сократите имя программы.</translation>
+    </message>
+</context>
+<context>
     <name>ev3::communication::UsbRobotCommunicationThread</name>
     <message>
         <source>USB device configuration problem. Please contact developers.</source>
@@ -60,6 +73,11 @@
     <message>
         <source>USB Device interface problem. Please contact developers.</source>
         <translation type="vanished">Проблема USB-интерфейса. Пожалуйста, обратитесь к разработчикам.</translation>
+    </message>
+    <message>
+        <location filename="../../../../../plugins/robots/common/ev3Kit/src/communication/usbRobotCommunicationThread.cpp" line="+99"/>
+        <source>Cannot find EV3 device. Check robot connected and turned on and try again.</source>
+        <translation type="unfinished">Не могу найти устройство EV3. Проверьте, что робот включен и присоединен и попробуйте снова.</translation>
     </message>
 </context>
 <context>

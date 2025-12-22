@@ -4,19 +4,16 @@
 <context>
     <name>MasterGeneratorBase</name>
     <message>
-        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+119"/>
         <source>This diagram cannot be generated into the structured code. Generating it into the code with &apos;goto&apos; statements.</source>
-        <translation>Ce diagramme ne peut pas être transformé en code structuré. Le code contenant &apos;goto&apos; sera généré.</translation>
+        <translation type="vanished">Ce diagramme ne peut pas être transformé en code structuré. Le code contenant &apos;goto&apos; sera généré.</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>This diagram cannot be even generated into the code with &apos;goto&apos;statements. Please contact the developers.</source>
-        <translation>Ce diagramme ne peut pas être transformé même en code avec des expressions &apos;goto&apos;. S&apos;il vous plait, contactez les developpeurs.</translation>
+        <translation type="vanished">Ce diagramme ne peut pas être transformé même en code avec des expressions &apos;goto&apos;. S&apos;il vous plait, contactez les developpeurs.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>This diagram cannot be generated into the structured code.</source>
-        <translation>Ce diagramme ne peut pas être transformé en code structuré.</translation>
+        <translation type="vanished">Ce diagramme ne peut pas être transformé en code structuré.</translation>
     </message>
 </context>
 <context>
@@ -32,7 +29,7 @@
         <translation>/* ERREUR SELECTIONNEZ LE TYPE DU CAPTEUR */</translation>
     </message>
     <message>
-        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="-57"/>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+79"/>
         <source>There is no opened diagram</source>
         <translation>Il n&apos;y a pas de diagramme d&apos;ouvert</translation>
     </message>
@@ -149,6 +146,24 @@
         <location line="+26"/>
         <source>Outgoing link is not connected</source>
         <translation>Le lien sortant n&apos;est pas raccordé</translation>
+    </message>
+</context>
+<context>
+    <name>generatorBase::MasterGeneratorBase</name>
+    <message>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+40"/>
+        <source>This diagram cannot be generated into the structured code. Generating it into the code with &apos;goto&apos; statements.</source>
+        <translation type="unfinished">Ce diagramme ne peut pas être transformé en code structuré. Le code contenant &apos;goto&apos; sera généré.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>This diagram cannot be even generated into the code with &apos;goto&apos;statements. Please contact the developers.</source>
+        <translation type="unfinished">Ce diagramme ne peut pas être transformé même en code avec des expressions &apos;goto&apos;. S&apos;il vous plait, contactez les developpeurs.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This diagram cannot be generated into the structured code.</source>
+        <translation type="unfinished">Ce diagramme ne peut pas être transformé en code structuré.</translation>
     </message>
 </context>
 </TS>

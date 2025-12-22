@@ -2,20 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
 <context>
-    <name>TrikRobotModelBase</name>
-    <message>
-        <location filename="../../../../../plugins/robots/common/trikKit/src/robotModel/trikRobotModelBase.cpp" line="+93"/>
-        <location line="+212"/>
-        <source>Video 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Lidar</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>trik::blocks::details::WaitForMessageBlock</name>
     <message>
         <location filename="../../../../../plugins/robots/common/trikKit/src/blocks/details/waitForMessageBlock.cpp" line="+46"/>
@@ -29,6 +15,20 @@
         <location filename="../../../../../plugins/robots/common/trikKit/src/blocks/details/waitGamepadButtonBlock.cpp" line="+41"/>
         <source>Incorrect port for gamepad button %1</source>
         <translation>Port incorrect pour le bouton de manette %1</translation>
+    </message>
+</context>
+<context>
+    <name>trik::robotModel::TrikRobotModelBase</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/trikKit/src/robotModel/trikRobotModelBase.cpp" line="+93"/>
+        <location line="+212"/>
+        <source>Video 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Lidar</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

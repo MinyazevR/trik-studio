@@ -68,59 +68,106 @@
 <context>
     <name>TrikPythonGeneratorPluginBase</name>
     <message>
+        <source>Network operation timed out</source>
+        <translation type="vanished">Не удалось получить ответ от робота, проверьте настройки, проверьте, включён ли робот</translation>
+    </message>
+    <message>
+        <source>Casing model mismatch, check TRIK Studio settings, &quot;Robots&quot; page. It seems that TRIK casing version selected in TRIK Studio differs from version on robot.</source>
+        <translation type="vanished">Модель корпуса робота не совпадает с указанной в настройках. Проверьте окно настроек, вкладка &quot;Роботы&quot;, должна быть выбрана модель ТРИКа, соответствующая корпусу робота.</translation>
+    </message>
+    <message>
+        <source>Generate python code</source>
+        <translation type="vanished">Генерировать код на Python</translation>
+    </message>
+    <message>
+        <source>Upload program</source>
+        <translation type="vanished">Загрузить программу</translation>
+    </message>
+    <message>
+        <source>Run program</source>
+        <translation type="vanished">Загрузить и выполнить программу</translation>
+    </message>
+    <message>
+        <source>Stop robot</source>
+        <translation type="vanished">Остановить робота</translation>
+    </message>
+    <message>
+        <source>Generate Python code</source>
+        <translation type="vanished">Сгенерированть код для ТРИК на QtScript</translation>
+    </message>
+    <message>
+        <source>Upload Python program</source>
+        <translation type="vanished">Загрузить программу</translation>
+    </message>
+    <message>
+        <source>Run Python program</source>
+        <translation type="vanished">Исполнить программу</translation>
+    </message>
+    <message>
+        <source>Stop Python program</source>
+        <translation type="vanished">Остановить выполнение программы для TRIK</translation>
+    </message>
+    <message>
+        <source>There are no files to upload. You must open or generate at least one *.js or *.py file.</source>
+        <translation type="vanished">Нет файлов для загрузки. Вы должны открыть или сгенерировать хотя бы один *.js или *.py файл.</translation>
+    </message>
+</context>
+<context>
+    <name>trik::python::TrikPythonGeneratorPluginBase</name>
+    <message>
         <location filename="../../../../../../plugins/robots/generators/trik/trikPythonGeneratorLibrary/src/trikPythonGeneratorPluginBase.cpp" line="+73"/>
         <source>Network operation timed out</source>
-        <translation>Не удалось получить ответ от робота, проверьте настройки, проверьте, включён ли робот</translation>
+        <translation type="unfinished">Не удалось получить ответ от робота, проверьте настройки, проверьте, включён ли робот</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Casing model mismatch, check TRIK Studio settings, &quot;Robots&quot; page. It seems that TRIK casing version selected in TRIK Studio differs from version on robot.</source>
-        <translation>Модель корпуса робота не совпадает с указанной в настройках. Проверьте окно настроек, вкладка &quot;Роботы&quot;, должна быть выбрана модель ТРИКа, соответствующая корпусу робота.</translation>
+        <translation type="unfinished">Модель корпуса робота не совпадает с указанной в настройках. Проверьте окно настроек, вкладка &quot;Роботы&quot;, должна быть выбрана модель ТРИКа, соответствующая корпусу робота.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Generate python code</source>
-        <translation>Генерировать код на Python</translation>
+        <translation type="unfinished">Генерировать код на Python</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Upload program</source>
-        <translation>Загрузить программу</translation>
+        <translation type="unfinished">Загрузить программу</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Run program</source>
-        <translation>Загрузить и выполнить программу</translation>
+        <translation type="unfinished">Загрузить и выполнить программу</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Stop robot</source>
-        <translation>Остановить робота</translation>
+        <translation type="unfinished">Остановить робота</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Generate Python code</source>
-        <translation>Сгенерированть код для ТРИК на QtScript</translation>
+        <translation type="unfinished">Сгенерированть код для ТРИК на QtScript</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Upload Python program</source>
-        <translation>Загрузить программу</translation>
+        <translation type="unfinished">Загрузить программу</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Run Python program</source>
-        <translation>Исполнить программу</translation>
+        <translation type="unfinished">Исполнить программу</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Stop Python program</source>
-        <translation>Остановить выполнение программы для TRIK</translation>
+        <translation type="unfinished">Остановить выполнение программы для TRIK</translation>
     </message>
     <message>
         <location line="+72"/>
         <source>There are no files to upload. You must open or generate at least one *.js or *.py file.</source>
-        <translation>Нет файлов для загрузки. Вы должны открыть или сгенерировать хотя бы один *.js или *.py файл.</translation>
+        <translation type="unfinished">Нет файлов для загрузки. Вы должны открыть или сгенерировать хотя бы один *.js или *.py файл.</translation>
     </message>
 </context>
 </TS>

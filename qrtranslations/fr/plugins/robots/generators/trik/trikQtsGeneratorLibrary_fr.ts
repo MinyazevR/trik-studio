@@ -66,7 +66,7 @@
     </message>
 </context>
 <context>
-    <name>TrikQtsGeneratorPluginBase</name>
+    <name>trik::qts::TrikQtsGeneratorPluginBase</name>
     <message>
         <location filename="../../../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/trikQtsGeneratorPluginBase.cpp" line="+73"/>
         <source>Network operation timed out</source>

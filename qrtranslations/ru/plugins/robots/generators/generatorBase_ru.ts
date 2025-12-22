@@ -4,19 +4,16 @@
 <context>
     <name>MasterGeneratorBase</name>
     <message>
-        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+119"/>
         <source>This diagram cannot be generated into the structured code. Generating it into the code with &apos;goto&apos; statements.</source>
-        <translation>Данная диаграмма не может быть сгенерирована в структурированный код. Генерирую код с &apos;goto&apos;.</translation>
+        <translation type="vanished">Данная диаграмма не может быть сгенерирована в структурированный код. Генерирую код с &apos;goto&apos;.</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>This diagram cannot be even generated into the code with &apos;goto&apos;statements. Please contact the developers.</source>
-        <translation>Данная диаграмма не может быть сгенерирована даже в код с &apos;goto&apos;. Пожалуйста, обратитесь к разработчикам.</translation>
+        <translation type="vanished">Данная диаграмма не может быть сгенерирована даже в код с &apos;goto&apos;. Пожалуйста, обратитесь к разработчикам.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>This diagram cannot be generated into the structured code.</source>
-        <translation>Данная диаграмма не может быть сгенерирована в структурированный код.</translation>
+        <translation type="vanished">Данная диаграмма не может быть сгенерирована в структурированный код.</translation>
     </message>
 </context>
 <context>
@@ -113,7 +110,7 @@
         <translation>Неизвестный блок</translation>
     </message>
     <message>
-        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="-57"/>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+79"/>
         <source>There is no opened diagram</source>
         <translation>Сначала откройте диаграмму</translation>
     </message>
@@ -150,6 +147,24 @@
         <location line="+4"/>
         <source>/* ERROR: SELECT DEVICE TYPE */</source>
         <translation>/* ОШИБКА: ВЫБЕРИТЕ ТИП СЕНСОРА */</translation>
+    </message>
+</context>
+<context>
+    <name>generatorBase::MasterGeneratorBase</name>
+    <message>
+        <location filename="../../../../../plugins/robots/generators/generatorBase/src/masterGeneratorBase.cpp" line="+40"/>
+        <source>This diagram cannot be generated into the structured code. Generating it into the code with &apos;goto&apos; statements.</source>
+        <translation type="unfinished">Данная диаграмма не может быть сгенерирована в структурированный код. Генерирую код с &apos;goto&apos;.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>This diagram cannot be even generated into the code with &apos;goto&apos;statements. Please contact the developers.</source>
+        <translation type="unfinished">Данная диаграмма не может быть сгенерирована даже в код с &apos;goto&apos;. Пожалуйста, обратитесь к разработчикам.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This diagram cannot be generated into the structured code.</source>
+        <translation type="unfinished">Данная диаграмма не может быть сгенерирована в структурированный код.</translation>
     </message>
 </context>
 </TS>

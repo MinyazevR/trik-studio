@@ -184,29 +184,24 @@
         <translation type="vanished">Задание выполнено!</translation>
     </message>
     <message>
-        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/model/model.cpp" line="+69"/>
         <source>The task was accomplished in %1 sec!</source>
-        <translation>Задание выполнено за %1 сек!</translation>
+        <translation type="vanished">Задание выполнено за %1 сек!</translation>
     </message>
     <message>
-        <location line="+24"/>
         <source>Error in checker: %1</source>
-        <translation>Ошибка в проверяющей программе: %1</translation>
+        <translation type="vanished">Ошибка в проверяющей программе: %1</translation>
     </message>
     <message>
-        <location line="+74"/>
         <source>The &quot;version&quot; field of the &quot;root&quot; tag must not be empty.</source>
-        <translation>Поле &quot;version&quot; тега &quot;root&quot; не должно быть пустым.</translation>
+        <translation type="vanished">Поле &quot;version&quot; тега &quot;root&quot; не должно быть пустым.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>The world model has version %1. The current version is %2. Please check that the world model behaves as expected.</source>
-        <translation>Модель мира имеет версию %1. Текущая версия %2. Пожалуйста, убедитесь, что модель мира ведет себя ожидаемым образом.</translation>
+        <translation type="vanished">Модель мира имеет версию %1. Текущая версия %2. Пожалуйста, убедитесь, что модель мира ведет себя ожидаемым образом.</translation>
     </message>
     <message>
-        <location line="+33"/>
         <source>This robot model already exists</source>
-        <translation>Эта модель робота уже существует</translation>
+        <translation type="vanished">Эта модель робота уже существует</translation>
     </message>
 </context>
 <context>
@@ -419,52 +414,43 @@
 <context>
     <name>SizeUnit</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/model/metricSystem.cpp" line="+113"/>
         <source>cm</source>
-        <translation>см</translation>
+        <translation type="vanished">см</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>mm</source>
-        <translation>мм</translation>
+        <translation type="vanished">мм</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>m</source>
-        <translation>м</translation>
+        <translation type="vanished">м</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>px</source>
-        <translation>пикс</translation>
+        <translation type="vanished">пикс</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>Pixels</source>
-        <translation>Пиксели</translation>
+        <translation type="vanished">Пиксели</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Centimeters</source>
-        <translation>Сантиметры</translation>
+        <translation type="vanished">Сантиметры</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Meters</source>
-        <translation>Метры</translation>
+        <translation type="vanished">Метры</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Millimeters</source>
-        <translation>Миллиметры</translation>
+        <translation type="vanished">Миллиметры</translation>
     </message>
 </context>
 <context>
     <name>TwoDModelEngineFacade</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/twoDModelEngineFacade.cpp" line="+196"/>
         <source>Realistic physics&apos; must be turned on to enjoy skittles, cubes and balls</source>
-        <translation>Реалистичная физика должна быть включена для взаимодействия с кеглями, кубами и мячами</translation>
+        <translation type="vanished">Реалистичная физика должна быть включена для взаимодействия с кеглями, кубами и мячами</translation>
     </message>
 </context>
 <context>
@@ -501,13 +487,11 @@
         <location line="+7"/>
         <location line="+7"/>
         <location line="+14"/>
-        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.cpp" line="+154"/>
         <source>cm</source>
         <translation>см</translation>
     </message>
     <message>
         <location line="-7"/>
-        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.cpp" line="+30"/>
         <source>kg</source>
         <translation>кг</translation>
     </message>
@@ -597,100 +581,74 @@
         <translation>Колея робота:</translation>
     </message>
     <message>
-        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.cpp" line="+169"/>
         <source>Warning</source>
-        <translation>Предупреждение</translation>
+        <translation type="vanished">Предупреждение</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Do you really want to clear scene?</source>
-        <translation>Вы действительно хотите очистить сцену?</translation>
+        <translation type="vanished">Вы действительно хотите очистить сцену?</translation>
     </message>
     <message>
-        <location line="+109"/>
         <source>Training mode: solution will not be checked</source>
-        <translation>Режим тренировки: решение не будет проверяться</translation>
+        <translation type="vanished">Режим тренировки: решение не будет проверяться</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Checking mode: solution will be checked, errors will be reported</source>
-        <translation>Режим проверки: проверка решения будет осуществляться, об ошибках будет сообщаться</translation>
+        <translation type="vanished">Режим проверки: проверка решения будет осуществляться, об ошибках будет сообщаться</translation>
     </message>
     <message>
-        <location line="+62"/>
         <source>Saving world and robot model</source>
-        <translation>Сохранение модели мира</translation>
+        <translation type="vanished">Сохранение модели мира</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <location line="+20"/>
-        <location line="+14"/>
         <source>2D model saves (*.xml)</source>
-        <translation>Файлы 2D модели (*.xml)</translation>
+        <translation type="vanished">Файлы 2D модели (*.xml)</translation>
     </message>
     <message>
-        <location line="-14"/>
         <source>Loading world and robot model</source>
-        <translation>Загрузка модели мира</translation>
+        <translation type="vanished">Загрузка модели мира</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>Loading world without robot model</source>
-        <translation>Загрузка модели мира без модели робота</translation>
+        <translation type="vanished">Загрузка модели мира без модели робота</translation>
     </message>
     <message>
-        <location line="+317"/>
         <source>Hide details</source>
-        <translation>Скрыть детали</translation>
+        <translation type="vanished">Скрыть детали</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Show details</source>
-        <translation>Показать детали</translation>
+        <translation type="vanished">Показать детали</translation>
     </message>
     <message>
-        <location line="+206"/>
-        <location line="+1"/>
         <source>No wheel</source>
-        <translation>Отсутствует</translation>
+        <translation type="vanished">Отсутствует</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>%1 (port %2)</source>
-        <translation>%1 (порт %2)</translation>
+        <translation type="vanished">%1 (порт %2)</translation>
     </message>
 </context>
 <context>
     <name>TwoDRobotModel</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/twoDModel/src/robotModel/twoDRobotModel.cpp" line="+74"/>
-        <location line="+3"/>
         <source>2D Model</source>
-        <translation>2D модель</translation>
+        <translation type="vanished">2D модель</translation>
     </message>
 </context>
 <context>
     <name>WorldModel</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/model/worldModel.cpp" line="+195"/>
-        <location line="+19"/>
-        <location line="+18"/>
-        <location line="+18"/>
-        <location line="+18"/>
-        <location line="+43"/>
-        <location line="+19"/>
         <source>Trying to add an item with a duplicate id: %1</source>
-        <translation>Попытка добавить элемент с существующим идентификатором: %1</translation>
+        <translation type="vanished">Попытка добавить элемент с существующим идентификатором: %1</translation>
     </message>
     <message>
-        <location line="+12"/>
         <source>Incorrect image, please try anouther one</source>
-        <translation>Некорректное изображение, попробуйте другое</translation>
+        <translation type="vanished">Некорректное изображение, попробуйте другое</translation>
     </message>
     <message>
-        <location line="+544"/>
         <source>Unknown image with imageId %1</source>
-        <translation>Неизвестное изображение с imageId %1</translation>
+        <translation type="vanished">Неизвестное изображение с imageId %1</translation>
     </message>
 </context>
 <context>
@@ -766,6 +724,14 @@
         <location line="+191"/>
         <source>Program has finished, but the task is not accomplished.</source>
         <translation>Программа отработала, но задание не выполнено.</translation>
+    </message>
+</context>
+<context>
+    <name>twoDModel::engine::TwoDModelEngineFacade</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/twoDModelEngineFacade.cpp" line="+196"/>
+        <source>Realistic physics&apos; must be turned on to enjoy skittles, cubes and balls</source>
+        <translation type="unfinished">Реалистичная физика должна быть включена для взаимодействия с кеглями, кубами и мячами</translation>
     </message>
 </context>
 <context>
@@ -858,6 +824,110 @@
         <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/items/wallItem.cpp" line="+68"/>
         <source>Wall (W)</source>
         <translation>Стена (W)</translation>
+    </message>
+</context>
+<context>
+    <name>twoDModel::model::Model</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/model/model.cpp" line="+69"/>
+        <source>The task was accomplished in %1 sec!</source>
+        <translation type="unfinished">Задание выполнено за %1 сек!</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Error in checker: %1</source>
+        <translation type="unfinished">Ошибка в проверяющей программе: %1</translation>
+    </message>
+    <message>
+        <location line="+74"/>
+        <source>The &quot;version&quot; field of the &quot;root&quot; tag must not be empty.</source>
+        <translation type="unfinished">Поле &quot;version&quot; тега &quot;root&quot; не должно быть пустым.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>The world model has version %1. The current version is %2. Please check that the world model behaves as expected.</source>
+        <translation type="unfinished">Модель мира имеет версию %1. Текущая версия %2. Пожалуйста, убедитесь, что модель мира ведет себя ожидаемым образом.</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>This robot model already exists</source>
+        <translation type="unfinished">Эта модель робота уже существует</translation>
+    </message>
+</context>
+<context>
+    <name>twoDModel::model::SizeUnit</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/model/metricSystem.cpp" line="+113"/>
+        <source>cm</source>
+        <translation type="unfinished">см</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>mm</source>
+        <translation type="unfinished">мм</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>m</source>
+        <translation type="unfinished">м</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>px</source>
+        <translation type="unfinished">пикс</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Pixels</source>
+        <translation type="unfinished">Пиксели</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Centimeters</source>
+        <translation type="unfinished">Сантиметры</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Meters</source>
+        <translation type="unfinished">Метры</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Millimeters</source>
+        <translation type="unfinished">Миллиметры</translation>
+    </message>
+</context>
+<context>
+    <name>twoDModel::model::WorldModel</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/model/worldModel.cpp" line="+195"/>
+        <location line="+19"/>
+        <location line="+18"/>
+        <location line="+18"/>
+        <location line="+18"/>
+        <location line="+43"/>
+        <location line="+19"/>
+        <source>Trying to add an item with a duplicate id: %1</source>
+        <translation type="unfinished">Попытка добавить элемент с существующим идентификатором: %1</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Incorrect image, please try anouther one</source>
+        <translation type="unfinished">Некорректное изображение, попробуйте другое</translation>
+    </message>
+    <message>
+        <location line="+544"/>
+        <source>Unknown image with imageId %1</source>
+        <translation type="unfinished">Неизвестное изображение с imageId %1</translation>
+    </message>
+</context>
+<context>
+    <name>twoDModel::robotModel::TwoDRobotModel</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/twoDModel/src/robotModel/twoDRobotModel.cpp" line="+74"/>
+        <location line="+3"/>
+        <source>2D Model</source>
+        <translation type="unfinished">2D модель</translation>
     </message>
 </context>
 <context>
@@ -1242,6 +1312,79 @@
     <message>
         <source>You are trying to load to big image, it may freeze execution for some time. Continue?</source>
         <translation type="vanished">Попытка загрузить слишком большое изображение может заморозить выполнение на некоторое время. Продолжить?</translation>
+    </message>
+    <message>
+        <location filename="../../../../../plugins/robots/common/twoDModel/src/engine/view/twoDModelWidget.cpp" line="+154"/>
+        <source>cm</source>
+        <translation type="unfinished">см</translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>kg</source>
+        <translation type="unfinished">кг</translation>
+    </message>
+    <message>
+        <location line="+169"/>
+        <source>Warning</source>
+        <translation type="unfinished">Предупреждение</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Do you really want to clear scene?</source>
+        <translation type="unfinished">Вы действительно хотите очистить сцену?</translation>
+    </message>
+    <message>
+        <location line="+109"/>
+        <source>Training mode: solution will not be checked</source>
+        <translation type="unfinished">Режим тренировки: решение не будет проверяться</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Checking mode: solution will be checked, errors will be reported</source>
+        <translation type="unfinished">Режим проверки: проверка решения будет осуществляться, об ошибках будет сообщаться</translation>
+    </message>
+    <message>
+        <location line="+62"/>
+        <source>Saving world and robot model</source>
+        <translation type="unfinished">Сохранение модели мира</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+20"/>
+        <location line="+14"/>
+        <source>2D model saves (*.xml)</source>
+        <translation type="unfinished">Файлы 2D модели (*.xml)</translation>
+    </message>
+    <message>
+        <location line="-14"/>
+        <source>Loading world and robot model</source>
+        <translation type="unfinished">Загрузка модели мира</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Loading world without robot model</source>
+        <translation type="unfinished">Загрузка модели мира без модели робота</translation>
+    </message>
+    <message>
+        <location line="+317"/>
+        <source>Hide details</source>
+        <translation type="unfinished">Скрыть детали</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Show details</source>
+        <translation type="unfinished">Показать детали</translation>
+    </message>
+    <message>
+        <location line="+206"/>
+        <location line="+1"/>
+        <source>No wheel</source>
+        <translation type="unfinished">Отсутствует</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>%1 (port %2)</source>
+        <translation type="unfinished">%1 (порт %2)</translation>
     </message>
 </context>
 </TS>

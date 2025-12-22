@@ -89,113 +89,91 @@
         <translation type="vanished">Открыть</translation>
     </message>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.cpp" line="+33"/>
         <source>2D robot image:</source>
-        <translation>Картинка робота в 2D:</translation>
+        <translation type="vanished">Картинка робота в 2D:</translation>
     </message>
     <message>
-        <location line="+18"/>
         <source>Select Directory</source>
-        <translation>Выберите папку</translation>
+        <translation type="vanished">Выберите папку</translation>
     </message>
     <message>
-        <location line="+25"/>
         <source>Information</source>
-        <translation>Информация</translation>
+        <translation type="vanished">Информация</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>You should restart the program to apply changes</source>
-        <translation>Перезапустите программу, чтобы применить изменения</translation>
+        <translation type="vanished">Перезапустите программу, чтобы применить изменения</translation>
     </message>
 </context>
 <context>
     <name>TrikBrick</name>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikbrick.cpp" line="+130"/>
-        <location line="+283"/>
         <source>Trying to read from file %1 failed</source>
-        <translation>Не удалось открыть файл %1</translation>
+        <translation type="vanished">Не удалось открыть файл %1</translation>
     </message>
     <message>
-        <location line="-223"/>
         <source>No configured motor on port: %1</source>
-        <translation>Не найден сконфигурированный  мотор на порту: %1</translation>
+        <translation type="vanished">Не найден сконфигурированный  мотор на порту: %1</translation>
     </message>
     <message>
         <source>No configured sensor on port: %1</source>
         <translation type="obsolete">Не найден сконфигурированный  сенсор на порту: %1</translation>
     </message>
     <message>
-        <location line="-106"/>
-        <location line="+76"/>
         <source>2d model shell part was not found</source>
-        <translation>Консоль 2d модели не найдена</translation>
+        <translation type="vanished">Консоль 2d модели не найдена</translation>
     </message>
     <message>
-        <location line="+61"/>
         <source>No configured scalar sensor on port: %1</source>
-        <translation>Не найден скалярный сенсор на порту: %1</translation>
+        <translation type="vanished">Не найден скалярный сенсор на порту: %1</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>No configured lidar on port: %1</source>
-        <translation>Не найден скалярный лидар на порту: %1</translation>
+        <translation type="vanished">Не найден скалярный лидар на порту: %1</translation>
     </message>
     <message>
-        <location line="+33"/>
         <source>No configured accelerometer</source>
-        <translation>Акселерометр не сконфигурирован</translation>
+        <translation type="vanished">Акселерометр не сконфигурирован</translation>
     </message>
     <message>
-        <location line="+16"/>
         <source>No configured gyroscope</source>
-        <translation>Гиродатчик не сконфигурирован</translation>
+        <translation type="vanished">Гиродатчик не сконфигурирован</translation>
     </message>
     <message>
-        <location line="+20"/>
         <source>No configured LineSensor on port: %1</source>
-        <translation>Не найден сконфигурированный сенсор линии на порту: %1</translation>
+        <translation type="vanished">Не найден сконфигурированный сенсор линии на порту: %1</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>No configured ColorSensor on port: %1</source>
-        <translation>Не найден сконфигурированный сенсор цвета на порту: %1</translation>
+        <translation type="vanished">Не найден сконфигурированный сенсор цвета на порту: %1</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>Sensor not implemented in simulation mode. Used port: %1</source>
-        <translation>Датчик не поддержан в режиме имитационного моделирования. Порт: %1</translation>
+        <translation type="vanished">Датчик не поддержан в режиме имитационного моделирования. Порт: %1</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>No configured encoder on port: %1</source>
-        <translation>Не найден сконфигурированный енкодер на порту: %1</translation>
+        <translation type="vanished">Не найден сконфигурированный енкодер на порту: %1</translation>
     </message>
     <message>
-        <location line="+21"/>
         <source>No configured led</source>
-        <translation>LED не сконфигурирован</translation>
+        <translation type="vanished">LED не сконфигурирован</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>Get photo with camera started</source>
-        <translation>Процесс получения снимка начат</translation>
+        <translation type="vanished">Процесс получения снимка начат</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Get photo with camera finished</source>
-        <translation>Процесс получения снимка завершен</translation>
+        <translation type="vanished">Процесс получения снимка завершен</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Cannot get a photo from camera (possibly because of wrong camera name)</source>
-        <translation>Получить снимок с помощью камеры не удалось (возможно из-за неправильного имени камеры)</translation>
+        <translation type="vanished">Получить снимок с помощью камеры не удалось (возможно из-за неправильного имени камеры)</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Cannot get a photo from folders/project (possibly because of wrong path/empty project)</source>
-        <translation>Получить снимок из папки/проекта не удалось (возможно из-за неправильного пути/отстуствия снимков в проекте)</translation>
+        <translation type="vanished">Получить снимок из папки/проекта не удалось (возможно из-за неправильного пути/отстуствия снимков в проекте)</translation>
     </message>
     <message>
         <source>No cofigured random device</source>
@@ -213,34 +191,28 @@
 <context>
     <name>TrikKitInterpreterPluginBase</name>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikKitInterpreterPluginBase.cpp" line="+39"/>
         <source>Start</source>
-        <translation>Запустить</translation>
+        <translation type="vanished">Запустить</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Stop</source>
-        <translation>Оставновить</translation>
+        <translation type="vanished">Оставновить</translation>
     </message>
     <message>
-        <location line="+61"/>
         <source>TRIK_PYTHONPATH must be set correctly to run Python script.</source>
-        <translation>Для запуска программы на Python доложна быть корректно выставлена переменная окружения TRIK_PYTHONPATH</translation>
+        <translation type="vanished">Для запуска программы на Python доложна быть корректно выставлена переменная окружения TRIK_PYTHONPATH</translation>
     </message>
     <message>
-        <location line="+173"/>
         <source>Run program</source>
-        <translation>Выполнить программу</translation>
+        <translation type="vanished">Выполнить программу</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Stop robot</source>
-        <translation>Остановить программу</translation>
+        <translation type="vanished">Остановить программу</translation>
     </message>
     <message>
-        <location line="+199"/>
         <source>Enter robot`s IP-address here...</source>
-        <translation>Введите IP-адрес робота...</translation>
+        <translation type="vanished">Введите IP-адрес робота...</translation>
     </message>
 </context>
 <context>
@@ -263,6 +235,111 @@
         <source>Open Directory</source>
         <translation type="vanished">Открыть директорию</translation>
     </message>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikAdditionalPreferences.cpp" line="+33"/>
+        <source>2D robot image:</source>
+        <translation type="unfinished">Картинка робота в 2D:</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Select Directory</source>
+        <translation type="unfinished">Выберите папку</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Information</source>
+        <translation type="unfinished">Информация</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>You should restart the program to apply changes</source>
+        <translation type="unfinished">Перезапустите программу, чтобы применить изменения</translation>
+    </message>
+</context>
+<context>
+    <name>trik::TrikBrick</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikbrick.cpp" line="+84"/>
+        <location line="+76"/>
+        <source>2d model shell part was not found</source>
+        <translation type="unfinished">Консоль 2d модели не найдена</translation>
+    </message>
+    <message>
+        <location line="-30"/>
+        <location line="+283"/>
+        <source>Trying to read from file %1 failed</source>
+        <translation type="unfinished">Не удалось открыть файл %1</translation>
+    </message>
+    <message>
+        <location line="-223"/>
+        <source>No configured motor on port: %1</source>
+        <translation type="unfinished">Не найден сконфигурированный  мотор на порту: %1</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>No configured scalar sensor on port: %1</source>
+        <translation type="unfinished">Не найден скалярный сенсор на порту: %1</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No configured lidar on port: %1</source>
+        <translation type="unfinished">Не найден скалярный лидар на порту: %1</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>No configured accelerometer</source>
+        <translation type="unfinished">Акселерометр не сконфигурирован</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>No configured gyroscope</source>
+        <translation type="unfinished">Гиродатчик не сконфигурирован</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>No configured LineSensor on port: %1</source>
+        <translation type="unfinished">Не найден сконфигурированный сенсор линии на порту: %1</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>No configured ColorSensor on port: %1</source>
+        <translation type="unfinished">Не найден сконфигурированный сенсор цвета на порту: %1</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Sensor not implemented in simulation mode. Used port: %1</source>
+        <translation type="unfinished">Датчик не поддержан в режиме имитационного моделирования. Порт: %1</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>No configured encoder on port: %1</source>
+        <translation type="unfinished">Не найден сконфигурированный енкодер на порту: %1</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>No configured led</source>
+        <translation type="unfinished">LED не сконфигурирован</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Get photo with camera started</source>
+        <translation type="unfinished">Процесс получения снимка начат</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Get photo with camera finished</source>
+        <translation type="unfinished">Процесс получения снимка завершен</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Cannot get a photo from camera (possibly because of wrong camera name)</source>
+        <translation type="unfinished">Получить снимок с помощью камеры не удалось (возможно из-за неправильного имени камеры)</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Cannot get a photo from folders/project (possibly because of wrong path/empty project)</source>
+        <translation type="unfinished">Получить снимок из папки/проекта не удалось (возможно из-за неправильного пути/отстуствия снимков в проекте)</translation>
+    </message>
 </context>
 <context>
     <name>trik::TrikKitInterpreterPluginBase</name>
@@ -273,6 +350,36 @@
     <message>
         <source>Stop QTS</source>
         <translation type="vanished">Оставновить QTS</translation>
+    </message>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/trikKitInterpreterCommon/src/trikKitInterpreterPluginBase.cpp" line="+39"/>
+        <source>Start</source>
+        <translation type="unfinished">Запустить</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Stop</source>
+        <translation type="unfinished">Оставновить</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>TRIK_PYTHONPATH must be set correctly to run Python script.</source>
+        <translation type="unfinished">Для запуска программы на Python доложна быть корректно выставлена переменная окружения TRIK_PYTHONPATH</translation>
+    </message>
+    <message>
+        <location line="+173"/>
+        <source>Run program</source>
+        <translation type="unfinished">Выполнить программу</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Stop robot</source>
+        <translation type="unfinished">Остановить программу</translation>
+    </message>
+    <message>
+        <location line="+199"/>
+        <source>Enter robot`s IP-address here...</source>
+        <translation type="unfinished">Введите IP-адрес робота...</translation>
     </message>
 </context>
 <context>

@@ -2,7 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
 <context>
-    <name>BluetoothRobotCommunicationThread</name>
+    <name>nxt::communication::BluetoothRobotCommunicationThread</name>
     <message>
         <location filename="../../../../../plugins/robots/common/nxtKit/src/communication/bluetoothRobotCommunicationThread.cpp" line="+86"/>
         <source>Cannot open port </source>
@@ -10,7 +10,7 @@
     </message>
 </context>
 <context>
-    <name>NxtUsbDriverInstaller</name>
+    <name>nxt::communication::NxtUsbDriverInstaller</name>
     <message>
         <location filename="../../../../../plugins/robots/common/nxtKit/src/communication/nxtUsbDriverInstaller.cpp" line="+54"/>
         <source>Driver for NXT is not installed. An attempt to attach TRIK Studio driver also failed (probably NXT tools package was not installer). No panic! Driver can still be installed manually, see documentation, chapter &quot;Installing NXT driver manually.&quot;. Also TRIK Studio supports &lt;a href=&apos;%1&apos;&gt;Lego Fantom driver&lt;/a&gt;, you can just download and install it.</source>
@@ -43,7 +43,7 @@
     </message>
 </context>
 <context>
-    <name>UsbRobotCommunicationThread</name>
+    <name>nxt::communication::UsbRobotCommunicationThread</name>
     <message>
         <location filename="../../../../../plugins/robots/common/nxtKit/src/communication/usbRobotCommunicationThread.cpp" line="+169"/>
         <source>USB Device configuration problem. Try to restart TRIK Studio and re-plug NXT.</source>

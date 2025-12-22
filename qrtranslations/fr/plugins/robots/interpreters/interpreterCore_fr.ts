@@ -4,66 +4,50 @@
 <context>
     <name>ActionsManager</name>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="+45"/>
-        <source>To main page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+246"/>
         <source>Real robot</source>
-        <translation>Robot réel</translation>
+        <translation type="vanished">Robot réel</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>2D model</source>
-        <translation>Modèle 2D</translation>
+        <translation type="vanished">Modèle 2D</translation>
     </message>
 </context>
 <context>
     <name>BlockInterpreter</name>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/interpreter/blockInterpreter.cpp" line="+92"/>
-        <location line="+74"/>
         <source>No connection to robot</source>
-        <translation>Pas de connexion au robot</translation>
+        <translation type="vanished">Pas de connexion au robot</translation>
     </message>
     <message>
-        <location line="-68"/>
         <source>Interpreter is already running</source>
-        <translation>L&apos;interprétateur est deja lancé</translation>
+        <translation type="vanished">L&apos;interprétateur est deja lancé</translation>
     </message>
     <message>
-        <location line="+52"/>
         <source>Connected successfully</source>
-        <translation>Connexion reussie</translation>
+        <translation type="vanished">Connexion reussie</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>Can&apos;t connect to a robot.</source>
-        <translation>La connexion au robot a échoué.</translation>
+        <translation type="vanished">La connexion au robot a échoué.</translation>
     </message>
     <message>
-        <location line="+44"/>
         <source>Cannot create new thread with already occupied id %1</source>
-        <translation>Impossible de créer un nouveau thread avec un identificateur deja utilisé %1</translation>
+        <translation type="vanished">Impossible de créer un nouveau thread avec un identificateur deja utilisé %1</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>Threads limit exceeded. Maximum threads count is %1</source>
-        <translation>Le nombre limite de threads est atteint. La limite est de %1 </translation>
+        <translation type="vanished">Le nombre limite de threads est atteint. La limite est de %1 </translation>
     </message>
     <message>
-        <location line="+22"/>
         <source>Killing non-existent thread %1</source>
-        <translation>Terminaison du thread non existant %1</translation>
+        <translation type="vanished">Terminaison du thread non existant %1</translation>
     </message>
 </context>
 <context>
     <name>DefaultRobotModel</name>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/defaultRobotModel.cpp" line="+31"/>
         <source>Empty model</source>
-        <translation>Modèle vide</translation>
+        <translation type="vanished">Modèle vide</translation>
     </message>
 </context>
 <context>
@@ -210,7 +194,7 @@
         <translation type="vanished">Conflit de configuration des capteurs, verifiez que les ports des capteurs soient utilisés de manière consistente dans le programme</translation>
     </message>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="-260"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="+32"/>
         <source>Run</source>
         <translation>Executer</translation>
     </message>
@@ -315,9 +299,42 @@
 <context>
     <name>RobotsPluginFacade</name>
     <message>
+        <source>Robots</source>
+        <translation type="vanished">Robots</translation>
+    </message>
+</context>
+<context>
+    <name>interpreterCore::ActionsManager</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="-71"/>
+        <source>To main page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+246"/>
+        <source>Real robot</source>
+        <translation type="unfinished">Robot réel</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>2D model</source>
+        <translation type="unfinished">Modèle 2D</translation>
+    </message>
+</context>
+<context>
+    <name>interpreterCore::DefaultRobotModel</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/defaultRobotModel.cpp" line="+31"/>
+        <source>Empty model</source>
+        <translation type="unfinished">Modèle vide</translation>
+    </message>
+</context>
+<context>
+    <name>interpreterCore::RobotsPluginFacade</name>
+    <message>
         <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/robotsPluginFacade.cpp" line="+159"/>
         <source>Robots</source>
-        <translation>Robots</translation>
+        <translation type="unfinished">Robots</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -376,6 +393,45 @@
         <location line="+146"/>
         <source>Modes</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>interpreterCore::interpreter::BlockInterpreter</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/interpreter/blockInterpreter.cpp" line="+92"/>
+        <location line="+74"/>
+        <source>No connection to robot</source>
+        <translation type="unfinished">Pas de connexion au robot</translation>
+    </message>
+    <message>
+        <location line="-68"/>
+        <source>Interpreter is already running</source>
+        <translation type="unfinished">L&apos;interprétateur est deja lancé</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>Connected successfully</source>
+        <translation type="unfinished">Connexion reussie</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Can&apos;t connect to a robot.</source>
+        <translation type="unfinished">La connexion au robot a échoué.</translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Cannot create new thread with already occupied id %1</source>
+        <translation type="unfinished">Impossible de créer un nouveau thread avec un identificateur deja utilisé %1</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Threads limit exceeded. Maximum threads count is %1</source>
+        <translation type="unfinished">Le nombre limite de threads est atteint. La limite est de %1 </translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Killing non-existent thread %1</source>
+        <translation type="unfinished">Terminaison du thread non existant %1</translation>
     </message>
 </context>
 <context>

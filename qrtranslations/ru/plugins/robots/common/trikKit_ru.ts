@@ -4,15 +4,8 @@
 <context>
     <name>TrikRobotModelBase</name>
     <message>
-        <location filename="../../../../../plugins/robots/common/trikKit/src/robotModel/trikRobotModelBase.cpp" line="+93"/>
-        <location line="+212"/>
-        <source>Video 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Lidar</source>
-        <translation>Лидар</translation>
+        <translation type="vanished">Лидар</translation>
     </message>
 </context>
 <context>
@@ -29,6 +22,20 @@
         <location filename="../../../../../plugins/robots/common/trikKit/src/blocks/details/waitGamepadButtonBlock.cpp" line="+41"/>
         <source>Incorrect port for gamepad button %1</source>
         <translation>Неверная кнопка Android-пульта %1</translation>
+    </message>
+</context>
+<context>
+    <name>trik::robotModel::TrikRobotModelBase</name>
+    <message>
+        <location filename="../../../../../plugins/robots/common/trikKit/src/robotModel/trikRobotModelBase.cpp" line="+93"/>
+        <location line="+212"/>
+        <source>Video 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Lidar</source>
+        <translation type="unfinished">Лидар</translation>
     </message>
 </context>
 <context>

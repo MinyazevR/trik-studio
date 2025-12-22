@@ -2,57 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
 <context>
-    <name>HttpCommunicator</name>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="60"/>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="100"/>
-        <source>Pioneer base station IP address is not set. It can be set in Settings window.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="66"/>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="106"/>
-        <source>Pioneer base station port is not set. It can be set in Settings window.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="72"/>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="81"/>
-        <source>Generation failed, upload aborted.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="87"/>
-        <source>Uploading to: %1, please wait...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="111"/>
-        <source>Starting program. Senging request to: %1, please wait...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="121"/>
-        <source>Stopping program is not supported for HTTP communication mode.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="134"/>
-        <source>Uploading finished.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="142"/>
-        <source>Start finished.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="153"/>
-        <source>Pioneer base station took too long to respond. Request aborted.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>PioneerAdditionalPreferences</name>
     <message>
         <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/widgets/pioneerAdditionalPreferences.ui" line="14"/>
@@ -106,6 +55,57 @@
         <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/generators/semanticTreeManager.cpp" line="175"/>
         <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/generators/semanticTreeManager.cpp" line="283"/>
         <source>Generation internal error, zone contains zone node.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>pioneer::lua::HttpCommunicator</name>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="60"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="100"/>
+        <source>Pioneer base station IP address is not set. It can be set in Settings window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="66"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="106"/>
+        <source>Pioneer base station port is not set. It can be set in Settings window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="72"/>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="81"/>
+        <source>Generation failed, upload aborted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="87"/>
+        <source>Uploading to: %1, please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="111"/>
+        <source>Starting program. Senging request to: %1, please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="121"/>
+        <source>Stopping program is not supported for HTTP communication mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="134"/>
+        <source>Uploading finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="142"/>
+        <source>Start finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/pioneer/pioneerLuaGenerator/communicator/httpCommunicator.cpp" line="153"/>
+        <source>Pioneer base station took too long to respond. Request aborted.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

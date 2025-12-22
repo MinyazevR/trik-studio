@@ -4,50 +4,42 @@
 <context>
     <name>BrokenLine</name>
     <message>
-        <location filename="../../../qrgui/editor/private/brokenLine.cpp" line="+24"/>
         <source>Delete point</source>
-        <translation>Удалить точку</translation>
+        <translation type="vanished">Удалить точку</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Delete segment</source>
-        <translation>Удалить отрезок</translation>
+        <translation type="vanished">Удалить отрезок</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Remove all points</source>
-        <translation>Удалить все точки</translation>
+        <translation type="vanished">Удалить все точки</translation>
     </message>
 </context>
 <context>
     <name>EdgeElement</name>
     <message>
-        <location filename="../../../qrgui/editor/edgeElement.cpp" line="+62"/>
         <source>Reverse</source>
-        <translation>Развернуть</translation>
+        <translation type="vanished">Развернуть</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Change shape type</source>
-        <translation>Изменить тип линии</translation>
+        <translation type="vanished">Изменить тип линии</translation>
     </message>
 </context>
 <context>
     <name>LineFactory</name>
     <message>
-        <location filename="../../../qrgui/editor/private/lineFactory.cpp" line="+49"/>
         <source>Broken</source>
-        <translation>Ломаная</translation>
+        <translation type="vanished">Ломаная</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Square</source>
-        <translation>Прямоугольная</translation>
+        <translation type="vanished">Прямоугольная</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Curve</source>
-        <translation>Кривая</translation>
+        <translation type="vanished">Кривая</translation>
     </message>
 </context>
 <context>
@@ -104,9 +96,8 @@
 <context>
     <name>SquareLine</name>
     <message>
-        <location filename="../../../qrgui/editor/private/squareLine.cpp" line="+27"/>
         <source>Lay out</source>
-        <translation>Переразложить</translation>
+        <translation type="vanished">Переразложить</translation>
     </message>
 </context>
 <context>
@@ -204,6 +195,37 @@
     </message>
 </context>
 <context>
+    <name>qReal::gui::editor::BrokenLine</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/brokenLine.cpp" line="+24"/>
+        <source>Delete point</source>
+        <translation type="unfinished">Удалить точку</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Delete segment</source>
+        <translation type="unfinished">Удалить отрезок</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Remove all points</source>
+        <translation type="unfinished">Удалить все точки</translation>
+    </message>
+</context>
+<context>
+    <name>qReal::gui::editor::EdgeElement</name>
+    <message>
+        <location filename="../../../qrgui/editor/edgeElement.cpp" line="+62"/>
+        <source>Reverse</source>
+        <translation type="unfinished">Развернуть</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Change shape type</source>
+        <translation type="unfinished">Изменить тип линии</translation>
+    </message>
+</context>
+<context>
     <name>qReal::gui::editor::EditorViewScene</name>
     <message>
         <location filename="../../../qrgui/editor/editorViewScene.cpp" line="+294"/>
@@ -249,6 +271,24 @@
     </message>
 </context>
 <context>
+    <name>qReal::gui::editor::LineFactory</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/lineFactory.cpp" line="+49"/>
+        <source>Broken</source>
+        <translation type="unfinished">Ломаная</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Square</source>
+        <translation type="unfinished">Прямоугольная</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Curve</source>
+        <translation type="unfinished">Кривая</translation>
+    </message>
+</context>
+<context>
     <name>qReal::gui::editor::NodeElement</name>
     <message>
         <location filename="../../../qrgui/editor/nodeElement.cpp" line="+53"/>
@@ -275,6 +315,14 @@
         <location filename="../../../qrgui/editor/private/pushButtonProperty.cpp" line="+38"/>
         <source>Click to choose</source>
         <translation>Кликните для выбора</translation>
+    </message>
+</context>
+<context>
+    <name>qReal::gui::editor::SquareLine</name>
+    <message>
+        <location filename="../../../qrgui/editor/private/squareLine.cpp" line="+27"/>
+        <source>Lay out</source>
+        <translation type="unfinished">Переразложить</translation>
     </message>
 </context>
 <context>

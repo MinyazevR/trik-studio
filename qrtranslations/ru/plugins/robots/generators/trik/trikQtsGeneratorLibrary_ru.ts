@@ -72,59 +72,48 @@
 <context>
     <name>TrikQtsGeneratorPluginBase</name>
     <message>
-        <location filename="../../../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/trikQtsGeneratorPluginBase.cpp" line="+73"/>
         <source>Network operation timed out</source>
-        <translation>Не удалось получить ответ от робота, проверьте настройки, проверьте, включён ли робот</translation>
+        <translation type="vanished">Не удалось получить ответ от робота, проверьте настройки, проверьте, включён ли робот</translation>
     </message>
     <message>
-        <location line="+27"/>
         <source>Casing model mismatch, check TRIK Studio settings, &quot;Robots&quot; page. It seems that TRIK casing version selected in TRIK Studio differs from version on robot.</source>
-        <translation>Модель корпуса робота не совпадает с указанной в настройках. Проверьте окно настроек, вкладка &quot;Роботы&quot;, должна быть выбрана модель ТРИКа, соответствующая корпусу робота.</translation>
+        <translation type="vanished">Модель корпуса робота не совпадает с указанной в настройках. Проверьте окно настроек, вкладка &quot;Роботы&quot;, должна быть выбрана модель ТРИКа, соответствующая корпусу робота.</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>Generate TRIK code</source>
-        <translation>Генерировать JavaScript код</translation>
+        <translation type="vanished">Генерировать JavaScript код</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Upload program</source>
-        <translation>Загрузить программу</translation>
+        <translation type="vanished">Загрузить программу</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Run program</source>
-        <translation>Загрузить и выполнить программу</translation>
+        <translation type="vanished">Загрузить и выполнить программу</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Stop robot</source>
-        <translation>Остановить робота</translation>
+        <translation type="vanished">Остановить робота</translation>
     </message>
     <message>
-        <location line="+16"/>
         <source>Generate TRIK Code</source>
-        <translation>Сгенерировать JavaScript код для TRIK</translation>
+        <translation type="vanished">Сгенерировать JavaScript код для TRIK</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Upload TRIK Program</source>
-        <translation>Загрузить программу</translation>
+        <translation type="vanished">Загрузить программу</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Run TRIK Program</source>
-        <translation>Исполнить программу</translation>
+        <translation type="vanished">Исполнить программу</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Stop TRIK Robot</source>
-        <translation>Остановить выполнение программы для TRIK</translation>
+        <translation type="vanished">Остановить выполнение программы для TRIK</translation>
     </message>
     <message>
-        <location line="+72"/>
         <source>There are no files to upload. You must open or generate at least one *.js or *.py file.</source>
-        <translation>Нет файлов для загрузки. Вы должны открыть или сгенерировать хотя бы один *.js или *.py файл.</translation>
+        <translation type="vanished">Нет файлов для загрузки. Вы должны открыть или сгенерировать хотя бы один *.js или *.py файл.</translation>
     </message>
 </context>
 <context>
@@ -176,6 +165,64 @@
     <message>
         <source>No connection to robot</source>
         <translation type="vanished">Нет соединения с роботом, проверьте настройки, проверьте, включён ли робот</translation>
+    </message>
+</context>
+<context>
+    <name>trik::qts::TrikQtsGeneratorPluginBase</name>
+    <message>
+        <location filename="../../../../../../plugins/robots/generators/trik/trikQtsGeneratorLibrary/src/trikQtsGeneratorPluginBase.cpp" line="+73"/>
+        <source>Network operation timed out</source>
+        <translation type="unfinished">Не удалось получить ответ от робота, проверьте настройки, проверьте, включён ли робот</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Casing model mismatch, check TRIK Studio settings, &quot;Robots&quot; page. It seems that TRIK casing version selected in TRIK Studio differs from version on robot.</source>
+        <translation type="unfinished">Модель корпуса робота не совпадает с указанной в настройках. Проверьте окно настроек, вкладка &quot;Роботы&quot;, должна быть выбрана модель ТРИКа, соответствующая корпусу робота.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Generate TRIK code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upload program</source>
+        <translation type="unfinished">Загрузить программу</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Run program</source>
+        <translation type="unfinished">Загрузить и выполнить программу</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Stop robot</source>
+        <translation type="unfinished">Остановить робота</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Generate TRIK Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upload TRIK Program</source>
+        <translation type="unfinished">Загрузить программу</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Run TRIK Program</source>
+        <translation type="unfinished">Исполнить программу</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Stop TRIK Robot</source>
+        <translation type="unfinished">Остановить выполнение программы для TRIK</translation>
+    </message>
+    <message>
+        <location line="+72"/>
+        <source>There are no files to upload. You must open or generate at least one *.js or *.py file.</source>
+        <translation type="unfinished">Нет файлов для загрузки. Вы должны открыть или сгенерировать хотя бы один *.js или *.py файл.</translation>
     </message>
 </context>
 </TS>

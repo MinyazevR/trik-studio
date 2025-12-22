@@ -4,66 +4,54 @@
 <context>
     <name>ActionsManager</name>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="+45"/>
         <source>To main page</source>
-        <translation>На главную</translation>
+        <translation type="vanished">На главную</translation>
     </message>
     <message>
-        <location line="+246"/>
         <source>Real robot</source>
-        <translation>Реальный робот</translation>
+        <translation type="vanished">Реальный робот</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>2D model</source>
-        <translation>2D модель</translation>
+        <translation type="vanished">2D модель</translation>
     </message>
 </context>
 <context>
     <name>BlockInterpreter</name>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/interpreter/blockInterpreter.cpp" line="+92"/>
-        <location line="+74"/>
         <source>No connection to robot</source>
-        <translation>Нет соединения с роботом</translation>
+        <translation type="vanished">Нет соединения с роботом</translation>
     </message>
     <message>
-        <location line="-68"/>
         <source>Interpreter is already running</source>
-        <translation>Программа уже запущена</translation>
+        <translation type="vanished">Программа уже запущена</translation>
     </message>
     <message>
-        <location line="+52"/>
         <source>Connected successfully</source>
-        <translation>Подключение к роботу выполнено</translation>
+        <translation type="vanished">Подключение к роботу выполнено</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>Can&apos;t connect to a robot.</source>
-        <translation>Не удалось подключиться к роботу.</translation>
+        <translation type="vanished">Не удалось подключиться к роботу.</translation>
     </message>
     <message>
-        <location line="+44"/>
         <source>Cannot create new thread with already occupied id %1</source>
-        <translation>Идентификатор потока %1 уже занят</translation>
+        <translation type="vanished">Идентификатор потока %1 уже занят</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>Threads limit exceeded. Maximum threads count is %1</source>
-        <translation>Превышено максимальное число возможных потоков (максимум %1 потоков)</translation>
+        <translation type="vanished">Превышено максимальное число возможных потоков (максимум %1 потоков)</translation>
     </message>
     <message>
-        <location line="+22"/>
         <source>Killing non-existent thread %1</source>
-        <translation>Попытка завершить несуществующий поток %1</translation>
+        <translation type="vanished">Попытка завершить несуществующий поток %1</translation>
     </message>
 </context>
 <context>
     <name>DefaultRobotModel</name>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/defaultRobotModel.cpp" line="+31"/>
         <source>Empty model</source>
-        <translation>Пустая модель</translation>
+        <translation type="vanished">Пустая модель</translation>
     </message>
 </context>
 <context>
@@ -176,7 +164,7 @@
         <translation type="vanished">time</translation>
     </message>
     <message>
-        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="-260"/>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="+32"/>
         <source>Run</source>
         <translation>Выполнить</translation>
     </message>
@@ -254,29 +242,78 @@
 <context>
     <name>RobotsPluginFacade</name>
     <message>
+        <source>Robots</source>
+        <translation type="vanished">Роботы</translation>
+    </message>
+    <message>
+        <source>Cannot export exercise to the given location (try to change location)</source>
+        <translation type="vanished">Экспорт упражнения по заданному пути не удался (попробуйте другой путь)</translation>
+    </message>
+    <message>
+        <source>The specified script file could not be opened for reading </source>
+        <translation type="vanished">Не удалось открыть указанный файл для чтения скрипта</translation>
+    </message>
+    <message>
+        <source>No saved code found in the qrs file</source>
+        <translation type="vanished">В qrs не найден сохраннёный код</translation>
+    </message>
+    <message>
+        <source>Toggle robot console panel</source>
+        <translation type="vanished">Показать/спрятать панель консоли</translation>
+    </message>
+</context>
+<context>
+    <name>interpreterCore::ActionsManager</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/managers/actionsManager.cpp" line="+10"/>
+        <source>To main page</source>
+        <translation type="unfinished">На главную</translation>
+    </message>
+    <message>
+        <location line="+246"/>
+        <source>Real robot</source>
+        <translation type="unfinished">Реальный робот</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>2D model</source>
+        <translation type="unfinished">2D модель</translation>
+    </message>
+</context>
+<context>
+    <name>interpreterCore::DefaultRobotModel</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/defaultRobotModel.cpp" line="+31"/>
+        <source>Empty model</source>
+        <translation type="unfinished">Пустая модель</translation>
+    </message>
+</context>
+<context>
+    <name>interpreterCore::RobotsPluginFacade</name>
+    <message>
         <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/robotsPluginFacade.cpp" line="+159"/>
         <source>Robots</source>
-        <translation>Роботы</translation>
+        <translation type="unfinished">Роботы</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Cannot export exercise to the given location (try to change location)</source>
-        <translation>Экспорт упражнения по заданному пути не удался (попробуйте другой путь)</translation>
+        <translation type="unfinished">Экспорт упражнения по заданному пути не удался (попробуйте другой путь)</translation>
     </message>
     <message>
         <location line="+115"/>
         <source>The specified script file could not be opened for reading </source>
-        <translation>Не удалось открыть указанный файл для чтения скрипта</translation>
+        <translation type="unfinished">Не удалось открыть указанный файл для чтения скрипта</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>No saved code found in the qrs file</source>
-        <translation>В qrs не найден сохраннёный код</translation>
+        <translation type="unfinished">В qrs не найден сохраннёный код</translation>
     </message>
     <message>
         <location line="+98"/>
         <source>Toggle robot console panel</source>
-        <translation>Показать/спрятать панель консоли</translation>
+        <translation type="unfinished">Показать/спрятать панель консоли</translation>
     </message>
 </context>
 <context>
@@ -315,6 +352,45 @@
         <location line="+146"/>
         <source>Modes</source>
         <translation>Режимы</translation>
+    </message>
+</context>
+<context>
+    <name>interpreterCore::interpreter::BlockInterpreter</name>
+    <message>
+        <location filename="../../../../../plugins/robots/interpreters/interpreterCore/src/interpreter/blockInterpreter.cpp" line="+92"/>
+        <location line="+74"/>
+        <source>No connection to robot</source>
+        <translation type="unfinished">Нет соединения с роботом</translation>
+    </message>
+    <message>
+        <location line="-68"/>
+        <source>Interpreter is already running</source>
+        <translation type="unfinished">Программа уже запущена</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <source>Connected successfully</source>
+        <translation type="unfinished">Подключение к роботу выполнено</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Can&apos;t connect to a robot.</source>
+        <translation type="unfinished">Не удалось подключиться к роботу.</translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Cannot create new thread with already occupied id %1</source>
+        <translation type="unfinished">Идентификатор потока %1 уже занят</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Threads limit exceeded. Maximum threads count is %1</source>
+        <translation type="unfinished">Превышено максимальное число возможных потоков (максимум %1 потоков)</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Killing non-existent thread %1</source>
+        <translation type="unfinished">Попытка завершить несуществующий поток %1</translation>
     </message>
 </context>
 <context>
