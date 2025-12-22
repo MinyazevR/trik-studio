@@ -23,7 +23,7 @@ SUBDIRS = \
 	utils \
 	checker \
 
-!autoLupdate:SUBDIRS+=thirdparty
+!autolupdate:SUBDIRS+=thirdparty
 
 utils.depends = thirdparty
 common.depends = thirdparty utils
