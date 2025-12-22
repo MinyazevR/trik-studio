@@ -19,6 +19,10 @@ defineTest(autoLupdateFiles) {
                 LUPDATE_ARGS += $$system_quote($$system_path($$FILE_TO_TRANSLATE))
         }
 
+        for(path, INCLUDEPATH) {
+		LUPDATE_ARGS += -I$$system_quote($$system_path($$path))
+	}
+	
         qtPrepareTool(QMAKE_LUPDATE, lupdate, _SYS)
 
         QRTRANSLATIONS_FILES = $$files($$GLOBAL_PWD/qrtranslations/*)
