@@ -29,10 +29,12 @@ qslog.file = qslog/QsLogSharedLibrary.pro
 gamepad.depends = qslog
 checkapp.depends = qslog
 
+!autolupdate {
 !use_system_qscintilla2 {
     SUBDIRS += qscintilla/Qt4Qt5/qscintilla.pro
 }
 
 !use_system_quazip {
     SUBDIRS += quazip/quazip.pro
+}
 }
