@@ -22,7 +22,8 @@ SUBDIRS = \
 	generators \
 	utils \
 	checker \
-	thirdparty \
+
+!autoLupdate:SUBDIRS+=thirdparty
 
 utils.depends = thirdparty
 common.depends = thirdparty utils
