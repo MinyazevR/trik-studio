@@ -75,6 +75,7 @@ void TwoDModelEngineFacade::init(const kitBase::EventsForKitPluginInterface &eve
 		QDomDocument worldModel;
 		QString errorMessage;
 		int errorLine, errorColumn;
+
 		if (!xml.isEmpty() && !worldModel.setContent(xml, &errorMessage, &errorLine, &errorColumn)) {
 			interpretersInterface.errorReporter()->addError(
 				QString("%1:%2: %3").arg(QString::number(errorLine), QString::number(errorColumn), errorMessage));

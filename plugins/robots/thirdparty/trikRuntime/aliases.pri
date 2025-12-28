@@ -1,0 +1,3 @@
+MY_LIB_ALIASES += trikRuntimeQsLog:trikQsLog
+message("TRIK_STUDIO_GLOBAL_PWD: $$TRIK_STUDIO_GLOBAL_PWD")
+INCLUDEPATH += $$TRIK_STUDIO_GLOBAL_PWD/thirdparty/qslog/qslog

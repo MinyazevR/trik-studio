@@ -1,0 +1,96 @@
+---
+MainSourceFile:  '/media/ntyrreuir/PC711nvme/trik/trik-studio/plugins/robots/common/twoDModel/src/engine/constraints/details/event.h'
+Diagnostics:
+  - DiagnosticName:  clazy-qt-keywords
+    DiagnosticMessage:
+      Message:         'Using a Qt keyword (signals)'
+      FilePath:        '/media/ntyrreuir/PC711nvme/trik/trik-studio/plugins/robots/common/twoDModel/src/engine/constraints/details/defines.h'
+      FileOffset:      919
+      Replacements:
+        - FilePath:        '/media/ntyrreuir/PC711nvme/trik/trik-studio/plugins/robots/common/twoDModel/src/engine/constraints/details/defines.h'
+          Offset:          919
+          Length:          7
+          ReplacementText: Q_SIGNALS
+    Level:           Warning
+    BuildDirectory:  ''
+  - DiagnosticName:  clazy-qt-keywords
+    DiagnosticMessage:
+      Message:         'Using a Qt keyword (signals)'
+      FilePath:        '/media/ntyrreuir/PC711nvme/trik/trik-studio/plugins/robots/common/twoDModel/src/engine/constraints/details/event.h'
+      FileOffset:      2897
+      Replacements:
+        - FilePath:        '/media/ntyrreuir/PC711nvme/trik/trik-studio/plugins/robots/common/twoDModel/src/engine/constraints/details/event.h'
+          Offset:          2897
+          Length:          7
+          ReplacementText: Q_SIGNALS
+    Level:           Warning
+    BuildDirectory:  ''
+  - DiagnosticName:  clazy-isempty-vs-count
+    DiagnosticMessage:
+      Message:         'use isEmpty() instead'
+      FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qstring.h'
+      FileOffset:      77598
+      Replacements:
+        - FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qstring.h'
+          Offset:          77598
+          Length:          8
+          ReplacementText: '!length.isEmpty()'
+    Level:           Warning
+    BuildDirectory:  ''
+  - DiagnosticName:  clazy-function-args-by-value
+    DiagnosticMessage:
+      Message:         'QtPrivate::qStringLikeToArg: Pass small and trivially-copyable type by value (const QChar & c)'
+      FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qstring.h'
+      FileOffset:      110453
+      Replacements:
+        - FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qstring.h'
+          Offset:          110453
+          Length:          14
+          ReplacementText: QChar c
+    Level:           Warning
+    BuildDirectory:  ''
+  - DiagnosticName:  clazy-function-args-by-value
+    DiagnosticMessage:
+      Message:         'QtMetaTypePrivate::IteratorOwner<std::_Bit_const_iterator>::getData: Pass small and trivially-copyable type by value (const std::vector<bool>::const_iterator & it)'
+      FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h'
+      FileOffset:      33113
+      Replacements:
+        - FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qmetatype.h'
+          Offset:          33113
+          Length:          43
+          ReplacementText: 'std::vector<bool>::const_iterator it'
+    Level:           Warning
+    BuildDirectory:  ''
+  - DiagnosticName:  clazy-function-args-by-ref
+    DiagnosticMessage:
+      Message:         'operator+: Missing reference on non-trivial type (const_iterator k)'
+      FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h'
+      FileOffset:      20710
+      Replacements:
+        - FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h'
+          Offset:          20710
+          Length:          0
+          ReplacementText: 'const '
+        - FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h'
+          Offset:          20725
+          Length:          0
+          ReplacementText: '&'
+    Level:           Warning
+    BuildDirectory:  ''
+  - DiagnosticName:  clazy-function-args-by-ref
+    DiagnosticMessage:
+      Message:         'operator+: Missing reference on non-trivial type (const_iterator k)'
+      FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h'
+      FileOffset:      22530
+      Replacements:
+        - FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h'
+          Offset:          22530
+          Length:          0
+          ReplacementText: 'const '
+        - FilePath:        '/home/ntyrreuir/Qt/5.15.2/gcc_64/include/QtCore/qvariant.h'
+          Offset:          22545
+          Length:          0
+          ReplacementText: '&'
+    Level:           Warning
+    BuildDirectory:  ''
+...

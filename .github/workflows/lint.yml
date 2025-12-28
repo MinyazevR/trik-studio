@@ -1,0 +1,26 @@
+name: Lint
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download compile_commands.json artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: compile-commands
+
+      - name: Check downloaded files
+        run: ls -la
+
+      - name: Run Linter
+        run: |
+          echo "Запускаем линтер..."
+          run-clang-tidy -p .
+

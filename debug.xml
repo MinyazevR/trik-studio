@@ -1,0 +1,919 @@
+<constraints>
+    <!-- Временное ограничение -->
+    <timelimit value="150000"/>
+    <!-- Инициализация переменных -->
+    <init>
+        <!-- Итоговые баллы за полигон -->
+        <setter name="score">
+            <int value="0"/>
+        </setter>
+        <!-- Баллы за выезд из зоны старта -->
+        <setter name="start_score">
+            <int value="2"/>
+        </setter>
+        <!-- Баллы за смещение кегли -->
+        <setter name="move_pin_score">
+            <int value="1"/>
+        </setter>
+        <!-- Баллы за нахождение кегли полностью в зоне -->
+        <setter name="pin_full_score">
+            <int value="1"/>
+        </setter>
+        <!-- Штраф за смещение ненужной кегли -->
+        <setter name="pin_penalty_score">
+            <int value="2"/>
+        </setter>
+        <!-- Баллы за остановку в зоне старта -->
+        <setter name="finish_score">
+            <int value="1"/>
+        </setter>
+        <!-- Наличие маркера в зоне 1 -->
+        <setter name="sample_1">
+            <int value="1"/>
+        </setter>
+        <!-- Наличие маркера в зоне 2 -->
+        <setter name="sample_2">
+            <int value="1"/>
+        </setter>
+        <!-- Наличие маркера в зоне 3 -->
+        <setter name="sample_3">
+            <int value="1"/>
+        </setter>
+        <!-- Наличие маркера в зоне 4 -->
+        <setter name="sample_4">
+            <int value="1"/>
+        </setter>
+        <!-- Наличие маркера в зоне 5 -->
+        <setter name="sample_5">
+            <int value="1"/>
+        </setter>
+        <!-- Наличие маркера в зоне 6 -->
+        <setter name="sample_6">
+            <int value="1"/>
+        </setter>
+        <!-- Наличие маркера в зоне 7 -->
+        <setter name="sample_7">
+            <int value="1"/>
+        </setter>
+        <!-- Наличие маркера в зоне 8 -->
+        <setter name="sample_8">
+            <int value="1"/>
+        </setter>
+    </init>
+    <!-- Описание событий -->
+    <!-- Проверка покидания роботом зоны старта -->
+    <event settedUpInitially="true" id="out-from-start-checker">
+        <condition>
+            <not>
+                <inside regionId="start_zone" objectPoint="any" objectId="robot1"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="start_score"/>
+                </sum>
+            </setter>
+            <message text="Робот покинул зону старта, начислены баллы за старт!"/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-move-01-checker"/>
+            <setUp id="pin-move-02-checker"/>
+            <setUp id="pin-move-03-checker"/>
+            <setUp id="pin-move-04-checker"/>
+            <setUp id="pin-move-05-checker"/>
+            <setUp id="pin-move-06-checker"/>
+            <setUp id="pin-move-07-checker"/>
+            <setUp id="pin-move-08-checker"/>
+            <setUp id="pin-penalty-01-checker"/>
+            <setUp id="pin-penalty-02-checker"/>
+            <setUp id="pin-penalty-03-checker"/>
+            <setUp id="pin-penalty-04-checker"/>
+            <setUp id="pin-penalty-05-checker"/>
+            <setUp id="pin-penalty-06-checker"/>
+            <setUp id="pin-penalty-07-checker"/>
+            <setUp id="pin-penalty-08-checker"/>
+            <success deferred="true"/>
+        </triggers>
+    </event>
+    <!-- КЕГЛЯ 1 -->
+    <!-- Проверка смещения кегли 1 -->
+    <event settedUpInitially="false" id="pin-move-01-checker">
+        <conditions glue="and">
+            <notEqual>
+                <variableValue name="sample_1"/>
+                <int value="0"/>
+            </notEqual>
+            <not>
+                <inside regionId="start_pin_zone_1" objectPoint="any" objectId="{pin_01}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="move_pin_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за смещение кегли 1."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-full-01-checker"/>
+            <setUp id="return-to-start-checker"/>
+        </triggers>
+    </event>
+    <!-- Проверка штрафа за смещение кегли 1 -->
+    <event settedUpInitially="false" id="pin-penalty-01-checker">
+        <conditions glue="and">
+            <equals>
+                <variableValue name="sample_{id}"/>
+                <int value="0"/>
+            </equals>
+            <not>
+                <inside regionId="start_pin_zone_{id}" objectPoint="any" objectId="{pin_0{id}}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_penalty_score"/>
+                </difference>
+            </setter>
+            <message text="Начислен штраф за неверное смещение кегли {id}."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка полного попадания кегли 1 в зону -->
+    <event settedUpInitially="false" id="pin-full-01-checker">
+        <condition>
+            <inside regionId="green_zone_1" objectPoint="all" objectId="{pin_01}"/>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за полное попадание кегли 1 в зону.."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода кегли 1 из полного положения в зоне в частичное -->
+    <event settedUpInitially="false" id="pin-back-from-full-01-checker">
+        <condition>
+            <not>
+                <inside regionId="green_zone_1" objectPoint="all" objectId="{pin_01}"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </difference>
+            </setter>
+            <message text="Сняты баллы за выход кегли 1 из зоны."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- КЕГЛЯ 2 -->
+    <!-- Проверка смещения кегли 2 -->
+    <event settedUpInitially="false" id="pin-move-02-checker">
+        <conditions glue="and">
+            <notEqual>
+                <variableValue name="sample_2"/>
+                <int value="0"/>
+            </notEqual>
+            <not>
+                <inside regionId="start_pin_zone_2" objectPoint="any" objectId="{pin_02}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="move_pin_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за смещение кегли 2."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-full-02-checker"/>
+            <setUp id="return-to-start-checker"/>
+        </triggers>
+    </event>
+    <!-- Проверка штрафа за смещение кегли 2 -->
+    <event settedUpInitially="false" id="pin-penalty-02-checker">
+        <conditions glue="and">
+            <equals>
+                <variableValue name="sample_{id}"/>
+                <int value="0"/>
+            </equals>
+            <not>
+                <inside regionId="start_pin_zone_{id}" objectPoint="any" objectId="{pin_0{id}}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_penalty_score"/>
+                </difference>
+            </setter>
+            <message text="Начислен штраф за неверное смещение кегли {id}."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка полного попадания кегли 2 в зону -->
+    <event settedUpInitially="false" id="pin-full-02-checker">
+        <condition>
+            <inside regionId="green_zone_2" objectPoint="all" objectId="{pin_02}"/>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за полное попадание кегли 2 в зону.."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода кегли 2 из полного положения в зоне в частичное -->
+    <event settedUpInitially="false" id="pin-back-from-full-02-checker">
+        <condition>
+            <not>
+                <inside regionId="green_zone_2" objectPoint="all" objectId="{pin_02}"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </difference>
+            </setter>
+            <message text="Сняты баллы за выход кегли 2 из зоны."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- КЕГЛЯ 3 -->
+    <!-- Проверка смещения кегли 3 -->
+    <event settedUpInitially="false" id="pin-move-03-checker">
+        <conditions glue="and">
+            <notEqual>
+                <variableValue name="sample_3"/>
+                <int value="0"/>
+            </notEqual>
+            <not>
+                <inside regionId="start_pin_zone_3" objectPoint="any" objectId="{pin_03}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="move_pin_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за смещение кегли 3."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-full-03-checker"/>
+            <setUp id="return-to-start-checker"/>
+        </triggers>
+    </event>
+    <!-- Проверка штрафа за смещение кегли 3 -->
+    <event settedUpInitially="false" id="pin-penalty-03-checker">
+        <conditions glue="and">
+            <equals>
+                <variableValue name="sample_{id}"/>
+                <int value="0"/>
+            </equals>
+            <not>
+                <inside regionId="start_pin_zone_{id}" objectPoint="any" objectId="{pin_0{id}}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_penalty_score"/>
+                </difference>
+            </setter>
+            <message text="Начислен штраф за неверное смещение кегли {id}."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка полного попадания кегли 3 в зону -->
+    <event settedUpInitially="false" id="pin-full-03-checker">
+        <condition>
+            <inside regionId="green_zone_3" objectPoint="all" objectId="{pin_03}"/>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за полное попадание кегли 3 в зону.."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода кегли 3 из полного положения в зоне в частичное -->
+    <event settedUpInitially="false" id="pin-back-from-full-03-checker">
+        <condition>
+            <not>
+                <inside regionId="green_zone_3" objectPoint="all" objectId="{pin_03}"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </difference>
+            </setter>
+            <message text="Сняты баллы за выход кегли 3 из зоны."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- КЕГЛЯ 4 -->
+    <!-- Проверка смещения кегли 4 -->
+    <event settedUpInitially="false" id="pin-move-04-checker">
+        <conditions glue="and">
+            <notEqual>
+                <variableValue name="sample_4"/>
+                <int value="0"/>
+            </notEqual>
+            <not>
+                <inside regionId="start_pin_zone_4" objectPoint="any" objectId="{pin_04}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="move_pin_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за смещение кегли 4."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-full-04-checker"/>
+            <setUp id="return-to-start-checker"/>
+        </triggers>
+    </event>
+    <!-- Проверка штрафа за смещение кегли 4 -->
+    <event settedUpInitially="false" id="pin-penalty-04-checker">
+        <conditions glue="and">
+            <equals>
+                <variableValue name="sample_{id}"/>
+                <int value="0"/>
+            </equals>
+            <not>
+                <inside regionId="start_pin_zone_{id}" objectPoint="any" objectId="{pin_0{id}}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_penalty_score"/>
+                </difference>
+            </setter>
+            <message text="Начислен штраф за неверное смещение кегли {id}."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка полного попадания кегли 4 в зону -->
+    <event settedUpInitially="false" id="pin-full-04-checker">
+        <condition>
+            <inside regionId="green_zone_4" objectPoint="all" objectId="{pin_04}"/>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за полное попадание кегли 4 в зону.."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода кегли 4 из полного положения в зоне в частичное -->
+    <event settedUpInitially="false" id="pin-back-from-full-04-checker">
+        <condition>
+            <not>
+                <inside regionId="green_zone_4" objectPoint="all" objectId="{pin_04}"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </difference>
+            </setter>
+            <message text="Сняты баллы за выход кегли 4 из зоны."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- КЕГЛЯ 5 -->
+    <!-- Проверка смещения кегли 5 -->
+    <event settedUpInitially="false" id="pin-move-05-checker">
+        <conditions glue="and">
+            <notEqual>
+                <variableValue name="sample_5"/>
+                <int value="0"/>
+            </notEqual>
+            <not>
+                <inside regionId="start_pin_zone_5" objectPoint="any" objectId="{pin_05}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="move_pin_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за смещение кегли 5."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-full-05-checker"/>
+            <setUp id="return-to-start-checker"/>
+        </triggers>
+    </event>
+    <!-- Проверка штрафа за смещение кегли 5 -->
+    <event settedUpInitially="false" id="pin-penalty-05-checker">
+        <conditions glue="and">
+            <equals>
+                <variableValue name="sample_{id}"/>
+                <int value="0"/>
+            </equals>
+            <not>
+                <inside regionId="start_pin_zone_{id}" objectPoint="any" objectId="{pin_0{id}}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_penalty_score"/>
+                </difference>
+            </setter>
+            <message text="Начислен штраф за неверное смещение кегли {id}."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка полного попадания кегли 5 в зону -->
+    <event settedUpInitially="false" id="pin-full-05-checker">
+        <condition>
+            <inside regionId="green_zone_5" objectPoint="all" objectId="{pin_05}"/>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за полное попадание кегли 5 в зону.."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода кегли 5 из полного положения в зоне в частичное -->
+    <event settedUpInitially="false" id="pin-back-from-full-05-checker">
+        <condition>
+            <not>
+                <inside regionId="green_zone_5" objectPoint="all" objectId="{pin_05}"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </difference>
+            </setter>
+            <message text="Сняты баллы за выход кегли 5 из зоны."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- КЕГЛЯ 6 -->
+    <!-- Проверка смещения кегли 6 -->
+    <event settedUpInitially="false" id="pin-move-06-checker">
+        <conditions glue="and">
+            <notEqual>
+                <variableValue name="sample_6"/>
+                <int value="0"/>
+            </notEqual>
+            <not>
+                <inside regionId="start_pin_zone_6" objectPoint="any" objectId="{pin_06}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="move_pin_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за смещение кегли 6."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-full-06-checker"/>
+            <setUp id="return-to-start-checker"/>
+        </triggers>
+    </event>
+    <!-- Проверка штрафа за смещение кегли 6 -->
+    <event settedUpInitially="false" id="pin-penalty-06-checker">
+        <conditions glue="and">
+            <equals>
+                <variableValue name="sample_{id}"/>
+                <int value="0"/>
+            </equals>
+            <not>
+                <inside regionId="start_pin_zone_{id}" objectPoint="any" objectId="{pin_0{id}}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_penalty_score"/>
+                </difference>
+            </setter>
+            <message text="Начислен штраф за неверное смещение кегли {id}."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка полного попадания кегли 6 в зону -->
+    <event settedUpInitially="false" id="pin-full-06-checker">
+        <condition>
+            <inside regionId="green_zone_6" objectPoint="all" objectId="{pin_06}"/>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за полное попадание кегли 6 в зону.."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода кегли 6 из полного положения в зоне в частичное -->
+    <event settedUpInitially="false" id="pin-back-from-full-06-checker">
+        <condition>
+            <not>
+                <inside regionId="green_zone_6" objectPoint="all" objectId="{pin_06}"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </difference>
+            </setter>
+            <message text="Сняты баллы за выход кегли 6 из зоны."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- КЕГЛЯ 7 -->
+    <!-- Проверка смещения кегли 7 -->
+    <event settedUpInitially="false" id="pin-move-07-checker">
+        <conditions glue="and">
+            <notEqual>
+                <variableValue name="sample_7"/>
+                <int value="0"/>
+            </notEqual>
+            <not>
+                <inside regionId="start_pin_zone_7" objectPoint="any" objectId="{pin_07}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="move_pin_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за смещение кегли 7."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-full-07-checker"/>
+            <setUp id="return-to-start-checker"/>
+        </triggers>
+    </event>
+    <!-- Проверка штрафа за смещение кегли 7 -->
+    <event settedUpInitially="false" id="pin-penalty-07-checker">
+        <conditions glue="and">
+            <equals>
+                <variableValue name="sample_{id}"/>
+                <int value="0"/>
+            </equals>
+            <not>
+                <inside regionId="start_pin_zone_{id}" objectPoint="any" objectId="{pin_0{id}}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_penalty_score"/>
+                </difference>
+            </setter>
+            <message text="Начислен штраф за неверное смещение кегли {id}."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка полного попадания кегли 7 в зону -->
+    <event settedUpInitially="false" id="pin-full-07-checker">
+        <condition>
+            <inside regionId="green_zone_7" objectPoint="all" objectId="{pin_07}"/>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за полное попадание кегли 7 в зону.."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода кегли 7 из полного положения в зоне в частичное -->
+    <event settedUpInitially="false" id="pin-back-from-full-07-checker">
+        <condition>
+            <not>
+                <inside regionId="green_zone_7" objectPoint="all" objectId="{pin_07}"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </difference>
+            </setter>
+            <message text="Сняты баллы за выход кегли 7 из зоны."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- КЕГЛЯ 8 -->
+    <!-- Проверка смещения кегли 8 -->
+    <event settedUpInitially="false" id="pin-move-08-checker">
+        <conditions glue="and">
+            <notEqual>
+                <variableValue name="sample_8"/>
+                <int value="0"/>
+            </notEqual>
+            <not>
+                <inside regionId="start_pin_zone_8" objectPoint="any" objectId="{pin_08}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="move_pin_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за смещение кегли 8."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <setUp id="pin-full-08-checker"/>
+            <setUp id="return-to-start-checker"/>
+        </triggers>
+    </event>
+    <!-- Проверка штрафа за смещение кегли 8 -->
+    <event settedUpInitially="false" id="pin-penalty-08-checker">
+        <conditions glue="and">
+            <equals>
+                <variableValue name="sample_{id}"/>
+                <int value="0"/>
+            </equals>
+            <not>
+                <inside regionId="start_pin_zone_{id}" objectPoint="any" objectId="{pin_0{id}}"/>
+            </not>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_penalty_score"/>
+                </difference>
+            </setter>
+            <message text="Начислен штраф за неверное смещение кегли {id}."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка полного попадания кегли 8 в зону -->
+    <event settedUpInitially="false" id="pin-full-08-checker">
+        <condition>
+            <inside regionId="green_zone_8" objectPoint="all" objectId="{pin_08}"/>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </sum>
+            </setter>
+            <message text="Начислены баллы за полное попадание кегли 8 в зону.."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода кегли 8 из полного положения в зоне в частичное -->
+    <event settedUpInitially="false" id="pin-back-from-full-08-checker">
+        <condition>
+            <not>
+                <inside regionId="green_zone_8" objectPoint="all" objectId="{pin_08}"/>
+            </not>
+        </condition>
+        <triggers>
+            <setter name="score">
+                <difference>
+                    <variableValue name="score"/>
+                    <variableValue name="pin_full_score"/>
+                </difference>
+            </setter>
+            <message text="Сняты баллы за выход кегли 8 из зоны."/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+        </triggers>
+    </event>
+    <!-- Проверка выхода робота за пределы поля -->
+    <event settedUpInitially="true" id="out-from-war-zone-checker">
+        <condition>
+            <not>
+                <inside regionId="war_zone" objectPoint="any" objectId="robot1"/>
+            </not>
+        </condition>
+        <triggers>
+            <success/>
+        </triggers>
+    </event>
+    <!-- Проверка остановки робота в зоне старта -->
+    <event settedUpInitially="false" id="return-to-start-checker">
+        <conditions glue="and">
+            <inside regionId="start_zone" objectPoint="any" objectId="robot1"/>
+            <equals>
+                <objectState object="robot1.M3.power"/>
+                <int value="0"/>
+            </equals>
+            <equals>
+                <objectState object="robot1.M4.power"/>
+                <int value="0"/>
+            </equals>
+        </conditions>
+        <triggers>
+            <setter name="score">
+                <sum>
+                    <variableValue name="score"/>
+                    <variableValue name="finish_score"/>
+                </sum>
+            </setter>
+            <message text="Робот остановился в зоне старта, начислены баллы за финиш, завершение попытки!"/>
+            <message text="Набрано баллов: %text1%">
+                <replace var="text1">
+                    <variableValue name="score"/>
+                </replace>
+            </message>
+            <success/>
+        </triggers>
+    </event>
+</constraints>
