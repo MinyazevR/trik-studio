@@ -209,7 +209,7 @@ jobs:
          database: 'build'
          verbosity: 'info'
          files-changed-only: true
-         ignore-tidy: 'thirdparty|buildScripts|installer'
+         ignore-tidy: 'buildScripts|installer'
          ignore: '!qrtest/thirdparty/googletest/googletest'
          
     - name: Clang-tidy exit
