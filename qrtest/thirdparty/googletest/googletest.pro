@@ -36,10 +36,10 @@ QMAKE_CXXFLAGS += \
 	-isystem $$PWD/googletest/googlemock/include/ \
 
 HEADERS += \
-	$$files(googletest/googletest/include/gtest/*.h) \
-	$$files(googletest/googletest/include/gtest/internal/*.h) \
-	$$files(googletest/googlemock/include/gmock/*.h) \
-	$$files(googletest/googlemock/include/gmock/internal/*.h) \
+$$files($$PWD/googletest/googletest/include/gtest/*.h) \
+	$$files($$PWD/googletest/googletest/include/gtest/internal/*.h) \
+	$$files($$PWD/googletest/googlemock/include/gmock/*.h) \
+	$$files($$PWD/googletest/googlemock/include/gmock/internal/*.h) \
 
 SOURCES += \
 	$$PWD/googletest/googletest/src/gtest-all.cc \
