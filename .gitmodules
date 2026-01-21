@@ -12,8 +12,8 @@
 	branch = master
 [submodule "thirdparty/gamepad/gamepad"]
 	path = thirdparty/gamepad/gamepad
-	url = https://github.com/trikset/trik-desktop-gamepad
-	branch = master
+	url = https://github.com/MinyazevR/trik-desktop-gamepad
+	branch = MinyazevR-trik-desktop-gamepad
 [submodule "plugins/robots/thirdparty/hidapi"]
 	path = plugins/robots/thirdparty/hidapi
 	url = https://github.com/libusb/hidapi
