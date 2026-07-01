@@ -44,7 +44,8 @@ jobs:
       - name: Install Qt qmake + modules
         run: |
           sudo apt update
-          sudo apt install -y qt5-multimedia-devel qt5-svg-devel qt5-script-devel qt5-tools qt5-serialport-devel
+          sudo apt install -y qtscript5-dev qttools5-dev-tools qtmultimedia5-dev libqt5serialport5-dev libqt5svg5-dev \
+          qtbase5-private-dev libqscintilla2-qt5-dev libquazip5-dev
 
       - name: Install uv
         run: pip install uv
