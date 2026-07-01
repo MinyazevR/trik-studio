@@ -23,7 +23,7 @@ jobs:
         with:
           repository: vkutuev/trik-translator
           ref: v1.0.0
-          path: trik-translator
+          path: ${{ env.TRIK_TRANSLATOR_PATH }}
           fetch-depth: 1
 
       - name: Create .env
