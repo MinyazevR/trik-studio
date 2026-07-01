@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout external repository
+      - name: Checkout trik-translator
         uses: actions/checkout@v4
         with:
           repository: vkutuev/trik-translator
@@ -40,6 +40,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Install Qt qmake + modules
+        run: |
+          sudo apt update
+          sudo apt install -y qt5-multimedia-devel qt5-svg-devel qt5-script-devel qt5-tools qt5-serialport-devel
 
       - name: Install uv
         run: pip install uv
