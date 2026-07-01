@@ -21,7 +21,7 @@ jobs:
       - name: Checkout trik-translator
         uses: actions/checkout@v4
         with:
-          repository: vkutuev/trik-translator
+          repository: MinyazevR/trik-translator
           ref: v1.0.0
           path: ${{ env.TRIK_TRANSLATOR_PATH }}
           fetch-depth: 1
@@ -58,7 +58,7 @@ jobs:
         working-directory: ${{ env.TRIK_TRANSLATOR_PATH }}
         run: |   
           for lang in fr ru; do
-            uv run main.py "$GITHUB_WORKSPACE" "$lang"
+            uv run main.py "$GITHUB_WORKSPACE" "$lang" --max_tokens 10000
           done
 
       - name: Remove secrets
