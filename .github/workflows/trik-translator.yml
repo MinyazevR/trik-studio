@@ -11,7 +11,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     env:
-      TRIK_TRANSLATOR_PATH: ../trik-translator
+      TRIK_TRANSLATOR_PATH: trik-translator
     steps:
       - name: Checkout current repository
         uses: actions/checkout@v4
