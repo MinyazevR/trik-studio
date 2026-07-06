@@ -136,7 +136,6 @@ jobs:
   # with a segmentation fault when restarting the interpreter during the import of asyncio 
   # (specifically when loading _ssl) in PythonQt::init().
   build-rockylinux-installer-release-tests:
-    needs: lint
     uses: ./.github/workflows/setup_environment.yml
     with:
       os: ubuntu-latest
