@@ -61,7 +61,7 @@ case "$(uname)" in
   
       #no desire to enumerate all required libraries for QtIFw
       # pulseaudio-libs-glib2 to run TS and 2D-model even with `minimal` platform
-      sudo yum install -y --setopt=install_weak_deps=False pulseaudio-libs-glib2 libxkbcommon-x11 qt5-qtbase-gui  libwayland-{server,client,cursor}
+      sudo yum install -y --setopt=install_weak_deps=False pulseaudio-libs-glib2 libxkbcommon-x11 qt5-qtbase-gui  libwayland-{server,client,cursor} strace
 
       echo $INSTALL_INSTALLER_ENVIRONMENT
       if [ "$INSTALL_INSTALLER_ENVIRONMENT" != "true" ]; then
